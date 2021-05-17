@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="file is-boxed">
+  <div class="file is-boxed uploader">
     <label class="file-label">
       <input class="file-input" type="file" name="resume">
       <span class="file-cta">

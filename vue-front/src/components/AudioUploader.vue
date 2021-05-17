@@ -1,26 +1,36 @@
 <template>
-  <section class="section">
-    <div class="columns is-multiline">
-      <div class="column is-narrow">
+  <div class="container is-fluid">
+    <div class="columns">
+      <div class="column is-one-third">
+        <div class="box audio-uploader">
+          <AudioFiles/>
           <Uploader/>
+        </div>
       </div>
       <div class="column">
-        <AudioFiles/>
+        <div class="box">
+          <Player/>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
 import Uploader from '@/components/Uploader.vue';
 import AudioFiles from '@/components/AudioFiles.vue';
+import Player from '@/components/Player.vue';
 
 export default {
   components: {
     Uploader,
     AudioFiles,
+    Player,
   },
 };
 </script>
 <style lang="css" scoped>
+   .audio-uploader {
+    height: 95vh;
+  }
 </style>

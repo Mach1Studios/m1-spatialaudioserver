@@ -5,7 +5,9 @@
         <th><abbr title="#">#</abbr></th>
         <th><abbr title="NAME">NAME</abbr></th>
         <th><abbr title="DURATION">DURATION</abbr></th>
-        <th><abbr title="TRASH"></abbr></th>
+        <th><abbr title="STATUS">STATUS</abbr></th>
+        <th><abbr title="INFO">INFO</abbr></th>
+        <th><abbr title="REMOVE"></abbr></th>
       </tr>
     </thead>
     <tbody>
@@ -20,8 +22,18 @@
           <p>5:24</p>
         </td>
         <td>
-          <button class="button trash-button">
-            <span class="icon is-small trash">
+          <button class="button is-small is-success is-rounded"></button>
+        </td>
+        <td>
+          <button class="button table-button">
+            <span class="icon is-small">
+              <img src="../assets/information-button.svg">
+            </span>
+          </button>
+        </td>
+        <td>
+          <button class="button table-button">
+            <span class="icon is-small">
               <img src="../assets/delete.svg">
             </span>
           </button>
@@ -50,11 +62,11 @@ export default {};
   .table th {
     vertical-align: middle;
   }
-  .button.trash-button {
-    background: transparent;
-    border: none;
-  }
   .table {
     border-radius: 0.3rem;
+  }
+  .table-button {
+    background: transparent;
+    border: none;
   }
 </style>
