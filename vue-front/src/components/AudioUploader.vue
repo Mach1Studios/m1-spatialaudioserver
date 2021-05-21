@@ -2,9 +2,9 @@
   <div class="container is-fluid">
     <div class="columns">
       <div class="column is-one-third">
-        <div class="box audio-uploader">
+        <div class="box is-flex is-flex-direction-column is-justify-content-space-between audio-uploader">
           <AudioFiles/>
-          <Uploader/>
+          <Uploader class="is-align-self-center"/>
         </div>
       </div>
       <div class="column">
@@ -30,7 +30,7 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-   .audio-uploader {
-    height: 95vh;
-  }
+.audio-uploader {
+  height: 95vh;
+}
 </style>

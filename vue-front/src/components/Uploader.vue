@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="file is-boxed uploader">
+  <div class="file is-light is-boxed uploader">
     <label class="file-label">
       <input class="file-input" type="file" name="resume">
       <span class="file-cta">
@@ -26,16 +26,16 @@ export default {};
 </script>
 
 <style lang="css" scoped>
+p {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.17;
+  letter-spacing: -0.5px;
+  width: 100%;
+}
 
-  p {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 1rem;
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-    width: 100%;
-  }
-  @keyframes quiet {
+@keyframes quiet {
   25%{
     transform: scaleY(.6);
   }
@@ -58,6 +58,7 @@ export default {};
     transform: scaleY(.6);
   }
 }
+
 @keyframes loud {
   25%{
     transform: scaleY(1);
@@ -70,7 +71,7 @@ export default {};
   }
 }
 
-.waveContainer{
+.waveContainer {
   display: flex;
   justify-content: space-between;
   height: 32px;
@@ -79,7 +80,7 @@ export default {};
   width: calc((var(--boxSize) + var(--gutter)) * 5);
 }
 
-.wave{
+.wave {
   transform: scaleY(.4);
   height: 100%;
   width: var(--boxSize);
@@ -90,23 +91,23 @@ export default {};
   border-radius: 8px;
 }
 
-.wave1{
+.wave1 {
   animation-name: quiet;
 }
 
-.wave2{
+.wave2 {
   animation-name: normal;
 }
 
-.wave3{
+.wave3 {
   animation-name: quiet;
 }
 
-.wave4{
+.wave4 {
   animation-name: loud;
 }
 
-.wave5{
+.wave5 {
   animation-name: quiet;
 }
 </style>

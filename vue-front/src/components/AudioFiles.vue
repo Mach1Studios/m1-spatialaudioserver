@@ -22,19 +22,23 @@
           <p>5:24</p>
         </td>
         <td>
-          <button class="button is-small is-success is-rounded"></button>
-        </td>
-        <td>
-          <button class="button table-button">
-            <span class="icon is-small">
-              <img src="../assets/information-button.svg">
+          <button class="button is-medium table-button">
+            <span class="icon is-large">
+              <ion-icon name="happy-sharp"></ion-icon>
             </span>
           </button>
         </td>
         <td>
-          <button class="button table-button">
-            <span class="icon is-small">
-              <img src="../assets/delete.svg">
+          <button class="button is-medium table-button">
+            <span class="icon is-large">
+              <ion-icon name="information-sharp"></ion-icon>
+            </span>
+          </button>
+        </td>
+        <td>
+          <button class="button is-medium table-button">
+            <span class="icon is-large">
+              <ion-icon name="trash-sharp"></ion-icon>
             </span>
           </button>
         </td>

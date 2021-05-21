@@ -3,12 +3,8 @@
     <vue-plyr>
       <audio controls crossorigin playsinline>
         <source
-            src="/demo_public_file_example_MP3_1MG.mp3"
-            type="audio/mp3"
-        />
-        <source
-            src="/path/to/audio.ogg"
-            type="audio/ogg"
+            src="/m1-debug-shrtpt-m1spatial.wav"
+            type="audio/wav"
         />
       </audio>
     </vue-plyr>
@@ -18,9 +14,7 @@
 <script>
 export default {
   name: 'Component',
-  mounted() {
-    console.log(this.$refs.plyr.player);
-  },
+  mounted() {},
 };
 </script>
 
