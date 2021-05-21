@@ -110,40 +110,31 @@ ENV STREAM_PORT 1935
 
 RUN apt-get update && apt-get install -y \
   ca-certificates \
+  gettext-base \
   libpcre3 \
   openssl \
   zlib1g
 
-# RUN apk add --update \
-#   ca-certificates \
-#   gettext \
-#   openssl \
-#   pcre \
-#   lame \
-#   libogg \
-#   curl \
-#   libass \
-#   libvpx \
-#   libvorbis \
-#   libwebp \
-#   libtheora \
-#   opus \
-#   rtmpdump \
-#   x264-dev
+RUN adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
 
 # Moving all packages from build images to the core instance
 COPY --from=nginx-build /usr/local/nginx /usr/local/nginx
 COPY --from=nginx-build /etc/nginx /etc/nginx
 COPY --from=ffmpeg-build /usr/local /usr/local
 
+VOLUME ['/share/sound']
+
 # Updating NGINX enviroment
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
 
 # Adding NGINX configs
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /opt/data && mkdir /www
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf.template
+RUN mkdir -p /opt/data && mkdir -p /www && mkdir -p /opt/data/dash
 
 EXPOSE 1935
 EXPOSE 80
 
-CMD ["nginx"]
+CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && \
+ envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
+ /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
+ nginx
