@@ -1,12 +1,18 @@
 # Global Enviroment Variable
+ARG FFMPEG=4.4
+ARG LUA_JIT=2.0.5
+ARG LUA_NGINX_MODULE=0.10.19
+ARG NGINX_DEV=0.3.1
 ARG NGINX=1.20.0
 ARG RTMP_MODULE=1.2.1
-ARG FFMPEG=4.4
 
 # NGINX build with RTMP module from source code
 FROM ubuntu:focal as nginx-build
-ARG NGINX
-ARG RTMP_MODULE
+ARG LUA_JIT=2.0.5
+ARG LUA_NGINX_MODULE=0.10.19
+ARG NGINX_DEV=0.3.1
+ARG NGINX=1.20.0
+ARG RTMP_MODULE=1.2.1
 
 # Install build dependencies for Ubuntu
 RUN apt-get update && apt-get install -y \
@@ -29,11 +35,27 @@ RUN cd /tmp && \
   wget https://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE}.tar.gz && \
   tar zxf v${RTMP_MODULE}.tar.gz && rm v${RTMP_MODULE}.tar.gz
 
+# Download and extract LuaJIT (all staff for it)
+RUN cd /tmp && \
+  wget https://luajit.org/download/LuaJIT-${LUA_JIT}.tar.gz && \
+  wget https://github.com/openresty/lua-nginx-module/archive/refs/tags/v${LUA_NGINX_MODULE}.tar.gz && \
+  wget https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGINX_DEV}.tar.gz && \
+  tar zxf LuaJIT-${LUA_JIT}.tar.gz && rm LuaJIT-${LUA_JIT}.tar.gz && \
+  tar zxf v${LUA_NGINX_MODULE}.tar.gz && rm v${LUA_NGINX_MODULE}.tar.gz && \
+  tar zxf v${NGINX_DEV}.tar.gz && rm v${NGINX_DEV}.tar.gz && ls
+
+
+# Build LuaJIT
+RUN cd /tmp/LuaJIT-${LUA_JIT} && \
+  make && make install && ln -sf luajit-${LUA_JIT} /usr/local/bin/luajit
+
 # Build NGINX with RTMP module
-RUN cd /tmp/nginx-${NGINX} && \
+RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/lib LUAJIT_INC=/usr/local/include/luajit-2.0 \
   ./configure \
     --prefix=/usr/local/nginx \
     --add-module=/tmp/nginx-rtmp-module-${RTMP_MODULE} \
+    --add-module=/tmp/ngx_devel_kit-${NGINX_DEV} \
+    --add-module=/tmp/lua-nginx-module-${LUA_NGINX_MODULE} \
     --conf-path=/etc/nginx/nginx.conf \
     --with-threads \
     --with-file-aio \
@@ -118,11 +140,12 @@ RUN apt-get update && apt-get install -y \
 RUN adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
 
 # Moving all packages from build images to the core instance
+COPY --from=nginx-build /usr/local/bin/luajit /usr/local/bin/luajit
 COPY --from=nginx-build /usr/local/nginx /usr/local/nginx
 COPY --from=nginx-build /etc/nginx /etc/nginx
 COPY --from=ffmpeg-build /usr/local /usr/local
 
-VOLUME ['/share/sound']
+VOLUME ["/share/sound"]
 
 # Updating NGINX enviroment
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
@@ -134,7 +157,7 @@ RUN mkdir -p /opt/data && mkdir -p /www && mkdir -p /opt/data/dash
 EXPOSE 1935
 EXPOSE 80
 
-CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && \
+CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && chown nginx /share/sound && chmod 777 /share/sound && \
  envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
  /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
  nginx

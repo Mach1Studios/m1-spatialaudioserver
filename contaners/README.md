@@ -16,10 +16,16 @@ Building docker image:
 docker build -t m1-transcode .
 ```
 
-Runninh container:
+Running container:
 
 ```sh
 docker run -it -p 1935:1935 -p 8080:80 --rm m1-transcode
+```
+
+Running container and share uploaded sound files:
+
+```sh
+docker run -it -p 1935:1935 -p 8080:80 --mount type=bind,source="$(pwd)/koa-server/public",target=/share/sound --rm m1-transcode
 ```
 
 ## Additional information about stack
