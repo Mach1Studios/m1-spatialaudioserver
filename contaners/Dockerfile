@@ -151,8 +151,15 @@ ENV STREAM_PORT 1935
 RUN apt-get update && apt-get install -y \
   ca-certificates \
   gettext-base \
+  libass9 \
+  libfdk-aac1 \
+  libmp3lame0 \
+  libopus0 \
   libpcre3 \
+  libvpx6 \
   openssl \
+  libtheora-bin \
+  libx264-155 \
   zlib1g
 
 RUN adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
@@ -177,7 +184,7 @@ RUN mkdir -p /opt/data && mkdir -p /www && mkdir -p /opt/data/dash
 EXPOSE 1935
 EXPOSE 80
 
-CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && chown nginx /share/sound && chmod 777 /share/sound && \
+CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && chown -R nginx /share/sound && chmod -R 777 /share/sound && \
  envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
  /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
  export LD_LIBRARY_PATH=/usr/local/luajit/lib:$LD_LIBRARY_PATH && \

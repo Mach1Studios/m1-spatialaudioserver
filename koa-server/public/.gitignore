@@ -3,3 +3,4 @@ Ignore all files and dirs in this folder
 
 # But not .gitignore itself
 !.gitignore
+!switcher.sh
