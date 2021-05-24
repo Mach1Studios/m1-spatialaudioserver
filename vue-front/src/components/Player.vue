@@ -18,11 +18,6 @@
 /* eslint-disable */
 import dashjs from 'dashjs';
 
-// const videoPlayer = document.createElement("video");
-// videoPlayer.setAttribute("class", "VideoPlayer");
-// videoPlayer.setAttribute("id", "videoPlayer");
-// videoPlayer.muted = true;
-
 // const POLLING_INTERVAL = 1000;
 const STABLE_BUFFER_TIME = 20;
 const BUFFER_TIME_AT_TOP_QUALITY = 20;
@@ -49,8 +44,8 @@ export default {
     const audio = document.querySelector('audio');
     const player = dashjs.MediaPlayer().create();
 
-    console.log(this.$refs.player, audio);
-    player.updateSettings(DEFAULT_CLIENT_SETTINGS);
+    // console.log(this.$refs.player, audio);
+    // player.updateSettings(DEFAULT_CLIENT_SETTINGS);
 
     const url = "https://livesim.dashif.org/dash/vod/testpic_2s/audio.mpd";
     const localurl = 'http://localhost:8080/dash/play.mpd';
