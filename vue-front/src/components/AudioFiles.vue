@@ -80,7 +80,36 @@
 </template>
 
 <script>
-export default {};
+import { mapState, mapActions } from 'vuex';
+
+export default {
+  name: 'AudioFiles',
+  computed: mapState({
+    tracks: (state) => state.tracks,
+  }),
+  data() {
+    return {
+      items: [
+        { id: 1, name: 'test.wav', duration: 'repeat' },
+        { id: 2, name: 'm1-debug-visual.wav', duration: 'repeat' },
+        { id: 3, name: 'm1-debug-shrtpt-m1spatial.wav', duration: 'repeat' },
+      ],
+    };
+  },
+  methods: {
+    ...mapActions('tracks', [
+      // 'addProductToCart',
+    ]),
+    async select(name) {
+      this.$store.dispatch('tracks/getAll');
+      await fetch(`http://localhost:8080/play?sound=${name}`);
+    },
+    // async
+  },
+  created() {
+    this.$store.dispatch('tracks/getAll');
+  },
+};
 </script>
 
 <style lang="css" scoped>
