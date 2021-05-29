@@ -8,6 +8,7 @@ const supportMethods = ['get', 'post', 'put', 'del'];
 
 _.each(resources, (methods, resource) => {
   _.each(methods, (callback, method) => {
+    console.log(resource, method);
     if (supportMethods.includes(method)) {
       router[method](`/${resource}`, callback);
     }
