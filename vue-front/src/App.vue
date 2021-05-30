@@ -1,16 +1,14 @@
 <template>
-  <Header/>
-  <AudioUploader/>
+  <Header id="app-header"/>
+  <router-view id="app-router"/>
 </template>
 
 <script>
 import Header from '@/components/Header.vue';
-import AudioUploader from '@/components/AudioUploader.vue';
 
 export default {
   components: {
     Header,
-    AudioUploader,
   },
 };
 </script>
@@ -24,21 +22,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-body{
+  min-height: 100vh;
   background-color: #1a1a1a;
 }
+
+#app-header {}
+
+#app-router {}
 </style>

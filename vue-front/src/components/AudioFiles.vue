@@ -58,9 +58,7 @@ export default {
     tracks: (state) => state.tracks.items,
   }),
   methods: {
-    ...mapActions('tracks', [
-      // 'addProductToCart',
-    ]),
+    ...mapActions('tracks', []),
     async select(name) {
       await fetch(`http://localhost:8080/play?sound=${name}`);
     },

@@ -44,10 +44,8 @@ export default {
     const audio = document.querySelector('audio');
     const player = dashjs.MediaPlayer().create();
 
-    // console.log(this.$refs.player, audio);
     // player.updateSettings(DEFAULT_CLIENT_SETTINGS);
 
-    const url = "https://livesim.dashif.org/dash/vod/testpic_2s/audio.mpd";
     const localurl = 'http://localhost:8080/dash/play.mpd';
     // player.initialize(this.$refs.player, localurl, true);
 
@@ -57,8 +55,6 @@ export default {
       const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
       const videoAdaptationSets = data.Period.AdaptationSet_asArray.filter((elem) => elem.contentType === 'video');
       const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
-
-      console.log(audioAdaptationSet, videoAdaptationSets, numChannels);
     });
 
     player.on(dashjs.MediaPlayer.events.ERROR, (error) => {
@@ -74,7 +70,7 @@ export default {
   }
   .player {
     --plyr-color-main: #7a7a7a;
-    --plyr-audio-controls-background: #f5f5f5;
+    --plyr-audio-controls-background: #ffffff;
     --plyr-audio-control-color: #1c1c1c;
     --plyr-audio-control-color-hover: #1c1c1c;
     --plyr-audio-control-background-hover: #dbdbdb;
