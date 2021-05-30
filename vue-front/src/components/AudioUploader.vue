@@ -7,9 +7,17 @@
           <Uploader class="is-align-self-center"/>
         </div>
       </div>
-      <div class="column">
-        <div class="box">
+      <div class="column is-one-third">
+        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <Player/>
+        </div>
+        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+          <Channel/>
+        </div>
+      </div>
+      <div class="column is-one-third">
+        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+          <DashStreamInfo/>
         </div>
       </div>
     </div>
@@ -20,12 +28,16 @@
 import Uploader from '@/components/Uploader.vue';
 import AudioFiles from '@/components/AudioFiles.vue';
 import Player from '@/components/Player.vue';
+import Channel from '@/components/Channel.vue';
+import DashStreamInfo from '@/components/DashStreamInfo.vue';
 
 export default {
   components: {
     Uploader,
     AudioFiles,
     Player,
+    Channel,
+    DashStreamInfo,
   },
 };
 </script>

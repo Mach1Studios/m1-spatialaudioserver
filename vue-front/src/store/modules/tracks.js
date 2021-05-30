@@ -1,19 +1,23 @@
-import Request from '../utils';
+import _ from 'lodash';
 
-const state = () => ([]);
+import FetchHelper from '../utils';
+
+const state = () => ({
+  items: [],
+});
 
 const actions = {
   async getAll({ commit }) {
-    const tracks = await new Request().send('/tracks');
-    console.log(tracks);
-    commit('setTracks', tracks);
+    const tracks = await new FetchHelper().send('/tracks');
+
+    commit('setTracks', _.map(tracks, (track, index) => ({ id: index + 1, name: track, duration: 'repeat' })));
   },
 };
 
 const mutations = {
   setTracks(store, tracks) {
     // eslint-disable-next-line
-    store = tracks;
+    store.items = tracks;
   },
 };
 

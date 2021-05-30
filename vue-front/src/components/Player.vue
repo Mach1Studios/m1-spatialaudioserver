@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="player">
     <!-- <div class="wrapper">
       <video autoplay="false" ref="player"></video>
     </div> -->
@@ -49,7 +49,7 @@ export default {
 
     const url = "https://livesim.dashif.org/dash/vod/testpic_2s/audio.mpd";
     const localurl = 'http://localhost:8080/dash/play.mpd';
-    player.initialize(this.$refs.player, localurl, true);
+    // player.initialize(this.$refs.player, localurl, true);
 
     player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
       console.log('loaded', data);
@@ -69,13 +69,15 @@ export default {
 </script>
 
 <style scoped>
-  .plyr__control {
-    color: #1a1a1a;
-  }
- .plyr__control:hover {
-    background: transparent;
-  }
   .hidden {
     display: none;
+  }
+  .player {
+    --plyr-color-main: #7a7a7a;
+    --plyr-audio-controls-background: #f5f5f5;
+    --plyr-audio-control-color: #1c1c1c;
+    --plyr-audio-control-color-hover: #1c1c1c;
+    --plyr-audio-control-background-hover: #dbdbdb;
+    --plyr-progress-loading-background: yellow;
   }
 </style>
