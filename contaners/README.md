@@ -35,7 +35,7 @@ docker run -it \
   -p 1935:1935 \
   -p 8080:80 \
   --mount type=bind,source="$(pwd)/koa-server/public",target=/share/sound \
-  --mount type=bind,source="$(pwd)/vue-front/dist",target=/www/dashboard \
+  --mount type=bind,source="$(pwd)/vue-front/dist",target=/www \
   --name m1-transcode \
   --rm m1-transcode
 ```
