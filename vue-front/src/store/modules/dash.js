@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disables */
-// import _ from 'lodash';
+import _ from 'lodash';
 
 // import FetchHelper from '../utils';
 //
@@ -65,6 +65,19 @@ const actions = {
   },
 };
 
+const getters = {
+  listOfChannels(store) {
+    return _.range(store.channels);
+  },
+  // isPlay(store) {
+  //   if (store.player && store.player.getActiveStream) {
+  //     console.log(store.player.getActiveStream());
+  //   }
+  //   console.log(_.has(store, 'player.getActiveStream'));
+  //   return _.has(store, 'player.getActiveStream');
+  // },
+};
+
 const mutations = {
   setPlayer(store, player) {
     store.player = player;
@@ -74,11 +87,9 @@ const mutations = {
   },
   setInfo(store, info = {}) {
     store.info = { ...store.info, ...info };
-
-    console.log(store.info);
   },
 };
 
 export default {
-  namespaced: true, state, actions, mutations,
+  namespaced: true, state, actions, getters, mutations,
 };
