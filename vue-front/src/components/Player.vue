@@ -18,9 +18,11 @@ export default {
   },
   mounted() {
     const player = dashjs.MediaPlayer().create();
+    const source = this.$refs.player;
     // player.updateSettings(this.settings);
-    player.initialize(this.$refs.player, this.url, true);
-    this.start(player);
+    player.initialize(source, this.url, true);
+    console.log(this.$refs.player);
+    this.start({ player, source });
 
     player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
       const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');

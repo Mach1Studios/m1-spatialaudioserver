@@ -27,37 +27,11 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 
-// const wait = (sec) => new Promise((resolve) => setTimeout(() => resolve()), sec * 1000);
-
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
 });
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
-
-// async function context() {
-//   console.log('watch', value, this.channels.length);
-//   if (value && this.channels.length > 0) {
-//     const audio = new AudioContext();
-//     const splitter = audio.createChannelSplitter(this.channels.length);
-//     const merger = audio.createChannelMerger(this.channels.length);
-//
-//     const gainNodes = [];
-//
-//     for (let i = 0; i < this.channels.length; i += 1) {
-//       // const gain = audio.createGain();
-//       // gainNodes.push(gain);
-//       // splitter.connect(gain, i, 0);
-//       // gain.connect(merger, 0, 0);
-//       // gain.connect(merger, 0, 1);
-//       // gain.gain.value = 0;
-//     }
-//
-//     merger.connect(audio.destination);
-//
-//     return { merger, gainNodes, splitter };
-//   }
-// }
 
 export default {
   name: 'Channel',
@@ -65,33 +39,35 @@ export default {
     return { active: false };
   },
   computed: {
-    ...mapState('dash', ['player']),
+    ...mapState('dash', ['player', 'source']),
     ...mapGetters('dash', { channels: 'listOfChannels' }),
   },
   methods: {
     changeVolume(channel, value) {
       const volume = Number(value);
-      console.log('slider', channel, volume, this.gainNodes[channel]);
+      console.log('slider change event [channel, volume, gain]: ', channel, volume, this.gainNodes[channel]);
 
       if (this.gainNodes) {
-        console.log('change');
+        console.log('chanel volume changed: ', value / 200);
         this.gainNodes[channel].gain.value = value / 200;
       }
     },
     async init() {
-      console.log('watch', this.$refs);
+      console.log('start watch source element', this.source);
       const isActive = this.player && this.player.getActiveStream && this.player.getActiveStream()
         ? this.player.getActiveStream().isActive()
         : false;
-      console.log(isActive, this.player, this.$refs);
+      console.log('isActive:', isActive, this.player, this.$refs);
       if (isActive && this.channels.length > 0) {
         const audio = new AudioContext();
 
-        // const source = audio.createMediaElementSource(videoPlayer);
+        const source = audio.createMediaElementSource(this.source);
         const splitter = audio.createChannelSplitter(this.channels.length);
         const merger = audio.createChannelMerger(this.channels.length);
 
-        console.log(merger);
+        source.connect(splitter);
+
+        console.log('merger', merger);
 
         audio.createGain = audio.createGain || audio.createGainNode;
 
@@ -103,7 +79,7 @@ export default {
           splitter.connect(gain, i, 0);
           gain.connect(merger, 0, 0);
           gain.connect(merger, 0, 1);
-          gain.gain.value = 0;
+          gain.gain.value = 0.1;
         }
 
         merger.connect(audio.destination);
@@ -114,7 +90,7 @@ export default {
 
         this.active = true;
 
-        console.log('end', this.active);
+        console.log('stram end: ', this.active);
       } else {
         delete this.merger;
         delete this.gainNodes;
@@ -128,40 +104,8 @@ export default {
     },
   },
   mounted() {
-    // await wait(1);
     this.init();
-    console.log('mounted', this.channels.length);
-    // setInterval(this.init, 1000);
   },
-  // watch: {
-  //   isPlay(value) {
-  //     console.log('watch', value, this.channels.length);
-  //     if (value && this.channels.length > 0) {
-  //       const audio = new AudioContext();
-  //       const splitter = audio.createChannelSplitter(this.channels.length);
-  //       const merger = audio.createChannelMerger(this.channels.length);
-  //
-  //       const gainNodes = [];
-  //
-  //       for (let i = 0; i < this.channels.length; i += 1) {
-  //         // const gain = audio.createGain();
-  //         // gainNodes.push(gain);
-  //         // splitter.connect(gain, i, 0);
-  //         // gain.connect(merger, 0, 0);
-  //         // gain.connect(merger, 0, 1);
-  //         // gain.gain.value = 0;
-  //       }
-  //
-  //       merger.connect(audio.destination);
-  //
-  //       this.merger = merger;
-  //       this.gainNodes = gainNodes;
-  //       this.splitter = splitter;
-  //
-  //       // console.log(merger, gainNodes);
-  //     }
-  //   },
-  // },
 };
 </script>
 

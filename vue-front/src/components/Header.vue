@@ -18,18 +18,13 @@
       </div>
   </nav>
 </div>
-  <!-- <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/> -->
 </template>
 
 <script>
 export default {};
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
   nav {
     background-color: #1a1a1a;
   }

@@ -15,12 +15,12 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': ['warn', { code: 200 }],
   },
-  overrides: [
-    {
-      files: ['store/modules/*.js'],
-      rules: {
-        'no-param-reassign': 'off',
-      },
-    },
-  ],
+  // overrides: [
+  //   {
+  //     files: ['store/modules/*.js'],
+  //     rules: {
+  //       'no-param-reassign': 'off',
+  //     },
+  //   },
+  // ],
 };

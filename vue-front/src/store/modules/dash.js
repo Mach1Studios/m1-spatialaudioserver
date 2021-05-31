@@ -27,17 +27,12 @@ const state = () => ({
   settings,
   url: `${process.env.VUE_APP_STREAM_URL}/dash/play.mpd`,
   channels: 0,
+  source: {},
 });
 
 const actions = {
-  async start({ commit }, player) {
-    commit('setPlayer', player);
-
-    // console.log('init', player);
-
-    // const tracks = await new FetchHelper().send('/tracks');
-    //
-    // commit('setTracks', _.map(tracks, (track, index) => ({ id: index + 1, name: track, duration: 'repeat' })));
+  async start({ commit }, { player, source }) {
+    commit('setPlayer', { player, source });
   },
   updateChannels({ commit }, count) {
     commit('setChannels', count);
@@ -69,18 +64,12 @@ const getters = {
   listOfChannels(store) {
     return _.range(store.channels);
   },
-  // isPlay(store) {
-  //   if (store.player && store.player.getActiveStream) {
-  //     console.log(store.player.getActiveStream());
-  //   }
-  //   console.log(_.has(store, 'player.getActiveStream'));
-  //   return _.has(store, 'player.getActiveStream');
-  // },
 };
 
 const mutations = {
-  setPlayer(store, player) {
+  setPlayer(store, { player, source }) {
     store.player = player;
+    store.source = source;
   },
   setChannels(store, count = 0) {
     store.channels = count;
