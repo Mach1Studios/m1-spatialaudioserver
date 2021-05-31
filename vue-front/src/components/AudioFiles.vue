@@ -58,10 +58,9 @@ export default {
     tracks: (state) => state.tracks.items,
   }),
   methods: {
-    ...mapActions('tracks', []),
-    async select(name) {
-      await fetch(`http://localhost:8080/play?sound=${name}`);
-    },
+    ...mapActions('tracks', [
+      'select',
+    ]),
   },
   created() {
     this.$store.dispatch('tracks/getAll');

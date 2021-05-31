@@ -27,7 +27,11 @@ export default {
   background-color: #1a1a1a;
 }
 
-#app-header {}
+#app-header {
+  max-height: 10vh;
+}
 
-#app-router {}
+#app-router {
+  min-height: 90vh;
+}
 </style>

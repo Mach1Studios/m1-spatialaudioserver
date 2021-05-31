@@ -9,7 +9,7 @@
 # ffmpeg -stream_loop -1 -analyzeduration 10M  -re -i /share/sound/$1 -strict -2 -c:a libopus -mapping_family 255 -f flv rtmp://127.0.0.1/live/play >> /share/sound/test.txt
 pkill ffmpeg
 
-ffmpeg -y -stream_loop -1 -i /share/sound/$1 -c:a aac -ac "${2:-2}" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/play" >> /share/sound/test.txt
+ffmpeg -y -stream_loop -1 -i /share/sound/$1 -c:a aac -ac "${2:-8}" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/play" >> /share/sound/test.txt
 
 echo "I'm a response in bash from NGINX, you try to run a sound file through FFmpeg. Sound file is:"
 echo "${1:-test.wav}"

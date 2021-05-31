@@ -11,6 +11,7 @@ export default class FetchHelper {
     };
 
     if (url && url !== this.#defaultUrl) {
+      this.#defaultUrl = url;
       // TODO: some behavior for custom links
     }
   }
@@ -27,9 +28,24 @@ export default class FetchHelper {
 
   async send(path) {
     this.path = path;
-    const response = await fetch(this.url, this.options);
-    const body = await response.json();
 
-    return body;
+    // TODO: For next iteration need to create full response method with error handler
+    try {
+      const response = await fetch(this.url, this.options);
+
+      try {
+        const body = await response.json();
+        return body;
+      } catch (e) {
+        if (response.ok) throw new Error('Wrong JSON response');
+
+        throw e;
+      }
+    } catch (e) {
+      if (e.message === 'Wrong JSON response') {
+        // NOTE: just skip for this
+      }
+      return null;
+    }
   }
 }

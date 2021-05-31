@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 
 import tracks from './modules/tracks';
+import dash from './modules/dash';
 
 export default createStore({
   // state: {
@@ -10,6 +11,7 @@ export default createStore({
   // actions: {
   // },
   modules: {
+    dash,
     tracks,
   },
 });

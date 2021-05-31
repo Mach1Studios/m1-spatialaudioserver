@@ -5,18 +5,58 @@
       <tbody>
         <tr>
           <td>
-            <p>Stream Name</p>
+            <p>Stream:</p>
           </td>
           <td>
-            <p>stream1</p>
+            <p>{{url}}</p>
           </td>
         </tr>
         <tr>
           <td>
-            <p>Stream Url</p>
+            <p>Number of audio channels</p>
           </td>
           <td>
-            <p>http://localhost/stream1.mpd</p>
+            <p>{{channels}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Audio Bitrate</p>
+          </td>
+          <td>
+            <p>{{info.audioBitRate}} Kbps</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Buffer Level</p>
+          </td>
+          <td>
+            <p>{{info.audioBufferLevel}} secs</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Update Period</p>
+          </td>
+          <td>
+            <p>{{info.minimumUpdatePeriod}} sec</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Suggestion Delay</p>
+          </td>
+          <td>
+            <p>{{info.suggestedPresentationDelay}} sec</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Profiles</p>
+          </td>
+          <td>
+            <p>{{info.profiles}}</p>
           </td>
         </tr>
       </tbody>
@@ -24,6 +64,12 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+
+export default {
+  name: 'DashStreamInfo',
+  computed: mapState('dash', ['url', 'info', 'channels']),
+};
 </script>
 
 <style lang="css" scoped>
