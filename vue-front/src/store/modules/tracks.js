@@ -22,6 +22,11 @@ const actions = {
 
     commit('setPlay', name);
   },
+  async upload({ dispatch }, data) {
+    console.log('here');
+    await new FetchHelper().send('/upload', data);
+    await dispatch('getAll');
+  },
 };
 
 const mutations = {

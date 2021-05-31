@@ -12,6 +12,7 @@ module.exports = {
     exec_mode: 'fork',
     max_memory_restart: '500M',
     watch: '.',
+    ignore_watch: ['public/*'],
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
 

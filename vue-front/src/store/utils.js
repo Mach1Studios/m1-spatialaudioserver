@@ -26,11 +26,15 @@ export default class FetchHelper {
     return new URL(this.#defaultPath, this.#defaultUrl);
   }
 
-  async send(path) {
+  async send(path, payload) {
     this.path = path;
 
     // TODO: For next iteration need to create full response method with error handler
     try {
+      if (payload) {
+        this.options.method = 'POST';
+        this.options.body = payload;
+      }
       const response = await fetch(this.url, this.options);
 
       try {

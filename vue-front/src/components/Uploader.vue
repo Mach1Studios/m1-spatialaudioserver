@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="file is-light is-boxed uploader">
     <label class="file-label">
-      <input class="file-input" type="file" name="resume">
+      <input class="file-input" type="file" name="resume" @change="upload">
       <span class="file-cta">
         <div class="waveContainer">
           <div class="wave wave1"></div>
@@ -22,10 +22,35 @@
 </template>
 
 <script>
-export default {};
+import _ from 'lodash';
+import { mapActions } from 'vuex';
+
+export default {
+  name: 'Uploader',
+  data() {
+    return { file: null };
+  },
+  methods: {
+    ...mapActions('tracks', {
+      request: 'upload',
+    }),
+    async upload($event) {
+      console.log('target', $event.target.files);
+
+      const { files } = $event.target;
+      const form = new FormData();
+
+      _.each(files, (file) => {
+        form.append('file', file, file.name);
+      });
+
+      await this.request(form);
+    },
+  },
+};
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 p {
   font-style: normal;
   font-weight: bold;

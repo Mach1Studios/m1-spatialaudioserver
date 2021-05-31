@@ -171,6 +171,7 @@ COPY --from=nginx-build /etc/nginx /etc/nginx
 COPY --from=ffmpeg-build /usr/local /usr/local
 
 VOLUME ["/share/sound"]
+VOLUME ["/www"]
 
 # Updating NGINX enviroment
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
@@ -179,7 +180,7 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 
 # Adding NGINX configs
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf.template
-RUN mkdir -p /opt/data && mkdir -p /www && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
+RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 
 EXPOSE 1935
 EXPOSE 80
