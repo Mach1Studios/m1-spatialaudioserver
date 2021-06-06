@@ -1,12 +1,22 @@
 <template lang="html">
-  <div class="preloader">
-    <div class="ball ball-1"></div>
-    <div class="ball ball-2"></div>
-    <div class="ball ball-3"></div>
+  <div v-show="isLoading">
+    <div class="preloader">
+      <div class="ball ball-1"></div>
+      <div class="ball ball-2"></div>
+      <div class="ball ball-3"></div>
+    </div>
+    <h4 class="load">{{title}}...</h4>
   </div>
-  <h4 class="load">Processing...</h4>
 </template>
-<script></script>
+<script>
+export default {
+  name: 'Preloader',
+  props: {
+    title: String,
+    isLoading: Boolean,
+  },
+};
+</script>
 <style lang="scss" scoped>
   .load {
     color: antiquewhite;

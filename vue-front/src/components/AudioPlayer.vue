@@ -21,7 +21,6 @@ export default {
     const source = this.$refs.player;
     // player.updateSettings(this.settings);
     player.initialize(source, this.url, true);
-    console.log(this.$refs.player);
     this.start({ player, source });
 
     player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
@@ -34,8 +33,9 @@ export default {
       this.updateInfo({ profiles, minimumUpdatePeriod, suggestedPresentationDelay });
     });
 
+    // eslint-disable-next-line
     player.on(dashjs.MediaPlayer.events.ERROR, (error) => {
-      console.log('error', error);
+      // console.log('error', error);
     });
   },
 

@@ -18,30 +18,38 @@
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <StreamInfo/>
-          <Preloader/>
         </div>
       </div>
     </div>
+    <Preloader
+      :title="loader.title"
+      :isLoading="loader.isLoading"
+    />
   </div>
 </template>
 
 <script>
-import FileListUploader from '@/components/FileListUploader.vue';
-import FileList from '@/components/FileList.vue';
-import AudioPlayer from '@/components/AudioPlayer.vue';
-import AudioPlayerControls from '@/components/AudioPlayerControls.vue';
-import StreamInfo from '@/components/StreamInfo.vue';
-import Preloader from '@/components/Preloader.vue';
+import { mapState } from 'vuex';
+
+import FileListUploader from '../components/FileListUploader.vue';
+import FileList from '../components/FileList.vue';
+import AudioPlayer from '../components/AudioPlayer.vue';
+import AudioPlayerControls from '../components/AudioPlayerControls.vue';
+import StreamInfo from '../components/StreamInfo.vue';
+import Preloader from '../components/Preloader.vue';
 
 export default {
   components: {
-    FileListUploader,
-    FileList,
     AudioPlayer,
     AudioPlayerControls,
+    FileList,
+    FileListUploader,
     StreamInfo,
     Preloader,
   },
+  computed: mapState({
+    loader: (state) => state.loader,
+  }),
 };
 </script>
 <style lang="scss" scoped>

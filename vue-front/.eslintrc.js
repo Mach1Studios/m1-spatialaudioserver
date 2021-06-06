@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   root: true,
   env: {
@@ -7,6 +9,7 @@ module.exports = {
     'plugin:vue/vue3-essential',
     '@vue/airbnb',
   ],
+  parser: "vue-eslint-parser",
   parserOptions: {
     parser: 'babel-eslint',
   },

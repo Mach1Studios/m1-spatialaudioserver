@@ -23,7 +23,7 @@
 
 <script>
 import _ from 'lodash';
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'FileListUploader',
@@ -34,9 +34,9 @@ export default {
     ...mapActions('tracks', {
       request: 'upload',
     }),
+    ...mapMutations(['loader']),
     async upload($event) {
-      console.log('target', $event.target.files);
-
+      this.loader({ enable: true });
       const { files } = $event.target;
       const form = new FormData();
 
@@ -45,6 +45,7 @@ export default {
       });
 
       await this.request(form);
+      this.loader({ enable: false });
     },
   },
 };

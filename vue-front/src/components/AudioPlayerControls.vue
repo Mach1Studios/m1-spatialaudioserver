@@ -44,20 +44,14 @@ export default {
   },
   methods: {
     changeVolume(channel, value) {
-      const volume = Number(value);
-      console.log('slider change event [channel, volume, gain]: ', channel, volume, this.gainNodes[channel]);
-
       if (this.gainNodes) {
-        console.log('chanel volume changed: ', value / 200);
-        this.gainNodes[channel].gain.value = value / 200;
+        this.gainNodes[channel].gain.value = Number(value) / 200;
       }
     },
     async init() {
-      console.log('start watch source element', this.source);
       const isActive = this.player && this.player.getActiveStream && this.player.getActiveStream()
         ? this.player.getActiveStream().isActive()
         : false;
-      console.log('isActive:', isActive, this.player, this.$refs);
       if (isActive && this.channels.length > 0) {
         const audio = new AudioContext();
 
@@ -66,8 +60,6 @@ export default {
         const merger = audio.createChannelMerger(this.channels.length);
 
         source.connect(splitter);
-
-        console.log('merger', merger);
 
         audio.createGain = audio.createGain || audio.createGainNode;
 
@@ -89,8 +81,6 @@ export default {
         this.splitter = splitter;
 
         this.active = true;
-
-        console.log('stram end: ', this.active);
       } else {
         delete this.merger;
         delete this.gainNodes;
