@@ -105,6 +105,12 @@ p {
   width: calc((var(--boxSize) + var(--gutter)) * 5);
 }
 
+.file-cta {
+  border: 1px solid;
+  border-radius: 0.5em;
+  background-color: antiquewhite;
+}
+
 .wave {
   transform: scaleY(.4);
   height: 100%;
@@ -130,6 +136,7 @@ p {
 
 .wave4 {
   animation-name: loud;
+  background: transparent;
 }
 
 .wave5 {

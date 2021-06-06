@@ -18,6 +18,7 @@
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <DashStreamInfo/>
+          <Preloader/>
         </div>
       </div>
     </div>
@@ -30,6 +31,7 @@ import AudioFiles from '@/components/AudioFiles.vue';
 import Player from '@/components/Player.vue';
 import Channel from '@/components/Channel.vue';
 import DashStreamInfo from '@/components/DashStreamInfo.vue';
+import Preloader from '@/components/Preloader.vue';
 
 export default {
   components: {
@@ -38,6 +40,7 @@ export default {
     Player,
     Channel,
     DashStreamInfo,
+    Preloader,
   },
 };
 </script>
