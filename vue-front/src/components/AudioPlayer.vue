@@ -11,7 +11,7 @@ import { mapState, mapActions } from 'vuex';
 import dashjs from 'dashjs';
 
 export default {
-  name: 'Player',
+  name: 'AudioPlayer',
   computed: mapState('dash', ['info', 'url', 'settings']),
   methods: {
     ...mapActions('dash', ['start', 'updateChannels', 'updateInfo']),

@@ -34,7 +34,7 @@ const wait = (sec) => new Promise((resolve) => {
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 export default {
-  name: 'Channel',
+  name: 'AudioPlayerControls',
   data() {
     return { active: false };
   },

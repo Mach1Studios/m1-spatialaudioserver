@@ -53,7 +53,7 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'AudioFiles',
+  name: 'FileList',
   computed: mapState({
     tracks: (state) => state.tracks.items,
   }),

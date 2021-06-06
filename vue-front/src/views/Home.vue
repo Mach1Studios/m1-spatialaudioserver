@@ -3,21 +3,21 @@
     <div class="columns">
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <AudioFiles/>
-          <Uploader class="is-align-self-center"/>
+          <FileList/>
+          <FileListUploader class="is-align-self-center"/>
         </div>
       </div>
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <Player/>
+          <AudioPlayer/>
         </div>
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <Channel/>
+          <AudioPlayerControls/>
         </div>
       </div>
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <DashStreamInfo/>
+          <StreamInfo/>
           <Preloader/>
         </div>
       </div>
@@ -26,20 +26,20 @@
 </template>
 
 <script>
-import Uploader from '@/components/Uploader.vue';
-import AudioFiles from '@/components/AudioFiles.vue';
-import Player from '@/components/Player.vue';
-import Channel from '@/components/Channel.vue';
-import DashStreamInfo from '@/components/DashStreamInfo.vue';
+import FileListUploader from '@/components/FileListUploader.vue';
+import FileList from '@/components/FileList.vue';
+import AudioPlayer from '@/components/AudioPlayer.vue';
+import AudioPlayerControls from '@/components/AudioPlayerControls.vue';
+import StreamInfo from '@/components/StreamInfo.vue';
 import Preloader from '@/components/Preloader.vue';
 
 export default {
   components: {
-    Uploader,
-    AudioFiles,
-    Player,
-    Channel,
-    DashStreamInfo,
+    FileListUploader,
+    FileList,
+    AudioPlayer,
+    AudioPlayerControls,
+    StreamInfo,
     Preloader,
   },
 };

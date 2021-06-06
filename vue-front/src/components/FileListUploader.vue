@@ -26,7 +26,7 @@ import _ from 'lodash';
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'Uploader',
+  name: 'FileListUploader',
   data() {
     return { file: null };
   },

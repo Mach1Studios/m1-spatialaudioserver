@@ -10,10 +10,11 @@
 <style lang="scss" scoped>
   .load {
     color: antiquewhite;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.125;
     z-index: 0;
+    text-transform: uppercase;
     position: absolute;
     top: 60%;
     left: 0;

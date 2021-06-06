@@ -67,7 +67,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'DashStreamInfo',
+  name: 'StreamInfo',
   computed: mapState('dash', ['url', 'info', 'channels']),
 };
 </script>
