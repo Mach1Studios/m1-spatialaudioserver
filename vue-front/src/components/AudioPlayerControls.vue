@@ -20,7 +20,7 @@
     </div>
   </div>
   <div v-show="active === false">
-    <p>Initialization...</p>
+    <p>Initialization{{spinner}}</p>
   </div>
 </template>
 
@@ -36,11 +36,20 @@ const AudioContext = window.AudioContext || window.webkitAudioContext;
 export default {
   name: 'AudioPlayerControls',
   data() {
-    return { active: false };
+    return { active: false, spinner: '' };
   },
   computed: {
     ...mapState('dash', ['player', 'source']),
     ...mapGetters('dash', { channels: 'listOfChannels' }),
+  },
+  created() {
+    setInterval(() => {
+      if (this.spinner === '...') {
+        this.spinner = '';
+      } else {
+        this.spinner = `${this.spinner}.`;
+      }
+    }, 400);
   },
   methods: {
     changeVolume(channel, value) {
@@ -100,14 +109,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // .channel .label {
-  //   font-style: normal;
-  //   font-weight: bold;
-  //   font-size: 1rem;
-  //   line-height: 1.17;
-  //   letter-spacing: -0.5px;
-  // }
-  // .channel-icon {
-  //   font-size: 50px;
-  // }
 </style>
