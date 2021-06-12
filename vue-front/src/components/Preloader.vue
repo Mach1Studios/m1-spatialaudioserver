@@ -60,7 +60,7 @@ export default {
     left: -10px;
     transform: translateY(-50%);
     border-radius: 100%;
-    background: yellow;
+    background: #eeef5d;
   }
 
   .ball-1 {

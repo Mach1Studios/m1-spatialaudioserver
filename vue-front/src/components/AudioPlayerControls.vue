@@ -19,8 +19,10 @@
 
     </div>
   </div>
-  <div v-show="active === false">
-    <p>Initialization{{spinner}}</p>
+  <div class="channel-spinner" v-show="active === false">
+    <div class="spinner">
+      Initialization{{spinner}}
+    </div>
   </div>
 </template>
 
@@ -109,4 +111,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .spinner {
+    position: relative;
+    float: left;
+    left: 45%;
+  }
 </style>

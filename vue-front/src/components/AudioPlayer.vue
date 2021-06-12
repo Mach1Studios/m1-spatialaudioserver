@@ -52,6 +52,6 @@ export default {
     --plyr-audio-control-color: #1c1c1c;
     --plyr-audio-control-color-hover: #1c1c1c;
     --plyr-audio-control-background-hover: #dbdbdb;
-    --plyr-progress-loading-background: yellow;
+    --plyr-progress-loading-background: #eeef5d;
   }
 </style>

@@ -7,11 +7,11 @@
       </a>
     </div>
 
-    <div class="navbar-start">
-      <a class="navbar-item home">
+    <div class="navbar-start home">
+      <a class="navbar-item">
         <router-link to="/">Home</router-link>
       </a>
-      <a class="navbar-item home">
+      <a class="navbar-item">
         <router-link to="/spatialaudioplayer">Spatial Audio Player</router-link>
       </a>
     </div>
@@ -58,20 +58,24 @@ export default {};
     border: 1px solid #fefefe;
     color: #fefefe;
   }
-  .home {
+  .home a{
     color: #626161;
     font-weight: 500;
   }
-  .home:focus {
+  .home a:focus {
     color: #fefefe;
     background-color: transparent;
     font-size: 1em;
     font-weight: 500;
   }
-  .home:hover {
+  .home a:hover {
     color: #fefefe;
     background-color: transparent;
     font-size: 1em;
     font-weight: 500;
   }
+  a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-item.is-active {
+    background-color: transparent;
+    color: #fefefe;
+}
 </style>
