@@ -19,7 +19,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .load {
-    color: antiquewhite;
+    color: #fff7eb;
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.125;

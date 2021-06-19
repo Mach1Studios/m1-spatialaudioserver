@@ -14,4 +14,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  input[type="radio"] {
+    filter:  grayscale(100%);
+  }
 </style>

@@ -109,8 +109,13 @@ p {
 .file-cta {
   border: 1px solid;
   border-radius: 0.5em;
-  background-color: antiquewhite;
 }
+
+// .uploader .file-cta{
+//   background-color: #fff7eb;
+//   border: 1px #fff7eb solid;
+//   border-radius: 500px;
+// }
 
 .wave {
   transform: scaleY(.4);

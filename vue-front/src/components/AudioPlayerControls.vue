@@ -3,7 +3,7 @@
     <h4 class="label">AUDIO PREVIEW</h4>
     <div class="field is-horizontal" v-for="channel in channels" :key="channel">
       <div class="field-label is-normal">
-        Channel {{channel + 1}}
+        <label class="label">Channel {{channel + 1}}</label>
       </div>
       <div class="field-body">
         <div class="field">

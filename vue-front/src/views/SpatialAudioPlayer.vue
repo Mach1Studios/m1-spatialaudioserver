@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column is-2">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <RadioControls/>
+          <AudioPlayerRadioControls/>
         </div>
       </div>
       <div class="column is-3">
@@ -11,10 +11,10 @@
           <AudioPlayer/>
         </div>
       </div>
-      <div class="column is-5"></div>
-      <div class="column is-2">
+      <div class="column is-4"></div>
+      <div class="column is-3">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-
+          <AudioPlayerSliders/>
         </div>
       </div>
     </div>
@@ -22,15 +22,18 @@
 </template>
 
 <script>
+import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
-import RadioControls from '../components/RadioControls.vue';
+import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 
 export default {
   components: {
+    AudioPlayerRadioControls,
     AudioPlayer,
-    RadioControls,
+    AudioPlayerSliders,
   },
 };
 </script>
 <style lang="scss" scoped>
+
 </style>
