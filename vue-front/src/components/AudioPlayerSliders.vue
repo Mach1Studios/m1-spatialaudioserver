@@ -3,28 +3,34 @@
     <div class="field-label is-normal">
       <label class="label">filterSpeed</label>
     </div>
-    <div class="field-body">
+    <div class="field-body" id="v-model-range">
       <div class="field">
         <div class="control">
-          <input class="is-fullwidth" type="range" value="0">
+          <input class="is-fullwidth" type="range" v-model="range">
           <div id="h4-container">
             <div id="h4-subcontainer">
-              <h4>0<span></span></h4>
+              <h4>{{ range }}<span></span></h4>
             </div>
           </div>
         </div>
       </div>
       <div class="field">
         <div class="control">
-          <input class="input is-small is-rounded range-number" type="text" placeholder="0">
+          <input class="input is-small is-rounded range-number" type="text" v-model="range" placeholder="0">
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'AudioPlayerSliders',
+  computed: mapState('filter', ['range']),
+  methods: {
+    ...mapActions('filter', ['updateFilters']),
+  },
 };
 </script>
 <style lang="scss" scoped>

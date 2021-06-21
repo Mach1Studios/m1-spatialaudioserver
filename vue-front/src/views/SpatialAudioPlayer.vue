@@ -14,7 +14,7 @@
       <div class="column is-4"></div>
       <div class="column is-3">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <AudioPlayerSliders/>
+          <AudioPlayerSliders range="range"/>
         </div>
       </div>
     </div>
@@ -31,6 +31,11 @@ export default {
     AudioPlayerRadioControls,
     AudioPlayer,
     AudioPlayerSliders,
+  },
+  data() {
+    return {
+      range: 0,
+    };
   },
 };
 </script>
