@@ -18,7 +18,7 @@ const actions = {
     commit('setTracks', _.map(tracks, (track, index) => ({ id: index + 1, name: track, duration: 'repeat' })));
   },
   async select({ commit }, name) {
-    await new FetchHelper(process.env.VUE_APP_STREAM_URL).send(`/play?sound=${name}&channels=16`);
+    await new FetchHelper(process.env.VUE_APP_STREAM_URL).send(`/play?sound=${name}&channels=8`);
 
     commit('setPlay', name);
   },
