@@ -14,7 +14,7 @@
     "core-js": "^3.15.0",
     "dashjs": "^3.2.2",
     "lodash": "^4.17.21",
-    "mach1spatial-decode": "file:../../mach1/NodeJS-Mach1Decode",
+    "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
     "vue": "^3.1.1",
     "vue-plyr": "^7.0.0",
     "vue-router": "^4.0.10",
