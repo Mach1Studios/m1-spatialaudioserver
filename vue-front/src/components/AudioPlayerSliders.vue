@@ -3,34 +3,28 @@
     <div class="field-label is-normal">
       <label class="label">filterSpeed</label>
     </div>
-    <div class="field-body" id="v-model-range">
+    <div class="field-body">
       <div class="field">
         <div class="control">
-          <input class="is-fullwidth" type="range" v-model="range">
+          <input class="is-fullwidth" type="range" min="0" max="100" value="0">
           <div id="h4-container">
             <div id="h4-subcontainer">
-              <h4>{{ range }}<span></span></h4>
+              <h4>0<span></span></h4>
             </div>
           </div>
         </div>
       </div>
       <div class="field">
         <div class="control">
-          <input class="input is-small is-rounded range-number" type="text" v-model="range" placeholder="0">
+          <input class="input is-small is-rounded range-number" type="text" placeholder="0">
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
-
 export default {
   name: 'AudioPlayerSliders',
-  computed: mapState('filter', ['range']),
-  methods: {
-    ...mapActions('filter', ['updateFilters']),
-  },
 };
 </script>
 <style lang="scss" scoped>
@@ -48,28 +42,31 @@ export default {
         overflow: hidden;
         height: 10px;
         -webkit-appearance: none;
-        background-color: #f5f5f5;
+        background: #f5f5f5;
       }
       &::-webkit-slider-runnable-track {
         height: 10px;
         -webkit-appearance: none;
         color: #444;
-        transition: box-shadow 0.2s ease-in-out;
+        transition: box-shadow 0.3s ease;
       }
       &::-webkit-slider-thumb {
-        width: 40px;
+        width: 15px;
         -webkit-appearance: none;
         height: 10px;
-        cursor: ew-resize;
+        cursor: pointer;
         background: #fff7eb;
-        box-shadow: -340px 0 0 320px #eeef5d, inset 0 0 0 40px #eeef5d;
-        border-radius: none;
-        transition: box-shadow 0.2s ease-in-out;
+        box-shadow: -310px 0px 0px 305px #7a7a7a, inset 0 0 0 15px #7a7a7a;
+        border-radius: 3em;
+        transition: box-shadow 0.3s ease;
         position: relative;
+        touch-action: manipulation;
       }
       &:active::-webkit-slider-thumb {
         background: #fff7eb;
-        box-shadow: -340px 0 0 320px #eeef5d, inset 0 0 0 3px #eeef5d;
+        box-shadow: -310px 0px 0px 305px #7a7a7a, inset 0 0 0 2px #7a7a7a;
+        border-radius: 3em;
+        touch-action: manipulation;
       }
     }
     // Firefox

@@ -9,7 +9,7 @@ module.exports = {
     'plugin:vue/vue3-essential',
     '@vue/airbnb',
   ],
-  parser: "vue-eslint-parser",
+  parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@babel/eslint-parser',
   },
