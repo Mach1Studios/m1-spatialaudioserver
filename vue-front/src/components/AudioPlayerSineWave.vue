@@ -4,9 +4,13 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
-const AudioContext = window.AudioContext || window.webkitAudioContext;
+const wait = (sec) => new Promise((resolve) => {
+  setTimeout(resolve, sec * 1000);
+});
+
+// const AudioContext = window.AudioContext || window.webkitAudioContext;
 
 export default {
   name: 'AudioPlayerSineWave',
@@ -19,25 +23,27 @@ export default {
         width: 0,
       },
       provider: {
-        analyser: null,
+        // analyser: null,
         ctx: null,
       },
     };
   },
 
   computed: {
-    ...mapState('dash', ['source']),
+    ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
+    ...mapState('audio', { audio: 'context', source: 'source', analyser: 'gainNodesAnalyser' }),
+    ...mapState('dash', ['isActiveStream']),
   },
 
   mounted() {
-    const audio = new AudioContext();
-    audio.createGain = audio.createGain || audio.createGainNode;
-    const gain = audio.createGain();
-    const distortion = audio.createWaveShaper();
-    const biquadFilter = audio.createBiquadFilter();
-    const convolver = audio.createConvolver();
-
-    this.provider.analyser = audio.createAnalyser();
+    // const audio = new AudioContext();
+    // audio.createGain = audio.createGain || audio.createGainNode;
+    // const gain = audio.createGain();
+    // const distortion = audio.createWaveShaper();
+    // const biquadFilter = audio.createBiquadFilter();
+    // const convolver = audio.createConvolver();
+    //
+    // this.provider.analyser = audio.createAnalyser();
     this.provider.ctx = this.$refs.wave.getContext('2d');
 
     this.container.width = '400' || this.$refs.wave.parentElement.clientWidth;
@@ -48,31 +54,36 @@ export default {
 
     // console.log('this.$refs.wave', this.$refs.wave);
 
-    const source = audio.createMediaElementSource(this.source);
-
-    source.connect(distortion);
-    distortion.connect(biquadFilter);
-    biquadFilter.connect(gain);
-    convolver.connect(gain);
-    gain.connect(this.provider.analyser);
-    this.provider.analyser.connect(audio.destination);
+    // const source = audio.createMediaElementSource(this.source);
+    //
+    // source.connect(distortion);
+    // distortion.connect(biquadFilter);
+    // biquadFilter.connect(gain);
+    // convolver.connect(gain);
+    // gain.connect(this.provider.analyser);
+    // this.provider.analyser.connect(audio.destination);
 
     this.start();
   },
 
   methods: {
-    start() {
-      const { height, width } = this.container;
+    async start() {
+      if (this.isActiveStream && this.isActiveChannels) {
+        const { height, width } = this.container;
 
-      this.provider.analyser.fftSize = 512;
-      this.bufferLength = this.provider.analyser.fftSize;
-      this.itemsFromBuff = new Uint8Array(this.bufferLength);
+        this.analyser[1].fftSize = 512;
+        this.bufferLength = this.analyser[1].fftSize;
+        this.itemsFromBuff = new Uint8Array(this.bufferLength);
 
-      console.log(this.itemsFromBuff);
+        console.log(this.itemsFromBuff);
 
-      this.provider.ctx.clearRect(0, 0, width, height);
+        this.provider.ctx.clearRect(0, 0, width, height);
 
-      this.animate();
+        return this.animate();
+      }
+
+      await wait(2);
+      return this.start();
     },
 
     animate() {
@@ -83,7 +94,7 @@ export default {
       const { height, width } = this.container;
       this.provider.ctx.clearRect(0, 0, width, height);
 
-      this.provider.analyser.getByteTimeDomainData(this.itemsFromBuff);
+      this.analyser[1].getByteTimeDomainData(this.itemsFromBuff);
 
       this.provider.ctx.fillStyle = 'rgb(200, 200, 200)';
       this.provider.ctx.fillRect(0, 0, width, height);

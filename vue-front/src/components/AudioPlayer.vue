@@ -14,12 +14,12 @@ export default {
   name: 'AudioPlayer',
   computed: mapState('dash', ['info', 'url', 'settings']),
   methods: {
-    ...mapActions('dash', ['start', 'updateChannels', 'updateInfo']),
+    ...mapActions('audio', ['updateNumberOfChannels']),
+    ...mapActions('dash', ['start', 'updateInfo']),
   },
   mounted() {
     const player = dashjs.MediaPlayer().create();
     const source = this.$refs.player;
-    // player.updateSettings(this.settings);
     player.initialize(source, this.url, true);
     this.start({ player, source });
 
@@ -27,7 +27,7 @@ export default {
       const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
       const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
 
-      this.updateChannels(numChannels);
+      this.updateNumberOfChannels(numChannels);
 
       const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
       this.updateInfo({ profiles, minimumUpdatePeriod, suggestedPresentationDelay });

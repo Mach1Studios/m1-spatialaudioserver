@@ -68,7 +68,10 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'StreamInfo',
-  computed: mapState('dash', ['url', 'info', 'channels']),
+  computed: {
+    ...mapState('audio', ['channels']),
+    ...mapState('dash', ['url', 'info']),
+  },
 };
 </script>
 

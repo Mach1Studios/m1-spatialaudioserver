@@ -1,7 +1,8 @@
 import { createStore } from 'vuex';
 
-import tracks from './modules/tracks';
+import audio from './modules/audio';
 import dash from './modules/dash';
+import tracks from './modules/tracks';
 
 export default createStore({
   strict: process.env.NODE_ENV !== 'production',
@@ -13,10 +14,12 @@ export default createStore({
   },
   mutations: {
     loader(state, { enable = false }) {
+      // eslint-disable-next-line
       state.loader.isLoading = enable;
     },
   },
   modules: {
+    audio,
     dash,
     tracks,
   },
