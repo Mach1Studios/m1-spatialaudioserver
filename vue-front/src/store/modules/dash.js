@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const settings = {
   streaming: {
     useSuggestedPresentationDelay: false,
@@ -16,21 +14,18 @@ const settings = {
 };
 
 const state = () => ({
+  isActiveStream: false,
   errors: {},
   info: {},
   player: {},
   settings,
   url: `${process.env.VUE_APP_STREAM_URL}/dash/play.mpd`,
-  channels: 0,
-  source: {},
 });
 
 const actions = {
   async start({ commit }, { player, source }) {
-    commit('setPlayer', { player, source });
-  },
-  updateChannels({ commit }, count) {
-    commit('setChannels', count);
+    commit('setPlayer', player);
+    commit('audio/setSource', source, { root: true });
   },
   updateInfo(ctx, info) {
     ctx.commit('setInfo', info);
@@ -50,30 +45,26 @@ const actions = {
           : undefined;
 
         ctx.commit('setInfo', { audioBufferLevel, audioBitRate });
+        ctx.commit('setActiveStream', true);
+      } else {
+        ctx.commit('setActiveStream', activeStream.isActive());
       }
     }
   },
 };
 
-const getters = {
-  listOfChannels(store) {
-    return _.range(store.channels);
-  },
-};
-
 const mutations = {
-  setPlayer(store, { player, source }) {
-    store.player = player;
-    store.source = source;
-  },
-  setChannels(store, count = 0) {
-    store.channels = count;
+  setActiveStream(store, status) {
+    store.isActiveStream = status;
   },
   setInfo(store, info = {}) {
     store.info = { ...store.info, ...info };
   },
+  setPlayer(store, player) {
+    store.player = player;
+  },
 };
 
 export default {
-  namespaced: true, state, actions, getters, mutations,
+  namespaced: true, state, actions, mutations,
 };
