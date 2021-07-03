@@ -1,9 +1,4 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disables */
 import _ from 'lodash';
-
-// import FetchHelper from '../utils';
-//
 
 const settings = {
   streaming: {

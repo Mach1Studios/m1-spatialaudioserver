@@ -30,11 +30,9 @@ const actions = {
 
 const mutations = {
   setTracks(store, tracks) {
-    // eslint-disable-next-line
     store.items = tracks;
   },
   setPlay(store, track) {
-    // eslint-disable-next-line
     store.playing = { name: track, playing: true };
   },
 };

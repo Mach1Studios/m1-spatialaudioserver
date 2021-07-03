@@ -37,9 +37,6 @@ import AudioPlayer from '../components/AudioPlayer.vue';
 import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
 
-// console.log(Mach1DecoderProxy);
-// console.log(Mach1SoundPlayer);
-
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
 });
@@ -95,7 +92,7 @@ export default {
     },
     changeVolume(channel, value) {
       if (channel && value && this.gainNodes && this.gainNodes[channel]) {
-        console.log('changeVolume', channel, value);
+        // console.log('changeVolume', channel, value);
         this.gainNodes[channel].gain.value = Number(value);
       }
     },

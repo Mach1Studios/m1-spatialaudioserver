@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   root: true,
   env: {
@@ -12,18 +10,12 @@ module.exports = {
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@babel/eslint-parser',
+    requireConfigFile: false,
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': ['warn', { code: 200 }],
-  },
-  // overrides: [
-  //   {
-  //     files: ['store/modules/*.js'],
-  //     rules: {
-  //       'no-param-reassign': 'off',
-  //     },
-  //   },
-  // ],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['store'] }],
+  }
 };

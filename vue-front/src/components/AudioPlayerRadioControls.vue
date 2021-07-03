@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-  name: 'RadioControls',
+  name: 'AudioPlayerRadioControls',
 };
 </script>
 <style lang="scss" scoped>

@@ -11,13 +11,16 @@
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <AudioPlayer/>
         </div>
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+        <!-- <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <AudioPlayerControls/>
-        </div>
+        </div> -->
       </div>
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <StreamInfo/>
+        </div>
+        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+          <AudioPlayerSineWave/>
         </div>
       </div>
     </div>
@@ -34,18 +37,20 @@ import { mapState } from 'vuex';
 import FileListUploader from '../components/FileListUploader.vue';
 import FileList from '../components/FileList.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
-import AudioPlayerControls from '../components/AudioPlayerControls.vue';
+// import AudioPlayerControls from '../components/AudioPlayerControls.vue';
+import AudioPlayerSineWave from '../components/AudioPlayerSineWave.vue';
 import StreamInfo from '../components/StreamInfo.vue';
 import Preloader from '../components/Preloader.vue';
 
 export default {
   components: {
     AudioPlayer,
-    AudioPlayerControls,
+    // AudioPlayerControls,
     FileList,
     FileListUploader,
     StreamInfo,
     Preloader,
+    AudioPlayerSineWave,
   },
   computed: mapState({
     loader: (state) => state.loader,
