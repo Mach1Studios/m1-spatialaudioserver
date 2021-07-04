@@ -8,7 +8,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <!-- <canvas ref="wave" class="visualizer" width="200" height="100"></canvas> -->
+            <AudioPlayerSineWave :channel="channel"/>
             <input class="slider is-fullwidth is-circle" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
           </div>
         </div>
@@ -26,12 +26,16 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
+import AudioPlayerSineWave from './AudioPlayerSineWave.vue';
+
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
 });
 
 export default {
   name: 'AudioPlayerControls',
+  // eslint-disable-next-line
+  components: { AudioPlayerSineWave },
   data() {
     return { spinner: '' };
   },

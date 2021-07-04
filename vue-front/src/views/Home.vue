@@ -20,7 +20,7 @@
           <StreamInfo/>
         </div>
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <AudioPlayerSineWave/>
+          <AudioPlayerSineWave channel="0"/>
         </div>
       </div>
     </div>

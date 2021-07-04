@@ -78,6 +78,7 @@ const mutations = {
   },
   setNumberOfChannels(state, count = 0) {
     state.channels = count;
+    // state.channels = 4 || count;
   },
   setSource(state, source) {
     state.source = state.context.createMediaElementSource(source);
