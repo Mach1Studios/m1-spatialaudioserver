@@ -9,7 +9,18 @@
         <div class="field">
           <div class="control">
             <AudioPlayerSineWave :channel="channel"/>
-            <input class="slider is-fullwidth is-circle" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
+            <!-- <input class="slider is-fullwidth is-circle" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
+           -->
+          </div>
+        </div>
+        <div class="field" id="volume-slider">
+          <div class="control">
+            <button class="button">
+              <span class="icon is-small">
+                <ion-icon name="volume-medium"></ion-icon>
+              </span>
+            </button>
+            <input id="volume" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
           </div>
         </div>
       </div>
@@ -76,8 +87,18 @@ export default {
 
 <style lang="scss" scoped>
   .spinner {
-    position: relative;
     float: left;
     left: 45%;
+  }
+
+  #volume-slider {
+    .control{
+      display: flex;
+      filter:  grayscale(100%);
+    }
+    .button {
+      border: none;
+      float: left;
+    }
   }
 </style>

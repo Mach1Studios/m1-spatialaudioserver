@@ -19,9 +19,6 @@
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
           <StreamInfo/>
         </div>
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <AudioPlayerSineWave channel="0"/>
-        </div>
       </div>
     </div>
     <Preloader
@@ -38,7 +35,6 @@ import FileListUploader from '../components/FileListUploader.vue';
 import FileList from '../components/FileList.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
 import AudioPlayerControls from '../components/AudioPlayerControls.vue';
-import AudioPlayerSineWave from '../components/AudioPlayerSineWave.vue';
 import StreamInfo from '../components/StreamInfo.vue';
 import Preloader from '../components/Preloader.vue';
 
@@ -50,7 +46,6 @@ export default {
     FileListUploader,
     StreamInfo,
     Preloader,
-    AudioPlayerSineWave,
   },
   computed: mapState({
     loader: (state) => state.loader,
