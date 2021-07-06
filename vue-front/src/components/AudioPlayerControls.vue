@@ -8,7 +8,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <AudioPlayerSineWave :channel="channel"/>
+            <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
             <!-- <input class="slider is-fullwidth is-circle" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
            -->
           </div>
@@ -35,6 +35,9 @@
 </template>
 
 <script>
+import _ from 'lodash';
+import hexRgb from 'hex-rgb';
+
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import AudioPlayerSineWave from './AudioPlayerSineWave.vue';
@@ -48,7 +51,10 @@ export default {
   // eslint-disable-next-line
   components: { AudioPlayerSineWave },
   data() {
-    return { spinner: '' };
+    return {
+      spinner: '',
+      lineColors: _.map(['#7F842F', '#e1a69f', '#4B3C53', '#C04040', '#D36646', '#9CA2C2', '#8BB4C9', '#DBD534'], (value) => hexRgb(value, { format: 'css' })),
+    };
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),

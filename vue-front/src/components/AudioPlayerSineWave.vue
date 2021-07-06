@@ -16,13 +16,14 @@ export default {
 
   props: {
     channel: Number,
+    lineColor: String,
   },
 
   data() {
     return {
       bufferSize: 64,
       frame: {
-        sliceWidth: 4,
+        sliceWidth: 2,
         sliceHeight: 0.1,
       },
       container: {
@@ -46,11 +47,12 @@ export default {
   },
 
   mounted() {
+    console.log('line', this.lineColor);
     const id = this.refLink;
-    this.provider.ctx = this.$refs[id].getContext('2d', { alpha: false });
+    this.provider.ctx = this.$refs[id].getContext('2d');
 
-    this.container.width = this.bufferSize * 4 || this.$refs[id].parentElement.clientWidth;
-    this.container.height = 50 || this.$refs[id].parentElement.clientHeight;
+    this.container.width = 128;
+    this.container.height = 50;
 
     this.$refs[id].width = this.container.width;
     this.$refs[id].height = this.container.height;
@@ -88,13 +90,15 @@ export default {
       this.analyser[this.channel].getByteTimeDomainData(this.itemsFromBuff);
       this.provider.ctx.fillRect(0, 0, width, height);
 
+      this.provider.ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+
       this.provider.ctx.lineWidth = 1;
-      this.provider.ctx.strokeStyle = 'rgb(255, 255, 255)';
+      this.provider.ctx.strokeStyle = this.lineColor;
 
       this.provider.ctx.beginPath();
 
       let x = 0;
-      this.provider.ctx.moveTo(x, 25);
+      this.provider.ctx.moveTo(x, 24);
       _.each(this.itemsFromBuff, (value) => {
         this.provider.ctx.lineTo(x, value * this.frame.sliceHeight);
 
@@ -108,8 +112,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+canvas {
+  background: transparent;
+}
 canvas .visualizer {
   max-width: 200px;
   max-height: 100px;
+
+  background: transparent;
 }
 </style>
