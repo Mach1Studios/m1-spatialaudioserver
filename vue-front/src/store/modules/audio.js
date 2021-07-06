@@ -47,6 +47,12 @@ const actions = {
 
     merger.connect(context.destination);
   },
+  updateVolume({ commit, state }, { channel, volume }) {
+    // console.log(channel, volume, state.gainNodes, state.gainNodes[channel]);
+    if (state.gainNodes && state.gainNodes[channel]) {
+      commit('setGainVolume', { channel, volume });
+    }
+  },
   updateNumberOfChannels({ commit }, count) {
     commit('setNumberOfChannels', count);
   },
@@ -69,6 +75,9 @@ const mutations = {
       state.gainNodes = [];
     }
   },
+  setGainVolume(state, { channel, volume }) {
+    state.gainNodes[channel].gain.value = Number(volume) / 100;
+  },
   setGainAnalyser(state, analyser) {
     if (analyser) {
       state.gainNodesAnalyser.push(analyser);
@@ -78,7 +87,6 @@ const mutations = {
   },
   setNumberOfChannels(state, count = 0) {
     state.channels = count;
-    // state.channels = 4 || count;
   },
   setSource(state, source) {
     state.source = state.context.createMediaElementSource(source);

@@ -71,11 +71,12 @@ export default {
     }, 400);
   },
   methods: {
-    ...mapActions('audio', ['createGainNodes']),
-    changeVolume(channel, value) {
-      if (this.gainNodes) {
-        this.gainNodes[channel].gain.value = Number(value) / 200;
-      }
+    ...mapActions('audio', ['createGainNodes', 'updateVolume']),
+    changeVolume(channel, volume) {
+      this.updateVolume({ channel, volume });
+      // if (this.gainNodes) {
+      //   // this.gainNodes[channel].gain.value = Number(value) / 200;
+      // }
     },
     async init() {
       if (this.isActiveStream && this.isActiveChannels) {
