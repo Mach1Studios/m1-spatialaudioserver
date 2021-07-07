@@ -3,16 +3,6 @@
     <label class="file-label">
       <input class="file-input" type="file" name="resume" @change="upload">
       <span class="file-cta">
-        <div class="waveContainer">
-          <div class="wave wave1"></div>
-          <div class="wave wave2"></div>
-          <div class="wave wave3"></div>
-          <div class="wave wave4"></div>
-          <div class="wave wave5"></div>
-        </div>
-        <span class="file-icon">
-          <!-- <img src="../assets/sound-waves.svg"> -->
-        </span>
         <span class="file-label">
           <p>CHOOSE A FILE...</p>
         </span>

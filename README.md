@@ -8,7 +8,7 @@ Use nvm to setup node `14.16.0`:
 
 - `cd containers` && `docker build -t m1-transcode .`
 - `cd koa-server` && `npm i && npm run local`
-- `cd vue-front` && `npm i && npm run serve`
+- `cd vue-front` && `npm i && npm run build`
 
 #### Run locally
 ```
