@@ -141,7 +141,7 @@ RUN cd /tmp/ffmpeg-${FFMPEG} && \
 # Core Builds image with NGINX, RTMP and FFmpeg
 FROM ubuntu:focal
 
-LABEL MAINTAINER MACH1 <support@mach1.tech>
+LABEL MAINTAINER MACH1 <whatsup@mach1.tech>
 
 ENV HTTP_PORT 80
 ENV HTTPS_PORT 443
