@@ -43,8 +43,5 @@ _This repo is still in development and is deemed experimental and unstable until
 - Https deployment
 - User / Group handling
 
-#### Networking Design
-![Network Design](.README/Hardware.png)
-
 #### Software Design
 ![Software Design](.README/Software.png)
