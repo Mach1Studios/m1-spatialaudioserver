@@ -16,7 +16,7 @@ pkill ffmpeg
 # reorder channels for aac transcoding and use octogonal to preserve
 # TODO: switchcase for number of channels, this might only be important for 8 channel inputs
 #ffmpeg -y -i 006.wav -i 000.wav -i 001.wav -i 007.wav -i 004.wav -i 005.wav -i 002.wav -i 003.wav -filter_complex "[0:a][1:a][2:a][3:a][4:a][5:a][6:a][7:a]join=inputs=8:channel_layout=octagonal[a]" -map "[a]" MERGED-joinoctogonal.wav
-#ffmpeg -y -stream_loop -1 -i MERGED-joinoctogonal.wav -c:a aac -ac "${2:-8}" -b:a 1024k -f flv "rtmp://127.0.0.1:1935/live/play" >> /share/sound/test.txt
+#ffmpeg -y -stream_loop -1 -i MERGED-joinoctogonal.wav -af "channelmap=channel_layout=octagonal" -metadata comment='mach1spatial-8' -c:a aac -ac "${2:-8}" -b:a 1024k -f flv "rtmp://127.0.0.1:1935/live/play" >> /share/sound/test.txt
 
 ffmpeg -y -stream_loop -1 -i /share/sound/$1 -c:a aac -ac "${2:-8}" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/play" >> /share/sound/test.txt
 

@@ -52,7 +52,6 @@ RUN cd /tmp && \
 
 RUN cd /tmp && ls
 
-
 # Build LuaJIT
 RUN cd /tmp/luajit2-${LUA_JIT} && \
   make PREFIX=/usr/local/luajit && make install PREFIX=/usr/local/luajit
@@ -80,7 +79,6 @@ RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/luajit/lib LUAJIT_INC=/usr/l
     --with-debug \
     --with-cc-opt="-Wimplicit-fallthrough=0" && \
   cd /tmp/nginx-${NGINX} && make && make install
-
 
 # FFpeg build from source code
 FROM ubuntu:focal as ffmpeg-build
@@ -137,7 +135,6 @@ RUN cd /tmp/ffmpeg-${FFMPEG} && \
     --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
-
 # Core Builds image with NGINX, RTMP and FFmpeg
 FROM ubuntu:focal
 
@@ -146,7 +143,6 @@ LABEL MAINTAINER MACH1 <whatsup@mach1.tech>
 ENV HTTP_PORT 80
 ENV HTTPS_PORT 443
 ENV STREAM_PORT 1935
-
 
 RUN apt-get update && apt-get install -y \
   ca-certificates \
