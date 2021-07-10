@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column is-one-third">
         <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <FileList/>
+          <FileList :admin="true"/>
           <FileListUploader class="is-align-self-center"/>
         </div>
       </div>

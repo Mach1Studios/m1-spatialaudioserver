@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import 'beercss';
 import VuePlyr from 'vue-plyr';
 import 'vue-plyr/dist/vue-plyr.css';
 

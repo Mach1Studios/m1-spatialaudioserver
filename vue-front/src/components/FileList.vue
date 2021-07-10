@@ -8,7 +8,7 @@
           <th><abbr title="DURATION">DURATION</abbr></th>
           <th><abbr title="STATUS">STATUS</abbr></th>
           <th><abbr title="INFO">INFO</abbr></th>
-          <th><abbr title="REMOVE"></abbr></th>
+          <th v-if="admin"><abbr title="REMOVE"></abbr></th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +36,7 @@
               </span>
             </button>
           </td>
-          <td>
+          <td v-if="admin">
             <button class="button is-medium table-button">
               <span class="icon is-large">
                 <ion-icon name="trash-sharp"></ion-icon>
@@ -54,6 +54,10 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'FileList',
+  props: { admin: Boolean },
+  // data() {
+  //   return { admin: false };
+  // },
   computed: mapState({
     tracks: (state) => state.tracks.items,
   }),
