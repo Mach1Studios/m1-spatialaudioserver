@@ -1,52 +1,40 @@
 <template lang="html">
-  <div class="table-container is-flex is-flex-direction-column is-justify-content-space-between">
-    <table class="table is-striped is-narrow is-hoverable is-fullwidth">
-      <thead>
-        <tr>
-          <th><abbr title="#">#</abbr></th>
-          <th><abbr title="NAME">NAME</abbr></th>
-          <th><abbr title="DURATION">DURATION</abbr></th>
-          <th><abbr title="STATUS">STATUS</abbr></th>
-          <th><abbr title="INFO">INFO</abbr></th>
-          <th v-if="admin"><abbr title="REMOVE"></abbr></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in tracks" :key="item" @click="select(item.name)">
-          <td>
-            <p>{{item.id}}</p>
-          </td>
-          <td>
-            <p>{{item.name}}</p>
-          </td>
-          <td>
-            <p>{{item.duration}}</p>
-          </td>
-          <td>
-            <button class="button is-medium table-button">
-              <span class="icon is-large">
-                <ion-icon name="happy-sharp"></ion-icon>
-              </span>
-            </button>
-          </td>
-          <td>
-            <button class="button is-medium table-button">
-              <span class="icon is-large">
-                <ion-icon name="information-sharp"></ion-icon>
-              </span>
-            </button>
-          </td>
-          <td v-if="admin">
-            <button class="button is-medium table-button">
-              <span class="icon is-large">
-                <ion-icon name="trash-sharp"></ion-icon>
-              </span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table class="table border large center-align">
+    <thead>
+      <tr>
+        <th><abbr title="#">#</abbr></th>
+        <th><abbr title="NAME">NAME</abbr></th>
+        <th><abbr title="DURATION">DURATION</abbr></th>
+        <th><abbr title="STATUS">STATUS</abbr></th>
+        <th><abbr title="INFO">INFO</abbr></th>
+        <th v-if="admin"><abbr title="REMOVE"></abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in tracks" :key="item" @click="select(item.name)">
+        <td>
+          <p>{{item.id}}</p>
+        </td>
+        <td>
+          <p class="left-align">{{item.name}}</p>
+        </td>
+        <td>
+          <p>{{item.duration}}</p>
+        </td>
+        <td>
+          <i class="grey-dark-4-text">mood</i>
+        </td>
+        <td>
+          <i class="grey-dark-4-text">mood_bad</i>
+        </td>
+        <td v-if="admin">
+          <button class="border round transparent-border black-text">
+            <i class="">delete</i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -90,9 +78,5 @@ export default {
   }
   .table {
     border-radius: 0.3rem;
-  }
-  .table-button {
-    background: transparent;
-    border: none;
   }
 </style>

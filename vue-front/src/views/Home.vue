@@ -1,22 +1,22 @@
 <template>
-  <div class="container is-fluid">
-    <div class="columns">
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+  <div class="container max">
+    <div class="row">
+      <div class="col s4">
+        <div class="card">
           <FileList :admin="true"/>
-          <FileListUploader class="is-align-self-center"/>
+          <FileListUploader class="padding"/>
         </div>
       </div>
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+      <div class="col s4">
+        <div class="card">
           <AudioPlayer/>
         </div>
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+        <div class="card">
           <AudioPlayerControls/>
         </div>
       </div>
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+      <div class="col s4">
+        <div class="card">
           <StreamInfo/>
         </div>
       </div>

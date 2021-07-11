@@ -36,14 +36,13 @@ export default {};
     cursor: pointer;
     border-radius: 0;
   }
-  .button:focus {
-    outline-color: #fefefe;
+  .button:focus, .button:hover {
     color: #fefefe;
-  }
-  .button:hover {
+    background: transparent;
     border: 1px solid #fefefe;
-    background-color: transparent;
-    color: #fefefe;
+  }
+  button:focus::after, button:hover::after {
+    background: transparent;
   }
   .menu a {
     color: #626161;
