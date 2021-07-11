@@ -29,7 +29,7 @@
         </td>
         <td v-if="admin">
           <button class="border round transparent-border black-text">
-            <i class="">delete</i>
+            <i>delete</i>
           </button>
         </td>
       </tr>

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="field">
+  <div class="field medium-padding medium-margin">
     <button class="round large border grey-light-3 transparent-border black-text">
         <input type="file" name="resume" @change="upload">
         <div class="waveContainer">
@@ -93,9 +93,9 @@ export default {
   .waveContainer {
     display: flex;
     justify-content: space-between;
-    height: 42px;
-    --boxSize: 3px;
-    --gutter: 3px;
+    height: 35px;
+    --boxSize: 2px;
+    --gutter: 2px;
     width: calc((var(--boxSize) + var(--gutter)) * 5);
   }
 

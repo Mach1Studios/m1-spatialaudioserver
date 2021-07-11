@@ -1,6 +1,6 @@
 <template lang="html">
-  <div v-show="isActiveStream === true">
-    <h5>AUDIO PREVIEW</h5>
+  <div class="preview" v-show="isActiveStream === true">
+    <h4 class="title">AUDIO PREVIEW</h4>
     <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
       <div class="col min">
           <div style="white-space:nowrap">Channel {{channel + 1}}</div>
@@ -79,11 +79,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .preview .title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.17;
+    letter-spacing: -0.5px;
+  }
   .spinner {
     float: left;
     left: 45%;
   }
-  .volume {
+  div>.volume {
     filter:  grayscale(100%);
+    height: 4px;
   }
 </style>

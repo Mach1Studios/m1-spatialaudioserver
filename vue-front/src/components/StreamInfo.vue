@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="table-container is-flex is-flex-direction-column is-justify-content-space-between dash">
+  <div class="dash">
     <h4 class="title">DASH Stream Info</h4>
-    <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+    <table class="table border large center-align">
       <tbody>
         <tr>
           <td>
