@@ -1,27 +1,29 @@
 <template>
-  <div class="container is-fluid">
-    <div class="columns">
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+  <div class="container max">
+    <div class="row">
+      <div class="col s2">
+        <!-- <div class="card">
           <AudioPlayerRadioControls/>
-        </div>
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <FileList/>
+        </div> -->
+        <div class="card transparent playlist">
+          <Modal position="top" title="Playlist">
+            <FileList/>
+          </Modal>
         </div>
       </div>
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+      <div class="col s5">
+        <div class="card">
           <AudioPlayer/>
         </div>
       </div>
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+      <div class="col s5">
+        <!-- <div class="card">
           <AudioPlayerSliders/>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
-  <div class="is-flex is-flex-direction-column is-justify-content-space-between">
+  <div class="">
     <AudioPlayerTouch/>
   </div>
 </template>
@@ -35,10 +37,12 @@ import {
   Mach1DecoderProxy,
 } from 'mach1spatial-decode';
 
-import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
+// import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
-import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
+// import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
+import Modal from '../components/Modal.vue';
+import FileList from '../components/FileList.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -46,10 +50,12 @@ const wait = (sec) => new Promise((resolve) => {
 
 export default {
   components: {
-    AudioPlayerRadioControls,
+    // AudioPlayerRadioControls,
     AudioPlayer,
-    AudioPlayerSliders,
+    // AudioPlayerSliders,
     AudioPlayerTouch,
+    Modal,
+    FileList,
   },
   computed: {
     ...mapState('dash', ['player', 'source']),
@@ -147,4 +153,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .playlist {
+    box-shadow: none;
+  }
 </style>

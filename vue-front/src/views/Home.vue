@@ -4,7 +4,7 @@
       <div class="col s4">
         <div class="card">
           <FileList :admin="true"/>
-          <FileListUploader class="padding"/>
+          <FileListUploader/>
         </div>
       </div>
       <div class="col s4">
