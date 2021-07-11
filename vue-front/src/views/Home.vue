@@ -31,12 +31,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import FileListUploader from '../components/FileListUploader.vue';
-import FileList from '../components/FileList.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
 import AudioPlayerControls from '../components/AudioPlayerControls.vue';
-import StreamInfo from '../components/StreamInfo.vue';
+import FileList from '../components/FileList.vue';
+import FileListUploader from '../components/FileListUploader.vue';
 import Preloader from '../components/Preloader.vue';
+import StreamInfo from '../components/StreamInfo.vue';
 
 export default {
   components: {

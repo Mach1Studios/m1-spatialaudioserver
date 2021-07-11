@@ -11,7 +11,7 @@
           </Modal>
         </div>
       </div>
-      <div class="col s5">
+      <div class="col s10">
         <div class="card">
           <AudioPlayer/>
         </div>
@@ -30,7 +30,7 @@
 
 <script>
 // import _ from 'lodash';
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapState, mapActions } from 'vuex';
 
 import {
   // Mach1SoundPlayer,
@@ -58,12 +58,13 @@ export default {
     FileList,
   },
   computed: {
-    ...mapState('dash', ['player', 'source']),
-    ...mapGetters('dash', { channels: 'listOfChannels' }),
+    ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
+    ...mapState('audio', { audio: 'context', source: 'source' }),
+    ...mapState('dash', ['player', 'isActiveStream']),
   },
   mounted() {
     this.decoder = new Mach1DecoderProxy();
-    //
+
     window.addEventListener('mousemove', (event) => {
       window.mouseX = (event.clientX) / window.innerWidth;
       window.mouseY = (event.clientY) / window.innerHeight;
@@ -72,8 +73,11 @@ export default {
     this.init();
   },
   methods: {
+    ...mapActions('audio', ['createGainNodes', 'updateVolume']),
+    changeVolume(channel, volume) {
+      this.updateVolume({ channel, volume });
+    },
     loop() {
-      // console.log('animate');
       const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
       requestAnimationFrame(this.loop);
 
@@ -87,67 +91,21 @@ export default {
       const transform = `translate(-50%, -50%) ${rotateX} ${rotateY}`;
       document.getElementById('touchstats:card').style.transform = transform;
 
-      // console.log();
       const decoded = this.decoder.decode(window);
 
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {
-          this.changeVolume(i, decoded[i]);
+          const value = Number(decoded[i]) || 0;
+          if (value) this.changeVolume(i, value);
         }
-      }
-
-      // _.each(this.decoder.decode(window), this.changeVolume);
-      // console.log(this.decoder.decode(window));
-    },
-    changeVolume(channel, value) {
-      if (channel && value && this.gainNodes && this.gainNodes[channel]) {
-        // console.log('changeVolume', channel, value);
-        this.gainNodes[channel].gain.value = Number(value);
       }
     },
     async init() {
-      const isActive = this.player && this.player.getActiveStream && this.player.getActiveStream()
-        ? this.player.getActiveStream().isActive()
-        : false;
-      if (isActive && this.channels.length > 0) {
-        const audio = new AudioContext();
-
-        const source = audio.createMediaElementSource(this.source);
-        const splitter = audio.createChannelSplitter(this.channels.length);
-        const merger = audio.createChannelMerger(this.channels.length);
-
-        source.connect(splitter);
-
-        audio.createGain = audio.createGain || audio.createGainNode;
-
-        const gainNodes = [];
-
-        for (let i = 0; i < this.channels.length; i += 1) {
-          const gain = audio.createGain();
-          gainNodes.push(gain);
-          splitter.connect(gain, i, 0);
-          gain.connect(merger, 0, 0);
-          gain.connect(merger, 0, 1);
-          gain.gain.value = 0.1;
-        }
-
-        merger.connect(audio.destination);
-
-        this.merger = merger;
-        this.gainNodes = gainNodes;
-        this.splitter = splitter;
-
-        this.active = true;
-      } else {
-        delete this.merger;
-        delete this.gainNodes;
-        delete this.splitter;
-
-        this.active = false;
-
-        await wait(2);
-        await this.init();
+      if (this.isActiveStream && this.isActiveChannels) {
+        return this.createGainNodes();
       }
+      await wait(2);
+      return this.init();
     },
   },
 };
