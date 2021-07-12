@@ -41,6 +41,7 @@ const actions = {
 
       analyser.connect(context.destination);
 
+      gain.gain.value = 0.005;
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
     });
@@ -76,7 +77,7 @@ const mutations = {
     }
   },
   setGainVolume(state, { channel, volume }) {
-    state.gainNodes[channel].gain.value = Number(volume) / 100;
+    state.gainNodes[channel].gain.value = Number(volume) / 10;
   },
   setGainAnalyser(state, analyser) {
     if (analyser) {

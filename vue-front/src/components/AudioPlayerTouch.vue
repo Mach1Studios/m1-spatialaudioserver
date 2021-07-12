@@ -19,7 +19,7 @@
       </div>
     </div>
     <div id="touchstats" style="margin:0;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50vw;height:auto;">
-      <div class="background"><img src="https://demo.mach1.tech/img/touch-compass.svg" style="width:50vw;height:auto;" /></div>
+      <div class="background"><img src="https://demo.mach1.tech/img/touch-compass.svg" style="width:50vw;height:auto;max-height:50vh" /></div>
       <div class="cardBottom">
         <div id="touchstats:card" class="card">
           <div class="txt">FRONT</div>

@@ -14,9 +14,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../node_modules/bulma/bulma.sass";
-@import '~bulma-slider';
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,5 +31,8 @@ export default {
 
 #app-router {
   min-height: 90vh;
+}
+.button, button {
+  box-shadow: none !important;
 }
 </style>

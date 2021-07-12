@@ -1,11 +1,9 @@
 <template>
-  <div class="radio-controls">
-    <div class="control">
-      <label class="radio">
-        <input type="radio" name="controls">
-        Touch
-      </label>
-    </div>
+  <div class="field">
+    <label class="radio">
+      <input type="radio" name="radio">
+      <span>Touch</span>
+    </label>
   </div>
 </template>
 <script>
@@ -14,7 +12,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  input[type="radio"] {
+  .radio>* {
     filter:  grayscale(100%);
   }
 </style>

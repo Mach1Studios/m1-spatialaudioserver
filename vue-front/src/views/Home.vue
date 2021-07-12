@@ -1,22 +1,22 @@
 <template>
-  <div class="container is-fluid">
-    <div class="columns">
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
-          <FileList/>
-          <FileListUploader class="is-align-self-center"/>
+  <div class="container max">
+    <div class="row">
+      <div class="col s4">
+        <div class="card">
+          <FileList :admin="true"/>
+          <FileListUploader/>
         </div>
       </div>
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+      <div class="col s4">
+        <div class="card">
           <AudioPlayer/>
         </div>
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+        <div class="card">
           <AudioPlayerControls/>
         </div>
       </div>
-      <div class="column is-one-third">
-        <div class="box is-flex is-flex-direction-column is-justify-content-space-between">
+      <div class="col s4">
+        <div class="card">
           <StreamInfo/>
         </div>
       </div>
@@ -31,12 +31,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import FileListUploader from '../components/FileListUploader.vue';
-import FileList from '../components/FileList.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
 import AudioPlayerControls from '../components/AudioPlayerControls.vue';
-import StreamInfo from '../components/StreamInfo.vue';
+import FileList from '../components/FileList.vue';
+import FileListUploader from '../components/FileListUploader.vue';
 import Preloader from '../components/Preloader.vue';
+import StreamInfo from '../components/StreamInfo.vue';
 
 export default {
   components: {

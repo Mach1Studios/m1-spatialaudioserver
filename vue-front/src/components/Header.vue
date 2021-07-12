@@ -1,32 +1,11 @@
 <template lang="html">
-  <div class="header">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="">
-        <img src="../assets/logo-bg.svg">
-      </a>
-    </div>
-
-    <div class="navbar-start home">
-      <a class="navbar-item">
-        <router-link to="/">Home</router-link>
-      </a>
-      <a class="navbar-item">
-        <router-link to="/spatialaudioplayer">Spatial Audio Player</router-link>
-      </a>
-    </div>
-
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button">
-              <strong>Log in</strong>
-            </a>
-          </div>
-        </div>
-      </div>
-  </nav>
-</div>
+  <div class="menu top home" role="navigation" aria-label="main navigation">
+    <img class="logo" src="../assets/logo-bg.svg">
+    <router-link class="link" to="/">Home</router-link>
+    <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
+    <div class=""></div>
+    <button class="button">Log in</button>
+  </div>
 </template>
 
 <script>
@@ -34,8 +13,15 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-  nav {
+  .home {
     background-color: #1a1a1a;
+    justify-content: space-around;
+
+    padding: 0 30px;
+  }
+  .logo {
+    height: 70%;
+    margin: 5px;
   }
   .button {
     font-weight: 500;
@@ -50,32 +36,21 @@ export default {};
     cursor: pointer;
     border-radius: 0;
   }
-  .button:focus {
-    outline-color: #fefefe;
+  .button:focus, .button:hover {
     color: #fefefe;
-  }
-  .button:hover {
+    background: transparent;
     border: 1px solid #fefefe;
-    color: #fefefe;
   }
-  .home a{
+  button:focus::after, button:hover::after {
+    background: transparent;
+  }
+  .menu a {
     color: #626161;
     font-weight: 500;
-  }
-  .home a:focus {
-    color: #fefefe;
-    background-color: transparent;
     font-size: 1em;
-    font-weight: 500;
   }
-  .home a:hover {
-    color: #fefefe;
-    background-color: transparent;
-    font-size: 1em;
-    font-weight: 500;
-  }
-  a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-item.is-active {
+  .menu a:focus, .menu a:focus-within, .menu a:hover {
     background-color: transparent;
     color: #fefefe;
-}
+  }
 </style>

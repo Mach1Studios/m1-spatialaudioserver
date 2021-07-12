@@ -1,13 +1,16 @@
 <template lang="html">
-  <div class="file is-light is-boxed uploader">
-    <label class="file-label">
-      <input class="file-input" type="file" name="resume" @change="upload">
-      <span class="file-cta">
-        <span class="file-label">
-          <p>CHOOSE A FILE...</p>
-        </span>
-      </span>
-    </label>
+  <div class="field medium-padding medium-margin">
+    <button class="round large border grey-light-3 transparent-border black-text">
+        <input type="file" name="resume" @change="upload">
+        <div class="waveContainer">
+          <div class="wave wave1"></div>
+          <div class="wave wave2"></div>
+          <div class="wave wave3"></div>
+          <div class="wave wave4"></div>
+          <div class="wave wave5"></div>
+        </div>
+        <span><p>CHOOSE A FILE...</p></span>
+    </button>
   </div>
 </template>
 
@@ -42,100 +45,93 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-p {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 1rem;
-  line-height: 1.17;
-  letter-spacing: -0.5px;
-  width: 100%;
-}
-
-@keyframes quiet {
-  25%{
-    transform: scaleY(.6);
+  p {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 0.9rem;
+    line-height: 1.17;
+    letter-spacing: -0.3px;
+    width: 100%;
   }
-  50%{
+
+  @keyframes quiet {
+    25%{
+      transform: scaleY(.6);
+    }
+    50%{
+      transform: scaleY(.4);
+    }
+    75%{
+      transform: scaleY(.8);
+    }
+  }
+
+  @keyframes normal {
+    25%{
+      transform: scaleY(1);
+    }
+    50%{
+      transform: scaleY(.4);
+    }
+    75%{
+      transform: scaleY(.6);
+    }
+  }
+
+  @keyframes loud {
+    25%{
+      transform: scaleY(1);
+    }
+    50%{
+      transform: scaleY(.4);
+    }
+    75%{
+      transform: scaleY(1.2);
+    }
+  }
+
+  .waveContainer {
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+    --boxSize: 2px;
+    --gutter: 2px;
+    width: calc((var(--boxSize) + var(--gutter)) * 5);
+  }
+
+  .wave{
     transform: scaleY(.4);
+    height: 100%;
+    width: var(--boxSize);
+    background: #1c1c1c;
+    border-radius: 8px;
   }
-  75%{
-    transform: scaleY(.8);
-  }
-}
 
-@keyframes normal {
-  25%{
-    transform: scaleY(1);
-  }
-  50%{
+  button:hover .wave{
     transform: scaleY(.4);
+    animation-duration: 1.2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
   }
-  75%{
-    transform: scaleY(.6);
+
+  .wave1 {
+    animation-name: quiet;
   }
-}
 
-@keyframes loud {
-  25%{
-    transform: scaleY(1);
+  .wave2 {
+    animation-name: normal;
   }
-  50%{
-    transform: scaleY(.4);
+
+  .wave3 {
+    animation-name: quiet;
   }
-  75%{
-    transform: scaleY(1.2);
+
+  .wave4 {
+    animation-name: loud;
+    background: transparent;
   }
-}
 
-.waveContainer {
-  display: flex;
-  justify-content: space-between;
-  height: 32px;
-  --boxSize: 3px;
-  --gutter: 2px;
-  width: calc((var(--boxSize) + var(--gutter)) * 5);
-}
-
-.file-cta {
-  border: 1px solid;
-  border-radius: 0.5em;
-}
-
-// .uploader .file-cta{
-//   background-color: #fff7eb;
-//   border: 1px #fff7eb solid;
-//   border-radius: 500px;
-// }
-
-.wave {
-  transform: scaleY(.4);
-  height: 100%;
-  width: var(--boxSize);
-  background: #1c1c1c;
-  animation-duration: 1.2s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  border-radius: 8px;
-}
-
-.wave1 {
-  animation-name: quiet;
-}
-
-.wave2 {
-  animation-name: normal;
-}
-
-.wave3 {
-  animation-name: quiet;
-}
-
-.wave4 {
-  animation-name: loud;
-  background: transparent;
-}
-
-.wave5 {
-  animation-name: quiet;
-}
+  .wave5 {
+    animation-name: quiet;
+  }
 </style>

@@ -1,30 +1,19 @@
 <template lang="html">
-  <div v-show="isActiveStream === true">
-    <h4 class="label">AUDIO PREVIEW</h4>
-    <div class="field is-horizontal" v-for="channel in channels" :key="channel">
-      <div class="field-label is-normal">
-        <label class="label">Channel {{channel + 1}}</label>
+  <div class="preview" v-show="isActiveStream === true">
+    <h4 class="title">AUDIO PREVIEW</h4>
+    <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
+      <div class="col min">
+          <div style="white-space:nowrap">Channel {{channel + 1}}</div>
       </div>
-      <div class="field-body">
-        <div class="field">
-          <div class="control">
-            <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
-            <!-- <input class="slider is-fullwidth is-circle" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
-           -->
-          </div>
-        </div>
-        <div class="field" id="volume-slider">
-          <div class="control">
-            <button class="button">
-              <span class="icon is-small">
-                <ion-icon name="volume-medium"></ion-icon>
-              </span>
-            </button>
-            <input id="volume" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
-          </div>
-        </div>
+      <div class="col">
+          <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
       </div>
-
+      <div class="col min">
+          <i class="black-text">volume_up</i>
+      </div>
+      <div class="col min">
+        <input class="volume" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
+      </div>
     </div>
   </div>
   <div class="channel-spinner" v-show="isActiveStream === false">
@@ -74,9 +63,6 @@ export default {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
     changeVolume(channel, volume) {
       this.updateVolume({ channel, volume });
-      // if (this.gainNodes) {
-      //   // this.gainNodes[channel].gain.value = Number(value) / 200;
-      // }
     },
     async init() {
       if (this.isActiveStream && this.isActiveChannels) {
@@ -93,19 +79,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .preview .title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.17;
+    letter-spacing: -0.5px;
+  }
   .spinner {
     float: left;
     left: 45%;
   }
-
-  #volume-slider {
-    .control{
-      display: flex;
-      filter:  grayscale(100%);
-    }
-    .button {
-      border: none;
-      float: left;
-    }
+  div>.volume {
+    filter:  grayscale(100%);
+    height: 4px;
   }
 </style>
