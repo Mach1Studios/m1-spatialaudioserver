@@ -85,7 +85,7 @@ FROM ubuntu:focal as ffmpeg-build
 ARG FFMPEG
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV TZ=Europe/Moscow
+ENV TZ=america/new_york
 
 RUN apt-get update && apt-get install -y \
   build-essential \
