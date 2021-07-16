@@ -6,16 +6,17 @@
           <AudioPlayerRadioControls/>
         </div> -->
         <div class="card transparent playlist">
-          <Modal position="top" title="Playlist">
-            <FileList/>
+          <Modal position="left" title="Playlist">
+            <AudioPlayerPlaylist/>
+            <AudioPlayer/>
           </Modal>
         </div>
       </div>
-      <div class="col s10">
+      <!-- <div class="col s10">
         <div class="card">
           <AudioPlayer/>
         </div>
-      </div>
+      </div> -->
       <div class="col s5">
         <!-- <div class="card">
           <AudioPlayerSliders/>
@@ -42,7 +43,7 @@ import AudioPlayer from '../components/AudioPlayer.vue';
 // import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
-import FileList from '../components/FileList.vue';
+import AudioPlayerPlaylist from '../components/AudioPlayerPlaylist.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -55,7 +56,7 @@ export default {
     // AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
-    FileList,
+    AudioPlayerPlaylist,
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
