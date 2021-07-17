@@ -175,7 +175,7 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 # ENV LD_LIBRARY_PATH "/usr/local/luajit:$LD_LIBRARY_PATH"
 
 # Adding NGINX configs
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf.template
+COPY nginx.conf /etc/nginx/nginx.conf.template
 RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 
 EXPOSE 1935

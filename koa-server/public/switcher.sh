@@ -6,8 +6,8 @@ fileName="${1:-unknownfile}"
 filePath="/share/sound/$fileName"
 
 # if logs not exist > create them
-if [[ ! -d "logs" && ! -L "logs" ]] ; then
-    mkdir logs
+if [[ ! -d "/share/sound/logs" && ! -L "/share/sound/logs" ]] ; then
+    mkdir /share/sound/logs
 fi
 
 log () {
