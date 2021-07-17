@@ -23,9 +23,10 @@
         </td>
         <td>
           <i class="grey-dark-4-text">mood</i>
+          <!-- <i class="grey-dark-4-text">mood_bad</i> -->
         </td>
         <td>
-          <i class="grey-dark-4-text">mood_bad</i>
+          <i class="grey-dark-4-text material-icons-outlined">info</i>
         </td>
         <td v-if="admin">
           <button class="border round transparent-border black-text">

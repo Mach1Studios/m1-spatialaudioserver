@@ -5,7 +5,7 @@
    width="409pt"
    version="1.1"
    id="svg28"
-   sodipodi:docname="sound-waves.svg"
+   sodipodi:docname="sound-wave.svg"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -22,8 +22,8 @@
      inkscape:document-units="pt"
      showgrid="false"
      inkscape:zoom="1.2011002"
-     inkscape:cx="240.61273"
-     inkscape:cy="282.65752"
+     inkscape:cx="240.61272"
+     inkscape:cy="282.65751"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="1920"
@@ -32,6 +32,13 @@
      inkscape:current-layer="svg28" />
   <defs
      id="defs32" />
+  <rect
+     style="fill:#ececec;stroke-width:0.73631"
+     id="rect878"
+     width="411.64996"
+     height="410.70062"
+     x="0.12351158"
+     y="-47.909496" />
   <path
      d="m307.199219 160.726562c0 84.832032-68.769531 153.601563-153.597657 153.601563-84.832031 0-153.601562-68.769531-153.601562-153.601563 0-84.832031 68.769531-153.601562 153.601562-153.601562 84.828126 0 153.597657 68.769531 153.597657 153.601562zm0 0"
      fill="#ffe8dc"

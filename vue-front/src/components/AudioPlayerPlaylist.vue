@@ -1,42 +1,41 @@
 <template lang="html">
-  <div class="padding margin">
+  <div class="large-width list">
     <div class="left-align">
-      <img src="../assets/sound-waves.svg" class="circle extra">
+      <img src="../assets/noonpacific.jpg" class="circle extra">
     </div>
-    <div class="list">
-      <h4 class="left-align title">Playlist</h4>
-      <table class="table border large">
-        <!-- <thead>
-          <tr>
-            <th><abbr title="#">#</abbr></th>
-            <th><abbr title="NAME">NAME</abbr></th>
-            <th><abbr title="DURATION">DURATION</abbr></th>
-            <th><abbr title="STATUS">STATUS</abbr></th>
-            <th><abbr title="INFO">INFO</abbr></th>
-            <th v-if="admin"><abbr title="REMOVE"></abbr></th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <tr v-for="item in tracks" :key="item" @click="select(item.name)">
-            <td>
-              <p>{{item.id}}</p>
-            </td>
-            <td>
-              <p>{{item.name}}</p>
-            </td>
-            <td>
-              <p>{{item.duration}}</p>
-            </td>
-            <td>
-              <i class="grey-dark-4-text">mood</i>
-            </td>
-            <td>
-              <i class="grey-dark-4-text">mood_bad</i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <h4 class="left-align title">Playlist</h4>
+    <table class="table border">
+      <!-- <thead>
+        <tr>
+          <th><abbr title="#">#</abbr></th>
+          <th><abbr title="NAME">NAME</abbr></th>
+          <th><abbr title="DURATION">DURATION</abbr></th>
+          <th><abbr title="STATUS">STATUS</abbr></th>
+          <th><abbr title="INFO">INFO</abbr></th>
+          <th v-if="admin"><abbr title="REMOVE"></abbr></th>
+        </tr>
+      </thead> -->
+      <tbody>
+        <tr v-for="item in tracks" :key="item" @click="select(item.name)">
+          <td>
+            <p>{{item.id}}</p>
+          </td>
+          <td class="small-width">
+            <p>{{item.name}}</p>
+          </td>
+          <td>
+            <nav class="right-align">
+                <i class="small grey-dark-4-text material-icons-outlined">info</i>
+                <i class="small grey-dark-4-text">mood</i>
+                <!-- <i class="small grey-dark-4-text">mood_bad</i> -->
+                <!-- <p>{{item.duration}}</p> -->
+                <i class="small grey-dark-4-text">repeat</i>
+                <i class="small grey-dark-4-text">play_circle</i>
+            </nav>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
