@@ -5,8 +5,10 @@ pkill ffmpeg
 fileName="${1:-unknownfile}"
 filePath="/share/sound/$fileName"
 
-
-# log="/share/sound/logs/$1.log"
+# if logs not exist > create them
+if [[ ! -d "logs" && ! -L "logs" ]] ; then
+    mkdir logs
+fi
 
 log () {
   local log_prefix="[$(cat /proc/sys/kernel/random/uuid)] INFO:"
@@ -45,4 +47,4 @@ esac
 log "Number of channels: $channels"
 log "Type of channels layout: $layout"
 
-ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/play" &>> /dev/null
+ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/play" &>> "/share/sound/logs/ffmpeg.output"
