@@ -24,6 +24,7 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 1rem;
+
     line-height: 1.17;
     letter-spacing: -0.5px;
   }

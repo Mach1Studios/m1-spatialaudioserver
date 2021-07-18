@@ -63,20 +63,25 @@ export default {
 
 <style lang="css" scoped>
   .table abbr {
+    width: 100%;
+
     font-style: normal;
     font-weight: bold;
     font-size: 1rem;
+
     line-height: 1.17;
     letter-spacing: -0.5px;
-    width: 100%;
   }
+
   .table td {
     vertical-align: middle;
     cursor: pointer;
   }
+
   .table th {
     vertical-align: middle;
   }
+
   .table {
     border-radius: 0.3rem;
   }

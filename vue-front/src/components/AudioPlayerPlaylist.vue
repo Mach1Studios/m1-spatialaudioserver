@@ -4,21 +4,11 @@
       <img src="../assets/noonpacific.jpg" class="circle extra">
     </div>
     <h4 class="left-align title">Playlist</h4>
-    <table class="table border">
-      <!-- <thead>
-        <tr>
-          <th><abbr title="#">#</abbr></th>
-          <th><abbr title="NAME">NAME</abbr></th>
-          <th><abbr title="DURATION">DURATION</abbr></th>
-          <th><abbr title="STATUS">STATUS</abbr></th>
-          <th><abbr title="INFO">INFO</abbr></th>
-          <th v-if="admin"><abbr title="REMOVE"></abbr></th>
-        </tr>
-      </thead> -->
+    <table class="playlist-table border">
       <tbody>
         <tr v-for="item in tracks" :key="item" @click="select(item.id)">
           <td>
-            <p>{{item.id}}</p>
+            <p>{{item.number}}</p>
           </td>
           <td class="small-width">
             <p>{{item.name}}</p>
@@ -62,31 +52,38 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
   .list .title {
     font-style: normal;
     font-weight: bold;
     font-size: 1rem;
+
     line-height: 1.17;
     letter-spacing: -0.5px;
     text-transform: uppercase;
   }
-  .table abbr {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 1rem;
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-    width: 100%;
-  }
-  .table td {
+
+  .playlist-table td {
     vertical-align: middle;
     cursor: pointer;
   }
-  .table th {
+
+  .playlist-table th {
     vertical-align: middle;
   }
-  .table {
+
+  .playlist-table {
     border-radius: 0.3rem;
+  }
+
+  .playlist-table tr:hover {
+    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+  }
+
+  .playlist-table td:last-child {
+    padding-right: 10px;
+  }
+  .playlist-table td:last-child:hover {
+    padding-right: 15px;
   }
 </style>

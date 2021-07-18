@@ -29,6 +29,7 @@ export default {
   .hidden {
     display: none;
   }
+
   .player {
     --plyr-color-main: #7a7a7a;
     --plyr-audio-controls-background: #ffffff;

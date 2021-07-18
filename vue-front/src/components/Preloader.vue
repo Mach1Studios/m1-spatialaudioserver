@@ -30,37 +30,45 @@ export default {
     left: 0;
     width: 100%;
   }
+
   .preloader {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    filter: blur(10px) contrast(20);
+
+    top: 0;
+    left: 0;
+
     background: #1c1c1cb5;
+    filter: blur(10px) contrast(20);
   }
 
   .ball {
     position: absolute;
     width: 120px;
     height: 120px;
+
     top: 50%;
     left: 50%;
+    margin-left: 40px;
+
     transform: translate(-50%, -50%) rotate(0deg);
     transform-origin: 66px center;
-    margin-left: 40px;
   }
 
   .ball:before {
     content: '';
+    position: absolute;
     width: 68px;
     height: 68px;
-    position: absolute;
+
     top: 50%;
     left: -10px;
+
+    background: #eeef5d;
+
     transform: translateY(-50%);
     border-radius: 100%;
-    background: #eeef5d;
   }
 
   .ball-1 {

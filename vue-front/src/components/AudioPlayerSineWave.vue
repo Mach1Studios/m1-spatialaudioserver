@@ -112,13 +112,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-canvas {
-  background: transparent;
-}
-canvas .visualizer {
-  max-width: 200px;
-  max-height: 100px;
+  canvas {
+    background: transparent;
+  }
 
-  background: transparent;
-}
+  canvas .visualizer {
+    max-width: 200px;
+    max-height: 100px;
+
+    background: transparent;
+  }
 </style>
