@@ -14,11 +14,15 @@ const state = () => ({
 const actions = {
   async getAll({ commit }) {
     const tracks = await new FetchHelper().send('/tracks');
+    console.log(tracks);
 
-    commit('setTracks', _.map(tracks, (track, index) => ({ id: index + 1, name: track, duration: 'repeat' })));
+    commit('setTracks', _.map(tracks, ({ id, name }, index) => ({
+      number: index + 1, id, name, duration: 'repeat',
+    })));
   },
   async select({ commit }, name) {
-    await new FetchHelper(process.env.VUE_APP_STREAM_URL).send(`/play?sound=${name}&channels=8`);
+    // await new FetchHelper(process.env.VUE_APP_STREAM_URL).send(`/play?sound=${name}&channels=8`);
+    await new FetchHelper().send('/tracks/1');
 
     commit('setPlay', name);
   },

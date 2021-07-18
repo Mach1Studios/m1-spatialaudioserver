@@ -13,7 +13,7 @@
     <tbody>
       <tr v-for="item in tracks" :key="item" @click="select(item.name)">
         <td>
-          <p>{{item.id}}</p>
+          <p>{{item.number}}</p>
         </td>
         <td>
           <p class="left-align">{{item.name}}</p>
