@@ -3,6 +3,9 @@ import { readdir } from 'fs/promises';
 
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
+import got from 'got';
+
+const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
 
 export default {
   /**
@@ -11,26 +14,31 @@ export default {
    *                          node's request and response objects into a single object
    */
   async list(ctx) {
-    const items = await ctx.redis.find('file*', 100);
+    // await ctx.redis.flushall();
+    let items = await ctx.redis.find('file*', 100);
+    if (_.isEmpty(items)) {
+      const files = await readdir(new URL('../public', import.meta.url));
+      const tracks = _.filter(files, (file) => _.endsWith(file, '.wav'));
 
-    if (!_.isEmpty(items)) {
-      const tracks = await ctx.redis.mget(...items);
-      const body = _.zipWith(items, tracks, (id, name) => ({ id, name }));
+      const body = _.reduce(tracks, (result, track) => _.set(result, `file:${uuid()}`, track), {});
+      await ctx.redis.mset(body);
 
-      ctx.body = body;
-      return;
+      items = await ctx.redis.find('file*', 100);
     }
+    const keys = sanitizeId(...items);
 
-    const files = await readdir(new URL('../public', import.meta.url));
-    const tracks = _.filter(files, (file) => _.endsWith(file, '.wav'));
+    const tracks = await ctx.redis.mget(...items);
+    const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
 
-    const body = _.reduce(tracks, (result, track) => _.set(result, `file:${uuid()}`, track), {});
     ctx.body = body;
-
-    await ctx.redis.mset(body);
   },
   async get(ctx) {
     const { id } = ctx.params;
-    console.log('select file', id);
+    const track = await ctx.redis.get(`file:${id}`);
+
+    if (_.isNull(track)) ctx.throw(404);
+
+    await got.get(`http://localhost:8080/play?sound=${track}&id=${id}`).json();
+    ctx.status = 202;
   },
 };

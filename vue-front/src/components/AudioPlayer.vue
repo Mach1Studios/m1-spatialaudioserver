@@ -8,35 +8,18 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import dashjs from 'dashjs';
+// import dashjs from 'dashjs';
 
 export default {
   name: 'AudioPlayer',
   computed: mapState('dash', ['info', 'url', 'settings']),
   methods: {
     ...mapActions('audio', ['updateNumberOfChannels']),
-    ...mapActions('dash', ['start', 'updateInfo']),
+    ...mapActions('dash', ['load', 'updateInfo']),
   },
   mounted() {
-    const player = dashjs.MediaPlayer().create();
     const source = this.$refs.player;
-    player.initialize(source, this.url, true);
-    this.start({ player, source });
-
-    player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
-      const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
-      const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
-
-      this.updateNumberOfChannels(numChannels);
-
-      const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
-      this.updateInfo({ profiles, minimumUpdatePeriod, suggestedPresentationDelay });
-    });
-
-    // eslint-disable-next-line
-    player.on(dashjs.MediaPlayer.events.ERROR, (error) => {
-      // console.log('error', error);
-    });
+    this.load({ source });
   },
 
 };

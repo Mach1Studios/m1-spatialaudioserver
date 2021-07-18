@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in tracks" :key="item" @click="select(item.name)">
+      <tr v-for="item in tracks" :key="item" @click="select(item.id)">
         <td>
           <p>{{item.number}}</p>
         </td>

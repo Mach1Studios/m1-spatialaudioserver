@@ -1,3 +1,5 @@
+import dashjs from 'dashjs';
+
 const settings = {
   streaming: {
     useSuggestedPresentationDelay: false,
@@ -13,24 +15,60 @@ const settings = {
   },
 };
 
-const state = () => ({
+const defaultState = () => ({
   isActiveStream: false,
   errors: {},
   info: {},
-  player: {},
+  player: null,
   settings,
   url: `${process.env.VUE_APP_STREAM_URL}/dash/play.mpd`,
 });
 
 const actions = {
-  async start({ commit }, { player, source }) {
+  async load({ commit, state }, { source }) {
+    if (state.player) {
+      state.player.destroy();
+      commit('setPlayer', null);
+    }
+
+    const player = dashjs.MediaPlayer().create();
+    player.updateSettings(settings);
+    player.initialize(source, this.url, true);
+
+    player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
+      console.log('MANIFEST_LOADED', data);
+      const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
+      const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
+
+      this.updateNumberOfChannels(numChannels);
+
+      const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
+      console.log('before updateInfo');
+      this.updateInfo({ profiles, minimumUpdatePeriod, suggestedPresentationDelay });
+    });
+
+    // eslint-disable-next-line
+    player.on(dashjs.MediaPlayer.events.ERROR, (error) => {
+      console.log('error', error);
+    });
+
     commit('setPlayer', player);
     commit('audio/setSource', source, { root: true });
+  },
+  async start({ commit, state }, id) {
+    commit('setURL', id);
+
+    const { player, url } = state;
+    // const { source } = rootState.audio;
+
+    player.attachSource(url);
+    console.log('start');
   },
   updateInfo(ctx, info) {
     ctx.commit('setInfo', info);
 
     const activeStream = ctx.state.player.getActiveStream();
+    console.log('setInfo', activeStream);
     if (activeStream) {
       const streamInfo = activeStream.getStreamInfo();
       const dashMetrics = ctx.state.player.getDashMetrics();
@@ -63,8 +101,11 @@ const mutations = {
   setPlayer(store, player) {
     store.player = player;
   },
+  setURL(store, id) {
+    store.url = `${process.env.VUE_APP_STREAM_URL}/dash/${id}.mpd`;
+  },
 };
 
 export default {
-  namespaced: true, state, actions, mutations,
+  namespaced: true, state: defaultState, actions, mutations,
 };

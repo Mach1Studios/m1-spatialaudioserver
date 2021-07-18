@@ -3,6 +3,7 @@
 pkill ffmpeg
 
 fileName="${1:-unknownfile}"
+fileId="${2:-$(cat /proc/sys/kernel/random/uuid)}"
 filePath="/share/sound/$fileName"
 
 # if logs not exist > create them
@@ -17,7 +18,8 @@ log () {
   echo "$log_prefix $1" &>> $log_file
 }
 
-log "transocder starting at $(date)"
+log "transocder starting at $(date) for file=$fileName; id=$fileId"
+touch /opt/data/dash/$fileId.mpd
 
 # trying to find out how many channels are in a selected file
 channels=`ffprobe -i $filePath -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0`
@@ -47,4 +49,4 @@ esac
 log "Number of channels: $channels"
 log "Type of channels layout: $layout"
 
-ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/$fileName" &>> "/share/sound/logs/ffmpeg.output"
+ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/$fileId" &>> "/share/sound/logs/ffmpeg.output"
