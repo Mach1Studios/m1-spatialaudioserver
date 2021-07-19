@@ -8,17 +8,25 @@ import * as resources from '../api';
 const uploader = multer();
 
 const router = new Router();
-const supportMethods = ['get', 'post', 'put', 'del'];
+const supportMethods = ['list', 'get', 'post', 'put', 'del'];
 
 _.each(resources, (methods, resource) => {
   _.each(methods, (callback, method) => {
-    console.log(resource, method);
+    if (method === 'post' && resource === 'upload') {
+      router[method](`/${resource}`, uploader.any(), callback);
+      return;
+    }
     if (supportMethods.includes(method)) {
-      console.log(method, resource, method === 'POST' && resource === 'upload');
-      if (method === 'post' && resource === 'upload') {
-        router[method](`/${resource}`, uploader.any(), callback);
-      } else {
-        router[method](`/${resource}`, callback);
+      switch (method) {
+        case 'get':
+          router.get(`/${resource}/:id`, callback);
+          break;
+        case 'list':
+          router.get(`/${resource}`, callback);
+          break;
+        default:
+          router[method](`/${resource}`, callback);
+          break;
       }
     }
   });

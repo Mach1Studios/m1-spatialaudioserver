@@ -37,7 +37,6 @@ const wait = (sec) => new Promise((resolve) => {
 
 export default {
   name: 'AudioPlayerControls',
-  // eslint-disable-next-line
   components: { AudioPlayerSineWave },
   data() {
     return {
@@ -83,13 +82,16 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 1rem;
+
     line-height: 1.17;
     letter-spacing: -0.5px;
   }
+
   .spinner {
     float: left;
     left: 45%;
   }
+
   div>.volume {
     filter:  grayscale(100%);
     height: 4px;

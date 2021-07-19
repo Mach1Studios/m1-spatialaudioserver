@@ -15,15 +15,18 @@ export default {};
 <style lang="scss" scoped>
   .home {
     background-color: #1a1a1a;
+
     justify-content: space-around;
 
     padding: 0 30px;
   }
   .logo {
     height: 70%;
+
     margin: 5px;
   }
   .button {
+    display: inline-block;
     font-weight: 500;
     background-color: transparent;
     border: 1px solid #626161;
@@ -31,7 +34,6 @@ export default {};
     padding: 4px 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 0.8em;
     cursor: pointer;
     border-radius: 0;

@@ -46,12 +46,14 @@ export default {
 
 <style lang="scss" scoped>
   p {
+    width: 100%;
+
     font-style: normal;
     font-weight: bold;
     font-size: 0.9rem;
+
     line-height: 1.17;
     letter-spacing: -0.3px;
-    width: 100%;
   }
 
   @keyframes quiet {
@@ -92,22 +94,25 @@ export default {
 
   .waveContainer {
     display: flex;
-    justify-content: space-between;
+    width: calc((var(--boxSize) + var(--gutter)) * 5);
     height: 35px;
+
+    justify-content: space-between;
     --boxSize: 2px;
     --gutter: 2px;
-    width: calc((var(--boxSize) + var(--gutter)) * 5);
   }
 
-  .wave{
-    transform: scaleY(.4);
+  .wave {
     height: 100%;
     width: var(--boxSize);
+
+    transform: scaleY(.4);
+
     background: #1c1c1c;
     border-radius: 8px;
   }
 
-  button:hover .wave{
+  button:hover .wave {
     transform: scaleY(.4);
     animation-duration: 1.2s;
     animation-timing-function: ease-in-out;

@@ -11,9 +11,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in tracks" :key="item" @click="select(item.name)">
+      <tr v-for="item in tracks" :key="item" @click="select(item.id)">
         <td>
-          <p>{{item.id}}</p>
+          <p>{{item.number}}</p>
         </td>
         <td>
           <p class="left-align">{{item.name}}</p>
@@ -23,9 +23,10 @@
         </td>
         <td>
           <i class="grey-dark-4-text">mood</i>
+          <!-- <i class="grey-dark-4-text">mood_bad</i> -->
         </td>
         <td>
-          <i class="grey-dark-4-text">mood_bad</i>
+          <i class="grey-dark-4-text material-icons-outlined">info</i>
         </td>
         <td v-if="admin">
           <button class="border round transparent-border black-text">
@@ -62,20 +63,25 @@ export default {
 
 <style lang="css" scoped>
   .table abbr {
+    width: 100%;
+
     font-style: normal;
     font-weight: bold;
     font-size: 1rem;
+
     line-height: 1.17;
     letter-spacing: -0.5px;
-    width: 100%;
   }
+
   .table td {
     vertical-align: middle;
     cursor: pointer;
   }
+
   .table th {
     vertical-align: middle;
   }
+
   .table {
     border-radius: 0.3rem;
   }

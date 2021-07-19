@@ -10,6 +10,7 @@ const defaultState = () => ({
 
 const actions = {
   createGainNodes({ commit, state, getters }) {
+    console.log('setGain');
     commit('setGain');
 
     const { context, source } = state;
