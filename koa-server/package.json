@@ -9,7 +9,7 @@
     "local": "pm2-dev ecosystem.config.js",
     "make": "npm i && npm run dev"
   },
-  "author": "Anton Tamakhin <snyypi@gmail.com>",
+  "author": "Mach1 <whatsup@mach1.tech>",
   "license": "MIT",
   "dependencies": {
     "@koa/multer": "^3.0.0",
