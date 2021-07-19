@@ -26,7 +26,7 @@ docker run -it \
   --rm m1-transcode
 ```
 
-More information and command examples you can check in docker containers ![documentation](./containers/README.md)
+More information and command examples you can check in docker containers [documentation](./containers/README.md)
 
 ### Usage
 
