@@ -6,6 +6,7 @@ const defaultState = () => ({
   gainNodes: [],
   gainNodesAnalyser: [],
   source: null,
+  view: null,
 });
 
 const actions = {
@@ -49,8 +50,10 @@ const actions = {
 
     merger.connect(context.destination);
   },
+  updateSource({ commit }, source) {
+    commit('setSource', source);
+  },
   updateVolume({ commit, state }, { channel, volume }) {
-    // console.log(channel, volume, state.gainNodes, state.gainNodes[channel]);
     if (state.gainNodes && state.gainNodes[channel]) {
       commit('setGainVolume', { channel, volume });
     }
@@ -91,6 +94,7 @@ const mutations = {
     state.channels = count;
   },
   setSource(state, source) {
+    state.view = source;
     state.source = state.context.createMediaElementSource(source);
   },
 };

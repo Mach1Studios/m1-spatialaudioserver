@@ -7,19 +7,19 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 // import dashjs from 'dashjs';
 
 export default {
   name: 'AudioPlayer',
-  computed: mapState('dash', ['info', 'url', 'settings']),
   methods: {
-    ...mapActions('audio', ['updateNumberOfChannels']),
-    ...mapActions('dash', ['load', 'updateInfo']),
+    ...mapActions('audio', ['updateSource']),
+    ...mapActions('dash', ['start']),
+
   },
   mounted() {
-    const source = this.$refs.player;
-    this.load({ source });
+    this.updateSource(this.$refs.player);
+    this.start();
   },
 
 };
