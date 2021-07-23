@@ -3,16 +3,16 @@ import dashjs from 'dashjs';
 
 const settings = {
   streaming: {
-    useSuggestedPresentationDelay: false,
-    lowLatencyEnabled: false,
-    stableBufferTime: 20,
-    bufferTimeAtTopQualityLongForm: 20,
+    useSuggestedPresentationDelay: true,
+    // lowLatencyEnabled: false,
+    // stableBufferTime: 20,
+    // bufferTimeAtTopQualityLongForm: 20,
     retryIntervals: {
       MPD: 50000,
     },
-    retryAttempts: {
-      MPD: 3,
-    },
+    // retryAttempts: {
+    //   MPD: 3,
+    // },
   },
 };
 
@@ -22,30 +22,41 @@ const defaultState = () => ({
   info: {},
   player: null,
   settings,
-  // url: null,
-  url: `${process.env.VUE_APP_STREAM_URL}/dash/e073f4dd-bae3-472f-8e1a-3841b53476ce.mpd`,
+  url: null,
+  // url: `${process.env.VUE_APP_STREAM_URL}/dash/47569324-f666-4545-983a-ee7b09aed309.mpd`,
 });
 
-const load = (ctx) => {
+const wait = (sec) => new Promise((resolve) => {
+  setTimeout(resolve, sec * 1000);
+});
+
+const load = async (ctx) => {
   if (_.isNull(ctx.state.url)) {
     return null;
   }
   if (ctx.state.player) {
     ctx.state.player.destroy();
   }
+
+  console.log('w');
+  await wait(5 / 1000);
+
+  // await wait(5);
+  console.log('e');
+
   const player = dashjs.MediaPlayer().create();
 
   player.updateSettings(settings);
   player.initialize(ctx.rootState.audio.view, ctx.state.url, true);
   console.log('Got');
 
-  _.each(dashjs.MediaPlayer.events, (event) => {
-    const callback = (...args) => {
-      console.log(event, args);
-      player.off(event, callback);
-    };
-    player.on(event, callback);
-  });
+  // _.each(dashjs.MediaPlayer.events, (event) => {
+  //   const callback = (...args) => {
+  //     console.log(event, args);
+  //     player.off(event, callback);
+  //   };
+  //   player.on(event, callback);
+  // });
 
   player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
     console.log('MANIFEST_LOADED', data);
@@ -59,8 +70,11 @@ const load = (ctx) => {
   });
 
   // eslint-disable-next-line
-  player.on(dashjs.MediaPlayer.events.ERROR, (error) => {
-    console.log('error', error);
+  player.on(dashjs.MediaPlayer.events.ERROR, async (error) => {
+    console.log('error', error.error.message, error);
+    if (error.error.code === 10) {
+      // await load(ctx);
+    }
   });
 
   return player;
@@ -69,8 +83,9 @@ const load = (ctx) => {
 const actions = {
   async start(ctx, id) {
     console.log(id);
-    // ctx.commit('setURL', id);
-    ctx.commit('setPlayer', load(ctx));
+    ctx.commit('setURL', id);
+    const player = await load(ctx);
+    ctx.commit('setPlayer', player);
     // const { source } = rootState.audio;
 
     // player.attachSource(url);

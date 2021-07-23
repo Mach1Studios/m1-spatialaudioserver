@@ -19,7 +19,7 @@ log () {
 }
 
 log "transocder starting at $(date) for file=$fileName; id=$fileId"
-touch /opt/data/dash/$fileId.mpd
+rm -rf /opt/data/dash/$fileId.mpd && touch /opt/data/dash/$fileId.mpd
 
 # trying to find out how many channels are in a selected file
 channels=`ffprobe -i $filePath -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0`
