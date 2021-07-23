@@ -6,7 +6,7 @@
           <AudioPlayerRadioControls/>
         </div> -->
         <div class="card transparent playlist">
-          <Modal position="left" title="Playlist">
+          <Modal position="left" title="Playlist" icon="play_circle_outline">
             <AudioPlayerPlaylist/>
             <AudioPlayer class="playlist-player padding absolute center bottom"/>
           </Modal>

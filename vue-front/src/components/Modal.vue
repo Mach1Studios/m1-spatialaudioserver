@@ -2,7 +2,7 @@
   <div>
     <div>
       <button class="round large border grey-light-3 transparent-border black-text open no-margin no-padding" @click="open()">
-        <i class="black-text play">play_circle_outline</i>
+        <i v-show="icon" class="black-text">{{icon}}</i>
         <span>{{title}}</span>
       </button>
     </div>
@@ -24,6 +24,7 @@ export default {
       type: String,
     },
     title: String,
+    icon: String,
   },
   data() {
     return { active: false };
