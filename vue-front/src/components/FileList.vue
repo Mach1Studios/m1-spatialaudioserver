@@ -61,7 +61,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
   .table abbr {
     width: 100%;
 
