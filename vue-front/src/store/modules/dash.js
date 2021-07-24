@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { validate as isUuid } from 'uuid';
 import dashjs from 'dashjs';
 
 const settings = {
@@ -23,33 +24,21 @@ const defaultState = () => ({
   player: null,
   processing: false,
   settings,
-  // url: null,
-  // url: `${process.env.VUE_APP_STREAM_URL}/dash/47569324-f666-4545-983a-ee7b09aed309.mpd`,
 });
 
-const wait = (sec) => new Promise((resolve) => {
-  setTimeout(resolve, sec * 1000);
-});
-
-const load = async (ctx) => {
-  if (_.isNull(ctx.state.url)) {
-    return null;
-  }
+const load = (ctx) => new Promise((resolve, reject) => {
+  if (_.isEmpty(ctx.state.info.url)) reject(new Error('Missing stream url'));
   if (ctx.state.player) {
     ctx.state.player.destroy();
+    ctx.commit('setPlayer', null);
   }
-
-  console.log('w');
-  await wait(5 / 1000);
-
-  // await wait(5);
-  console.log('e');
 
   const player = dashjs.MediaPlayer().create();
 
   player.updateSettings(settings);
   player.initialize(ctx.rootState.audio.view, ctx.state.info.url, true);
-  console.log('Got');
+
+  ctx.commit('setPlayer', player);
 
   // _.each(dashjs.MediaPlayer.events, (event) => {
   //   const callback = (...args) => {
@@ -63,36 +52,49 @@ const load = async (ctx) => {
     console.log('MANIFEST_LOADED', data);
     const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
     const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
+    console.log('numChannels', numChannels);
 
     ctx.dispatch('audio/updateNumberOfChannels', numChannels, { root: true });
 
+    console.log('data', data);
+
     const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
+    console.log('reolve', ctx.state.processing, !profiles, profiles);
+    if (ctx.state.processing || !profiles) {
+      ctx.commit('setStreamInformation', { processing: false });
+      load(ctx).then((result) => resolve(result));
+    }
+
     ctx.dispatch('updateInfo', { profiles, minimumUpdatePeriod, suggestedPresentationDelay });
   });
 
   // eslint-disable-next-line
   player.on(dashjs.MediaPlayer.events.ERROR, async (error) => {
-    console.log('error', error.error.message, error);
     if (error.error.code === 10) {
-      // await load(ctx);
+      ctx.commit('setStreamInformation', { processing: true });
+
+      load(ctx).then((result) => resolve(result));
+    } else if (error.error.code !== 22) {
+      console.error('Got unhandled DASH stream error:');
+      console.error(error.error);
     }
   });
-
-  return player;
-};
+});
 
 const actions = {
   async start(ctx, url) {
-    ctx.commit('setInfo', { url });
+    ctx.commit('setStreamInformation', { url });
 
-    const player = await load(ctx);
-    ctx.commit('setPlayer', player);
+    await load(ctx);
   },
   updateInfo(ctx, info) {
-    ctx.commit('setInfo', info);
+    console.log('updateInfo', ctx.state.player);
+    ctx.commit('setStreamInformation', info);
+    if (_.isNull(ctx.state.player)) return;
+    console.log('updateInfo end');
 
     const activeStream = ctx.state.player.getActiveStream();
-    console.log('setInfo', activeStream);
+    console.log('setStreamInformation', activeStream);
     if (activeStream) {
       const streamInfo = activeStream.getStreamInfo();
       const dashMetrics = ctx.state.player.getDashMetrics();
@@ -106,7 +108,7 @@ const actions = {
           ? Math.round(dashAdapter.getBandwidthForRepresentation(repSwitch.to, periodIdx) / 1000)
           : undefined;
 
-        ctx.commit('setInfo', { audioBufferLevel, audioBitRate });
+        ctx.commit('setStreamInformation', { audioBufferLevel, audioBitRate });
         ctx.commit('setActiveStream', true);
       } else {
         ctx.commit('setActiveStream', activeStream.isActive());
@@ -119,18 +121,19 @@ const mutations = {
   setActiveStream(store, status) {
     store.isActiveStream = status;
   },
-  setInfo(store, info = {}) {
-    console.log(info);
+  setStreamInformation(store, payload) {
+    const { processing, url, ...info } = payload;
+
     store.info = { ...store.info, ...info };
+    store.processing = _.isBoolean(processing) ? processing : false;
+    // NOTE: replace parameters after main storage update if need it
+    if (_.isString(url) && isUuid(url)) {
+      store.info.url = `${process.env.VUE_APP_STREAM_URL}/dash/${payload.url}.mpd`;
+      store.processing = true;
+    }
   },
   setPlayer(store, player) {
     store.player = player;
-  },
-  setStreamInformation(store, payload) {
-    const { id, processing } = payload;
-
-    store.url = (id) ? `${process.env.VUE_APP_STREAM_URL}/dash/${id}.mpd` : null;
-    store.processing = _.isBoolean(processing) ? processing : false;
   },
 };
 
