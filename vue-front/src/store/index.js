@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import audio from './modules/audio';
 import dash from './modules/dash';
 import tracks from './modules/tracks';
+import users from './modules/users';
 
 export default createStore({
   strict: process.env.NODE_ENV !== 'production',
@@ -22,5 +23,6 @@ export default createStore({
     audio,
     dash,
     tracks,
+    users,
   },
 });

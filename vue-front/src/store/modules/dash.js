@@ -17,12 +17,13 @@ const settings = {
 };
 
 const defaultState = () => ({
-  isActiveStream: false,
   errors: {},
   info: {},
+  isActiveStream: false,
   player: null,
+  processing: false,
   settings,
-  url: null,
+  // url: null,
   // url: `${process.env.VUE_APP_STREAM_URL}/dash/47569324-f666-4545-983a-ee7b09aed309.mpd`,
 });
 
@@ -47,7 +48,7 @@ const load = async (ctx) => {
   const player = dashjs.MediaPlayer().create();
 
   player.updateSettings(settings);
-  player.initialize(ctx.rootState.audio.view, ctx.state.url, true);
+  player.initialize(ctx.rootState.audio.view, ctx.state.info.url, true);
   console.log('Got');
 
   // _.each(dashjs.MediaPlayer.events, (event) => {
@@ -81,15 +82,11 @@ const load = async (ctx) => {
 };
 
 const actions = {
-  async start(ctx, id) {
-    console.log(id);
-    ctx.commit('setURL', id);
+  async start(ctx, url) {
+    ctx.commit('setInfo', { url });
+
     const player = await load(ctx);
     ctx.commit('setPlayer', player);
-    // const { source } = rootState.audio;
-
-    // player.attachSource(url);
-    console.log('start');
   },
   updateInfo(ctx, info) {
     ctx.commit('setInfo', info);
@@ -123,13 +120,17 @@ const mutations = {
     store.isActiveStream = status;
   },
   setInfo(store, info = {}) {
+    console.log(info);
     store.info = { ...store.info, ...info };
   },
   setPlayer(store, player) {
     store.player = player;
   },
-  setURL(store, id) {
-    store.url = `${process.env.VUE_APP_STREAM_URL}/dash/${id}.mpd`;
+  setStreamInformation(store, payload) {
+    const { id, processing } = payload;
+
+    store.url = (id) ? `${process.env.VUE_APP_STREAM_URL}/dash/${id}.mpd` : null;
+    store.processing = _.isBoolean(processing) ? processing : false;
   },
 };
 

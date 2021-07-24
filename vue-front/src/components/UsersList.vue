@@ -7,25 +7,25 @@
         <th><abbr title="E-MAIL">E-MAIL</abbr></th>
         <th><abbr title="ROLE">ROLE</abbr></th>
         <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-        <th><abbr title="REMOVE"></abbr></th>
+        <th v-if="admin"><abbr title="REMOVE"></abbr></th>
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr v-for="item in users" :key="item" @click="select(item.id)">
         <td>
-          <p>1</p>
+          <p>{{item.number}}</p>
         </td>
         <td>
-          <p>Siouxsie_1957</p>
+          <p>{{item.nickname}}</p>
         </td>
         <td>
-          <p>siouxsieandthebanshees@gmail.com</p>
+          <p>{{item.email}}</p>
         </td>
         <td>
-          <p>User</p>
+          <p>{{item.role}}</p>
         </td>
         <td>
-          <p>21.07.1995</p>
+          <p>{{item.lastSeen}}</p>
         </td>
         <td>
           <button class="border round transparent-border black-text">
@@ -38,9 +38,25 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'UsersList',
+  props: { admin: Boolean },
+  computed: mapState({
+    users: (state) => {
+      console.log(state.users);
+      return state.users.items;
+    },
+  }),
+  methods: {
+    ...mapActions('users', [
+      'select',
+    ]),
+  },
+  created() {
+    this.$store.dispatch('users/getAll');
+  },
 };
 </script>
 
