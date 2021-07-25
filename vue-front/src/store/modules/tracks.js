@@ -3,7 +3,7 @@ import _ from 'lodash';
 import FetchHelper from '../utils';
 
 const defaultState = () => ({
-  playing: {
+  track: {
     id: undefined,
     name: undefined,
     playing: false,
@@ -20,6 +20,10 @@ const actions = {
     })));
   },
   async select({ commit, state, dispatch }, id) {
+    console.log('select');
+    // if (id === state.track.id) return;
+
+    commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
     const { name } = _.find(state.items, { id });
     await new FetchHelper().send(`/tracks/${id}`);
 
@@ -37,7 +41,7 @@ const mutations = {
     store.items = tracks;
   },
   setPlay(store, track) {
-    store.playing = { ...track, playing: true };
+    store.track = { ...track, playing: true };
   },
 };
 

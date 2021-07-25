@@ -40,14 +40,6 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
   ctx.commit('setPlayer', player);
 
-  _.each(dashjs.MediaPlayer.events, (event) => {
-    const callback = (...args) => {
-      console.log(event, args);
-      player.off(event, callback);
-    };
-    player.on(event, callback);
-  });
-
   player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
     const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
     const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
@@ -62,8 +54,13 @@ const load = (ctx) => new Promise((resolve, reject) => {
     ctx.dispatch('updateInfo', { profiles, minimumUpdatePeriod, suggestedPresentationDelay });
   });
 
+  player.on(dashjs.MediaPlayer.events.CAN_PLAY, () => {
+    ctx.commit('loader', { enable: false }, { root: true });
+  });
+
   player.on(dashjs.MediaPlayer.events.ERROR, async (error) => {
     if (error.error.code === 10 || error.error.code === 31) {
+      ctx.commit('loader', { description: 'Waiting dash stream configurations' }, { root: true });
       ctx.commit('setStreamInformation', { processing: true });
 
       load(ctx).then((result) => resolve(result));
@@ -77,7 +74,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
 const actions = {
   async start(ctx, url) {
     ctx.commit('setStreamInformation', { url });
-    ctx.commit('loader', { enable: true }, { root: true });
+    ctx.commit('loader', { description: 'Starting to initialize the audio player' }, { root: true });
 
     await load(ctx);
   },
@@ -110,7 +107,6 @@ const actions = {
 
 const mutations = {
   setActiveStream(store, status) {
-    console.log('isActiveStream', status);
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {

@@ -8,7 +8,7 @@
             <p>Stream:</p>
           </td>
           <td>
-            <p>{{url}}</p>
+            <p>{{info.url}}</p>
           </td>
         </tr>
         <tr>
@@ -70,7 +70,7 @@ export default {
   name: 'StreamInfo',
   computed: {
     ...mapState('audio', ['channels']),
-    ...mapState('dash', ['url', 'info']),
+    ...mapState('dash', ['info']),
   },
 };
 </script>

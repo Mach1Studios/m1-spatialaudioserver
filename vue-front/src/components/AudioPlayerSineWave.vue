@@ -47,7 +47,6 @@ export default {
   },
 
   mounted() {
-    console.log('line', this.lineColor);
     const id = this.refLink;
     this.provider.ctx = this.$refs[id].getContext('2d');
 
@@ -81,7 +80,6 @@ export default {
     },
 
     async animate() {
-      // await wait(40);
       requestAnimationFrame(this.animate);
 
       const { height, width } = this.container;

@@ -1,15 +1,26 @@
 <template>
   <Header id="app-header"/>
   <router-view id="app-router"/>
+  <Preloader
+    :title="loader.title"
+    :description="loader.description"
+    :isLoading="loader.isLoading"
+  />
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import Header from './components/Header.vue';
+import Preloader from './components/Preloader.vue';
 
 export default {
   components: {
-    Header,
+    Header, Preloader,
   },
+  computed: mapState({
+    loader: (state) => state.loader,
+  }),
 };
 </script>
 

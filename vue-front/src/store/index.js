@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createStore } from 'vuex';
 
 import audio from './modules/audio';
@@ -14,10 +15,17 @@ export default createStore({
     },
   },
   mutations: {
-    loader(state, { enable = false }) {
-      // console.log('loader');
-      // eslint-disable-next-line
-      state.loader.isLoading = enable;
+    loader(state, payload) {
+      const { description, enable, title } = payload;
+      if (_.isBoolean(enable)) {
+        state.loader.isLoading = enable;
+      }
+      if (_.isString(description)) {
+        state.loader.description = description;
+      }
+      if (_.isString(title)) {
+        state.loader.title = title;
+      }
     },
   },
   modules: {

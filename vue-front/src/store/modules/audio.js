@@ -82,7 +82,7 @@ const mutations = {
     }
   },
   setGainVolume(state, { channel, volume }) {
-    state.gainNodes[channel].gain.value = Number(volume) / 10;
+    state.gainNodes[channel].gain.value = Number(volume);
   },
   setGainAnalyser(state, analyser) {
     if (analyser) {
