@@ -4,7 +4,9 @@
       <div class="col s12">
         <div class="card">
           <UsersList/>
-          <Modal title="Add user" icon="add" class="none">
+        </div>
+        <div class="col s1">
+          <Modal title="Add user" icon="add" position="center">
             <UsersAddForm/>
           </Modal>
         </div>

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { v4 as uuid, validate as isUuid } from 'uuid';
 
 // import FetchHelper from '../utils';
 
@@ -14,7 +15,9 @@ const defaultState = () => ({
 });
 
 const actions = {
+  // eslint-disable-next-line
   async getAll({ commit }) {
+    // eslint-disable-next-line
     const users = [
       {
         id: '1',
@@ -41,11 +44,18 @@ const actions = {
         lastSeen: '18.05.1980',
       },
     ];
-    commit('setUsers', users);
+    // commit('setUsers', users);
   },
   // eslint-disable-next-line
   async create({ commit }, data) {
-    console.log('text');
+    console.log('text', data);
+    // TODO: should be remove after created support from redis db
+    const id = uuid();
+    commit('createUser', { ...data, id });
+  },
+  async remove({ commit }, data) {
+    const id = !isUuid(data) ? _.get(data, 'id') : data;
+    commit('removeUser', id);
   },
 };
 
@@ -58,6 +68,12 @@ const getters = {
 const mutations = {
   setUsers(store, users) {
     store.items = users;
+  },
+  createUser(store, user) {
+    store.items = [...store.items, user];
+  },
+  removeUser(store, id) {
+    store.items = _.remove(store.items, (item) => item.id !== id);
   },
 };
 

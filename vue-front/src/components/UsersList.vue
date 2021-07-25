@@ -7,13 +7,14 @@
         <th><abbr title="E-MAIL">E-MAIL</abbr></th>
         <th><abbr title="ROLE">ROLE</abbr></th>
         <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-        <th v-if="admin"><abbr title="REMOVE"></abbr></th>
+        <th><abbr title="EDIT">EDIT</abbr></th>
+        <th><abbr title="REMOVE"></abbr></th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in users" :key="item" @click="select(item.id)">
+      <tr v-for="item in users" :key="item">
         <td>
-          <p>{{item.number}}</p>
+          <p>{{item.id}}</p>
         </td>
         <td>
           <p>{{item.nickname}}</p>
@@ -29,6 +30,11 @@
         </td>
         <td>
           <button class="border round transparent-border black-text">
+            <i class="material-icons-outlined">edit</i>
+          </button>
+        </td>
+        <td>
+          <button class="border round transparent-border black-text" @click="remove(item)">
             <i>delete</i>
           </button>
         </td>
@@ -44,15 +50,10 @@ export default {
   name: 'UsersList',
   props: { admin: Boolean },
   computed: mapState({
-    users: (state) => {
-      console.log(state.users);
-      return state.users.items;
-    },
+    users: (state) => state.users.items,
   }),
   methods: {
-    ...mapActions('users', [
-      'select',
-    ]),
+    ...mapActions('users', ['remove']),
   },
   created() {
     this.$store.dispatch('users/getAll');

@@ -2,15 +2,15 @@
   <div class="large-width list">
     <h4 class="title center-align">User Form</h4>
     <div class="field label border">
-      <input type="text" v-model="nickname">
-      <label>Nickname</label>
+      <input type="text" v-model="user.nickname" @focus="test()">
+      <label :class="{ active: isActiveNickname }">Nickname</label>
     </div>
     <div class="field label border">
-      <input type="text">
-      <label>E-mail</label>
+      <input type="text" v-model="user.email">
+      <label class="active">E-mail</label>
     </div>
     <div class="field label border">
-      <input type="text">
+      <input type="text" v-model="user.role">
       <label>Role</label>
     </div>
     <div>
@@ -23,15 +23,29 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
   name: 'UsersAddForm',
   data() {
-    return { nickname: 'sdhakj' };
+    return {
+      user: {
+        nickname: '',
+        email: '',
+        role: '',
+      },
+      isActiveNickname: false,
+    };
   },
   methods: {
+    ...mapActions('users', ['create']),
+    test() {
+      console.log('test');
+      this.isActiveNickname = true;
+    },
     add() {
-
+      this.create(this.user);
+      console.log(this.user);
     },
   },
 };
