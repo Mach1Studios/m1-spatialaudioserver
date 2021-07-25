@@ -20,8 +20,7 @@ const actions = {
     })));
   },
   async select({ commit, state, dispatch }, id) {
-    console.log('select');
-    // if (id === state.track.id) return;
+    if (id === state.track.id) return;
 
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
     const { name } = _.find(state.items, { id });
