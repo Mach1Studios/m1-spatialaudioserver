@@ -43,12 +43,13 @@ const actions = {
 
       analyser.connect(context.destination);
 
-      gain.gain.value = 0.005;
+      gain.gain.value = 0.1;
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
     });
 
     merger.connect(context.destination);
+    // commit('loader', { enable: false }, { root: true });
   },
   updateSource({ commit }, source) {
     commit('setSource', source);

@@ -23,6 +23,7 @@
     </div>
     <Preloader
       :title="loader.title"
+      :description="loader.description"
       :isLoading="loader.isLoading"
     />
   </div>

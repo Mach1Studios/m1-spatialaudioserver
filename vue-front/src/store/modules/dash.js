@@ -11,9 +11,9 @@ const settings = {
     retryIntervals: {
       MPD: 50000,
     },
-    // retryAttempts: {
-    //   MPD: 3,
-    // },
+    retryAttempts: {
+      MPD: 5,
+    },
   },
 };
 
@@ -40,26 +40,20 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
   ctx.commit('setPlayer', player);
 
-  // _.each(dashjs.MediaPlayer.events, (event) => {
-  //   const callback = (...args) => {
-  //     console.log(event, args);
-  //     player.off(event, callback);
-  //   };
-  //   player.on(event, callback);
-  // });
+  _.each(dashjs.MediaPlayer.events, (event) => {
+    const callback = (...args) => {
+      console.log(event, args);
+      player.off(event, callback);
+    };
+    player.on(event, callback);
+  });
 
   player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
-    console.log('MANIFEST_LOADED', data);
     const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
     const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
-    console.log('numChannels', numChannels);
 
     ctx.dispatch('audio/updateNumberOfChannels', numChannels, { root: true });
-
-    console.log('data', data);
-
     const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
-    console.log('reolve', ctx.state.processing, !profiles, profiles);
     if (ctx.state.processing || !profiles) {
       ctx.commit('setStreamInformation', { processing: false });
       load(ctx).then((result) => resolve(result));
@@ -68,9 +62,8 @@ const load = (ctx) => new Promise((resolve, reject) => {
     ctx.dispatch('updateInfo', { profiles, minimumUpdatePeriod, suggestedPresentationDelay });
   });
 
-  // eslint-disable-next-line
   player.on(dashjs.MediaPlayer.events.ERROR, async (error) => {
-    if (error.error.code === 10) {
+    if (error.error.code === 10 || error.error.code === 31) {
       ctx.commit('setStreamInformation', { processing: true });
 
       load(ctx).then((result) => resolve(result));
@@ -84,17 +77,15 @@ const load = (ctx) => new Promise((resolve, reject) => {
 const actions = {
   async start(ctx, url) {
     ctx.commit('setStreamInformation', { url });
+    ctx.commit('loader', { enable: true }, { root: true });
 
     await load(ctx);
   },
   updateInfo(ctx, info) {
-    console.log('updateInfo', ctx.state.player);
     ctx.commit('setStreamInformation', info);
     if (_.isNull(ctx.state.player)) return;
-    console.log('updateInfo end');
 
     const activeStream = ctx.state.player.getActiveStream();
-    console.log('setStreamInformation', activeStream);
     if (activeStream) {
       const streamInfo = activeStream.getStreamInfo();
       const dashMetrics = ctx.state.player.getDashMetrics();
@@ -119,6 +110,7 @@ const actions = {
 
 const mutations = {
   setActiveStream(store, status) {
+    console.log('isActiveStream', status);
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {

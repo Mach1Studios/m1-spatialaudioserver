@@ -1,11 +1,12 @@
 <template lang="html">
-  <div v-show="isLoading">
+  <div class="preloader-screen" v-show="isLoading">
     <div class="preloader">
       <div class="ball ball-1"></div>
       <div class="ball ball-2"></div>
       <div class="ball ball-3"></div>
     </div>
-    <h4 class="load">{{title}}...</h4>
+    <h4 class="load-info-1">{{title}}...</h4>
+    <p class="load-info-2">{{description}}</p>
   </div>
 </template>
 <script>
@@ -13,22 +14,41 @@ export default {
   name: 'Preloader',
   props: {
     title: String,
+    description: String,
     isLoading: Boolean,
   },
 };
 </script>
 <style lang="scss" scoped>
-  .load {
+  .load-info-1 {
     color: #fff7eb;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     line-height: 1.125;
-    z-index: 0;
     text-transform: uppercase;
     position: absolute;
     top: 60%;
     left: 0;
     width: 100%;
+  }
+
+  .load-info-2 {
+    color: #fff7eb;
+    font-weight: 200;
+    text-transform: uppercase;
+    position: absolute;
+    top: 63%;
+    left: 0;
+    width: 100%;
+  }
+
+  .preloader-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
   }
 
   .preloader {
@@ -40,7 +60,7 @@ export default {
     left: 0;
 
     background: #1c1c1cb5;
-    filter: blur(10px) contrast(20);
+    filter: blur(10px) contrast(5);
   }
 
   .ball {

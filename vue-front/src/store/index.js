@@ -10,11 +10,12 @@ export default createStore({
 
   state: {
     loader: {
-      isLoading: false, title: 'Processing',
+      isLoading: false, title: 'Processing', description: 'Audiofile is loading',
     },
   },
   mutations: {
     loader(state, { enable = false }) {
+      // console.log('loader');
       // eslint-disable-next-line
       state.loader.isLoading = enable;
     },
