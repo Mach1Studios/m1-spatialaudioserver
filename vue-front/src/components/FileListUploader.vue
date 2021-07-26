@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="field medium-padding medium-margin">
-    <button class="round large border grey-light-3 transparent-border black-text">
+  <div class="field medium-margin medium-padding">
+    <button class="round large border grey-light-3 transparent-border black-text absolute center middle">
         <input type="file" name="resume" @change="upload">
         <div class="waveContainer">
           <div class="wave wave1"></div>

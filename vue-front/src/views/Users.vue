@@ -4,8 +4,6 @@
       <div class="col s12">
         <div class="card">
           <UsersList/>
-        </div>
-        <div class="col s1">
           <Modal title="Add user" icon="add" position="center">
             <UsersAddForm/>
           </Modal>

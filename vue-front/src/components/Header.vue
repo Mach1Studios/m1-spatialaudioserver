@@ -20,6 +20,7 @@ export default {};
     justify-content: space-around;
 
     padding: 0 30px;
+    z-index: 98;
   }
   .logo {
     height: 70%;

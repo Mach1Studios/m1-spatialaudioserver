@@ -8,7 +8,7 @@
         <div class="card transparent playlist">
           <Modal position="left" title="Playlist" icon="play_circle_outline">
             <AudioPlayerPlaylist/>
-            <AudioPlayer class="playlist-player padding absolute center bottom"/>
+            <AudioPlayer class="large-width padding absolute center bottom"/>
           </Modal>
         </div>
       </div>
@@ -114,8 +114,6 @@ export default {
 <style lang="scss" scoped>
   .playlist {
     box-shadow: none;
-  }
-  .playlist-player {
-    width: 100%;
+    padding-top: 0;
   }
 </style>

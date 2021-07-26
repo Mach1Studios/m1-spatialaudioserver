@@ -45,6 +45,9 @@ export default {
     ...mapActions('tracks', [
       'select',
     ]),
+    selectTrack(id) {
+      this.select(id);
+    },
   },
   created() {
     this.$store.dispatch('tracks/getAll');
