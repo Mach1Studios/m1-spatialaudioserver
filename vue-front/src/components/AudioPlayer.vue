@@ -9,7 +9,6 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-// import dashjs from 'dashjs';
 
 export default {
   name: 'AudioPlayer',
@@ -18,12 +17,14 @@ export default {
   }),
   methods: {
     ...mapActions('audio', ['updateSource']),
-    ...mapActions('dash', ['start']),
+    ...mapActions('dash', ['start', 'stop']),
   },
   mounted() {
     this.updateSource(this.$refs.player);
   },
-
+  beforeUnmount() {
+    this.stop();
+  },
 };
 </script>
 

@@ -78,6 +78,11 @@ const actions = {
 
     await load(ctx);
   },
+  async stop({ commit, state }) {
+    if (state.player && state.player.destroy) state.player.destroy();
+
+    commit('setPlayer', null);
+  },
   updateInfo(ctx, info) {
     ctx.commit('setStreamInformation', info);
     if (_.isNull(ctx.state.player)) return;
