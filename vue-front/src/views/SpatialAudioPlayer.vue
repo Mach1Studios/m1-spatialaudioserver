@@ -6,9 +6,9 @@
           <AudioPlayerRadioControls/>
         </div> -->
         <div class="card transparent playlist">
-          <Modal position="left" title="Playlist">
+          <Modal position="left" title="Playlist" icon="play_circle_outline">
             <AudioPlayerPlaylist/>
-            <AudioPlayer class="playlist-player padding absolute center bottom"/>
+            <AudioPlayer class="large-width padding absolute center bottom"/>
           </Modal>
         </div>
       </div>
@@ -58,6 +58,9 @@ export default {
     Modal,
     AudioPlayerPlaylist,
   },
+  data() {
+    return { isMount: false };
+  },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
@@ -65,6 +68,7 @@ export default {
   },
   mounted() {
     this.decoder = new Mach1DecoderProxy();
+    this.isMount = true;
 
     window.addEventListener('mousemove', (event) => {
       window.mouseX = (event.clientX) / window.innerWidth;
@@ -73,12 +77,16 @@ export default {
     this.loop();
     this.init();
   },
+  beforeUnmount() {
+    this.isMount = false;
+  },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
     changeVolume(channel, volume) {
       this.updateVolume({ channel, volume });
     },
     loop() {
+      if (!this.isMount) return;
       const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
       requestAnimationFrame(this.loop);
 
@@ -114,8 +122,6 @@ export default {
 <style lang="scss" scoped>
   .playlist {
     box-shadow: none;
-  }
-  .playlist-player {
-    width: 100%;
+    padding-top: 0;
   }
 </style>

@@ -12,7 +12,7 @@
           <i class="black-text">volume_up</i>
       </div>
       <div class="col min">
-        <input class="volume" step="1" min="0" max="100" value="50" type="range" @change="changeVolume(channel, $event.target.value)">
+        <input class="volume" step="0.01" min="0" max="1" value="0.1" type="range" @change="changeVolume(channel, $event.target.value)">
       </div>
     </div>
   </div>
@@ -42,6 +42,7 @@ export default {
     return {
       spinner: '',
       lineColors: _.map(['#7F842F', '#e1a69f', '#4B3C53', '#C04040', '#D36646', '#9CA2C2', '#8BB4C9', '#DBD534'], (value) => hexRgb(value, { format: 'css' })),
+      defaultVolume: 0.1,
     };
   },
   computed: {
@@ -65,7 +66,7 @@ export default {
     },
     async init() {
       if (this.isActiveStream && this.isActiveChannels) {
-        return this.createGainNodes();
+        return this.createGainNodes(this.defaultVolume);
       }
       await wait(2);
       return this.init();

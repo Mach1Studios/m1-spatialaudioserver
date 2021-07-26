@@ -1,11 +1,12 @@
 <template lang="html">
-  <div v-show="isLoading">
+  <div class="overlay active dark" v-show="isLoading">
     <div class="preloader">
       <div class="ball ball-1"></div>
       <div class="ball ball-2"></div>
       <div class="ball ball-3"></div>
     </div>
-    <h4 class="load">{{title}}...</h4>
+    <h4 class="load-title">{{title}}...</h4>
+    <p class="load-description">{{description}}</p>
   </div>
 </template>
 <script>
@@ -13,34 +14,57 @@ export default {
   name: 'Preloader',
   props: {
     title: String,
+    description: String,
     isLoading: Boolean,
   },
 };
 </script>
 <style lang="scss" scoped>
-  .load {
-    color: #fff7eb;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.125;
-    z-index: 0;
-    text-transform: uppercase;
-    position: absolute;
-    top: 60%;
-    left: 0;
-    width: 100%;
-  }
+  // .preloader-screen {
+  //   position: fixed;
+  //   width: 100vw;
+  //   height: 100vh;
+  //
+  //   top: 0;
+  //   left: 0;
+  //   z-index: 500;
+  // }
 
   .preloader {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
 
     top: 0;
     left: 0;
 
     background: #1c1c1cb5;
-    filter: blur(10px) contrast(20);
+    z-index: 500;
+    filter: blur(10px) contrast(5);
+  }
+
+  .load-title {
+    color: #fff7eb;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.125;
+    text-transform: uppercase;
+    position: absolute;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    z-index: 500;
+  }
+
+  .load-description {
+    color: #fff7eb;
+    font-weight: 200;
+    text-transform: uppercase;
+    position: absolute;
+    top: 63%;
+    left: 0;
+    width: 100%;
+    z-index: 500;
   }
 
   .ball {

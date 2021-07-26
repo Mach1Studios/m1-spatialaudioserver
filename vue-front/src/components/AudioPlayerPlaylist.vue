@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="large-width list">
     <div class="left-align">
-      <img src="../assets/noonpacific.jpg" class="circle extra">
+      <img src="../assets/photo.svg" class="circle extra">
     </div>
     <h4 class="left-align title">Playlist</h4>
     <table class="playlist-table border">
@@ -45,6 +45,9 @@ export default {
     ...mapActions('tracks', [
       'select',
     ]),
+    selectTrack(id) {
+      this.select(id);
+    },
   },
   created() {
     this.$store.dispatch('tracks/getAll');

@@ -13,6 +13,11 @@ const routes = [
     name: 'SpatialAudioPlayer',
     component: () => import('../views/SpatialAudioPlayer.vue'),
   },
+  {
+    path: '/users',
+    name: 'Users',
+    component: () => import('../views/Users.vue'),
+  },
 ];
 
 const router = createRouter({

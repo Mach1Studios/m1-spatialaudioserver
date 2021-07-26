@@ -9,31 +9,32 @@
   },
   "dependencies": {
     "@mdi/font": "^5.9.55",
-    "beercss": "^1.1.1",
-    "core-js": "^3.15.0",
+    "beercss": "^1.1.4",
+    "core-js": "^3.15.2",
     "dashjs": "^3.2.2",
     "hex-rgb": "^5.0.0",
     "lodash": "^4.17.21",
     "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
-    "vue": "^3.1.1",
+    "uuid": "^8.3.2",
+    "vue": "^3.1.5",
     "vue-plyr": "^7.0.0",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.14.5",
+    "@babel/eslint-parser": "^7.14.7",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.1.1",
+    "@vue/compiler-sfc": "^3.1.5",
     "@vue/eslint-config-airbnb": "^5.0.2",
-    "eslint": "^7.29.0",
+    "eslint": "^7.31.0",
     "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-vue": "^7.11.1",
+    "eslint-plugin-vue": "^7.14.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
-    "vue-eslint-parser": "^7.6.0"
+    "vue-eslint-parser": "^7.9.0"
   }
 }

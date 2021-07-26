@@ -3,6 +3,7 @@
     <img class="logo" src="../assets/logo-bg.svg">
     <router-link class="link" to="/">Home</router-link>
     <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
+    <router-link class="link" to="/users">Users</router-link>
     <div class=""></div>
     <button class="button">Log in</button>
   </div>
@@ -19,6 +20,7 @@ export default {};
     justify-content: space-around;
 
     padding: 0 30px;
+    z-index: 98;
   }
   .logo {
     height: 70%;

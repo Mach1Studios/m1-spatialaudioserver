@@ -8,7 +8,7 @@ import router from './router';
 import store from './store';
 
 const application = createApp(App);
-application.config.isCustomElement = (tag) => tag.startsWith('ion-');
+
 application
   .use(store)
   .use(router)

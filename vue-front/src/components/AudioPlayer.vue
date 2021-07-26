@@ -3,25 +3,28 @@
     <vue-plyr>
       <audio controls crossorigin playsinline ref="player"></audio>
     </vue-plyr>
+    <!-- <button type="button" name="button" @click="start(track)">Refresh {{track}}</button> -->
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-// import dashjs from 'dashjs';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'AudioPlayer',
-  computed: mapState('dash', ['info', 'url', 'settings']),
+  computed: mapState({
+    track: (state) => state.tracks.playing.id,
+  }),
   methods: {
-    ...mapActions('audio', ['updateNumberOfChannels']),
-    ...mapActions('dash', ['load', 'updateInfo']),
+    ...mapActions('audio', ['updateSource']),
+    ...mapActions('dash', ['start', 'stop']),
   },
   mounted() {
-    const source = this.$refs.player;
-    this.load({ source });
+    this.updateSource(this.$refs.player);
   },
-
+  beforeUnmount() {
+    this.stop();
+  },
 };
 </script>
 

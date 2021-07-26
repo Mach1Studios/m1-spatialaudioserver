@@ -21,21 +21,14 @@
         </div>
       </div>
     </div>
-    <Preloader
-      :title="loader.title"
-      :isLoading="loader.isLoading"
-    />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import AudioPlayer from '../components/AudioPlayer.vue';
 import AudioPlayerControls from '../components/AudioPlayerControls.vue';
 import FileList from '../components/FileList.vue';
 import FileListUploader from '../components/FileListUploader.vue';
-import Preloader from '../components/Preloader.vue';
 import StreamInfo from '../components/StreamInfo.vue';
 
 export default {
@@ -45,11 +38,7 @@ export default {
     FileList,
     FileListUploader,
     StreamInfo,
-    Preloader,
   },
-  computed: mapState({
-    loader: (state) => state.loader,
-  }),
 };
 </script>
 <style lang="scss" scoped>

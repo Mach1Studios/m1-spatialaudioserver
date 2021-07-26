@@ -6,6 +6,7 @@ const defaultState = () => ({
   gainNodes: [],
   gainNodesAnalyser: [],
   source: null,
+  view: null,
 });
 
 const actions = {
@@ -42,15 +43,18 @@ const actions = {
 
       analyser.connect(context.destination);
 
-      gain.gain.value = 0.005;
+      gain.gain.value = 0.1;
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
     });
 
     merger.connect(context.destination);
+    // commit('loader', { enable: false }, { root: true });
+  },
+  updateSource({ commit }, source) {
+    commit('setSource', source);
   },
   updateVolume({ commit, state }, { channel, volume }) {
-    // console.log(channel, volume, state.gainNodes, state.gainNodes[channel]);
     if (state.gainNodes && state.gainNodes[channel]) {
       commit('setGainVolume', { channel, volume });
     }
@@ -78,7 +82,7 @@ const mutations = {
     }
   },
   setGainVolume(state, { channel, volume }) {
-    state.gainNodes[channel].gain.value = Number(volume) / 10;
+    state.gainNodes[channel].gain.value = Number(volume);
   },
   setGainAnalyser(state, analyser) {
     if (analyser) {
@@ -91,6 +95,7 @@ const mutations = {
     state.channels = count;
   },
   setSource(state, source) {
+    state.view = source;
     state.source = state.context.createMediaElementSource(source);
   },
 };
