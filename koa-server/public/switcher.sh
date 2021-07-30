@@ -49,4 +49,6 @@ esac
 log "Number of channels: $channels"
 log "Type of channels layout: $layout"
 
-ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/$fileId" &>> "/share/sound/logs/ffmpeg.output"
+# ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/$fileId" &>> "/share/sound/logs/ffmpeg.output"
+# ffmpeg -y -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f mp4 "/share/sound/$fileId" &>> "/share/sound/logs/ffmpeg.output"
+ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" -f dash "/share/sound/content/$fileId.mpd" &>> "/share/sound/logs/ffmpeg.output"

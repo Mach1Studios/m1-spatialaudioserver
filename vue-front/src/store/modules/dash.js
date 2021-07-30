@@ -41,10 +41,11 @@ const load = (ctx) => new Promise((resolve, reject) => {
   ctx.commit('setPlayer', player);
 
   player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
-    const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
-    const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
+    // const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
+    console.log(data);
+    // const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
 
-    ctx.dispatch('audio/updateNumberOfChannels', numChannels, { root: true });
+    ctx.dispatch('audio/updateNumberOfChannels', 1, { root: true });
     const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
     if (ctx.state.processing || !profiles) {
       ctx.commit('setStreamInformation', { processing: false });
@@ -121,6 +122,7 @@ const mutations = {
     store.processing = _.isBoolean(processing) ? processing : false;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
+      // store.info.url = `${process.env.VUE_APP_STREAM_URL}/content/${payload.url}.mp4/manifest.mpd`;
       store.info.url = `${process.env.VUE_APP_STREAM_URL}/dash/${payload.url}.mpd`;
       store.processing = true;
     }
