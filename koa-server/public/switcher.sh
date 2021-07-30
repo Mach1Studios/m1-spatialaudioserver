@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
 
+# NOTE: that is stabing throtled fix; should be remove after compleate test
 pkill ffmpeg
 
 fileName="${1:-unknownfile}"
 fileId="${2:-$(cat /proc/sys/kernel/random/uuid)}"
 filePath="/share/sound/$fileName"
 
-# if logs not exist > create them
+isLoop="${3:-false}"
+
+# if logs or preload are not exist > create them
 if [[ ! -d "/share/sound/logs" && ! -L "/share/sound/logs" ]] ; then
     mkdir /share/sound/logs
+fi
+# used for dash chanks
+if [[ ! -d "/share/sound/preload" && ! -L "/share/sound/preload" ]] ; then
+    mkdir /share/sound/preload
 fi
 
 log () {
@@ -18,8 +25,7 @@ log () {
   echo "$log_prefix $1" &>> $log_file
 }
 
-log "transocder starting at $(date) for file=$fileName; id=$fileId"
-rm -rf /opt/data/dash/$fileId.mpd && touch /opt/data/dash/$fileId.mpd
+log "transocder starting at $(date) for file=$fileName; id=$fileId; live=$isLoop"
 
 # trying to find out how many channels are in a selected file
 channels=`ffprobe -i $filePath -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0`
@@ -51,4 +57,20 @@ log "Type of channels layout: $layout"
 
 # ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f flv "rtmp://127.0.0.1:1935/live/$fileId" &>> "/share/sound/logs/ffmpeg.output"
 # ffmpeg -y -i $filePath -c:a aac -af "channelmap=channel_layout=octagonal" -b:a 2048k -f mp4 "/share/sound/$fileId" &>> "/share/sound/logs/ffmpeg.output"
-ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" -f dash "/share/sound/content/$fileId.mpd" &>> "/share/sound/logs/ffmpeg.output"
+# ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" -f dash "/share/sound/content/$fileId.mpd" &>> "/share/sound/logs/ffmpeg.output"
+
+if [[ "$isLoop" == true ]]; then
+  log "starting live stream rtsp"
+  rm -rf /opt/data/dash/$fileId.mpd && touch /opt/data/dash/$fileId.mpd
+
+  ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=$channels" -b:a 2048k \
+    -f flv "rtmp://127.0.0.1:1935/live/$fileId" &>> "/share/sound/logs/ffmpeg.live.output"
+else
+  log "creating static mpeg-dash manifest for the sound file"
+  if [[ ! -d "/share/sound/preload/$fileId" && ! -L "/share/sound/preload/$fileId" ]] ; then
+      mkdir /share/sound/preload/$fileId
+  fi
+
+  ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" \
+    -f dash "/share/sound/preload/$fileId/manifest.mpd" &>> "/share/sound/logs/ffmpeg.output"
+fi
