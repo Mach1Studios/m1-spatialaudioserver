@@ -9,7 +9,7 @@ const settings = {
     // stableBufferTime: 20,
     // bufferTimeAtTopQualityLongForm: 20,
     retryIntervals: {
-      MPD: 50000,
+      MPD: 10 * 1000, // NOTE: guys from earshot set this value to 50sec, cos sometimes it make nginx crazy, we tested on 10sec now
     },
     retryAttempts: {
       MPD: 5,
@@ -40,18 +40,17 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
   ctx.commit('setPlayer', player);
 
-  _.each(dashjs.MediaPlayer.events, (event) => {
-    const callback = (...args) => {
-      console.log(event, args);
-      player.off(event, callback);
-    };
-    player.on(event, callback);
-  });
+  // _.each(dashjs.MediaPlayer.events, (event) => {
+  //   const callback = (...args) => {
+  //     console.log(event, args);
+  //     player.off(event, callback);
+  //   };
+  //   player.on(event, callback);
+  // });
 
   player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
     const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
     const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
-    console.log(data);
 
     ctx.dispatch('audio/updateNumberOfChannels', numChannels, { root: true });
     const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
