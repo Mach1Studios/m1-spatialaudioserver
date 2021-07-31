@@ -30,13 +30,14 @@
 </template>
 
 <script>
+/* eslint-disabl e */
 // import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 import {
   // Mach1SoundPlayer,
   Mach1DecoderProxy,
-} from 'mach1spatial-decode';
+} from 'mach1spatial-decode-debug';
 
 // import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
@@ -48,6 +49,11 @@ import FileList from '../components/FileList.vue';
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
 });
+
+const mousemoveListener = (event) => {
+  window.mouseX = (event.clientX) / window.innerWidth;
+  window.mouseY = (event.clientY) / window.innerHeight;
+};
 
 export default {
   components: {
@@ -67,18 +73,19 @@ export default {
     ...mapState('dash', ['player', 'isActiveStream']),
   },
   mounted() {
-    this.decoder = new Mach1DecoderProxy();
+    window.addEventListener('mousemove', mousemoveListener, false);
+    this.decoder = new Mach1DecoderProxy(null, { debug: false });
     this.isMount = true;
 
-    window.addEventListener('mousemove', (event) => {
-      window.mouseX = (event.clientX) / window.innerWidth;
-      window.mouseY = (event.clientY) / window.innerHeight;
-    }, false);
     this.loop();
     this.init();
   },
   beforeUnmount() {
+    window.removeEventListener('mousemove', mousemoveListener, false);
+
+    console.log('unmount');
     this.isMount = false;
+    this.decoder = null;
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),

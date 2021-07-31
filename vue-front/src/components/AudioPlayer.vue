@@ -1,8 +1,6 @@
 <template>
   <div class="player">
-    <vue-plyr>
-      <audio controls crossorigin playsinline ref="player"></audio>
-    </vue-plyr>
+    <audio controls crossorigin playsinline ref="player"></audio>
     <!-- <button type="button" name="button" @click="start(track)">Refresh {{track}}</button> -->
   </div>
 </template>
