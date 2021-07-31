@@ -41,7 +41,7 @@ export default {
 }
 
 #app-router {
-  min-height: 90vh;
+  max-height: 90vh;
 }
 .button, button {
   box-shadow: none !important;

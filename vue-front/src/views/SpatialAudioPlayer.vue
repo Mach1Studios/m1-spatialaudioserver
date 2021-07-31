@@ -7,7 +7,7 @@
         </div> -->
         <div class="card transparent playlist">
           <Modal position="left" title="Playlist" icon="play_circle_outline">
-            <AudioPlayerPlaylist/>
+            <FileList/>
             <AudioPlayer class="large-width padding absolute center bottom"/>
           </Modal>
         </div>
@@ -43,7 +43,7 @@ import AudioPlayer from '../components/AudioPlayer.vue';
 // import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
-import AudioPlayerPlaylist from '../components/AudioPlayerPlaylist.vue';
+import FileList from '../components/FileList.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -56,7 +56,7 @@ export default {
     // AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
-    AudioPlayerPlaylist,
+    FileList,
   },
   data() {
     return { isMount: false };

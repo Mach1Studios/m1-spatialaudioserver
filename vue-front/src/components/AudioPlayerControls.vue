@@ -2,7 +2,7 @@
   <div class="preview" v-show="isActiveStream === true">
     <h4 class="title">AUDIO PREVIEW</h4>
     <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
-      <div class="col min">
+      <div class="col">
           <div style="white-space:nowrap">Channel {{channel + 1}}</div>
       </div>
       <div class="col">

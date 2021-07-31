@@ -18,8 +18,8 @@
         <div class="overlay"></div>
       </div>
     </div>
-    <div id="touchstats" style="margin:0;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50vw;height:auto;">
-      <div class="background"><img src="https://demo.mach1.tech/img/touch-compass.svg" style="width:50vw;height:auto;max-height:50vh" /></div>
+    <div id="touchstats">
+      <div class="background"><img src="https://demo.mach1.tech/img/touch-compass.svg"/></div>
       <div class="cardBottom">
         <div id="touchstats:card" class="card">
           <div class="txt">FRONT</div>
@@ -357,13 +357,9 @@ export default {
   // @import "compass/css3"
 
   .background img {
-    width: 1200px;
-    min-height: 100%;
-    min-width: 100%;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    width:50vw;
+    height: auto;
+    max-height: 50vh;
 
     transform: translate(-50%, -50%);
     opacity: 0.6;
@@ -373,6 +369,7 @@ export default {
     -ms-filter: grayscale(30%) blur(15px);
     -o-filter: grayscale(30%) blur(15px);
     filter: grayscale(30%) blur(15px);
+    z-index: -1;
   }
 
   .cardBottom {
@@ -418,10 +415,10 @@ export default {
     text-align: center;
   }
 
-  .cardBottom .card img {
-    width: 100%;
-    height: 100%;
-
-    z-index: -1;
-  }
+  // .cardBottom .card img {
+  //   width: 100%;
+  //   height: 100%;
+  //
+  //   z-index: -1;
+  // }
 </style>

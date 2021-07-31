@@ -52,15 +52,4 @@ export default {
     padding-top: 16px;
     padding-right: 0;
   }
-  // .background {
-  //   position: fixed;
-  //   width: 100vw;
-  //   height: 100vh;
-  //
-  //   top: 0;
-  //   left: 0;
-  //
-  //   background: #1c1c1cb5;
-  //   z-index: 99;
-  // }
 </style>
