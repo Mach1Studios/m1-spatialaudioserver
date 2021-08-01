@@ -49,6 +49,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
   // });
 
   player.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, ({ data }) => {
+    console.log(data);
     const audioAdaptationSet = data.Period.AdaptationSet_asArray.find((elem) => elem.contentType === 'audio');
     const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
 

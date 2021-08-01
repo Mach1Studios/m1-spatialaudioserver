@@ -12,9 +12,11 @@ const defaultState = () => ({
   items: [],
 });
 
+const api = new FetchHelper();
+
 const actions = {
   async getAll({ commit }) {
-    const tracks = await new FetchHelper().send('/tracks');
+    const tracks = await api.get('/tracks');
     commit('setTracks', _.map(tracks, ({ id, name }, index) => ({
       number: index + 1, id, name, duration: 'repeat',
     })));
@@ -24,13 +26,17 @@ const actions = {
 
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
     const { name } = _.find(state.items, { id });
-    await new FetchHelper().send(`/tracks/${id}`);
+    await api.get(`/tracks/${id}`);
 
     commit('setPlay', { id, name });
     dispatch('dash/start', id, { root: true });
   },
   async upload({ dispatch }, data) {
-    await new FetchHelper().send('/upload', data);
+    await api.post('/upload', data);
+    await dispatch('getAll');
+  },
+  async remove({ dispatch }, id) {
+    await api.send(`/tracks/${id}`, id);
     await dispatch('getAll');
   },
 };
