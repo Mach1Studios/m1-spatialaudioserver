@@ -83,7 +83,6 @@ export default {
   beforeUnmount() {
     window.removeEventListener('mousemove', mousemoveListener, false);
 
-    console.log('unmount');
     this.isMount = false;
     this.decoder = null;
   },
@@ -94,6 +93,7 @@ export default {
     },
     loop() {
       if (!this.isMount) return;
+
       const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
       requestAnimationFrame(this.loop);
 
