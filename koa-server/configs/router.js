@@ -24,6 +24,9 @@ _.each(resources, (methods, resource) => {
         case 'list':
           router.get(`/${resource}`, callback);
           break;
+        case 'del':
+          router.del(`/${resource}/:id`, callback);
+          break;
         default:
           router[method](`/${resource}`, callback);
           break;

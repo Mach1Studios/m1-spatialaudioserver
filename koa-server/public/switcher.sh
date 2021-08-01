@@ -68,7 +68,7 @@ if [[ "$isLoop" == true ]]; then
 else
   log "creating static mpeg-dash manifest for the sound file"
   if [[ ! -d "/share/sound/preload/$fileId" && ! -L "/share/sound/preload/$fileId" ]] ; then
-      mkdir /share/sound/preload/$fileId
+      mkdir -p -m 777 /share/sound/preload/$fileId
   fi
 
   ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" \
