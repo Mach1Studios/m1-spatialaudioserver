@@ -1,24 +1,24 @@
 <template lang="html">
-  <div class="preview" v-show="isActiveStream === true">
-    <h4 class="title">AUDIO PREVIEW</h4>
-    <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
-      <div class="col">
-          <div style="white-space:nowrap">Channel {{channel + 1}}</div>
-      </div>
-      <div class="col">
+  <div>
+    <div class="preview" v-show="isActiveStream === true">
+      <h4 class="title large-text">AUDIO PREVIEW</h4>
+      <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
+        <div class="col">
+          <p style="white-space:nowrap small-text">Channel {{channel + 1}}</p>
+        </div>
+        <div class="col">
           <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
-      </div>
-      <div class="col min">
-          <i class="black-text">volume_up</i>
-      </div>
-      <div class="col min">
-        <input class="volume" step="0.01" min="0" max="1" value="0.1" type="range" @change="changeVolume(channel, $event.target.value)">
+        </div>
+        <div class="col min">
+          <i class="small black-text">volume_up</i>
+        </div>
+        <div class="col min">
+          <input class="volume" step="0.01" min="0" max="1" value="0.1" type="range" @change="changeVolume(channel, $event.target.value)">
+        </div>
       </div>
     </div>
-  </div>
-  <div class="channel-spinner" v-show="isActiveStream === false">
-    <div class="spinner">
-      Initialization{{spinner}}
+    <div class="channel-spinner absolute middle" v-show="isActiveStream === false">
+      <p class="small-text bold">Initialization{{spinner}}</p>
     </div>
   </div>
 </template>
@@ -82,19 +82,18 @@ export default {
   .preview .title {
     font-style: normal;
     font-weight: bold;
-    font-size: 1rem;
 
     line-height: 1.17;
     letter-spacing: -0.5px;
   }
 
-  .spinner {
+  .channel-spinner {
     float: left;
     left: 45%;
   }
 
   div>.volume {
     filter:  grayscale(100%);
-    height: 4px;
+    height: 1px;
   }
 </style>

@@ -6,7 +6,7 @@
       <div class="ball ball-3"></div>
     </div>
     <h4 class="load-title">{{title}}...</h4>
-    <p class="load-description">{{description}}</p>
+    <p class="load-description small-text">{{description}}</p>
   </div>
 </template>
 <script>
@@ -45,7 +45,7 @@ export default {
 
   .load-title {
     color: #fff7eb;
-    font-size: 1.1rem;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1.125;
     text-transform: uppercase;

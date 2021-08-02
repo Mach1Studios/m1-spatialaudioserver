@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <audio controls crossorigin playsinline ref="player"></audio>
+    <audio controls="controls" ref="player"></audio>
     <!-- <button type="button" name="button" @click="start(track)">Refresh {{track}}</button> -->
   </div>
 </template>
@@ -31,12 +31,7 @@ export default {
     display: none;
   }
 
-  .player {
-    --plyr-color-main: #7a7a7a;
-    --plyr-audio-controls-background: #ffffff;
-    --plyr-audio-control-color: #1c1c1c;
-    --plyr-audio-control-color-hover: #1c1c1c;
-    --plyr-audio-control-background-hover: #dbdbdb;
-    --plyr-progress-loading-background: #eeef5d;
+  audio {
+    width: 100%;
   }
 </style>

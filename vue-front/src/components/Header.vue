@@ -24,7 +24,7 @@ export default {};
       padding: 0 20px;
       margin: 5px;
       font-weight: 500;
-      font-size: 1em;
+      font-size: 16px;
     }
     a {
       color: #626161;

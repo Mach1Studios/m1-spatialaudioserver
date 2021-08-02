@@ -5,28 +5,28 @@
       <tbody>
         <tr v-for="item in tracks" :key="item" @click="select(item.id)">
           <td>
-            <p>{{item.number}}</p>
+            <p class="medium-text">{{item.number}}</p>
           </td>
           <td class="small-width">
-            <p>{{item.name}}</p>
+            <p class="medium-text">{{item.name}}</p>
           </td>
           <td>
             <nav class="right-align">
               <button class="border round transparent-border black-text">
-                <i class="small material-icons-outlined">info</i>
+                <i class="material-icons-outlined">info</i>
               </button>
               <button class="border round transparent-border black-text">
-                <i class="small">mood</i>
+                <i>mood</i>
               </button>
                 <!-- <i class="small grey-dark-4-text">mood_bad</i> -->
               <button class="border round transparent-border black-text">
-                <i class="small">repeat</i>
+                <i>repeat</i>
               </button>
               <button class="border round transparent-border black-text">
-                <i class="small">play_circle</i>
+                <i>play_circle</i>
               </button>
               <button v-if="admin" class="border round transparent-border black-text">
-                <i class="small">delete</i>
+                <i>delete</i>
               </button>
             </nav>
           </td>
@@ -83,9 +83,16 @@ export default {
   }
 
   .list-table td:last-child {
-    padding-right: 10px;
+    padding-right: 13px;
   }
-  .list-table td:last-child:hover {
-    padding-right: 15px;
+  .list-table button {
+    i {
+      font-size: 16px;
+    }
+  }
+  .list-table button:hover {
+    i {
+      font-size: 20px;
+    }
   }
 </style>

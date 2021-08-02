@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="medium-padding">
     <div class="medium-margin">
-      <button class="round large border grey-light-3 transparent-border black-text open absolute middle center" @click="open">
+      <button class="round medium border grey-light-3 transparent-border black-text absolute middle center" @click="open">
         <i v-show="icon" class="black-text">{{icon}}</i>
-        <span>{{title}}</span>
+        <span class="small-text">{{title}}</span>
       </button>
     </div>
     <div v-show="active" class="overlay active dark" @click="close"></div>
