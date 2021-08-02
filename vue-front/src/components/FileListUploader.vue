@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="field medium-margin medium-padding">
-    <button class="round large border grey-light-3 transparent-border black-text absolute center middle">
+    <button class="round medium border grey-light-3 transparent-border black-text absolute center middle">
         <input type="file" name="resume" @change="upload">
         <div class="waveContainer">
           <div class="wave wave1"></div>
@@ -9,7 +9,7 @@
           <div class="wave wave4"></div>
           <div class="wave wave5"></div>
         </div>
-        <span><p>CHOOSE A FILE...</p></span>
+        <span><p class="medium-text">CHOOSE A FILE...</p></span>
     </button>
   </div>
 </template>
@@ -50,7 +50,6 @@ export default {
 
     font-style: normal;
     font-weight: bold;
-    font-size: 0.9rem;
 
     line-height: 1.17;
     letter-spacing: -0.3px;

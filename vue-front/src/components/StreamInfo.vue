@@ -1,62 +1,62 @@
 <template lang="html">
   <div class="dash">
-    <h4 class="title">DASH Stream Info</h4>
+    <h4 class="title large-text upper">DASH Stream Info</h4>
     <table class="table border large center-align">
       <tbody>
         <tr>
           <td>
-            <p>Stream:</p>
+            <p class="medium-text bold">Stream:</p>
           </td>
           <td>
-            <p>{{info.url}}</p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Number of audio channels</p>
-          </td>
-          <td>
-            <p>{{channels}}</p>
+            <p class="medium-text">{{info.url}}</p>
           </td>
         </tr>
         <tr>
           <td>
-            <p>Audio Bitrate</p>
+            <p class="medium-text bold">Number of audio channels</p>
           </td>
           <td>
-            <p>{{info.audioBitRate}} Kbps</p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Buffer Level</p>
-          </td>
-          <td>
-            <p>{{info.audioBufferLevel}} secs</p>
+            <p class="medium-text">{{channels}}</p>
           </td>
         </tr>
         <tr>
           <td>
-            <p>Update Period</p>
+            <p class="medium-text bold">Audio Bitrate</p>
           </td>
           <td>
-            <p>{{info.minimumUpdatePeriod}} sec</p>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p>Suggestion Delay</p>
-          </td>
-          <td>
-            <p>{{info.suggestedPresentationDelay}} sec</p>
+            <p class="medium-text">{{info.audioBitRate}} Kbps</p>
           </td>
         </tr>
         <tr>
           <td>
-            <p>Profiles</p>
+            <p class="medium-text bold">Buffer Level</p>
           </td>
           <td>
-            <p>{{info.profiles}}</p>
+            <p class="medium-text">{{info.audioBufferLevel}} secs</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="medium-text bold">Update Period</p>
+          </td>
+          <td>
+            <p class="medium-text">{{info.minimumUpdatePeriod}} sec</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="medium-text bold">Suggestion Delay</p>
+          </td>
+          <td>
+            <p class="medium-text">{{info.suggestedPresentationDelay}} sec</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="medium-text bold">Profiles</p>
+          </td>
+          <td>
+            <p class="medium-text">{{info.profiles}}</p>
           </td>
         </tr>
       </tbody>
@@ -79,7 +79,6 @@ export default {
   .dash .title {
     font-style: normal;
     font-weight: bold;
-    font-size: 1rem;
 
     line-height: 1.17;
     letter-spacing: -0.5px;

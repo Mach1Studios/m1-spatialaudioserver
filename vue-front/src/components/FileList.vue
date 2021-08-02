@@ -1,38 +1,34 @@
 <template lang="html">
-  <div class="">
-    <table class="table border large">
-      <thead>
-        <tr>
-          <th><abbr title="#">#</abbr></th>
-          <th><abbr title="NAME">NAME</abbr></th>
-          <th><abbr title="DURATION">DURATION</abbr></th>
-          <th><abbr title="STATUS">STATUS</abbr></th>
-          <th><abbr title="INFO">INFO</abbr></th>
-          <th v-if="admin"><abbr title="REMOVE"></abbr></th>
-        </tr>
-      </thead>
+  <div class="large-width">
+    <div v-if="admin" class="list"></div>
+    <table class="list-table border">
       <tbody>
         <tr v-for="item in tracks" :key="item" @click="select(item.id)">
           <td>
-            <p>{{item.number}}</p>
+            <p class="medium-text">{{item.number}}</p>
+          </td>
+          <td class="small-width">
+            <p class="medium-text">{{item.name}}</p>
           </td>
           <td>
-            <p class="left-align">{{item.name}}</p>
-          </td>
-          <td>
-            <p>{{item.duration}}</p>
-          </td>
-          <td>
-            <i class="grey-dark-4-text">mood</i>
-            <!-- <i class="grey-dark-4-text">mood_bad</i> -->
-          </td>
-          <td>
-            <i class="grey-dark-4-text material-icons-outlined">info</i>
-          </td>
-          <td v-if="admin">
-            <button class="border round transparent-border black-text">
-              <i>delete</i>
-            </button>
+            <nav class="right-align">
+              <button class="border round transparent-border black-text">
+                <i class="material-icons-outlined">info</i>
+              </button>
+              <button class="border round transparent-border black-text">
+                <i>mood</i>
+              </button>
+                <!-- <i class="small grey-dark-4-text">mood_bad</i> -->
+              <button class="border round transparent-border black-text">
+                <i>repeat</i>
+              </button>
+              <button class="border round transparent-border black-text">
+                <i>play_circle</i>
+              </button>
+              <button v-if="admin" class="border round transparent-border black-text">
+                <i>delete</i>
+              </button>
+            </nav>
           </td>
         </tr>
       </tbody>
@@ -45,7 +41,7 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'FileList',
-  props: { admin: Boolean },
+  props: { admin: Boolean, user: Boolean },
   // data() {
   //   return { admin: false };
   // },
@@ -64,27 +60,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .table abbr {
-    width: 100%;
-
-    font-style: normal;
-    font-weight: bold;
-    font-size: 1rem;
-
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-  }
-
-  .table td {
+  .list-table td {
     vertical-align: middle;
     cursor: pointer;
   }
 
-  .table th {
+  .list-table th {
     vertical-align: middle;
   }
 
-  .table {
+  .list {
+    margin-top: -32px;
+  }
+
+  .list-table {
     border-radius: 0.3rem;
+    margin-top: 32px;
+  }
+
+  .list-table tr:hover {
+    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+  }
+
+  .list-table td:last-child {
+    padding-right: 13px;
+  }
+  .list-table button {
+    i {
+      font-size: 16px;
+    }
+  }
+  .list-table button:hover {
+    i {
+      font-size: 20px;
+    }
   }
 </style>

@@ -7,7 +7,7 @@
         </div> -->
         <div class="card transparent playlist">
           <Modal position="left" title="Playlist" icon="play_circle_outline">
-            <AudioPlayerPlaylist/>
+            <FileList/>
             <AudioPlayer class="large-width padding absolute center bottom"/>
           </Modal>
         </div>
@@ -30,24 +30,30 @@
 </template>
 
 <script>
+/* eslint-disabl e */
 // import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 import {
   // Mach1SoundPlayer,
   Mach1DecoderProxy,
-} from 'mach1spatial-decode';
+} from 'mach1spatial-decode-debug';
 
 // import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
 // import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
-import AudioPlayerPlaylist from '../components/AudioPlayerPlaylist.vue';
+import FileList from '../components/FileList.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
 });
+
+const mousemoveListener = (event) => {
+  window.mouseX = (event.clientX) / window.innerWidth;
+  window.mouseY = (event.clientY) / window.innerHeight;
+};
 
 export default {
   components: {
@@ -56,7 +62,7 @@ export default {
     // AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
-    AudioPlayerPlaylist,
+    FileList,
   },
   data() {
     return { isMount: false };
@@ -67,18 +73,18 @@ export default {
     ...mapState('dash', ['player', 'isActiveStream']),
   },
   mounted() {
-    this.decoder = new Mach1DecoderProxy();
+    window.addEventListener('mousemove', mousemoveListener, false);
+    this.decoder = new Mach1DecoderProxy(null, { debug: false });
     this.isMount = true;
 
-    window.addEventListener('mousemove', (event) => {
-      window.mouseX = (event.clientX) / window.innerWidth;
-      window.mouseY = (event.clientY) / window.innerHeight;
-    }, false);
     this.loop();
     this.init();
   },
   beforeUnmount() {
+    window.removeEventListener('mousemove', mousemoveListener, false);
+
     this.isMount = false;
+    this.decoder = null;
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
@@ -87,6 +93,7 @@ export default {
     },
     loop() {
       if (!this.isMount) return;
+
       const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
       requestAnimationFrame(this.loop);
 

@@ -1,6 +1,6 @@
 <template>
   <div class="sliders">
-    <h4 class="title">filterSpeed</h4>
+    <h4 class="title medium-text">filterSpeed</h4>
     <div class="field">
       <input class="slider" type="range" min="0" max="100" value="0">
     </div>
@@ -23,7 +23,6 @@ export default {
   .sliders .title {
     font-style: normal;
     font-weight: bold;
-    font-size: 1rem;
 
     line-height: 1.17;
     letter-spacing: -0.5px;

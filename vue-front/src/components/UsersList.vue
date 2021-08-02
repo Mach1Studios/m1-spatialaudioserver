@@ -1,5 +1,5 @@
 <template lang="html">
-  <table class="table border large center-align">
+  <table class="table user-list-table border large center-align">
     <thead>
       <tr>
         <th><abbr title="#">#</abbr></th>
@@ -14,19 +14,19 @@
     <tbody>
       <tr v-for="item in users" :key="item">
         <td>
-          <p>{{item.id}}</p>
+          <p class="medium-text">{{item.id}}</p>
         </td>
         <td>
-          <p>{{item.nickname}}</p>
+          <p class="medium-text">{{item.nickname}}</p>
         </td>
         <td>
-          <p>{{item.email}}</p>
+          <p class="medium-text">{{item.email}}</p>
         </td>
         <td>
-          <p>{{item.role}}</p>
+          <p class="medium-text">{{item.role}}</p>
         </td>
         <td>
-          <p>{{item.lastSeen}}</p>
+          <p class="medium-text">{{item.lastSeen}}</p>
         </td>
         <td>
           <button class="border round transparent-border black-text">
@@ -67,7 +67,6 @@ export default {
 
     font-style: normal;
     font-weight: bold;
-    font-size: 1rem;
 
     line-height: 1.17;
     letter-spacing: -0.5px;
@@ -84,5 +83,15 @@ export default {
 
   .table {
     border-radius: 0.3rem;
+  }
+  .user-list-table button {
+    i {
+      font-size: 16px;
+    }
+  }
+  .user-list-table button:hover {
+    i {
+      font-size: 20px;
+    }
   }
 </style>

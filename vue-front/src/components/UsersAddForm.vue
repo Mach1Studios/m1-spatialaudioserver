@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="large-width list">
-    <h4 class="title center-align">User Form</h4>
+    <h4 class="title center-align large-text">User Form</h4>
     <div class="field label border">
       <input type="text" v-model="user.nickname" @focus="test()">
       <label :class="{ active: isActiveNickname }">Nickname</label>
@@ -9,14 +9,18 @@
       <input type="text" v-model="user.email">
       <label class="active">E-mail</label>
     </div>
-    <div class="field label border">
-      <input type="text" v-model="user.role">
-      <label>Role</label>
-    </div>
+    <div class="field label sufix">
+      <select v-model="user.role">
+        <option>user</option>
+        <option>admin</option>
+      </select>
+      <label class="active">Role</label>
+      <i>arrow_drop_down</i>
+</div>
     <div>
-      <button class="round large border grey-light-3 transparent-border black-text open no-margin no-padding" @click="add()">
+      <button class="round large border grey-light-3 transparent-border black-text" @click="add()">
         <i class="black-text">add</i>
-        <span>Add User</span>
+        <span class="small-text">Add User</span>
       </button>
     </div>
   </div>
@@ -55,16 +59,9 @@ export default {
   .list .title {
     font-style: normal;
     font-weight: bold;
-    font-size: 1rem;
 
     line-height: 1.17;
     letter-spacing: -0.5px;
     text-transform: uppercase;
-  }
-  .open {
-    width: 100%;
-    i {
-      margin-right: 0;
-    }
   }
 </style>

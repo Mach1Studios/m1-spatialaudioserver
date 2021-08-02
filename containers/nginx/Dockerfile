@@ -5,6 +5,7 @@ ARG LUA_NGINX_MODULE=0.10.19
 ARG NGINX_DEV=0.3.1
 ARG NGINX=1.20.0
 ARG RTMP_MODULE=1.2.1
+ARG VOD_MODULE=1.28
 
 # NGINX build with RTMP module from source code
 FROM ubuntu:focal as nginx-build
@@ -15,6 +16,7 @@ ARG LUA_RESTY_CACHE=0.10
 ARG NGINX_DEV=0.3.1
 ARG NGINX=1.20.0
 ARG RTMP_MODULE=1.2.1
+ARG VOD_MODULE=1.28
 
 # Install build dependencies for Ubuntu
 RUN apt-get update && apt-get install -y \
@@ -36,6 +38,10 @@ RUN cd /tmp && \
 RUN cd /tmp && \
   wget https://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE}.tar.gz && \
   tar zxf v${RTMP_MODULE}.tar.gz && rm v${RTMP_MODULE}.tar.gz
+
+RUN cd /tmp && \
+  wget https://github.com/kaltura/nginx-vod-module/archive/${VOD_MODULE}.tar.gz && \
+  tar zxf ${VOD_MODULE}.tar.gz && rm ${VOD_MODULE}.tar.gz
 
 # Download and extract LuaJIT (all staff for it)
 RUN cd /tmp && \
@@ -70,6 +76,7 @@ RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/luajit/lib LUAJIT_INC=/usr/l
   ./configure \
     --prefix=/usr/local/nginx \
     --add-module=/tmp/nginx-rtmp-module-${RTMP_MODULE} \
+    --add-module=/tmp/nginx-vod-module-${VOD_MODULE} \
     --add-module=/tmp/ngx_devel_kit-${NGINX_DEV} \
     --add-module=/tmp/lua-nginx-module-${LUA_NGINX_MODULE} \
     --conf-path=/etc/nginx/nginx.conf \
