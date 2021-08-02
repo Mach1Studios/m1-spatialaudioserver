@@ -37,7 +37,7 @@ import { mapGetters, mapState, mapActions } from 'vuex';
 import {
   // Mach1SoundPlayer,
   Mach1DecoderProxy,
-} from 'mach1spatial-decode-debug';
+} from 'mach1spatial-decode';
 
 // import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';

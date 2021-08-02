@@ -14,7 +14,7 @@
     "dashjs": "^3.2.2",
     "hex-rgb": "^5.0.0",
     "lodash": "^4.17.21",
-    "mach1spatial-decode-debug": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
+    "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
     "uuid": "^8.3.2",
     "vue": "^3.1.5",
     "vue-router": "^4.0.10",

@@ -10,6 +10,8 @@ else
 endif
 
 clean:
+	cd vue-front && rm -rf ./node_modules
+	cd koa-server && rm -rf ./node_modules
 clear: clean
 
 setup:
@@ -30,6 +32,7 @@ stage: build
 	# NOTE: relies on `mach1` keys in `~/.aws/credentials`
 
 local: build
+	# runs run commands in parallel
 	make -j run_redis_docker run_koa_server run_docker
 
 run_koa_server: 
