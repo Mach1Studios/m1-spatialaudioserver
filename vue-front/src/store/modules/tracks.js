@@ -46,15 +46,25 @@ const actions = {
     // NOTE: flush local state after upload event; should be removed in the feature when we start to have a lot of sound files (more than 50 or maybe 100)
     await dispatch('getAll');
   },
-  async remove({ dispatch }, id) {
-    await api.del(id);
-    await dispatch('getAll');
+  async remove({ commit, dispatch }, id) {
+    try {
+      await Promise.all([
+        api.del(id), commit('removeTrack', id),
+      ]);
+      dispatch('toast', { event: { message: 'File deleted' } }, { root: true });
+    } catch (e) {
+      // NOTE: try to sync files from api
+      await dispatch('getAll');
+    }
   },
 };
 
 const mutations = {
   setTracks(store, tracks) {
     store.items = tracks;
+  },
+  removeTrack(store, id) {
+    store.items = _.filter(store.items, (item) => item.id !== id);
   },
   setPlay(store, track) {
     store.track = { ...track, playing: true };

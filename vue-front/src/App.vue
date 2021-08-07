@@ -1,6 +1,7 @@
 <template>
   <Header id="app-header"/>
   <router-view id="app-router"/>
+  <Notifications/>
   <Preloader
     :title="loader.title"
     :description="loader.description"
@@ -12,11 +13,12 @@
 import { mapState } from 'vuex';
 
 import Header from './components/Header.vue';
+import Notifications from './components/Notifications.vue';
 import Preloader from './components/Preloader.vue';
 
 export default {
   components: {
-    Header, Preloader,
+    Header, Preloader, Notifications,
   },
   computed: mapState({
     loader: (state) => state.loader,

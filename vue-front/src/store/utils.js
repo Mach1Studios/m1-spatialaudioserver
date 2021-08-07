@@ -42,20 +42,20 @@ export default class FetchHelper {
     return new URL(this.path, this.#defaultUrl);
   }
 
-  async get(path) {
-    return this.#request({ path });
+  async get(itemId) {
+    return this.#request({ itemId });
   }
 
-  async post(body, { path } = {}) {
-    return this.#request({ path, body, method: 'POST' });
+  async post(body, { itemId } = {}) {
+    return this.#request({ itemId, body, method: 'POST' });
   }
 
-  async del(path) {
-    return this.#request({ path, method: 'DELETE' });
+  async del(itemId) {
+    return this.#request({ itemId, method: 'DELETE' });
   }
 
-  async #request({ path, method, body }) {
-    this.path = path;
+  async #request({ itemId, method, body }) {
+    this.path = itemId;
     this.options.method = method ?? 'GET';
     this.options.body = body;
 
@@ -66,7 +66,6 @@ export default class FetchHelper {
       try {
         return await response.json();
       } catch (e) {
-        console.log(e.message);
         if (response.ok) throw new Error('Wrong JSON response');
 
         throw e;
