@@ -46,7 +46,7 @@ export default class FetchHelper {
     return this.#request({ path });
   }
 
-  async post(body, { path }) {
+  async post(body, { path } = {}) {
     return this.#request({ path, body, method: 'POST' });
   }
 
