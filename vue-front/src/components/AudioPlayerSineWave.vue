@@ -37,7 +37,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
+    ...mapGetters('audio', { channels: 'listOfChannelsD', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source', analyser: 'gainNodesAnalyser' }),
     ...mapState('dash', ['isActiveStream']),
 
