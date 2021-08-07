@@ -3,11 +3,11 @@
     <div v-if="admin" class="list"></div>
     <table class="list-table border">
       <tbody>
-        <tr v-for="item in tracks" :key="item" @click="select(item.id)">
+        <tr v-for="item in tracks" :key="item">
           <td>
             <p class="medium-text">{{item.number}}</p>
           </td>
-          <td class="small-width">
+          <td class="small-width" @click="select(item.id)">
             <p class="medium-text">{{item.name}}</p>
           </td>
           <td>
@@ -25,7 +25,7 @@
               <button class="border round transparent-border black-text">
                 <i>play_circle</i>
               </button>
-              <button v-if="admin" class="border round transparent-border black-text">
+              <button v-if="admin" class="border round transparent-border black-text" @click="remove(item.id)">
                 <i>delete</i>
               </button>
             </nav>
@@ -42,15 +42,12 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'FileList',
   props: { admin: Boolean, user: Boolean },
-  // data() {
-  //   return { admin: false };
-  // },
   computed: mapState({
     tracks: (state) => state.tracks.items,
   }),
   methods: {
     ...mapActions('tracks', [
-      'select',
+      'select', 'remove',
     ]),
   },
   created() {
