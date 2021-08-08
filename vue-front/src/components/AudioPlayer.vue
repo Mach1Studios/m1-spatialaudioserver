@@ -4,13 +4,16 @@
       <audio ref="player"></audio>
     </div>
     <div class="btn-box">
-      <span class="play absolute left"><i class="material-icons">play_arrow</i></span>
+      <span class="play absolute left" @click="play">
+        <i class="material-icons">{{icon}}</i>
+      </span>
       <span class="absolute right">
-        <span class="duration">0:0</span>
+        <!-- <span class="duration">0:0</span>
         <span class="duration">/</span>
-        <span class="duration">0:0</span>
-        <i class="material-icons repeat">repeat</i>
-        <span class="btn-flip" data-back="Local" data-front="Live"></span>
+        <span class="duration">0:0</span> -->
+        <i class="material-icons repeat" :class="{ 'on-repeat': isRepeat }" @click="repeat">repeat</i>
+        <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="Local" data-front="Live"></span>
+        <span v-show="type === 'static'" class="btn-flip" data-back="Live" data-front="Local"></span>
       </span>
     </div>
   </div>
@@ -21,17 +24,54 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'AudioPlayer',
+  props: {
+    skin: {
+      type: String,
+      default: 'dark',
+      validator: (value) => (value === 'dark' ? 'dark' : 'light'),
+    },
+  },
+  data() {
+    return { isRepeat: false, isPlay: false };
+  },
+  watch: {
+    isActiveStream(value) {
+      this.isPlay = value;
+    },
+  },
   computed: mapState({
     track: (state) => state.tracks.playing.id,
+    type: (state) => state.dash.type,
+    isActiveStream: (state) => state.dash.isActiveStream,
+    icon() {
+      return this.isPlay ? 'pause_arrow' : 'play_arrow';
+    },
   }),
   methods: {
     ...mapActions('audio', ['updateSource']),
     ...mapActions('dash', ['start', 'stop']),
+
+    play() {
+      if (!this.isActiveStream) return;
+
+      if (this.$refs.player.paused) {
+        this.$refs.player.play();
+      } else {
+        this.$refs.player.pause();
+      }
+
+      this.isPlay = !this.$refs.player.paused;
+    },
+    repeat() {
+      this.isRepeat = !this.isRepeat;
+      this.$refs.player.loop = this.isRepeat;
+    },
   },
   mounted() {
     this.updateSource(this.$refs.player);
   },
   beforeUnmount() {
+    this.$refs.player.pause();
     this.stop();
   },
 };
@@ -40,6 +80,7 @@ export default {
 <style lang="scss" scoped>
   .player {
     height: 30px;
+    user-select: none;
 
     .btn-box {
       position: absolute;
@@ -59,6 +100,9 @@ export default {
       i.repeat {
         margin-right: 10px;
       }
+      i.on-repeat {
+        color: #D36646;
+      }
       .duration {
         font-size: 12px;
         color: #72646f;
@@ -72,83 +116,12 @@ export default {
       left: 50%;
       top: 5px;
       transform: translateX(-50%);
-
-      // input[type="range"] {
-      //   height: 5px;
-      //   width: 100%;
-      //   margin: 0 0 10px 0;
-      // }
-      // input[type="range"]::-webkit-slider-thumb {
-      //   height: 5px;
-      //   width: 7px;
-      // }
     }
-    // input[type="range"] {
-    //   -webkit-appearance: none !important;
-    //   margin: 0px;
-    //   padding: 0px;
-    //   background: #f2eae4;
-    //   height: 5px;
-    //   width: 93%;
-    //   outline: none;
-    //   cursor: pointer;
-    //   border-radius: 5px;
-    // }
-    //
-    // input[type="range"]::-ms-fill-lower {
-    //   background: #f2eae4;
-    // }
-    //
-    // input[type="range"]::-ms-fill-upper {
-    //   background: #f2eae4;
-    // }
-    //
-    // input[type="range"]::-moz-range-track {
-    //   border: none;
-    //   background: #f2eae4;
-    // }
-    //
-    // input[type="range"]::-webkit-slider-thumb {
-    //   -webkit-appearance: none !important;
-    //   background: #ff3677;
-    //   height: 5px;
-    //   width: 5px;
-    //   border-radius: 50%;
-    // }
-    //
-    // input[type="range"]::-moz-range-thumb {
-    //   background: #ff3677;
-    //   height: 8px;
-    //   width: 8px;
-    //   border-radius: 100%;
-    // }
-    //
-    // input[type="range"]::-ms-thumb {
-    //   -webkit-appearance: none !important;
-    //   background: #ff3677;
-    //   height: 8px;
-    //   width: 8px;
-    //   border-radius: 100%;
-    // }
-
-    // .info {
-    //   position: absolute;
-    //   left: 50%;
-    //   top: 20px;
-    //   transform: translateX(-50%);
-    //   text-align: center;
-    //
-    //   .singer {
-    //     font-size: 12px;
-    //     color: #72646f;
-    //   }
-    // }
   }
 
   .btn-flip {
     opacity: 1;
     outline: 0;
-    color: #fff;
     line-height: 25px;
     position: relative;
     text-align: center;
@@ -158,12 +131,13 @@ export default {
     font-family: 'Open Sans';
     text-transform: uppercase;
 
-    &:hover{
+    cursor: pointer;
 
+    &:hover{
       &:after{
         opacity: 1;
         transform: translateY(0) rotateX(0);
-        }
+      }
 
       &:before{
         opacity: 0;
@@ -176,11 +150,9 @@ export default {
       left: 0;
       opacity: 0;
       width: 100%;
-      color: #323237;
       display: block;
       transition: 0.5s;
       position: absolute;
-      background: #adadaf;
       content: attr(data-back);
       transform: translateY(50%) rotateX(-90deg);
     }
@@ -189,17 +161,36 @@ export default {
       top: 0;
       left: 0;
       opacity: 1;
-      color: #adadaf;
       display: block;
       padding: 0 30px;
       line-height: 25px;
       transition: 0.5s;
       position: relative;
-      background: #323237;
       content: attr(data-front);
       transform: translateY(0) rotateX(0);
       border: 1px solid #D36646;
       box-shadow: 0 0 5px #D36646, 0 0 5px #D36646 inset;
+    }
+  }
+
+  .dark {
+    &:before{
+      background: #323237;
+      color: #adadaf;
+    }
+    &:after{
+      background: #adadaf;
+      color: #323237;
+    }
+  }
+  .light {
+    &:before{
+      background: #f5e6d7;
+      color: #72646f;
+    }
+    &:after{
+      background: #72646f;
+      color: #f5e6d7;
     }
   }
 </style>
