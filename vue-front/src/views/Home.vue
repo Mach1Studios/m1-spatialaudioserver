@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="col s4">
-        <div class="card">
+        <div class="card transparent audioplayer">
           <AudioPlayer/>
         </div>
         <div class="card">
@@ -42,5 +42,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
+  .audioplayer {
+    box-shadow: none;
+    padding-top: 0;
+  }
 </style>
