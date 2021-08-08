@@ -8,18 +8,19 @@
         <i class="material-icons">{{icon}}</i>
       </span>
       <span class="absolute right">
-        <!-- <span class="duration">0:0</span>
+        <span class="duration">{{currentTime}}</span>
         <span class="duration">/</span>
-        <span class="duration">0:0</span> -->
+        <span class="duration">{{duration}}</span>
         <i class="material-icons repeat" :class="{ 'on-repeat': isRepeat }" @click="repeat">repeat</i>
         <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="Local" data-front="Live"></span>
-        <span v-show="type === 'static'" class="btn-flip" data-back="Live" data-front="Local"></span>
+        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="Live" data-front="Local"></span>
       </span>
     </div>
   </div>
 </template>
 
 <script>
+import { Duration } from 'luxon';
 import { mapActions, mapState } from 'vuex';
 
 export default {
@@ -32,11 +33,20 @@ export default {
     },
   },
   data() {
-    return { isRepeat: false, isPlay: false };
+    return {
+      isRepeat: false,
+      isPlay: false,
+      duration: '00:00',
+      currentTime: '00:00',
+    };
   },
   watch: {
     isActiveStream(value) {
       this.isPlay = value;
+
+      if (this.$refs.player && this.$refs.player.duration) {
+        this.duration = Duration.fromObject({ seconds: this.$refs.player.duration }).toFormat('mm:ss');
+      }
     },
   },
   computed: mapState({
@@ -66,12 +76,20 @@ export default {
       this.isRepeat = !this.isRepeat;
       this.$refs.player.loop = this.isRepeat;
     },
+    timeUpdate() {
+      if (this.$refs.player && this.$refs.player.currentTime) {
+        this.currentTime = Duration.fromObject({ seconds: this.$refs.player.currentTime }).toFormat('mm:ss');
+      }
+    },
   },
   mounted() {
     this.updateSource(this.$refs.player);
+
+    this.$refs.player.addEventListener('timeupdate', this.timeUpdate);
   },
   beforeUnmount() {
     this.$refs.player.pause();
+    this.$refs.player.removeEventListener('timeupdate', this.timeUpdate);
     this.stop();
   },
 };

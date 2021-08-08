@@ -86,6 +86,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
 const actions = {
   async start(ctx, url) {
+    ctx.commit('setActiveStream', false);
     ctx.commit('setStreamInformation', { url });
     ctx.commit('loader', { description: 'Starting to initialize the audio player' }, { root: true });
 
