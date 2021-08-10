@@ -9,46 +9,88 @@ const defaultState = () => ({
   view: null,
 });
 
+// const merger = () => {
+//   const analyser = context.createAnalyser();
+//   const gain = context.createGain();
+//   const panner = context.createPanner();
+//
+//   splitter.connect(gain, chanel, 0);
+//
+//   biquadFilter.connect(gain);
+//   convolver.connect(gain);
+//
+//   panner.setPosition(1, 0, 0);
+//   panner.panningModel = 'equalpower';
+//
+//   gain.connect(panner);
+//
+//   gain.connect(analyser);
+//
+//   analyser.connect(context.destination);
+//   panner.connect(context.destination);
+//
+//   gain.gain.value = 0.1;
+// }
+
 const actions = {
   createGainNodes({ commit, state, getters }) {
-    console.log('setGain');
+    console.log('flush all channels settings');
     commit('setGain');
 
-    const { context, source } = state;
-    const splitter = context.createChannelSplitter(state.channels);
-    const merger = context.createChannelMerger(state.channels);
-
-    const biquadFilter = context.createBiquadFilter();
-    const convolver = context.createConvolver();
-    const distortion = context.createWaveShaper();
+    const { channels, context, source } = state;
+    const splitter = context.createChannelSplitter(channels);
 
     source.connect(splitter);
-
-    distortion.connect(biquadFilter);
-
     context.createGain = context.createGain || context.createGainNode;
 
-    _.each(getters.listOfChannels, (chanel) => {
+    const merger = (position, channel) => {
+      if (position !== -1 && position !== 1) throw new Error('Broken position');
       const analyser = context.createAnalyser();
       const gain = context.createGain();
+      const panner = context.createPanner();
 
-      splitter.connect(gain, chanel, 0);
+      panner.setPosition(position, 0, 0);
+      panner.panningModel = 'equalpower';
 
-      biquadFilter.connect(gain);
-      convolver.connect(gain);
-
-      gain.connect(merger, 0, 0);
-      gain.connect(merger, 0, 1);
+      gain.connect(panner);
       gain.connect(analyser);
 
       analyser.connect(context.destination);
+      panner.connect(context.destination);
 
       gain.gain.value = 0.1;
+
+      splitter.connect(gain, channel, 0);
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
+    };
+
+    _.each(getters.listOfChannels, (channel) => {
+      merger(1, channel);
+      merger(-1, channel);
+
+      // const analyser = context.createAnalyser();
+      // const gain = context.createGain();
+      // const panner = context.createPanner();
+      //
+      // const index = channel % 2 === 0 ? -1 : 1;
+      //
+      // panner.setPosition(index, 0, 0);
+      // panner.panningModel = 'equalpower';
+      //
+      // gain.connect(panner);
+      // gain.connect(analyser);
+      //
+      // analyser.connect(context.destination);
+      // panner.connect(context.destination);
+      //
+      // gain.gain.value = 0.1;
+      //
+      // splitter.connect(gain, channel, 0);
+      // commit('setGain', gain);
+      // commit('setGainAnalyser', analyser);
     });
 
-    merger.connect(context.destination);
     // commit('loader', { enable: false }, { root: true });
   },
   updateSource({ commit }, source) {
@@ -65,6 +107,9 @@ const actions = {
 };
 
 const getters = {
+  listOfChannelsD(state) {
+    return _.range(state.channels * 2);
+  },
   listOfChannels(state) {
     return _.range(state.channels);
   },
