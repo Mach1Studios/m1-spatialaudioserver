@@ -13,7 +13,7 @@
           <i class="small black-text">volume_up</i>
         </div>
         <div class="col min">
-          <input class="volume" step="0.01" min="0" max="1" value="0.1" type="range" @change="changeVolume(channel, $event.target.value)">
+          <input class="volume" step="0.01" min="0" max="1" value="1.0" type="range" @change="changeVolume(channel, $event.target.value)">
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('audio', { channels: 'listOfChannelsD', isActiveChannels: 'isActiveChannels' }),
+    ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
   },
