@@ -22,6 +22,7 @@ const defaultState = () => ({
   player: null,
   processing: false,
   settings,
+  type: null,
 });
 
 const load = (ctx) => new Promise((resolve, reject) => {
@@ -52,13 +53,17 @@ const load = (ctx) => new Promise((resolve, reject) => {
     const numChannels = Number(audioAdaptationSet.Representation_asArray[0].AudioChannelConfiguration.value);
 
     ctx.dispatch('audio/updateNumberOfChannels', numChannels, { root: true });
-    const { profiles, minimumUpdatePeriod, suggestedPresentationDelay } = data;
+    const {
+      profiles, minimumUpdatePeriod, suggestedPresentationDelay, type,
+    } = data;
     if (ctx.state.processing || !profiles) {
       ctx.commit('setStreamInformation', { processing: false });
       load(ctx).then((result) => resolve(result));
     }
 
-    ctx.dispatch('updateInfo', { profiles, minimumUpdatePeriod, suggestedPresentationDelay });
+    ctx.dispatch('updateInfo', {
+      profiles, minimumUpdatePeriod, suggestedPresentationDelay, type,
+    });
   });
 
   player.on(dashjs.MediaPlayer.events.CAN_PLAY, () => {
@@ -81,6 +86,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
 const actions = {
   async start(ctx, url) {
+    ctx.commit('setActiveStream', false);
     ctx.commit('setStreamInformation', { url });
     ctx.commit('loader', { description: 'Starting to initialize the audio player' }, { root: true });
 
@@ -123,10 +129,15 @@ const mutations = {
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {
-    const { processing, url, ...info } = payload;
+    const {
+      processing, url, type, ...info
+    } = payload;
 
     store.info = { ...store.info, ...info };
     store.processing = _.isBoolean(processing) ? processing : false;
+
+    // TODO: need to start to track this
+    store.type = type || null;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
       // store.info.url = `${process.env.VUE_APP_STREAM_URL}/content/${payload.url}.mp4/manifest.mpd`;

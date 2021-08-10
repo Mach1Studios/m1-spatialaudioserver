@@ -13,6 +13,15 @@ export default createStore({
     loader: {
       isLoading: false, title: 'Processing', description: 'Audiofile is loading',
     },
+    notification: {
+      isError: false, isSuccess: false, message: '',
+    },
+  },
+  actions: {
+    async toast({ commit }, payload) {
+      commit('setToast', payload);
+      setTimeout(() => commit('setToast'), 5 * 1000);
+    },
   },
   mutations: {
     loader(state, payload) {
@@ -25,6 +34,17 @@ export default createStore({
       }
       if (_.isString(title)) {
         state.loader.title = title;
+      }
+    },
+    setToast(state, payload = {}) {
+      const { error, event } = payload;
+      state.notification = { isError: false, isSuccess: false, message: '' };
+
+      if (error) {
+        state.notification = { ...state.notification, isError: true, message: error.message ?? 'Something went wrong' };
+      }
+      if (event) {
+        state.notification = { ...state.notification, isSuccess: true, message: event.message ?? 'Complete!' };
       }
     },
   },

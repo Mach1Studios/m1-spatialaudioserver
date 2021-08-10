@@ -1,68 +1,61 @@
-// import _ from 'lodash';
+import _ from 'lodash';
 
 export default class FetchHelper {
-  #defaultUrl = process.env.VUE_APP_API_URL
+  #defaultUrl = new URL(process.env.VUE_APP_API_URL)
 
   #defaultPath = ''
+
+  #path = ''
 
   constructor(url) {
     this.options = {
       mode: 'cors',
     };
 
-    if (url && url !== this.#defaultUrl) {
-      this.#defaultUrl = url;
-      // TODO: some behavior for custom links
+    if (url && _.isString(url)) {
+      if (url && url !== this.#defaultUrl.origin) {
+        try {
+          this.#defaultUrl = new URL(url);
+        } catch (e) {
+          if (e.message !== "Failed to construct 'URL': Invalid URL") throw e;
+          this.#defaultPath = _.startsWith('/') ? url : `/${url}`;
+        }
+      }
     }
   }
 
+  get path() {
+    return `${this.#defaultPath}${this.#path}`;
+  }
+
   set path(value) {
+    if (!_.isString(value) || value.length === 0) {
+      this.#path = '';
+      return;
+    }
     // TODO: it should be some validation hanlder first
-    this.#defaultPath = value ?? '';
+    this.#path = _.startsWith('/') ? value : `/${value}`;
   }
 
   get url() {
     // TODO: need to add query
-    return new URL(this.#defaultPath, this.#defaultUrl);
+    return new URL(this.path, this.#defaultUrl);
   }
 
-  async get(path) {
-    return this.#request({ path });
+  async get(itemId) {
+    return this.#request({ itemId });
   }
 
-  async post(path, body) {
-    return this.#request({ path, body, method: 'POST' });
+  async post(body, { itemId } = {}) {
+    return this.#request({ itemId, body, method: 'POST' });
   }
 
-  // async send(path, payload) {
-  //   this.path = path;
-  //
-  //   // TODO: For next iteration need to create full response method with error handler
-  //   try {
-  //     if (payload) {
-  //       this.options.method = 'POST';
-  //       this.options.body = payload;
-  //     }
-  //     const response = await fetch(this.url, this.options);
-  //
-  //     try {
-  //       const body = await response.json();
-  //       return body;
-  //     } catch (e) {
-  //       if (response.ok) throw new Error('Wrong JSON response');
-  //
-  //       throw e;
-  //     }
-  //   } catch (e) {
-  //     if (e.message === 'Wrong JSON response') {
-  //       // NOTE: just skip for this
-  //     }
-  //     return null;
-  //   }
-  // }
+  async del(itemId) {
+    return this.#request({ itemId, method: 'DELETE' });
+  }
 
-  async #request({ path, method, body }) {
-    this.path = path;
+  async #request({ itemId, method, body }) {
+    this.path = itemId;
     this.options.method = method ?? 'GET';
     this.options.body = body;
 
@@ -73,7 +66,6 @@ export default class FetchHelper {
       try {
         return await response.json();
       } catch (e) {
-        console.log(e.message);
         if (response.ok) throw new Error('Wrong JSON response');
 
         throw e;
