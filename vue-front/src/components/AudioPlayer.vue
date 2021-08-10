@@ -4,8 +4,8 @@
       <audio ref="player"></audio>
     </div>
     <div class="btn-box">
-      <span class="play absolute left" @click="play">
-        <i class="material-icons">{{icon}}</i>
+      <span class="absolute left">
+        <i class="play material-icons" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
       </span>
       <span class="absolute right">
         <span class="duration">{{currentTime}}</span>
@@ -113,13 +113,19 @@ export default {
         cursor: pointer;
       }
       i.active {
-        color: #ff3677;
+        color: #D36646;
+        &:hover {
+          // opacity: 0.75;
+        }
       }
       i.repeat {
         margin-right: 10px;
       }
       i.on-repeat {
         color: #D36646;
+        &:hover {
+          // opacity: 0.75;
+        }
       }
       .duration {
         font-size: 12px;
