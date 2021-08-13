@@ -17,7 +17,7 @@ export default class FetchHelper {
         try {
           this.#defaultUrl = new URL(url);
         } catch (e) {
-          if (e.message !== "Failed to construct 'URL': Invalid URL") throw e;
+          // if (e.message !== "Failed to construct 'URL': Invalid URL") throw e;
           this.#defaultPath = _.startsWith('/') ? url : `/${url}`;
         }
       }

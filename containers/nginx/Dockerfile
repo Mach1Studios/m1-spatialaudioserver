@@ -188,7 +188,7 @@ RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.m
 EXPOSE 1935
 EXPOSE 80
 
-CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && chown -R nginx /share/sound && chmod -R 777 /share/sound && \
+CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && chmod -R 777 /share/sound && \
  envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
  /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
  export LD_LIBRARY_PATH=/usr/local/luajit/lib:$LD_LIBRARY_PATH && \

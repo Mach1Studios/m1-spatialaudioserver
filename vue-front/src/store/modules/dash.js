@@ -4,8 +4,10 @@ import dashjs from 'dashjs';
 
 const settings = {
   streaming: {
-    useSuggestedPresentationDelay: true,
-    lowLatencyEnabled: true,
+    useSuggestedPresentationDelay: false,
+    lowLatencyEnabled: false,
+    stableBufferTime: 30,
+    bufferTimeAtTopQualityLongForm: 30,
     retryIntervals: {
       MPD: 10 * 1000, // NOTE: guys from earshot set this value to 50sec, cos sometimes it make nginx crazy, we tested on 10sec now
     },
