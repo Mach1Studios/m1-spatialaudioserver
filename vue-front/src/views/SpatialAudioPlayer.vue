@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col s3">
         <div class="card">
-          <AudioPlayerRadioControls/>
+          <!-- <AudioPlayerRadioControls/> -->
         </div>
         <div class="card transparent playlist">
           <Modal position="left" title="Playlist" icon="play_circle_outline">
@@ -24,7 +24,7 @@
       </div> -->
       <div class="col s3">
         <div class="card">
-          <AudioPlayerSliders/>
+          <!-- <AudioPlayerSliders/> -->
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-/* eslint-disabl e */
+/* eslint-disable */
 // import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
@@ -44,9 +44,9 @@ import {
   Mach1DecoderProxy,
 } from 'mach1spatial-decode';
 
-import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
+// import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer.vue';
-import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
+// import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
 import FileList from '../components/FileList.vue';
@@ -62,9 +62,9 @@ const mousemoveListener = (event) => {
 
 export default {
   components: {
-    AudioPlayerRadioControls,
+    // AudioPlayerRadioControls,
     AudioPlayer,
-    AudioPlayerSliders,
+    // AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
     FileList,
@@ -116,7 +116,7 @@ export default {
 
       // 0.7521489971346705 90.77363896848141 0.48739495798319327 1.1344537815126046
       // 0.7511938872970392 90.4297994269341 0.4715219421101774 2.563025210084035
-      console.log(window.mouseX, yaw, window.mouseY, pitch);
+      // console.log(window.mouseX, yaw, window.mouseY, pitch);
 
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {
