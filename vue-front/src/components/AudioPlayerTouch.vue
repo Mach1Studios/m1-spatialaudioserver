@@ -13,8 +13,18 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'AudioPlayerTouch',
+  computed: mapState({
+    tracks: (state) => state.controls.items,
+  }),
+  methods: {
+    ...mapActions('controls', [
+      'select',
+    ]),
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -23,7 +33,7 @@ export default {
   }
 
   .background img {
-    width:40vw;
+    width: 40vw;
     height: auto;
 
     opacity: 0.6;

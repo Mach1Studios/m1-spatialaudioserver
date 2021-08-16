@@ -1,10 +1,10 @@
 <template>
   <div class="container max">
     <div class="row">
-      <div class="col s2">
-        <!-- <div class="card">
-          <AudioPlayerRadioControls/>
-        </div> -->
+      <div class="col s3">
+        <div class="card">
+          <!-- <AudioPlayerRadioControls/> -->
+        </div>
         <div class="card transparent playlist">
           <Modal position="left" title="Playlist" icon="play_circle_outline">
             <FileList/>
@@ -15,15 +15,17 @@
           </Modal>
         </div>
       </div>
+      <div class="col s6">
+      </div>
       <!-- <div class="col s10">
         <div class="card">
           <AudioPlayer/>
         </div>
       </div> -->
-      <div class="col s5">
-        <!-- <div class="card">
-          <AudioPlayerSliders/>
-        </div> -->
+      <div class="col s3">
+        <div class="card">
+          <!-- <AudioPlayerSliders/> -->
+        </div>
       </div>
     </div>
   </div>
@@ -33,7 +35,7 @@
 </template>
 
 <script>
-/* eslint-disabl e */
+/* eslint-disable */
 // import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
@@ -100,22 +102,25 @@ export default {
       const map = (value, x1, y1, x2, y2) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
       requestAnimationFrame(this.loop);
 
-      window.yaw = map(window.mouseX, 0, 1, -180, 180);
-      window.pitch = map(window.mouseY, 0, 1, 45, -45);
-      window.roll = 0;
+      const yaw = map(window.mouseX, 0, 1, -180, 180);
+      const pitch = map(window.mouseY, 0, 1, 45, -45);
+      const roll = 0;
 
-      const rotateX = `rotateX(${parseInt(-window.pitch, 10)}deg)`;
-      const rotateY = `rotateY(${parseInt(-window.yaw, 10)}deg)`;
+      const rotateX = `rotateX(${parseInt(-pitch, 10)}deg)`;
+      const rotateY = `rotateY(${parseInt(-yaw, 10)}deg)`;
 
       const transform = `translate(-50%, -50%) ${rotateX} ${rotateY}`;
       document.getElementById('touchstats:card').style.transform = transform;
 
-      const decoded = this.decoder.decode(window);
+      const decoded = this.decoder.decode({ yaw, pitch, roll });
+
+      // 0.7521489971346705 90.77363896848141 0.48739495798319327 1.1344537815126046
+      // 0.7511938872970392 90.4297994269341 0.4715219421101774 2.563025210084035
+      // console.log(window.mouseX, yaw, window.mouseY, pitch);
 
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {
-          const value = Number(decoded[i]) || 0;
-          if (value) this.changeVolume(i, value);
+          this.changeVolume(i, decoded[i]);
         }
       }
     },
