@@ -4,7 +4,7 @@
       <h4 class="title large-text">AUDIO PREVIEW</h4>
       <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
         <div class="col">
-          <p style="white-space:nowrap small-text">Channel {{channel + 1}}</p>
+          <p class="small-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
         </div>
         <div class="col">
           <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
+    ...mapGetters('audio', { channels: 'listOfChannelsD', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
   },

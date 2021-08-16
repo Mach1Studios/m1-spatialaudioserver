@@ -58,7 +58,7 @@ const actions = {
       analyser.connect(context.destination);
       panner.connect(context.destination);
 
-      gain.gain.value = 0.1;
+      gain.gain.value = 0;
 
       splitter.connect(gain, channel, 0);
       commit('setGain', gain);
@@ -127,7 +127,7 @@ const mutations = {
     }
   },
   setGainVolume(state, { channel, volume }) {
-    state.gainNodes[channel].gain.value = Number(volume);
+    state.gainNodes[channel].gain.setTargetAtTime(volume * 0.5, state.context.currentTime, 0.05);
   },
   setGainAnalyser(state, analyser) {
     if (analyser) {
