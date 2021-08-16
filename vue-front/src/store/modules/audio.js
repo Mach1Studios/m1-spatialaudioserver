@@ -31,7 +31,7 @@ const defaultState = () => ({
 //
 //   gain.gain.value = 0.1;
 // }
-
+/* eslint-disable */
 const actions = {
   createGainNodes({ commit, state, getters }) {
     console.log('flush all channels settings');
@@ -39,35 +39,52 @@ const actions = {
 
     const { channels, context, source } = state;
     const splitter = context.createChannelSplitter(channels);
+    const merger = context.createChannelMerger(channels * 2);
 
     source.connect(splitter);
     context.createGain = context.createGain || context.createGainNode;
 
-    const merger = (position, channel) => {
+    const processing = (position, channel) => {
       if (position !== -1 && position !== 1) throw new Error('Broken position');
       const analyser = context.createAnalyser();
+      // const smp = context.createBufferSource();
       const gain = context.createGain();
       const panner = context.createPanner();
 
-      panner.setPosition(position, 0, 0);
+      console.log(channel);
+
+      // smp.buffer = context.createBuffer(
+      //   1, 1, context.sampleRate,
+      // );
+      // smp.buffer.copyToChannel(state.source.getChannelData(channel), 0, 0);
+
+      panner.positionX.value = position;
       panner.panningModel = 'equalpower';
 
-      gain.connect(panner);
-      gain.connect(analyser);
+      // gain.connect(analyser);
 
-      analyser.connect(context.destination);
-      panner.connect(context.destination);
+      // analyser.connect(context.destination);
+      // panner.connect(context.destination);
 
-      gain.gain.value = 0;
+      gain.gain.value = 1;
 
-      splitter.connect(gain, channel, 0);
+
+      // gain.connect()
+
+      // gain.connect(context.destination);
+      // gain.connect(merger, 0, 0);
+      panner.connect(gain);
+      splitter.connect(gain, channel);
+
+      gain.connect(merger, 0, position === -1 ? 0 : 1);
+
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
     };
 
     _.each(getters.listOfChannels, (channel) => {
-      merger(1, channel);
-      merger(-1, channel);
+      processing(-1, channel);
+      processing(1, channel);
 
       // const analyser = context.createAnalyser();
       // const gain = context.createGain();
@@ -90,6 +107,8 @@ const actions = {
       // commit('setGain', gain);
       // commit('setGainAnalyser', analyser);
     });
+    merger.connect(context.destination)
+    // merger.connect(context.createMediaStreamDestination());
 
     // commit('loader', { enable: false }, { root: true });
   },
@@ -127,7 +146,7 @@ const mutations = {
     }
   },
   setGainVolume(state, { channel, volume }) {
-    state.gainNodes[channel].gain.setTargetAtTime(volume * 0.5, state.context.currentTime, 0.05);
+    state.gainNodes[channel].gain.setTargetAtTime(volume * 1, state.context.currentTime, 0.05);
   },
   setGainAnalyser(state, analyser) {
     if (analyser) {
