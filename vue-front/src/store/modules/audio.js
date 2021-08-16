@@ -58,8 +58,6 @@ const actions = {
       // );
       // smp.buffer.copyToChannel(state.source.getChannelData(channel), 0, 0);
 
-      panner.setPosition(position, 0, 0)
-      panner.panningModel = 'equalpower';
 
       // gain.connect(analyser);
 
@@ -68,14 +66,11 @@ const actions = {
 
       gain.gain.value = 0;
 
-
-      // gain.connect()
-
-      // gain.connect(context.destination);
-      // gain.connect(merger, 0, 0);
+      panner.setPosition(position, 0, 0)
+      panner.panningModel = 'equalpower';
       panner.connect(gain);
-      splitter.connect(gain, channel);
 
+      splitter.connect(gain, channel);
       gain.connect(merger, 0, position === -1 ? 0 : 1);
 
       commit('setGain', gain);
@@ -107,7 +102,9 @@ const actions = {
       // commit('setGain', gain);
       // commit('setGainAnalyser', analyser);
     });
-    merger.connect(context.destination)
+    merger.connect(context.destination);
+
+
     // merger.connect(context.createMediaStreamDestination());
 
     // commit('loader', { enable: false }, { root: true });
