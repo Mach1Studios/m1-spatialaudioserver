@@ -58,7 +58,7 @@ const actions = {
       // );
       // smp.buffer.copyToChannel(state.source.getChannelData(channel), 0, 0);
 
-      panner.positionX.value = position;
+      panner.setPosition(position, 0, 0)
       panner.panningModel = 'equalpower';
 
       // gain.connect(analyser);
@@ -66,7 +66,7 @@ const actions = {
       // analyser.connect(context.destination);
       // panner.connect(context.destination);
 
-      gain.gain.value = 1;
+      gain.gain.value = 0;
 
 
       // gain.connect()
