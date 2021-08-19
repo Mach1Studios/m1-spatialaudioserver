@@ -123,11 +123,14 @@ const actions = {
 };
 
 const getters = {
-  listOfChannelsD(state) {
+  listOfDecodeChannels(state) {
     return _.range(state.channels * 2);
   },
   listOfChannels(state) {
     return _.range(state.channels);
+  },
+  listOfInputChannels(state) {
+    return _.range(state.channels % 2); // Added for every other channel
   },
   isActiveChannels(state) {
     return _.isInteger(state.channels) && state.channels > 0;

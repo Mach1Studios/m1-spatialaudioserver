@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('audio', { channels: 'listOfChannelsD', isActiveChannels: 'isActiveChannels' }),
+    ...mapGetters('audio', { channels: 'listOfInputChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
   },
