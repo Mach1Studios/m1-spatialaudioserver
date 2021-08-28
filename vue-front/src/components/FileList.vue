@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="large-width">
-    <div v-if="admin" class="list"></div>
+    <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
         <tr v-for="item in tracks" :key="item">
@@ -12,21 +12,21 @@
           </td>
           <td>
             <nav class="right-align">
-              <button class="border round transparent-border black-text">
+              <button class="border round transparent-border">
                 <i class="material-icons-outlined">info</i>
               </button>
-              <button class="border round transparent-border black-text">
-                <i>mood</i>
-              </button>
+              <span class="disabled">
+                <i class="material-icons">mood</i>
                 <!-- <i class="small grey-dark-4-text">mood_bad</i> -->
-              <button class="border round transparent-border black-text">
-                <i>repeat</i>
+              </span>
+              <button class="border round transparent-border">
+                <i class="material-icons">repeat</i>
               </button>
-              <button class="border round transparent-border black-text">
-                <i>play_circle</i>
+              <button v-if="admin" class="border round transparent-border">
+                <i class="material-icons">edit</i>
               </button>
-              <button v-if="admin" class="border round transparent-border black-text" @click="remove(item.id)">
-                <i>delete</i>
+              <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
+                <i class="material-icons">delete</i>
               </button>
             </nav>
           </td>
@@ -42,6 +42,7 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'FileList',
   props: { admin: Boolean, user: Boolean },
+
   computed: mapState({
     tracks: (state) => state.tracks.items,
   }),
@@ -57,39 +58,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .list-table td {
-    vertical-align: middle;
-    cursor: pointer;
-  }
-
-  .list-table th {
-    vertical-align: middle;
-  }
-
-  .list {
-    margin-top: -32px;
+  .disabled {
+    i {
+      color: #4d4d4d;
+      background: transparent;
+      font-size: 16px;
+      cursor: default;
+    }
   }
 
   .list-table {
-    border-radius: 0.3rem;
-    margin-top: 32px;
-  }
-
-  .list-table tr:hover {
-    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
-  }
-
-  .list-table td:last-child {
-    padding-right: 13px;
-  }
-  .list-table button {
+    p {
+      color: #1c1c1c;
+    }
     i {
-      font-size: 16px;
+      color: #4d4d4d;
+    }
+    td {
+      vertical-align: middle;
+      .disabled ~ i, p {
+        cursor: pointer;
+      }
+    }
+    th {
+      vertical-align: middle;
+    }
+    tr:hover {
+      background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+    }
+    td:last-child {
+      padding-right: 13px;
+    }
+    button {
+      i {
+        font-size: 16px;
+      }
+    }
+    button:hover {
+      i {
+        font-size: 20px;
+      }
     }
   }
-  .list-table button:hover {
-    i {
-      font-size: 20px;
+
+  #Playlist {
+    .list-table {
+      margin-left: 13px;
     }
   }
 </style>

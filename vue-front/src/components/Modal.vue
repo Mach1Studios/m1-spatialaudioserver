@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="medium-padding">
     <div class="medium-margin">
-      <button class="round medium border grey-light-3 transparent-border black-text absolute middle center" @click="open">
+      <button class="round medium border grey-light-3 transparent-border black-text absolute middle center open" @click="open">
         <i v-show="icon" class="black-text">{{icon}}</i>
         <span class="small-text">{{title}}</span>
       </button>
@@ -10,7 +10,7 @@
     <div class="modal" :class="currentPosition">
       <nav>
         <button class="transparent round absolute right close" @click="close">
-          <i class="black-text">highlight_off</i>
+          <i class="material-icons">highlight_off</i>
         </button>
       </nav>
       <slot></slot>
@@ -48,8 +48,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .open {
+    i {
+      font-size: 16px;
+      color: #4d4d4d;
+    }
+  }
   .close {
     padding-top: 16px;
     padding-right: 0;
+    i {
+      color: #1c1c1c;
+    }
   }
 </style>

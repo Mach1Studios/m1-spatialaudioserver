@@ -2,7 +2,7 @@
   <div class="container max">
     <div class="row">
       <div class="col s12">
-        <div class="card">
+        <div class="card round">
           <UsersList/>
           <Modal title="Add user" icon="add" position="center">
             <UsersAddForm/>

@@ -9,7 +9,9 @@
           <div class="wave wave4"></div>
           <div class="wave wave5"></div>
         </div>
-        <span><p class="medium-text">CHOOSE A FILE...</p></span>
+        <span>
+          <p class="medium-text">CHOOSE A FILE...</p>
+        </span>
     </button>
   </div>
 </template>
@@ -48,6 +50,7 @@ export default {
   p {
     width: 100%;
 
+    color: #1c1c1c;
     font-style: normal;
     font-weight: bold;
 

@@ -20,16 +20,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  // .preloader-screen {
-  //   position: fixed;
-  //   width: 100vw;
-  //   height: 100vh;
-  //
-  //   top: 0;
-  //   left: 0;
-  //   z-index: 500;
-  // }
-
   .preloader {
     position: fixed;
     width: 100vw;
@@ -44,27 +34,33 @@ export default {
   }
 
   .load-title {
+    position: absolute;
+    width: 100%;
+
+    top: 60%;
+    left: 0;
+
+    z-index: 500;
+
     color: #fff7eb;
     font-size: 16px;
     font-weight: 600;
     line-height: 1.125;
     text-transform: uppercase;
-    position: absolute;
-    top: 60%;
-    left: 0;
-    width: 100%;
-    z-index: 500;
   }
 
   .load-description {
+    position: absolute;
+    width: 100%;
+
+    top: 63%;
+    left: 0;
+
+    z-index: 500;
+
     color: #fff7eb;
     font-weight: 200;
     text-transform: uppercase;
-    position: absolute;
-    top: 63%;
-    left: 0;
-    width: 100%;
-    z-index: 500;
   }
 
   .ball {
@@ -104,6 +100,7 @@ export default {
     transform: translateY(-50%) rotate(180deg);
     margin-left: -100px;
     animation: rotate-1 1.7s linear infinite;
+
     z-index: 2;
   }
 
