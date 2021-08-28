@@ -2,13 +2,21 @@
   <div class="large-width list">
     <h4 class="title center-align large-text">User Form</h4>
     <div class="field label border">
-      <input type="text" v-model="user.nickname" @focus="test()">
-      <label :class="{ active: isActiveNickname }">Nickname</label>
+      <input name="nickname" type="text" autocomplete="off" v-model="user.nickname" @focus="select" @blur="select">
+      <label :class="{ active: focused.nickname }">Nickname</label>
     </div>
     <div class="field label border">
-      <input type="text" v-model="user.email">
-      <label class="active">E-mail</label>
+      <input name="email" type="text" autocomplete="off" v-model="user.email" @focus="select" @blur="select">
+      <label :class="{ active: focused.email }">E-mail</label>
     </div>
+    <div class="field label border">
+      <input name="password" type="password" autocomplete="new-password" v-model="user.password" @focus="select" @blur="select">
+      <label :class="{ active: focused.password }">Password</label>
+    </div>
+    <!-- <div class="field label border">
+      <input name="password" type="password" v-model="user.password">
+      <label :class="{ active: focused.nickname }">Confirm Password</label>
+    </div> -->
     <div class="field label sufix">
       <select v-model="user.role">
         <option>user</option>
@@ -37,19 +45,24 @@ export default {
         nickname: '',
         email: '',
         role: '',
+        password: '',
       },
-      isActiveNickname: false,
+      focused: {
+
+      },
     };
   },
   methods: {
     ...mapActions('users', ['create']),
-    test() {
-      console.log('test');
-      this.isActiveNickname = true;
+    select({ target: { name }, type }) {
+      if (type === 'focus') {
+        this.focused[name] = true;
+      } else if (type === 'blur' && this.user[name] === '') {
+        this.focused[name] = false;
+      }
     },
     add() {
       this.create(this.user);
-      console.log(this.user);
     },
   },
 };
@@ -68,6 +81,11 @@ export default {
     i {
       font-size: 16px;
       color: #4d4d4d;
+    }
+    input {
+      &:focus {
+        border-color: black;
+      }
     }
   }
 </style>
