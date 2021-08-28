@@ -31,3 +31,41 @@
 //     ctx.body = body;
 //   },
 // };
+import { DateTime } from 'luxon';
+import { v4 as uuid } from 'uuid';
+
+export default {
+  async list(ctx) {
+    const users = [
+      {
+        id: uuid(),
+        nickname: 'nickname',
+        email: 'email@test.com',
+        role: 'admin',
+        lastSeen: DateTime.local(),
+      },
+    ];
+
+    const tests = await ctx.redis.find('user*');
+    const list = await ctx.redis.lrange('users:all', 0, 100);
+    console.log(tests, list);
+
+    ctx.body = users;
+  },
+  async create(ctx) {
+    const { body } = ctx.request;
+
+    const user = { ...body, id: uuid() };
+
+    await ctx.redis.hset(`user:${user.id}`, user);
+    await Promise.all([
+      ctx.redis.hset(`user:${user.id}`, user),
+      ctx.redis.rpush('users:all', `user:${user.id}`),
+    ]);
+
+    // TODO: add validation
+
+    ctx.status = 201;
+    ctx.body = user;
+  },
+};

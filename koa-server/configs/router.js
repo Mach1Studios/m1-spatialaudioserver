@@ -8,7 +8,7 @@ import * as resources from '../api';
 const uploader = multer();
 
 const router = new Router();
-const supportMethods = ['list', 'get', 'post', 'put', 'del'];
+const supportMethods = ['list', 'get', 'post', 'create', 'put', 'update', 'del'];
 
 _.each(resources, (methods, resource) => {
   _.each(methods, (callback, method) => {
@@ -23,6 +23,10 @@ _.each(resources, (methods, resource) => {
           break;
         case 'list':
           router.get(`/${resource}`, callback);
+          break;
+        case 'post':
+        case 'create':
+          router.post(`/${resource}`, callback);
           break;
         case 'del':
           router.del(`/${resource}/:id`, callback);
