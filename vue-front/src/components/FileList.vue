@@ -3,7 +3,7 @@
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
-        <tr v-for="item in tracks" :key="item">
+        <tr v-for="item in tracks" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
             <p class="medium-text">{{item.number}}</p>
           </td>
@@ -21,6 +21,7 @@
               </span>
               <button class="border round transparent-border">
                 <i class="material-icons">repeat</i>
+                <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
               <button v-if="admin" class="border round transparent-border">
                 <i class="material-icons">edit</i>
@@ -45,6 +46,7 @@ export default {
 
   computed: mapState({
     tracks: (state) => state.tracks.items,
+    track: (state) => state.tracks.track,
   }),
   methods: {
     ...mapActions('tracks', [
@@ -66,7 +68,17 @@ export default {
       cursor: default;
     }
   }
-
+  tr.on-play {
+    // box-shadow: inset 1.1em 0 0 0 #b0b0b0;
+    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+    p {
+      color: #72646f;
+      font-weight: bold;
+    }
+    i {
+      color: #72646f;
+    }
+  }
   .list-table {
     p {
       color: #1c1c1c;

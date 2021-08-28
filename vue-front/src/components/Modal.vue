@@ -7,7 +7,7 @@
       </button>
     </div>
     <div v-show="active" class="overlay active dark" @click="close"></div>
-    <div class="modal" :class="currentPosition">
+    <div class="modal round" :class="currentPosition">
       <nav>
         <button class="transparent round absolute right close" @click="close">
           <i class="material-icons">highlight_off</i>

@@ -18,6 +18,9 @@
               <i class="material-icons">edit</i>
             </button>
             <button class="border round transparent-border">
+              <i class="material-icons">share</i>
+            </button>
+            <button class="border round transparent-border">
               <i class="material-icons">delete</i>
             </button>
           </nav>

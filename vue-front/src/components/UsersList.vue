@@ -85,7 +85,6 @@ export default {
     th {
       vertical-align: middle;
     }
-    border-radius: 0.3rem;
   }
 
   .user-list-table button {
