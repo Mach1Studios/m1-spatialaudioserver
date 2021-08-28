@@ -10,7 +10,7 @@
           <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
         </div>
         <div class="col min">
-          <i class="small black-text">volume_up</i>
+          <i class="material-icons small black-text">volume_up</i>
         </div>
         <div class="col min">
           <input class="volume" step="0.01" min="0" max="1" value="1.0" type="range" @change="changeVolume(channel, $event.target.value)">

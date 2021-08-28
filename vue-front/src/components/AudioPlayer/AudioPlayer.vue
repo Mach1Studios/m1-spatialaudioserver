@@ -5,7 +5,7 @@
     </div>
     <div class="btn-box">
       <span class="absolute left">
-        <i class="play material-icons" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
+        <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
       </span>
       <span class="absolute right">
         <span class="duration">{{currentTime}}</span>

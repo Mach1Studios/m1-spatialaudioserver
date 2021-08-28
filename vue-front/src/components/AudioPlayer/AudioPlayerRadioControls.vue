@@ -1,11 +1,4 @@
 <template>
-  <!-- <div class="field">
-    <label class="radio">
-      <input type="radio" name="radio">
-      <span class="bold">Touch</span>
-    </label>
-  </div> -->
-
   <div class="field" v-for="name in names" :key="name">
     <input class="state" type="radio" name="app" id="a" value="a">
     <label class="label black-text" for="a">
@@ -21,7 +14,7 @@ export default {
   name: 'AudioPlayerRadioControls',
   data() {
     return {
-      names: _.map(['Touch', 'Divice', 'Facetracker', 'BoseAR']),
+      names: _.map(['Touch', 'Device', 'Facetracker', 'BoseAR']),
       defaultVolume: 0.5,
     };
   },
@@ -89,7 +82,7 @@ export default {
   }
 
   .indicator::after {
-    background-color: yellow;
+    background-color: antiquewhite;
     box-shadow:
       -4px -2px 4px 0px #fff,
       4px 2px 8px 0px #d1d9e6;

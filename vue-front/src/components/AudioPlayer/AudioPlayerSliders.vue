@@ -33,20 +33,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  // div>.slider {
-  //   filter:  grayscale(100%);
-  //   height: 1px;
-  //   width: 100%;
-  // }
-
-  .sliders .title {
-    font-style: normal;
-    font-weight: bold;
-
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-  }
-
   $input-bw: 0.5em;
   $input-h: 1.55em;
   $input-bg-c: #c3b7b7;
@@ -157,5 +143,12 @@ export default {
         word-spacing: 1em;
       }
     }
+  }
+  .sliders .title {
+    font-style: normal;
+    font-weight: bold;
+
+    line-height: 1.17;
+    letter-spacing: -0.5px;
   }
 </style>
