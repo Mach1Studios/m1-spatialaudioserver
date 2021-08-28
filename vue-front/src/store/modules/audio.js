@@ -9,32 +9,8 @@ const defaultState = () => ({
   view: null,
 });
 
-// const merger = () => {
-//   const analyser = context.createAnalyser();
-//   const gain = context.createGain();
-//   const panner = context.createPanner();
-//
-//   splitter.connect(gain, chanel, 0);
-//
-//   biquadFilter.connect(gain);
-//   convolver.connect(gain);
-//
-//   panner.setPosition(1, 0, 0);
-//   panner.panningModel = 'equalpower';
-//
-//   gain.connect(panner);
-//
-//   gain.connect(analyser);
-//
-//   analyser.connect(context.destination);
-//   panner.connect(context.destination);
-//
-//   gain.gain.value = 0.1;
-// }
-/* eslint-disable */
 const actions = {
-  createGainNodes({ commit, state, getters }) {
-    console.log('flush all channels settings');
+  createGainNodes({ commit, state, getters }, volume = 0) {
     commit('setGain');
 
     const { channels, context, source } = state;
@@ -44,29 +20,19 @@ const actions = {
     source.connect(splitter);
     context.createGain = context.createGain || context.createGainNode;
 
-    const processing = (position, channel) => {
-      if (position !== -1 && position !== 1) throw new Error('Broken position');
+    let position = -1;
+    const processing = (channel) => {
       const analyser = context.createAnalyser();
-      // const smp = context.createBufferSource();
       const gain = context.createGain();
       const panner = context.createPanner();
 
-      console.log(channel);
-
-      // smp.buffer = context.createBuffer(
-      //   1, 1, context.sampleRate,
-      // );
-      // smp.buffer.copyToChannel(state.source.getChannelData(channel), 0, 0);
-
-
+      // FIXME: analyser broken spatial sound
       // gain.connect(analyser);
-
       // analyser.connect(context.destination);
-      // panner.connect(context.destination);
 
-      gain.gain.value = 0;
+      gain.gain.value = volume;
 
-      panner.setPosition(position, 0, 0)
+      panner.setPosition(position, 0, 0);
       panner.panningModel = 'equalpower';
       panner.connect(gain);
 
@@ -75,37 +41,13 @@ const actions = {
 
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
+
+      position *= -1;
+      if (position === 1) processing(channel);
     };
 
-    _.each(getters.listOfChannels, (channel) => {
-      processing(-1, channel);
-      processing(1, channel);
-
-      // const analyser = context.createAnalyser();
-      // const gain = context.createGain();
-      // const panner = context.createPanner();
-      //
-      // const index = channel % 2 === 0 ? -1 : 1;
-      //
-      // panner.setPosition(index, 0, 0);
-      // panner.panningModel = 'equalpower';
-      //
-      // gain.connect(panner);
-      // gain.connect(analyser);
-      //
-      // analyser.connect(context.destination);
-      // panner.connect(context.destination);
-      //
-      // gain.gain.value = 0.1;
-      //
-      // splitter.connect(gain, channel, 0);
-      // commit('setGain', gain);
-      // commit('setGainAnalyser', analyser);
-    });
+    _.each(getters.listOfChannels, processing);
     merger.connect(context.destination);
-
-
-    // merger.connect(context.createMediaStreamDestination());
 
     // commit('loader', { enable: false }, { root: true });
   },

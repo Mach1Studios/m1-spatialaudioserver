@@ -10,10 +10,15 @@
           <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
         </div>
         <div class="col min">
-          <i class="material-icons small black-text">volume_up</i>
+          <i class="material-icons small black-text" @click="mute(channel)">
+            {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
+          </i>
         </div>
         <div class="col min">
-          <input class="volume" step="0.01" min="0" max="1" value="1.0" type="range" @change="changeVolume(channel, $event.target.value)">
+          <input class="volume" step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
+        </div>
+        <div class="col min">
+          <input class="volume" step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
         </div>
       </div>
     </div>
@@ -35,6 +40,16 @@ const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
 });
 
+const getPosition = (channel) => ({
+  left: channel * 2,
+  right: channel * 2 + 1,
+});
+
+// 0,1 = 1,2 => 0
+// 2,3 = 3,4 => 1
+// 4,5 = 5,6 => 2
+// 6,7 = 7,8 => 3
+
 export default {
   name: 'AudioPlayerControls',
   components: { AudioPlayerSineWave },
@@ -43,10 +58,12 @@ export default {
       spinner: '',
       lineColors: _.map(['#7F842F', '#e1a69f', '#4B3C53', '#C04040', '#D36646', '#9CA2C2', '#8BB4C9', '#DBD534'], (value) => hexRgb(value, { format: 'css' })),
       defaultVolume: 0.1,
+      channelsVolume: {},
+      channelsMuted: {},
     };
   },
   computed: {
-    ...mapGetters('audio', { channels: 'listOfChannelsD', isActiveChannels: 'isActiveChannels' }),
+    ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
   },
@@ -62,10 +79,39 @@ export default {
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
     changeVolume(channel, volume) {
-      this.updateVolume({ channel, volume });
+      this.channelsVolume[channel] = volume;
+
+      const { left, right } = getPosition(channel);
+
+      this.updateVolume({ channel: right, volume });
+      this.updateVolume({ channel: left, volume });
+
+      this.channelsMuted[channel] = Number(volume) === 0;
+    },
+    changePosition(channel, value) {
+      const { left, right } = getPosition(channel);
+      switch (Number(value)) {
+        case -1:
+          this.updateVolume({ channel: right, volume: 0 });
+          this.updateVolume({ channel: left, volume: this.channelsVolume[channel] });
+          break;
+        case 1:
+          this.updateVolume({ channel: right, volume: this.channelsVolume[channel] });
+          this.updateVolume({ channel: left, volume: 0 });
+          break;
+        default:
+          this.updateVolume({ channel: right, volume: this.channelsVolume[channel] });
+          this.updateVolume({ channel: left, volume: this.channelsVolume[channel] });
+      }
+    },
+    mute(channel) {
+      this.changeVolume(channel, this.channelsMuted[channel] ? this.defaultVolume : 0);
     },
     async init() {
       if (this.isActiveStream && this.isActiveChannels) {
+        _.each(this.channels, (channel, index) => {
+          this.channelsVolume[index] = this.defaultVolume;
+        });
         return this.createGainNodes(this.defaultVolume);
       }
       await wait(2);
@@ -79,21 +125,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .preview .title {
-    font-style: normal;
-    font-weight: bold;
+  .preview {
+    .title {
+      font-style: normal;
+      font-weight: bold;
 
-    line-height: 1.17;
-    letter-spacing: -0.5px;
+      line-height: 1.17;
+      letter-spacing: -0.5px;
+    }
+
+    .volume {
+      filter:  grayscale(100%);
+      height: 1px;
+    }
+
+    i {
+      cursor: pointer;
+    }
   }
-
   .channel-spinner {
     float: left;
     left: 45%;
-  }
-
-  div>.volume {
-    filter:  grayscale(100%);
-    height: 1px;
   }
 </style>
