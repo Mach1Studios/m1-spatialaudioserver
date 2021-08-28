@@ -2,12 +2,15 @@
   <div class="container max">
     <div class="row">
       <div class="col s3">
-        <div class="card">
-          <!-- <AudioPlayerRadioControls/> -->
+        <div class="card round">
+          <AudioPlayerRadioControls/>
         </div>
-        <div class="card transparent playlist">
+        <div class="card round transparent playlist">
           <Modal position="left" title="Playlist" icon="play_circle_outline">
-            <FileList/>
+            <AudioPlayerPlaylists
+              class="modal-playlist"
+              :admin="true"
+            />
             <AudioPlayer
               skin="light"
               class="large-width absolute center bottom light-player"
@@ -23,8 +26,8 @@
         </div>
       </div> -->
       <div class="col s3">
-        <div class="card">
-          <!-- <AudioPlayerSliders/> -->
+        <div class="card round">
+          <AudioPlayerSliders/>
         </div>
       </div>
     </div>
@@ -44,12 +47,13 @@ import {
   Mach1DecoderProxy,
 } from 'mach1spatial-decode';
 
-// import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
-import AudioPlayer from '../components/AudioPlayer.vue';
-// import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
-import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
+import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
+import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
+import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
+import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
-import FileList from '../components/FileList.vue';
+import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
+// import FileList from '../components/FileList.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -62,12 +66,13 @@ const mousemoveListener = (event) => {
 
 export default {
   components: {
-    // AudioPlayerRadioControls,
+    AudioPlayerRadioControls,
     AudioPlayer,
-    // AudioPlayerSliders,
+    AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
-    FileList,
+    AudioPlayerPlaylists,
+    // FileList,
   },
   data() {
     return { isMount: false };
@@ -141,5 +146,8 @@ export default {
     .light-player {
       padding-bottom: 30px;
     }
+  }
+  .modal-playlist {
+    margin-top: 32px;
   }
 </style>
