@@ -2,6 +2,9 @@ import _ from 'lodash';
 // import { DateTime } from 'luxon';
 import { v4 as uuid } from 'uuid';
 
+import { encryptSync } from './services/encryption';
+// import Model from './services/model';
+
 class UserModel {
   #keys = []
 
@@ -19,7 +22,15 @@ class UserModel {
     this.#item.role = this.#setModelKey(item, 'role', 'user');
     this.#item.lastSeen = this.#setModelKey(item, 'lastSeen');
 
-    this.#item.password = _.get(item, 'password');
+    if (_.has(item, 'password')) {
+      const { hash, salt } = encryptSync(_.get(item, 'password'));
+      this.#item.hash = hash;
+      this.#item.salt = salt;
+    }
+  }
+
+  get user() {
+    return { ...this.#item };
   }
 
   get keys() {
@@ -48,7 +59,7 @@ export default {
   async create(ctx) {
     const { body } = ctx.request;
 
-    const user = { ...body, id: uuid() };
+    const { user } = new UserModel(body);
 
     await ctx.redis.hset(`user:${user.id}`, user);
     await Promise.all([
