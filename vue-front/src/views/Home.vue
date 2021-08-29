@@ -1,5 +1,5 @@
 <template>
-  <div class="container max">
+  <div class="container max no-scroll">
     <div class="row">
       <div class="col s4">
         <div class="card round">

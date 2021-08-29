@@ -13,10 +13,6 @@
       <input name="password" type="password" autocomplete="new-password" v-model="user.password" @focus="select" @blur="select">
       <label :class="{ active: focused.password }">Password</label>
     </div>
-    <!-- <div class="field label border">
-      <input name="password" type="password" v-model="user.password">
-      <label :class="{ active: focused.nickname }">Confirm Password</label>
-    </div> -->
     <div class="field label sufix">
       <select v-model="user.role">
         <option>user</option>

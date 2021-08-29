@@ -14,7 +14,7 @@
     <tbody>
       <tr v-for="item in users" :key="item">
         <td>
-          <p class="medium-text">{{item.id}}</p>
+          <p class="medium-text">{{item.number}}</p>
         </td>
         <td>
           <p class="medium-text">{{item.nickname}}</p>

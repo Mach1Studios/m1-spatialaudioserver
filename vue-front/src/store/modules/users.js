@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { v4 as uuid, validate as isUuid } from 'uuid';
 
-// import FetchHelper from '../utils';
+import FetchHelper from '../utils';
 
 const defaultState = () => ({
   // user: {
@@ -14,43 +14,48 @@ const defaultState = () => ({
   items: [],
 });
 
+const api = new FetchHelper('users');
+
 const actions = {
   // eslint-disable-next-line
   async getAll({ commit }) {
+    const users = await api.get();
+    commit('setUsers', _.map(users, (user, index) => ({ number: index + 1, ...user })));
     // eslint-disable-next-line
-    const users = [
-      {
-        id: '1',
-        number: '1',
-        nickname: 'Siouxsie_1957',
-        email: 'siouxsieandthebanshees@gmail.com',
-        role: 'user',
-        lastSeen: '21.07.1995',
-      },
-      {
-        id: '2',
-        number: '2',
-        nickname: 'Peter_1957',
-        email: 'bauhaus@gmail.com',
-        role: 'user',
-        lastSeen: '04.08.1983',
-      },
-      {
-        id: '3',
-        number: '3',
-        nickname: 'Ian_1956',
-        email: 'joydivision@gmail.com',
-        role: 'admin',
-        lastSeen: '18.05.1980',
-      },
-    ];
-    // commit('setUsers', users);
+    // const users = [
+    //   {
+    //     id: '1',
+    //     number: '1',
+    //     nickname: 'Siouxsie_1957',
+    //     email: 'siouxsieandthebanshees@gmail.com',
+    //     role: 'user',
+    //     lastSeen: '21.07.1995',
+    //   },
+    //   {
+    //     id: '2',
+    //     number: '2',
+    //     nickname: 'Peter_1957',
+    //     email: 'bauhaus@gmail.com',
+    //     role: 'user',
+    //     lastSeen: '04.08.1983',
+    //   },
+    //   {
+    //     id: '3',
+    //     number: '3',
+    //     nickname: 'Ian_1956',
+    //     email: 'joydivision@gmail.com',
+    //     role: 'admin',
+    //     lastSeen: '18.05.1980',
+    //   },
+    // ];
   },
   // eslint-disable-next-line
   async create({ commit }, data) {
-    console.log('text', data);
     // TODO: should be remove after created support from redis db
     const id = uuid();
+
+    const user = await api.post(data);
+    console.log(user);
     commit('createUser', { ...data, id });
   },
   async remove({ commit }, data) {
