@@ -57,7 +57,18 @@ export default class FetchHelper {
   async #request({ itemId, method, body }) {
     this.path = itemId;
     this.options.method = method ?? 'GET';
-    this.options.body = body;
+    if (_.isObject(body)) {
+      _.set(this.options, 'headers.Accept', 'application/json');
+      _.set(this.options, 'headers.Content-Type', 'application/json');
+
+      try {
+        this.options.body = JSON.stringify(body);
+      } catch (e) {
+        throw new Error('Broken request payload');
+      }
+    } else {
+      this.options.body = body;
+    }
 
     // TODO: For next iteration need to create full response method with error handler
     try {

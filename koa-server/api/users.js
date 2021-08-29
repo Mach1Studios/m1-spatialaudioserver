@@ -1,54 +1,47 @@
-// eslint-disable-next-line
-// import { readdir, rm } from 'fs/promises';
-//
-// import _ from 'lodash';
-//
-// const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
-//
-// export default {
-//
-//   async list(ctx) {
-//
-//     let items = await ctx.redis.find('id');
-//
-//     const keys = sanitizeId(...items);
-//
-//     const users = [
-//       {
-//         id: 'id',
-//         nickname: 'nickname',
-//         email: 'email',
-//         role: 'role',
-//         lastSeen: 'lastSeen',
-//       }
-//     ];
-//     const body = _.zipWith(
-//       keys,
-//       users,
-//       (id, nickname, email, role, lastSeen) => ({ id, nickname, email, role, lastSeen })
-//     );
-//
-//     ctx.body = body;
-//   },
-// };
-import { DateTime } from 'luxon';
+import _ from 'lodash';
+// import { DateTime } from 'luxon';
 import { v4 as uuid } from 'uuid';
+
+class UserModel {
+  #keys = []
+
+  #item = {}
+
+  #setModelKey(source, path, defaultValue) {
+    this.#keys = _.union(this.#keys, [path]);
+    return _.get(source, path, defaultValue);
+  }
+
+  constructor(item) {
+    this.#item.id = this.#setModelKey(item, 'id', uuid());
+    this.#item.nickname = this.#setModelKey(item, 'nickname');
+    this.#item.email = this.#setModelKey(item, 'email');
+    this.#item.role = this.#setModelKey(item, 'role', 'user');
+    this.#item.lastSeen = this.#setModelKey(item, 'lastSeen');
+
+    this.#item.password = _.get(item, 'password');
+  }
+
+  get keys() {
+    return _.uniq(this.#keys);
+  }
+
+  static validate() {
+    // TODO: should store standart validation object
+    return null;
+  }
+}
 
 export default {
   async list(ctx) {
-    const users = [
-      {
-        id: uuid(),
-        nickname: 'nickname',
-        email: 'email@test.com',
-        role: 'admin',
-        lastSeen: DateTime.local(),
-      },
-    ];
+    const model = new UserModel();
 
-    const tests = await ctx.redis.find('user*');
-    const list = await ctx.redis.lrange('users:all', 0, 100);
-    console.log(tests, list);
+    const items = await ctx.redis.lrange('users:all', 0, 100);
+    const users = await Promise.all(_.map(items, async (item) => {
+      const values = await ctx.redis.hmget(item, model.keys);
+
+      return _.zipObject(model.keys, values);
+    }));
 
     ctx.body = users;
   },
@@ -67,5 +60,14 @@ export default {
 
     ctx.status = 201;
     ctx.body = user;
+  },
+  async del(ctx) {
+    const { id } = ctx.params;
+    const key = `user:${id}`;
+
+    const [user] = await Promise.all([ctx.redis.del(key), ctx.redis.lrem('users:all', 0, key)]);
+    if (user === 0) ctx.throw(404);
+
+    ctx.status = 204;
   },
 };

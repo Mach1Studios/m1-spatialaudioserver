@@ -4,8 +4,9 @@ import _ from 'lodash';
 export default (options) => {
   const isEnabled = !_.get(options, 'disable', false);
 
-  const defaultHeaders = {
+  const defaultOptions = {
     allowMethods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowHeaders: ['Content-Type'],
   };
 
   return async (ctx, next) => {
@@ -19,7 +20,8 @@ export default (options) => {
     }
 
     ctx.set('Access-Control-Allow-Origin', origin);
-    ctx.set('Access-Control-Allow-Methods', defaultHeaders.allowMethods.join(','));
+    ctx.set('Access-Control-Allow-Methods', defaultOptions.allowMethods.join(','));
+    ctx.set('Access-Control-Allow-Headers', defaultOptions.allowHeaders.join(','));
 
     ctx.status = 204;
   };

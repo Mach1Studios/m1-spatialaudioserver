@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { v4 as uuid, validate as isUuid } from 'uuid';
+import { validate as isUuid } from 'uuid';
 
 import FetchHelper from '../utils';
 
@@ -51,15 +51,12 @@ const actions = {
   },
   // eslint-disable-next-line
   async create({ commit }, data) {
-    // TODO: should be remove after created support from redis db
-    const id = uuid();
-
     const user = await api.post(data);
-    console.log(user);
-    commit('createUser', { ...data, id });
+    commit('createUser', user);
   },
   async remove({ commit }, data) {
     const id = !isUuid(data) ? _.get(data, 'id') : data;
+    await api.del(id);
     commit('removeUser', id);
   },
 };
