@@ -23,9 +23,16 @@
                 <i class="material-icons">repeat</i>
                 <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
-              <button v-if="admin" class="border round transparent-border">
+              <Modal
+                icon="edit"
+                position="center"
+                padding="no-padding"
+              >
+              <PlaylistTrackEditForm/>
+              </Modal>
+              <!-- <button v-if="admin" class="border round transparent-border">
                 <i class="material-icons">edit</i>
-              </button>
+              </button> -->
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
               </button>
@@ -39,9 +46,15 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import Modal from './Modal.vue';
+import PlaylistTrackEditForm from './PlaylistTrackEditForm.vue';
 
 export default {
   name: 'FileList',
+  components: {
+    Modal,
+    PlaylistTrackEditForm,
+  },
   props: { admin: Boolean, user: Boolean },
 
   computed: mapState({
@@ -110,12 +123,6 @@ export default {
       i {
         font-size: 20px;
       }
-    }
-  }
-
-  #Playlist {
-    .list-table {
-      margin-left: 13px;
     }
   }
 </style>

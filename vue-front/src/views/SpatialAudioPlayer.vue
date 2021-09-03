@@ -6,7 +6,13 @@
           <AudioPlayerRadioControls/>
         </div>
         <div class="card round transparent playlist">
-          <Modal position="left" title="Playlist" icon="play_circle_outline">
+          <Modal
+            title="Playlist"
+            icon="play_arrow"
+            position="left"
+            feature="small grey-light-3 large-width small-space no-padding no-margin"
+            padding="no-margin"
+          >
             <AudioPlayerPlaylists
               class="modal-playlist"
               :admin="true"

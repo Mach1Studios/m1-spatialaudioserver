@@ -1,5 +1,16 @@
 <template lang="html">
   <div id="Playlist" class="large-width">
+    <div class="add-new-playlist">
+      <Modal
+        title="Add new playlist"
+        icon="add"
+        position="center"
+        feature="small absolute center middle grey-light-3"
+        padding="medium-padding"
+      >
+        <PlaylistAddForm/>
+      </Modal>
+    </div>
     <div class="card flat grey-light-4 playlists">
       <div class="row no-wrap">
         <div class="col min" v-on:click="show = !show">
@@ -14,12 +25,20 @@
             <button class="border round transparent-border" @click="visibility">
               <i class="material-icons">{{icon}}</i>
             </button>
-            <button class="border round transparent-border">
-              <i class="material-icons">edit</i>
-            </button>
-            <button class="border round transparent-border">
-              <i class="material-icons">share</i>
-            </button>
+            <Modal
+              icon="edit"
+              position="center"
+              padding="no-padding"
+            >
+            <PlaylistEditForm/>
+            </Modal>
+            <Modal
+              icon="share"
+              position="center small"
+              padding="no-padding"
+            >
+            <Select/>
+            </Modal>
             <button class="border round transparent-border">
               <i class="material-icons">delete</i>
             </button>
@@ -28,7 +47,8 @@
       </div>
     </div>
     <transition name="fade">
-      <div v-if="show" class="card flat tracks grey-light-5">
+      <div v-if="show" class="card flat grey-light-5 list">
+        <Select/>
         <FileList :admin="true"/>
       </div>
     </transition>
@@ -38,10 +58,20 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import FileList from '../FileList.vue';
+import Modal from '../Modal.vue';
+import PlaylistAddForm from '../PlaylistAddForm.vue';
+import PlaylistEditForm from '../PlaylistEditForm.vue';
+import Select from '../Select.vue';
 
 export default {
   name: 'AudioPlayerPlaylists',
-  components: { FileList },
+  components: {
+    FileList,
+    Modal,
+    PlaylistAddForm,
+    PlaylistEditForm,
+    Select,
+  },
   el: '#Playlist',
   data() {
     return {
@@ -82,14 +112,20 @@ export default {
     }
     border-radius: 0;
   }
+
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
   }
+
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
-  .tracks {
+
+  .add-new-playlist {
+    padding-bottom: 16px;
+  }
+
+  .list {
     margin-top: 0;
-    border-radius: 0;
   }
 </style>

@@ -4,7 +4,13 @@
       <div class="col s12">
         <div class="card round">
           <UsersList/>
-          <Modal title="Add user" icon="add" position="center">
+          <Modal
+            title="Add user"
+            icon="add"
+            position="center"
+            feature="small absolute center middle grey-light-3"
+            padding="small-padding large-margin"
+          >
             <UsersAddForm/>
           </Modal>
         </div>

@@ -1,11 +1,9 @@
 <template lang="html">
-  <div class="medium-padding">
-    <div class="medium-margin">
-      <button class="round medium border grey-light-3 transparent-border black-text absolute middle center open" @click="open">
-        <i v-show="icon" class="black-text">{{icon}}</i>
-        <span class="small-text">{{title}}</span>
-      </button>
-    </div>
+  <div class="no-margin" :class="paddingSize">
+    <button class="round border transparent-border open" :class="buttonFeature" @click="open">
+      <i v-show="icon" class="material-icons">{{icon}}</i>
+      <span class="small-text">{{title}}</span>
+    </button>
     <div v-show="active" class="overlay active dark" @click="close"></div>
     <div class="modal round" :class="currentPosition">
       <nav>
@@ -24,6 +22,12 @@ export default {
     position: {
       type: String,
     },
+    feature: {
+      type: String,
+    },
+    padding: {
+      type: String,
+    },
     title: String,
     icon: String,
   },
@@ -33,7 +37,22 @@ export default {
   computed: {
     currentPosition() {
       const { active, position } = this;
-      return { active, [position]: true };
+      return {
+        active,
+        [position]: true,
+      };
+    },
+    buttonFeature() {
+      const { feature } = this;
+      return {
+        [feature]: true,
+      };
+    },
+    paddingSize() {
+      const { padding } = this;
+      return {
+        [padding]: true,
+      };
     },
   },
   methods: {
@@ -50,8 +69,18 @@ export default {
 <style lang="scss" scoped>
   .open {
     i {
-      font-size: 16px;
+      font-size: 14px;
       color: #4d4d4d;
+    }
+    span {
+      color: #1c1c1c;
+      font-size: 14px;
+    }
+  }
+
+  .open:hover {
+    i {
+      font-size: 18px;
     }
   }
   .close {
@@ -60,5 +89,10 @@ export default {
     i {
       color: #1c1c1c;
     }
+  }
+
+  td>nav>div>button {
+    min-height: 24rem;
+    max-height: 24rem;
   }
 </style>
