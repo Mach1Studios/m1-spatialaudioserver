@@ -7,12 +7,12 @@
     <div class="">
       <FormInput
         name="login"
-        plaseholder="Nickname or email"
+        placeholder="Nickname or email"
         :value="login"
       />
       <FormInput
         name="password"
-        plaseholder="Your Password"
+        placeholder="Your Password"
         :value="password"
       />
     </div>

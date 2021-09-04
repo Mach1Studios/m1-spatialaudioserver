@@ -10,7 +10,7 @@
 
       autocomplete="off"
     >
-    <label v-show="plaseholder" :class="{ active: focused }">{{plaseholder}}</label>
+    <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
     modelValue: {
       type: String,
     },
-    plaseholder: {
+    placeholder: {
       type: String,
     },
   },

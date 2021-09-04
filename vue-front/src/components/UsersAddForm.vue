@@ -1,7 +1,7 @@
 <template lang="html">
-  <FormInput name="nickname" plaseholder="Nickname" v-model="user.nickname"/>
-  <FormInput name="email" plaseholder="E-mail" v-model="user.email"/>
-  <FormInput name="password" plaseholder="Password" v-model="user.password"/>
+  <FormInput name="nickname" placeholder="Nickname" v-model="user.nickname"/>
+  <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
+  <FormInput name="password" placeholder="Password" v-model="user.password"/>
 
   <div class="field label sufix">
     <select v-model="user.role">
