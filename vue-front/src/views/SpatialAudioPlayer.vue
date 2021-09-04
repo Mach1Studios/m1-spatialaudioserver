@@ -10,27 +10,17 @@
             title="Playlist"
             icon="play_arrow"
             position="left"
-            feature="small grey-light-3 large-width small-space no-padding no-margin"
+            buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
             padding="no-margin"
           >
-            <AudioPlayerPlaylists
-              class="modal-playlist"
-              :admin="true"
-            />
-            <AudioPlayer
-              skin="light"
-              class="large-width absolute center bottom light-player"
-            />
+            <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
+            <template #footer>
+              <AudioPlayer skin="light" class="light-player"/>
+            </template>
           </Modal>
         </div>
       </div>
-      <div class="col s6">
-      </div>
-      <!-- <div class="col s10">
-        <div class="card">
-          <AudioPlayer/>
-        </div>
-      </div> -->
+      <div class="col s6"></div>
       <div class="col s3">
         <div class="card round">
           <AudioPlayerSliders/>
