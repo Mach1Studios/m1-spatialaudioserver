@@ -1,8 +1,9 @@
 <template lang="html">
-  <Modal title="Log In">
+  <Modal title="Log In" titleClasses="large-width add-user">
     <template #button>
       <button>Log in</button>
     </template>
+
     <div class="">
       <FormInput
         name="login"

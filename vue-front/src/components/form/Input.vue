@@ -1,6 +1,15 @@
 <template lang="html">
   <div class="field label border">
-    <input :name="name" :type="type" :value="value" @focus="select" @blur="select" autocomplete="off">
+    <input
+      :name="name"
+      :type="type"
+      :value="modelValue"
+      @blur="select"
+      @focus="select"
+      @input="$emit('update:modelValue', $event.target.value)"
+
+      autocomplete="off"
+    >
     <label v-show="plaseholder" :class="{ active: focused }">{{plaseholder}}</label>
   </div>
 </template>
@@ -18,22 +27,22 @@ export default {
       required: true,
       default: 'text',
     },
-    value: {
+    modelValue: {
       type: String,
     },
     plaseholder: {
       type: String,
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return { focused: false };
   },
   methods: {
-    select({ target: { name }, type }) {
-      console.log(name, type);
+    select({ type }) {
       if (type === 'focus') {
         this.focused = true;
-      } else if (type === 'blur' && this.value === '') {
+      } else if (type === 'blur' && this.modelValue === '') {
         this.focused = false;
       }
     },
@@ -42,4 +51,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.field {
+  input {
+    &:focus {
+      border-color: #1c1c1c;
+    }
+  }
+}
 </style>

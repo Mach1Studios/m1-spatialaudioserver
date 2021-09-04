@@ -5,11 +5,12 @@
         <div class="card round">
           <UsersList/>
           <Modal
-            title="Add user"
+            buttonClasses="small absolute center middle grey-light-3"
             icon="add"
-            position="center"
-            feature="small absolute center middle grey-light-3"
             padding="small-padding large-margin"
+            position="center"
+            title="Add user"
+            titleClasses="large-width add-user"
           >
             <UsersAddForm/>
           </Modal>
