@@ -11,45 +11,49 @@
         <PlaylistAddForm/>
       </Modal>
     </div>
-    <div class="card flat grey-light-4 playlists">
-      <div class="row no-wrap">
-        <div class="col min" v-on:click="show = !show">
-          <img src="../../assets/playlist.svg" class="circle large">
+    <div v-for="item in playlists" :key="item">
+      <transition name="fade">
+        <div class="playlists">
+          <div class="card flat grey-light-4">
+            <div class="row no-wrap">
+              <div class="col min" @click="show = (show === item.id) ? show = false : show = item.id">
+                <img src="../../assets/playlist.svg" class="circle large">
+              </div>
+              <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
+                <h6 class="bold no-margin">{{item.name}}</h6>
+                <p>Last upload: music.wav</p>
+              </div>
+              <div class="col min">
+                <nav class="right-align">
+                  <button class="border round transparent-border" @click="visibility">
+                    <i class="material-icons">{{icon}}</i>
+                  </button>
+                  <Modal
+                    icon="edit"
+                    position="center"
+                    padding="no-padding"
+                  >
+                  <PlaylistEditForm/>
+                  </Modal>
+                  <Modal
+                    icon="share"
+                    position="center small"
+                    padding="no-padding"
+                  >
+                  </Modal>
+                  <button class="border round transparent-border" @click="remove(item)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <div v-show="show === item.id" class="card flat grey-light-5 list">
+            <FileList :admin="true"/>
+          </div>
         </div>
-        <div class="col" v-on:click="show = !show">
-          <h6 class="bold no-margin">Playlist</h6>
-          <p>Last upload: music.wav</p>
-        </div>
-        <div class="col min">
-          <nav class="right-align">
-            <button class="border round transparent-border" @click="visibility">
-              <i class="material-icons">{{icon}}</i>
-            </button>
-            <Modal
-              icon="edit"
-              position="center"
-              padding="no-padding"
-            >
-            <PlaylistEditForm/>
-            </Modal>
-            <Modal
-              icon="share"
-              position="center small"
-              padding="no-padding"
-            >
-            </Modal>
-            <button class="border round transparent-border">
-              <i class="material-icons">delete</i>
-            </button>
-          </nav>
-        </div>
-      </div>
+      </transition>
     </div>
-    <transition name="fade">
-      <div v-if="show" class="card flat grey-light-5 list">
-        <FileList :admin="true"/>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -75,26 +79,30 @@ export default {
       isPrivate: true,
     };
   },
-  props: { admin: Boolean, user: Boolean },
+  props: { admin: Boolean, user: Boolean, visibility: Boolean },
   computed: mapState({
     tracks: (state) => state.tracks.items,
     icon() {
       return this.isPrivate ? 'visibility' : 'visibility_off';
     },
+    playlists: (state) => state.playlists.items,
   }),
   methods: {
     ...mapActions('tracks', [
       'select', 'remove',
     ]),
+    ...mapActions('playlists', ['remove']),
   },
   created() {
     this.$store.dispatch('tracks/getAll');
+    this.$store.dispatch('playlists/getAll');
   },
 };
 </script>
 
 <style lang="scss" scoped>
   .playlists {
+    margin-top: 16rem;
     i {
       font-size: 16px;
       color: #4d4d4d;
@@ -106,7 +114,9 @@ export default {
     p:first-of-type {
       margin-top: 2px;
     }
-    border-radius: 0;
+    .card {
+      border-radius: 0;
+    }
   }
 
   .fade-enter-active, .fade-leave-active {

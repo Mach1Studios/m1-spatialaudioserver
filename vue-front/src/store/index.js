@@ -5,6 +5,7 @@ import audio from './modules/audio';
 import dash from './modules/dash';
 import tracks from './modules/tracks';
 import users from './modules/users';
+import playlists from './modules/playlists';
 
 export default createStore({
   strict: process.env.NODE_ENV !== 'production',
@@ -53,5 +54,6 @@ export default createStore({
     dash,
     tracks,
     users,
+    playlists,
   },
 });

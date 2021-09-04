@@ -125,4 +125,7 @@ export default {
       }
     }
   }
+  #Playlist table {
+    margin-left: 13px;
+  }
 </style>
