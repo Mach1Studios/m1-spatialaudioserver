@@ -1,31 +1,31 @@
 <template lang="html">
-  <FormInput name="nickname" placeholder="Nickname" v-model="user.nickname"/>
-  <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
-  <FormInput name="password" placeholder="Password" v-model="user.password"/>
+  <div class="add-user">
+    <FormInput name="nickname" placeholder="Nickname" v-model="user.nickname"/>
+    <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
+    <FormInput name="password" placeholder="Password" v-model="user.password"/>
 
-  <div class="field label sufix">
-    <select v-model="user.role">
-      <option>user</option>
-      <option>admin</option>
-    </select>
-    <label class="active">Role</label>
-    <i class="material-icons">arrow_drop_down</i>
+    <Select name="users" placeholder="Role" :options="roles" v-model="user.role"/>
+    <button class="border round transparent-border small-space grey-light-3" @click="add()">
+      <i class="material-icons">add</i>
+      <span class="small-text">Add User</span>
+    </button>
   </div>
-  <button class="border round transparent-border small-space grey-light-3" @click="add()">
-    <i class="material-icons">add</i>
-    <span class="small-text">Add User</span>
-  </button>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import FormInput from './form/Input.vue';
+import Select from './form/Select.vue';
 
 export default {
   name: 'UsersAddForm',
-  components: { FormInput },
+  components: {
+    FormInput,
+    Select,
+  },
   data() {
     return {
+      roles: ['user', 'admin'],
       user: {
         nickname: '',
         email: '',
@@ -52,32 +52,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // .add-user {
-  //   i {
-  //     font-size: 16px;
-  //     color: #4d4d4d;
-  //   }
-  //   input {
-  //     &:focus {
-  //       border-color: #1c1c1c;
-  //     }
-  //   }
-  //   select{
-  //     &:focus {
-  //       border-bottom: 2rem solid #1c1c1c;
-  //     }
-  //   }
-  //   span {
-  //     color: #1c1c1c;
-  //   }
-  //   i {
-  //     font-size: 16px;
-  //     color: #4d4d4d;
-  //   }
-  //   button {
-  //     width: 100%;
-  //     padding: 0;
-  //     margin: 16rem 0 16rem 0;
-  //   }
-  // }
+  .add-user {
+    i {
+      font-size: 16px;
+      color: #4d4d4d;
+    }
+    span {
+      color: #1c1c1c;
+    }
+    i {
+      font-size: 16px;
+      color: #4d4d4d;
+    }
+    button {
+      width: 100%;
+      padding: 0;
+      margin: 16rem 0 16rem 0;
+    }
+  }
 </style>

@@ -5,7 +5,6 @@
     <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
     <router-link class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
-    <!-- <button class="button">Log in</button> -->
     <UsersAuth/>
   </div>
 </template>

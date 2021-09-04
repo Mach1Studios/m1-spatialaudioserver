@@ -37,7 +37,6 @@
               position="center small"
               padding="no-padding"
             >
-            <Select/>
             </Modal>
             <button class="border round transparent-border">
               <i class="material-icons">delete</i>
@@ -48,7 +47,6 @@
     </div>
     <transition name="fade">
       <div v-if="show" class="card flat grey-light-5 list">
-        <Select/>
         <FileList :admin="true"/>
       </div>
     </transition>
@@ -61,7 +59,6 @@ import FileList from '../FileList.vue';
 import Modal from '../Modal.vue';
 import PlaylistAddForm from '../PlaylistAddForm.vue';
 import PlaylistEditForm from '../PlaylistEditForm.vue';
-import Select from '../Select.vue';
 
 export default {
   name: 'AudioPlayerPlaylists',
@@ -70,7 +67,6 @@ export default {
     Modal,
     PlaylistAddForm,
     PlaylistEditForm,
-    Select,
   },
   el: '#Playlist',
   data() {

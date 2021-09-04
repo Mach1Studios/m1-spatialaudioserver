@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="large-width invite">
     <h4 class="title center-align large-text">Invite users to playlist</h4>
-    <Select/>
     <div>
       <button class="border round transparent-border small-space grey-light-3">
         <i class="material-icons">send</i>
@@ -12,13 +11,9 @@
 </template>
 
 <script>
-import Select from './Select.vue';
 
 export default {
   name: 'PlaylistInviteForm',
-  components: {
-    Select,
-  },
 };
 </script>
 
