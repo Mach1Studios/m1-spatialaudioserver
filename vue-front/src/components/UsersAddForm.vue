@@ -4,7 +4,7 @@
     <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
     <FormInput name="password" placeholder="Password" v-model="user.password"/>
 
-    <Select name="users" placeholder="Role" :options="roles" v-model="user.role"/>
+    <FormSelect name="users" placeholder="Role" :options="roles" v-model="user.role"/>
     <button class="border round transparent-border small-space grey-light-3" @click="add()">
       <i class="material-icons">add</i>
       <span class="small-text">Add User</span>
@@ -14,14 +14,14 @@
 
 <script>
 import { mapActions } from 'vuex';
-import FormInput from './form/Input.vue';
-import Select from './form/Select.vue';
+import FormInput from './Form/Input.vue';
+import FormSelect from './Form/Select.vue';
 
 export default {
   name: 'UsersAddForm',
   components: {
     FormInput,
-    Select,
+    FormSelect,
   },
   data() {
     return {
