@@ -45,6 +45,7 @@ class UserModel {
 
 export default {
   async list(ctx) {
+    // await ctx.redis.flushall()
     const model = new UserModel();
 
     const items = await ctx.redis.lrange('users:all', 0, 100);
@@ -61,13 +62,13 @@ export default {
 
     const { user } = new UserModel(body);
 
-    await ctx.redis.hset(`user:${user.id}`, user);
-    await Promise.all([
-      ctx.redis.hset(`user:${user.id}`, user),
-      ctx.redis.rpush('users:all', `user:${user.id}`),
-    ]);
-
     // TODO: add validation
+
+    await ctx.redis.multi()
+      .hset(`user:${user.id}`, user)
+      .hset('users:lookup:all', { [user.email]: user.id, [user.nickname]: user.id })
+      .rpush('users:all', `user:${user.id}`)
+      .exec();
 
     ctx.status = 201;
     ctx.body = user;
@@ -75,9 +76,15 @@ export default {
   async del(ctx) {
     const { id } = ctx.params;
     const key = `user:${id}`;
+    const user = await ctx.redis.hgetall(key);
+    if (_.isEmpty(user)) ctx.throw(404);
 
-    const [user] = await Promise.all([ctx.redis.del(key), ctx.redis.lrem('users:all', 0, key)]);
-    if (user === 0) ctx.throw(404);
+    await Promise.all([
+      ctx.redis.del(key),
+      ctx.redis.hdel('users:lookup:all', user.email),
+      ctx.redis.hdel('users:lookup:all', user.nickname),
+      ctx.redis.lrem('users:all', 0, key),
+    ]);
 
     ctx.status = 204;
   },
