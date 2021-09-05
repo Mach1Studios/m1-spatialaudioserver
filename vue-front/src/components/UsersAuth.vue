@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <Modal title="Log In" titleClasses="large-width add-user">
     <template #button>
       <button>Log in</button>
@@ -15,18 +15,21 @@
         placeholder="Your Password"
         :value="password"
       />
+      <FormButton title="Enter" icon="add" />
     </div>
   </Modal>
 </template>
 
 <script>
 import Modal from './Modal.vue';
-import FormInput from './form/Input.vue';
+
+import FormInput from './Form/Input.vue';
+import FormButton from './Form/Button.vue';
 
 export default {
   name: 'UsersAuth',
   components: {
-    Modal, FormInput,
+    Modal, FormInput, FormButton,
   },
   data() {
     return {

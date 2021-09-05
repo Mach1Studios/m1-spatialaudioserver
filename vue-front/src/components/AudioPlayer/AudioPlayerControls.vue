@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div>
     <div class="preview" v-show="isActiveStream === true">
       <h4 class="title large-text">AUDIO PREVIEW</h4>

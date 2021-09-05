@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div id="Playlist" class="large-width">
     <div class="add-new-playlist">
       <Modal

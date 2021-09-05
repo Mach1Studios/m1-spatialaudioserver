@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="large-width invite">
     <h4 class="title center-align large-text">Invite users to playlist</h4>
     <div>

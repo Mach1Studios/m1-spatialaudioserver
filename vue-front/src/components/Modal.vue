@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="no-margin" :class="paddingSize">
     <div @click="open">
       <slot name="button">

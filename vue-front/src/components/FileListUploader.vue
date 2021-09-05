@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="field medium-margin medium-padding">
     <button class="round medium border grey-light-3 transparent-border black-text absolute center middle">
         <input type="file" name="resume" @change="upload">

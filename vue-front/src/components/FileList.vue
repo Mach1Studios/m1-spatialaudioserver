@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="large-width">
     <div v-if="admin"></div>
     <table class="list-table border">

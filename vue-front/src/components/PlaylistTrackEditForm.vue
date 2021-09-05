@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="large-width edit-track">
     <h4 class="title center-align large-text">Rename Track</h4>
     <div class="field label border">

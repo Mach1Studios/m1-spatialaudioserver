@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="large-width add-playlist">
     <h4 class="title center-align large-text">New playlist</h4>
     <div class="field label border">

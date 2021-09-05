@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <table class="table user-list-table border large center-align">
     <thead>
       <tr>

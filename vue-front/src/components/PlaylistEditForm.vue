@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="large-width rename-playlist">
     <h4 class="title center-align large-text">Rename Playlist</h4>
     <div class="field label border">

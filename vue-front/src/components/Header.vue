@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
     <router-link class="link" to="/">Home</router-link>

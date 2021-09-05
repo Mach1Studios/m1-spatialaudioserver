@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="toast white-text" :class="{ pink: notification.isError, green: notification.isSuccess, active: isActive }">
     <i class="material-icons">{{icon}}</i>
     <span>{{notification.message}}</span>

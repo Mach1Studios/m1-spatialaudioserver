@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="overlay active dark" v-show="isLoading">
     <div class="preloader">
       <div class="ball ball-1"></div>
