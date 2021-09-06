@@ -14,9 +14,13 @@ export default (options) => {
     ctx.vary('Origin');
 
     if (!origin || !isEnabled) return next();
+
     if (ctx.method !== 'OPTIONS') {
       ctx.set('Access-Control-Allow-Origin', origin);
-      return next();
+      return next().catch((err) => {
+        _.set(err, 'headers.Access-Control-Allow-Origin', origin);
+        throw err;
+      });
     }
 
     ctx.set('Access-Control-Allow-Origin', origin);
