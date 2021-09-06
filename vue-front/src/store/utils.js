@@ -1,4 +1,6 @@
 import _ from 'lodash';
+// eslint-disable-next-line
+import store from './index';
 
 export default class FetchHelper {
   #defaultUrl = new URL(process.env.VUE_APP_API_URL)
@@ -22,6 +24,11 @@ export default class FetchHelper {
         }
       }
     }
+  }
+
+  dispatch(proxy) {
+    this.dispatch = proxy;
+    return this;
   }
 
   get path() {
@@ -74,8 +81,15 @@ export default class FetchHelper {
     try {
       const response = await fetch(this.url, this.options);
 
+      // eslint-disable-next-line
+      console.log(this._vm);
+
       try {
-        return await response.json();
+        if (response.ok) return await response.json();
+
+        // FIXME: need review
+        const error = await response.json();
+        throw store.dispatch('toast', { error });
       } catch (e) {
         if (response.ok) throw new Error('Wrong JSON response');
 
