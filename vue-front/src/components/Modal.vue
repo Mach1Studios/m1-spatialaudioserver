@@ -22,7 +22,7 @@
         <slot name="header">
           <h4 class="title center-align large-text">{{title}}</h4>
         </slot>
-        <slot></slot>
+        <slot :close="close"></slot>
       </div>
 
       <div class="large-width absolute center bottom">

@@ -1,21 +1,27 @@
 <template>
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
-    <router-link class="link" to="/">Home</router-link>
+    <router-link v-if="session && role === 'admin'" class="link" to="/">Home</router-link>
     <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
-    <router-link class="link" to="/users">Users</router-link>
+    <router-link v-if="session && role === 'admin'" class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
     <UsersAuth/>
   </div>
 </template>
 
 <script>
+import _ from 'lodash';
+import { mapState } from 'vuex';
 import UsersAuth from './UsersAuth.vue';
 
 export default {
   components: {
     UsersAuth,
   },
+  computed: mapState({
+    role: (state) => _.get(state, 'auth.profile.user.role'),
+    session: (state) => state.auth.profile.session,
+  }),
 };
 </script>
 

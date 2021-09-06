@@ -2,10 +2,11 @@ import _ from 'lodash';
 import { createStore } from 'vuex';
 
 import audio from './modules/audio';
+import auth from './modules/auth';
 import dash from './modules/dash';
+import playlists from './modules/playlists';
 import tracks from './modules/tracks';
 import users from './modules/users';
-import playlists from './modules/playlists';
 
 export default createStore({
   strict: process.env.NODE_ENV !== 'production',
@@ -51,9 +52,10 @@ export default createStore({
   },
   modules: {
     audio,
+    auth,
     dash,
+    playlists,
     tracks,
     users,
-    playlists,
   },
 });

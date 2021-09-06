@@ -1,26 +1,33 @@
 <template>
-  <Modal title="Log In" titleClasses="large-width add-user">
+  <Modal v-if="!session" title="Log In" titleClasses="large-width add-user">
     <template #button>
       <button>Log in</button>
     </template>
 
-    <div class="">
+    <template #default="parrent">
       <FormInput
         name="login"
         placeholder="Nickname or email"
-        :value="login"
+        type="text"
+        v-model="login"
       />
       <FormInput
         name="password"
         placeholder="Your Password"
-        :value="password"
+        type="text"
+        v-model="password"
       />
-      <FormButton title="Enter" icon="add" />
-    </div>
+      <FormButton title="Enter" icon="add" @click="handler(parrent.close)"/>
+    </template>
   </Modal>
+  <div v-else>
+    <p style="z-index: 1; color: white">Hello, {{user?.nickname}}!</p>
+  </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 import Modal from './Modal.vue';
 
 import FormInput from './Form/Input.vue';
@@ -36,6 +43,18 @@ export default {
       login: '',
       password: '',
     };
+  },
+  computed: mapState({
+    user: (state) => state.auth.profile.user,
+    session: (state) => state.auth.profile.session,
+  }),
+  methods: {
+    ...mapActions('auth', { auth: 'login' }),
+    async handler(callback) {
+      const { login, password } = this;
+      const isAuth = await this.auth({ login, password });
+      if (isAuth) callback();
+    },
   },
 };
 </script>
