@@ -1,19 +1,28 @@
 <template>
   <div class="large-width invite">
-    <h4 class="title center-align large-text">Invite users to playlist</h4>
-    <div>
-      <button class="border round transparent-border small-space grey-light-3">
-        <i class="material-icons">send</i>
-        <span class="small-text">Invite</span>
-      </button>
-    </div>
+    <FormSelect name="" placeholder="Role"/>
+    <FormButton title="Invite" icon="send" @click="send()"/>
   </div>
 </template>
 
 <script>
+// import { mapActions } from 'vuex';
+
+import FormButton from './Form/Button.vue';
+import FormSelect from './Form/Select.vue';
 
 export default {
   name: 'PlaylistInviteForm',
+  components: {
+    FormButton,
+    FormSelect,
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {
+  },
 };
 </script>
 

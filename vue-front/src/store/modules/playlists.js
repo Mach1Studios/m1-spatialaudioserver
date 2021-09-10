@@ -1,5 +1,5 @@
 import _ from 'lodash';
-// import { validate as isUuid } from 'uuid';
+import { v4 as uuid, validate as isUuid } from 'uuid';
 
 // import FetchHelper from '../utils';
 
@@ -47,16 +47,32 @@ const actions = {
 
     commit('setPlaylists', _.map(playlists, (playlist, index) => ({ number: index + 1, ...playlist })));
   },
-  // eslint-disable-next-line
   async create({ commit }, data) {
-    // const playlist = await api.post(data);
-    // commit('createPlaylist', playlist);
+    // console.log(data);
+    const playlist = {
+      id: uuid(),
+      name: data.name,
+      tracks: [],
+      permission: [],
+      visibility: false,
+    };
+    commit('createPlaylist', playlist);
   },
-  // eslint-disable-next-line
+  async update({ commit }, data) {
+    console.log(data);
+    if (!_.has(data, 'id')) return;
+    // NOTE: update playlist name
+    if (_.get(data, 'name')) {
+      commit('updatePlaylistName', data);
+    }
+    if (_.get(data, 'visibility')) {
+      commit('updatePlaylistVisibility', data);
+    }
+  },
   async remove({ commit }, data) {
-    // const id = !isUuid(data) ? _.get(data, 'id') : data;
+    const id = !isUuid(data) ? _.get(data, 'id') : data;
     // await api.del(id);
-    // commit('removePlaylist', id);
+    commit('removePlaylist', id);
   },
 };
 
@@ -72,6 +88,18 @@ const mutations = {
   },
   createPlaylist(store, playlist) {
     store.items = [...store.items, playlist];
+  },
+  updatePlaylistName(store, { id, name }) {
+    const index = _.findIndex(store.items, (item) => item.id === id);
+    const item = store.items[index];
+
+    store.items[index] = { ...item, name };
+  },
+  updatePlaylistVisibility(store, { id }) {
+    const index = _.findIndex(store.items, (item) => item.id === id);
+    const item = store.items[index];
+
+    store.items[index] = { ...item, visibility: !item.visibility };
   },
   removePlaylist(store, id) {
     store.items = _.remove(store.items, (item) => item.id !== id);
