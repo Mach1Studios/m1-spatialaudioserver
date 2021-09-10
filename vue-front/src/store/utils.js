@@ -82,7 +82,7 @@ export default class FetchHelper {
       const response = await fetch(this.url, this.options);
 
       // eslint-disable-next-line
-      console.log(this._vm);
+      // console.log(this._vm);
 
       try {
         if (response.ok) return await response.json();
