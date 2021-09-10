@@ -38,6 +38,11 @@ export default {
   data() {
     return { focused: false };
   },
+  // computed: {
+  //   isActive() {
+  //     return this.focused && this.modelValue !== '';
+  //   },
+  // },
   methods: {
     select({ type }) {
       if (type === 'focus') {
@@ -46,6 +51,9 @@ export default {
         this.focused = false;
       }
     },
+  },
+  created() {
+    this.focused = this.modelValue !== '';
   },
 };
 </script>
