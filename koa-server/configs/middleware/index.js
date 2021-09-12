@@ -17,7 +17,7 @@ export default function middleware() {
     async (ctx, next) => {
       try {
         await next();
-      } catch ({ statusCode, message = 'Unknown error' }) {
+      } catch ({ statusCode = 500, message = 'Unknown error' }) {
         ctx.throw(statusCode, JSON.stringify({ message }));
       }
     },
