@@ -1,6 +1,6 @@
 import _ from 'lodash';
 // eslint-disable-next-line
-import store from './index';
+import { Store } from './index';
 
 export default class FetchHelper {
   #defaultUrl = new URL(process.env.VUE_APP_API_URL)
@@ -57,6 +57,11 @@ export default class FetchHelper {
     return this.#request({ itemId, body, method: 'POST' });
   }
 
+  async put(body, { itemId } = {}) {
+    const id = _.get(body, 'id', itemId);
+    return this.#request({ itemId: id, body, method: 'PUT' });
+  }
+
   async del(itemId) {
     return this.#request({ itemId, method: 'DELETE' });
   }
@@ -80,25 +85,24 @@ export default class FetchHelper {
     // TODO: For next iteration need to create full response method with error handler
     try {
       const response = await fetch(this.url, this.options);
-
-      // eslint-disable-next-line
-      // console.log(this._vm);
-
       try {
         if (response.ok) return await response.json();
 
+        // console.log(response);
         // FIXME: need review
         const error = await response.json();
-        throw store.dispatch('toast', { error });
+        Store.dispatch('toast', { error });
+        throw error;
       } catch (e) {
         if (response.ok) throw new Error('Wrong JSON response');
-
         throw e;
       }
     } catch (e) {
       if (e.message === 'Wrong JSON response') {
         // NOTE: just skip for this
       }
+
+      Store.dispatch('toast', { error: { ...e } });
       return null;
     }
   }

@@ -8,7 +8,7 @@ import playlists from './modules/playlists';
 import tracks from './modules/tracks';
 import users from './modules/users';
 
-export default createStore({
+const Store = createStore({
   strict: process.env.NODE_ENV !== 'production',
 
   state: {
@@ -63,3 +63,8 @@ export default createStore({
     users,
   },
 });
+
+export { Store };
+export default () => {
+  throw new Error('Missing store instance');
+};

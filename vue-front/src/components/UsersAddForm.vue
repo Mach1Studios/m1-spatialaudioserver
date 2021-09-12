@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      roles: ['user', 'admin'],
+      roles: [{ id: 'user', name: 'user' }, { id: 'admin', name: 'admin' }],
       user: {
         nickname: '',
         email: '',
