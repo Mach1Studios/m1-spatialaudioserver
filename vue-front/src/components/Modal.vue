@@ -9,9 +9,9 @@
       </slot>
     </div>
 
-    <div v-show="active" class="overlay active dark" @click="close"></div>
+    <div v-show="currentPosition.active" class="active dark overlay" @click="close"></div>
 
-    <div class="modal round" :class="currentPosition">
+    <div v-show="currentPosition.active" class="modal round large-width" :class="currentPosition">
       <nav>
         <button class="transparent round absolute right close" @click="close">
           <i class="material-icons">highlight_off</i>
@@ -32,6 +32,8 @@
   </div>
 </template>
 <script>
+import { mapMutations, mapState } from 'vuex';
+
 export default {
   name: 'Modal',
   props: {
@@ -43,16 +45,14 @@ export default {
     title: String,
     titleClasses: String,
   },
-  data() {
-    return {
-      active: false,
-    };
-  },
   computed: {
+    ...mapState({
+      active: (state) => state.modalVisibility,
+    }),
     currentPosition() {
       const { active, position } = this;
       return {
-        active,
+        active: active !== null && this.title === active,
         [position]: true,
       };
     },
@@ -64,17 +64,26 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(['setModalVisibility']),
     close() {
-      this.active = false;
+      this.setModalVisibility();
     },
     open() {
-      this.active = true;
+      this.setModalVisibility(this.title);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+  // .active {
+  //   opacity: 1;
+  //   visibility: visible;
+  // }
+  // .modal{
+  //   opacity: 1;
+  //   visibility: visible;
+  // }
   .title {
     font-style: normal;
     font-weight: bold;

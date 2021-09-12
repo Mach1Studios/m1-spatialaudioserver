@@ -1,6 +1,6 @@
 <template>
   <div id="Playlist" class="large-width">
-    <div class="add-new-playlist">
+    <div v-if="controls" class="add-new-playlist">
       <Modal
         title="Add new playlist"
         icon="add"
@@ -25,7 +25,7 @@
                 <p>Last upload: music.wav</p>
               </div>
               <div class="col min">
-                <nav class="right-align">
+                <nav v-if="controls" class="right-align">
                   <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
                     <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
                   </button>
@@ -39,11 +39,13 @@
                     <PlaylistForm :playlistId="item.id" :name="item.name"/>
                   </Modal>
                   <Modal
+                    title="Invite user(s) in playlist"
                     icon="share"
-                    position="center small"
+                    position="center"
                     padding="no-padding"
+                    button=" "
                   >
-                    <!-- <PlaylistInviteForm/> -->
+                    <PlaylistInviteForm path="tracks" :playlist="item" :items="permissions"/>
                   </Modal>
                   <button class="border round transparent-border" @click="remove(item)">
                     <i class="material-icons">delete</i>
@@ -53,7 +55,19 @@
             </div>
           </div>
           <div v-show="show === item.id" class="card flat grey-light-5 list">
-            <FileList :admin="true"/>
+            <Modal
+              title="Add track(s) in playlist"
+              icon="add"
+              buttonClasses="small absolute center middle grey-light-3 large-width small-space"
+              position="center"
+              padding="large-padding"
+              v-if="controls"
+
+              :key="item.id"
+            >
+              <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+            </Modal>
+            <FileList :admin="true" :playlist="item"/>
           </div>
         </div>
       </transition>
@@ -66,7 +80,7 @@ import { mapState, mapActions } from 'vuex';
 import FileList from '../FileList.vue';
 import Modal from '../Modal.vue';
 import PlaylistForm from '../PlaylistForm.vue';
-// import PlaylistInviteForm from '../PlaylistInviteForm.vue';
+import PlaylistInviteForm from '../PlaylistInviteForm.vue';
 
 export default {
   name: 'AudioPlayerPlaylists',
@@ -74,7 +88,10 @@ export default {
     FileList,
     Modal,
     PlaylistForm,
-    // PlaylistInviteForm,
+    PlaylistInviteForm,
+  },
+  props: {
+    controls: Boolean,
   },
   el: '#Playlist',
   data() {
@@ -94,7 +111,7 @@ export default {
     ...mapActions('playlists', ['update', 'remove']),
   },
   created() {
-    this.$store.dispatch('tracks/getAll');
+    // this.$store.dispatch('tracks/getAll');
     this.$store.dispatch('playlists/getAll');
   },
   // updated() {

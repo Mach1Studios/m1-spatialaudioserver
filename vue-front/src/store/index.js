@@ -12,6 +12,7 @@ export default createStore({
   strict: process.env.NODE_ENV !== 'production',
 
   state: {
+    modalVisibility: null,
     loader: {
       isLoading: false, title: 'Processing', description: 'Audiofile is loading',
     },
@@ -48,6 +49,9 @@ export default createStore({
       if (event) {
         state.notification = { ...state.notification, isSuccess: true, message: event.message ?? 'Complete!' };
       }
+    },
+    setModalVisibility(state, title = null) {
+      state.modalVisibility = title;
     },
   },
   modules: {

@@ -2,13 +2,12 @@
   <div class="field label sufix">
     <select
       :name="name"
-      :type="type"
       :value="modelValue"
       @blur="select"
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
     >
-      <option v-for="option in options" :key="option"><label>{{ option }}</label></option>
+      <option v-for="option in options" :key="option.id" :value="option.id"><label>{{ option.name }}</label></option>
     </select>
     <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
     <i class="material-icons">arrow_drop_down</i>
@@ -24,11 +23,11 @@ export default {
       type: String,
       required: true,
     },
-    type: {
-      type: String,
-      required: true,
-      default: 'text',
-    },
+    // type: {
+    //   type: String,
+    //   required: true,
+    //   default: 'text',
+    // },
     modelValue: {
       type: String,
     },
@@ -57,9 +56,10 @@ export default {
 
 <style lang="scss" scoped>
   .field {
-    input {
+    select {
       &:focus {
         border-color: #1c1c1c;
+        border-bottom: none;
       }
     }
   }
