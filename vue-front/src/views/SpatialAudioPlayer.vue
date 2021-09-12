@@ -7,7 +7,7 @@
         </div>
         <div class="card round transparent playlist">
           <Modal
-            title="Playlist"
+            title="Playlist(s)"
             icon="play_arrow"
             position="left"
             buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
