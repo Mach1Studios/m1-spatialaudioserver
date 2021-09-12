@@ -1,5 +1,5 @@
 <template>
-  <div class="toast white-text" :class="{ pink: notification.isError, green: notification.isSuccess, active: isActive }">
+  <div class="toast white-text notification" :class="{ pink: notification.isError, green: notification.isSuccess, active: isActive }">
     <i class="material-icons">{{icon}}</i>
     <span>{{notification.message}}</span>
   </div>
@@ -21,6 +21,7 @@ export default {
       return 'info';
     },
     isActive() {
+      console.log('nit');
       return this.notification.isError || this.notification.isSuccess;
     },
   },
@@ -29,5 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .notification {
+    z-index: 100;
+  }
 </style>

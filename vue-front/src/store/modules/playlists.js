@@ -26,15 +26,19 @@ const actions = {
     const playlist = await api.post({ name });
     commit('createPlaylist', playlist);
   },
-  async update({ commit }, data) {
-    console.log(data);
+  async update({ commit, getters }, data) {
     if (!_.has(data, 'id')) return;
-    await api.put(data);
+
+    const id = _.get(data, 'id');
     // NOTE: update playlist name
     if (_.get(data, 'name')) {
+      await api.put(data);
       commit('updatePlaylistName', data);
     }
     if (_.get(data, 'visibility')) {
+      const { visibility } = getters.select(id);
+      await api.put({ id, visibility: !visibility });
+
       commit('updatePlaylistVisibility', data);
     }
   },
@@ -43,29 +47,26 @@ const actions = {
     await api.del(id);
     commit('removePlaylist', id);
   },
-  // eslint-disable-next-line
-  async removeItemFromPlaylist ({ commit }, data) {
+  async removeItemFromPlaylist({ commit }, data) {
+    await api.put(data);
     if (_.has(data, 'tracks')) {
-      console.log('removeItemFromPlaylist, updatePlaylistTracks', data);
       commit('updatePlaylistTracks', data);
     }
     if (_.has(data, 'permissions')) {
       commit('updatePlaylistPermissions', data);
     }
-    // console.log('removePermissionsFromPlaylist', data);
-    // const trackToRemove = !isUuid(data) ? _.get(data, 'tracks => track.id !== trackToRemove') : data;
   },
   async addItemToPlaylist({ commit }, data) {
+    await api.put(data);
     if (_.has(data, 'tracks')) {
-      console.log('addItemToPlaylist, updatePlaylistTracks', data);
       commit('updatePlaylistTracks', data);
     }
   },
 };
 
 const getters = {
-  select({ state }, id) {
-    return _.find(state.items, { id });
+  select(state) {
+    return (id) => _.find(state.items, { id });
   },
 };
 const mutations = {

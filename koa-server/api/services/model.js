@@ -4,15 +4,21 @@ import { v4 as uuid } from 'uuid';
 
 import { encryptSync } from './encryption';
 
+function proceed(Basic, value) {
+  switch (Basic.name) {
+    case 'Array':
+      return _.compact(_.isString(value) ? value.split(','): []);
+    case 'Boolean':
+      return value === 'true';
+    default:
+      return new Basic(value);
+  }
+}
+
 export default class Model {
   #keys = []
 
   #item = {}
-
-  setModelKey(source, path, defaultValue) {
-    this.#keys = _.union(this.keys, [path]);
-    this.#item[path] = _.get(source, path, defaultValue);
-  }
 
   get keys() {
     return _.uniq(this.#keys);
@@ -22,12 +28,25 @@ export default class Model {
     return { ...this.#item };
   }
 
+  setModelKey(source, path, defaultValue) {
+    this.#keys = _.union(this.keys, [path]);
+    // if (this.shape && this.shape[path] && path === 'visibility') {
+    //   console.log('path', path, this.shape[path].name, _.get(source, path, defaultValue));
+    //   console.log(new this.shape[path](_.get(source, path, defaultValue)));
+    // }
+    this.#item[path] = (this.shape && this.shape[path])
+      ? proceed(this.shape[path], _.get(source, path, defaultValue))
+      : _.get(source, path, defaultValue);
+  }
+
   difference(payload) {
     if (!_.isObject(payload) || _.isEmpty(payload)) throw new Error('An empty payload was passed to the method');
 
     return _.reduce(this.item, (result, value, key) => {
       const payloadValue = _.get(payload, key);
-      if (payloadValue !== value) return { ...result, [key]: payloadValue };
+      if (!_.isUndefined(payloadValue) && payloadValue !== value) {
+        return { ...result, [key]: payloadValue };
+      }
 
       return result;
     }, {});

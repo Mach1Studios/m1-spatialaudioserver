@@ -13,6 +13,12 @@ class PlaylistModel extends Model {
     this.setModelKey(item, 'visibility', false);
   }
 
+  shape = {
+    tracks: Array,
+    permission: Array,
+    visibility: Boolean,
+  }
+
   get playlist() {
     return { ...this.item };
   }
@@ -23,13 +29,15 @@ export default {
     const model = new PlaylistModel();
 
     const items = await ctx.redis.lrange('playlist:all', 0, 100);
-    const playlist = await Promise.all(_.map(items, async (item) => {
+    const playlists = await Promise.all(_.map(items, async (item) => {
       const values = await ctx.redis.hmget(item, model.keys);
 
-      return _.zipObject(model.keys, values);
+      const { playlist } = new PlaylistModel(_.zipObject(model.keys, values));
+
+      return playlist;
     }));
 
-    ctx.body = playlist;
+    ctx.body = playlists;
   },
   async create(ctx) {
     const { body } = ctx.request;
@@ -48,13 +56,20 @@ export default {
     const { id } = ctx.params;
     const { body } = ctx.request;
 
-    const item = await ctx.redis.get(`playlist:${id}`);
+    console.log(body);
+
+    const item = await ctx.redis.hgetall(`playlist:${id}`);
     if (_.isNull(item)) ctx.throw(404);
     if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
 
     const model = new PlaylistModel(item);
-    const test = model.difference(body)
-    console.log(test);
+    console.log(model.item);
+    const payload = model.difference(body);
+    if (_.isEmpty(payload)) ctx.throw(400, 'Error! Nothing to change');
+    console.log(payload);
+
+    await ctx.redis.hset(`playlist:${id}`, payload);
+    ctx.body = { ...item, ...payload };
   },
   async del(ctx) {
     const { id } = ctx.params;
