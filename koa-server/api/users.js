@@ -1,51 +1,9 @@
 import _ from 'lodash';
-// import { DateTime } from 'luxon';
-import { v4 as uuid } from 'uuid';
-
-import { encryptSync } from './services/encryption';
-// import Model from './services/model';
-
-class UserModel {
-  #keys = []
-
-  #item = {}
-
-  #setModelKey(source, path, defaultValue) {
-    this.#keys = _.union(this.#keys, [path]);
-    return _.get(source, path, defaultValue);
-  }
-
-  constructor(item) {
-    this.#item.id = this.#setModelKey(item, 'id', uuid());
-    this.#item.nickname = this.#setModelKey(item, 'nickname');
-    this.#item.email = this.#setModelKey(item, 'email');
-    this.#item.role = this.#setModelKey(item, 'role', 'user');
-    this.#item.lastSeen = this.#setModelKey(item, 'lastSeen');
-
-    if (_.has(item, 'password')) {
-      const { hash, salt } = encryptSync(_.get(item, 'password'));
-      this.#item.hash = hash;
-      this.#item.salt = salt;
-    }
-  }
-
-  get user() {
-    return { ...this.#item };
-  }
-
-  get keys() {
-    return _.uniq(this.#keys);
-  }
-
-  static validate() {
-    // TODO: should store standart validation object
-    return null;
-  }
-}
+import { UserModel } from './services/model';
 
 export default {
   async list(ctx) {
-    // await ctx.redis.flushall()
+    // await ctx.redis.flushall();
     const model = new UserModel();
 
     const items = await ctx.redis.lrange('users:all', 0, 100);
