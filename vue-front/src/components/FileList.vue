@@ -1,9 +1,9 @@
-<template lang="html">
+<template>
   <div class="large-width">
-    <div v-if="admin" class="list"></div>
+    <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
-        <tr v-for="item in tracks" :key="item">
+        <tr v-for="item in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
             <p class="medium-text">{{item.number}}</p>
           </td>
@@ -12,21 +12,29 @@
           </td>
           <td>
             <nav class="right-align">
-              <button class="border round transparent-border black-text">
+              <button class="border round transparent-border">
                 <i class="material-icons-outlined">info</i>
               </button>
-              <button class="border round transparent-border black-text">
-                <i>mood</i>
-              </button>
+              <span class="disabled">
+                <i class="material-icons">mood</i>
                 <!-- <i class="small grey-dark-4-text">mood_bad</i> -->
-              <button class="border round transparent-border black-text">
-                <i>repeat</i>
+              </span>
+              <button class="border round transparent-border">
+                <i class="material-icons">repeat</i>
+                <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
-              <button class="border round transparent-border black-text">
-                <i>play_circle</i>
-              </button>
-              <button v-if="admin" class="border round transparent-border black-text" @click="remove(item.id)">
-                <i>delete</i>
+              <Modal
+                title="Rename track"
+                button=" "
+                icon="edit"
+                position="center"
+                padding="no-padding"
+                v-if="admin"
+              >
+                <PlaylistTrackEditForm/>
+              </Modal>
+              <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
+                <i class="material-icons">delete</i>
               </button>
             </nav>
           </td>
@@ -38,58 +46,98 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import _ from 'lodash';
+
+import Modal from './Modal.vue';
+import PlaylistTrackEditForm from './PlaylistTrackEditForm.vue';
 
 export default {
   name: 'FileList',
-  props: { admin: Boolean, user: Boolean },
-  computed: mapState({
-    tracks: (state) => state.tracks.items,
-  }),
+  components: {
+    Modal,
+    PlaylistTrackEditForm,
+  },
+  props: {
+    admin: Boolean,
+    user: Boolean,
+  },
+
+  computed: {
+    ...mapState({
+      tracks: (state) => state.tracks.items,
+      track: (state) => state.tracks.track,
+    }),
+    isPlaylist() {
+      return this.playlist && this.playlist.id;
+    },
+    items() {
+      return this.isPlaylist ? _.filter(this.tracks, (track) => this.playlist.tracks.indexOf(track.id) !== -1) : this.tracks;
+    },
+  },
   methods: {
     ...mapActions('tracks', [
       'select', 'remove',
     ]),
   },
-  created() {
-    this.$store.dispatch('tracks/getAll');
-  },
 };
 </script>
 
 <style lang="scss" scoped>
-  .list-table td {
-    vertical-align: middle;
-    cursor: pointer;
+  .disabled {
+    i {
+      color: #4d4d4d;
+      background: transparent;
+      font-size: 16px;
+      cursor: default;
+    }
   }
 
-  .list-table th {
-    vertical-align: middle;
-  }
-
-  .list {
-    margin-top: -32px;
+  tr.on-play {
+    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+    p {
+      color: #72646f;
+      font-weight: bold;
+    }
+    i {
+      color: #72646f;
+    }
   }
 
   .list-table {
-    border-radius: 0.3rem;
-    margin-top: 32px;
-  }
-
-  .list-table tr:hover {
-    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
-  }
-
-  .list-table td:last-child {
-    padding-right: 13px;
-  }
-  .list-table button {
+    p {
+      color: #1c1c1c;
+    }
     i {
-      font-size: 16px;
+      color: #4d4d4d;
+    }
+    td {
+      vertical-align: middle;
+      .disabled ~ i, p {
+        cursor: pointer;
+      }
+    }
+    th {
+      vertical-align: middle;
+    }
+    tr:hover {
+      background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+    }
+    td:last-child {
+      padding-right: 13px;
+    }
+    button {
+      i {
+        font-size: 16px;
+      }
+    }
+    button:hover {
+      i {
+        font-size: 20px;
+      }
     }
   }
-  .list-table button:hover {
-    i {
-      font-size: 20px;
-    }
+
+  #Playlist table {
+    margin-left: 13px;
   }
 </style>

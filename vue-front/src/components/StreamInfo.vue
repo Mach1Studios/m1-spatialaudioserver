@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="dash">
     <h4 class="title large-text upper">DASH Stream Info</h4>
     <table class="table border large center-align">

@@ -22,11 +22,14 @@
     "koa-logger": "^3.2.1",
     "koa-static": "^5.0.0",
     "lodash": "^4.17.21",
+    "luxon": "^2.0.2",
     "multer": "^1.4.2",
     "pm2": "^5.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/eslint-parser": "^7.15.0",
     "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",

@@ -3,11 +3,11 @@ import 'beercss';
 
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import { Store } from './store';
 
 const application = createApp(App);
 
 application
-  .use(store)
+  .use(Store)
   .use(router)
   .mount('#app');

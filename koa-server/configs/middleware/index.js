@@ -14,6 +14,13 @@ export default function middleware() {
   const dependencies = [
     logger(),
     cors(),
+    async (ctx, next) => {
+      try {
+        await next();
+      } catch ({ statusCode = 500, message = 'Unknown error' }) {
+        ctx.throw(statusCode, JSON.stringify({ message }));
+      }
+    },
     bodyparser(),
     serve(dirServe),
   ];

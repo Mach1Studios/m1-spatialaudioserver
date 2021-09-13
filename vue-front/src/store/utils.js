@@ -1,4 +1,6 @@
 import _ from 'lodash';
+// eslint-disable-next-line
+import { Store } from './index';
 
 export default class FetchHelper {
   #defaultUrl = new URL(process.env.VUE_APP_API_URL)
@@ -22,6 +24,11 @@ export default class FetchHelper {
         }
       }
     }
+  }
+
+  dispatch(proxy) {
+    this.dispatch = proxy;
+    return this;
   }
 
   get path() {
@@ -50,6 +57,11 @@ export default class FetchHelper {
     return this.#request({ itemId, body, method: 'POST' });
   }
 
+  async put(body, { itemId } = {}) {
+    const id = _.get(body, 'id', itemId);
+    return this.#request({ itemId: id, body, method: 'PUT' });
+  }
+
   async del(itemId) {
     return this.#request({ itemId, method: 'DELETE' });
   }
@@ -57,23 +69,40 @@ export default class FetchHelper {
   async #request({ itemId, method, body }) {
     this.path = itemId;
     this.options.method = method ?? 'GET';
-    this.options.body = body;
+    if (_.isObject(body)) {
+      _.set(this.options, 'headers.Accept', 'application/json');
+      _.set(this.options, 'headers.Content-Type', 'application/json');
+
+      try {
+        this.options.body = JSON.stringify(body);
+      } catch (e) {
+        throw new Error('Broken request payload');
+      }
+    } else {
+      this.options.body = body;
+    }
 
     // TODO: For next iteration need to create full response method with error handler
     try {
       const response = await fetch(this.url, this.options);
-
       try {
-        return await response.json();
+        if (response.ok) return await response.json();
+
+        // console.log(response);
+        // FIXME: need review
+        const error = await response.json();
+        Store.dispatch('toast', { error });
+        throw error;
       } catch (e) {
         if (response.ok) throw new Error('Wrong JSON response');
-
         throw e;
       }
     } catch (e) {
       if (e.message === 'Wrong JSON response') {
         // NOTE: just skip for this
       }
+
+      Store.dispatch('toast', { error: { ...e } });
       return null;
     }
   }

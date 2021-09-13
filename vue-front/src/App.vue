@@ -35,7 +35,7 @@ export default {
     color: #2c3e50;
 
     min-height: 100vh;
-    background-color: #1a1a1a;
+    background-color: #1c1c1c;
   }
 
   #app-header {

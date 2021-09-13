@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <table class="table user-list-table border large center-align">
     <thead>
       <tr>
@@ -14,7 +14,7 @@
     <tbody>
       <tr v-for="item in users" :key="item">
         <td>
-          <p class="medium-text">{{item.id}}</p>
+          <p class="medium-text">{{item.number}}</p>
         </td>
         <td>
           <p class="medium-text">{{item.nickname}}</p>
@@ -30,12 +30,12 @@
         </td>
         <td>
           <button class="border round transparent-border black-text">
-            <i class="material-icons-outlined">edit</i>
+            <i class="material-icons">edit</i>
           </button>
         </td>
         <td>
           <button class="border round transparent-border black-text" @click="remove(item)">
-            <i>delete</i>
+            <i class="material-icons">delete</i>
           </button>
         </td>
       </tr>
@@ -62,28 +62,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .table abbr {
-    width: 100%;
-
-    font-style: normal;
-    font-weight: bold;
-
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-  }
-
-  .table td {
-    vertical-align: middle;
-    cursor: pointer;
-  }
-
-  .table th {
-    vertical-align: middle;
-  }
-
   .table {
-    border-radius: 0.3rem;
+    p {
+      color: #1c1c1c;
+    }
+    i {
+      color: #4d4d4d;
+    }
+    abbr {
+      width: 100%;
+
+      font-style: normal;
+      font-weight: bold;
+
+      line-height: 1.17;
+      letter-spacing: -0.5px;
+    }
+    td {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    th {
+      vertical-align: middle;
+    }
   }
+
   .user-list-table button {
     i {
       font-size: 16px;

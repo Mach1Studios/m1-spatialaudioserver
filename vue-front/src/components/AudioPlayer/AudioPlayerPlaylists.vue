@@ -1,0 +1,151 @@
+<template>
+  <div id="Playlist" class="large-width">
+    <div v-if="controls" class="add-new-playlist">
+      <Modal
+        title="Add new playlist"
+        icon="add"
+        position="center"
+        buttonClasses="small absolute center middle grey-light-3"
+        padding="medium-padding"
+      >
+        <PlaylistForm/>
+      </Modal>
+    </div>
+    <div v-for="item in playlists" :key="item">
+      <transition name="fade">
+        <div class="playlists">
+          <div class="card flat grey-light-4">
+            <div class="row no-wrap">
+              <div class="col min">
+                <img src="../../assets/playlist.svg" class="circle large">
+              </div>
+              <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
+                <h6 class="bold no-margin">{{item.name}}</h6>
+                <p>Last upload: music.wav</p>
+              </div>
+              <div class="col min">
+                <nav v-if="controls" class="right-align">
+                  <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
+                    <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
+                  </button>
+                  <Modal
+                    title="Rename playlist"
+                    button=" "
+                    icon="edit"
+                    position="center"
+                    padding="no-padding"
+                  >
+                    <PlaylistForm :playlistId="item.id" :name="item.name"/>
+                  </Modal>
+                  <Modal
+                    title="Invite user(s) in playlist"
+                    icon="share"
+                    position="center"
+                    padding="no-padding"
+                    button=" "
+                  >
+                    <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+                  </Modal>
+                  <button class="border round transparent-border" @click="remove(item)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <div v-show="show === item.id" class="card flat grey-light-5 list">
+            <Modal
+              title="Add track(s) in playlist"
+              icon="add"
+              buttonClasses="small absolute center middle grey-light-3 large-width small-space"
+              position="center"
+              padding="large-padding"
+              v-if="controls"
+              :key="item.id"
+            >
+              <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+            </Modal>
+            <FileList :user="true" :playlist="item"/>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex';
+
+import FileList from '../FileList.vue';
+import Modal from '../Modal.vue';
+import PlaylistForm from '../PlaylistForm.vue';
+import PlaylistInviteForm from '../PlaylistInviteForm.vue';
+
+export default {
+  name: 'AudioPlayerPlaylists',
+  el: '#Playlist',
+  components: {
+    FileList,
+    Modal,
+    PlaylistForm,
+    PlaylistInviteForm,
+  },
+  props: {
+    controls: Boolean,
+  },
+  data() {
+    return {
+      show: false,
+    };
+  },
+  computed: mapState({
+    tracks: (state) => state.tracks.items,
+    playlists: (state) => state.playlists.items,
+  }),
+  methods: {
+    ...mapActions('tracks', [
+      'select', 'remove',
+    ]),
+    ...mapActions('playlists', ['update', 'remove']),
+  },
+  created() {
+    this.$store.dispatch('playlists/getAll');
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+  .playlists {
+    margin-top: 16rem;
+    i {
+      font-size: 16px;
+      color: #4d4d4d;
+    }
+    p {
+      font-size: 14px;
+      color: #72646f;
+    }
+    p:first-of-type {
+      margin-top: 2px;
+    }
+    .card {
+      border-radius: 0;
+    }
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+
+  .add-new-playlist {
+    padding-bottom: 16px;
+  }
+
+  .list {
+    margin-top: 0;
+  }
+</style>

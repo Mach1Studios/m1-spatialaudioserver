@@ -2,29 +2,28 @@
   <div class="container max">
     <div class="row">
       <div class="col s3">
-        <div class="card">
-          <!-- <AudioPlayerRadioControls/> -->
-        </div>
-        <div class="card transparent playlist">
-          <Modal position="left" title="Playlist" icon="play_circle_outline">
-            <FileList/>
-            <AudioPlayer
-              skin="light"
-              class="large-width absolute center bottom light-player"
-            />
+        <!-- <div class="card round">
+          <AudioPlayerRadioControls/>
+        </div> -->
+        <div class="card round transparent playlist">
+          <Modal
+            title="Playlist(s)"
+            icon="play_arrow"
+            position="left "
+            buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
+            padding="no-margin"
+          >
+            <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
+            <template #footer>
+              <AudioPlayer skin="light" class="light-player"/>
+            </template>
           </Modal>
         </div>
       </div>
-      <div class="col s6">
-      </div>
-      <!-- <div class="col s10">
-        <div class="card">
-          <AudioPlayer/>
-        </div>
-      </div> -->
+      <div class="col s6"></div>
       <div class="col s3">
-        <div class="card">
-          <!-- <AudioPlayerSliders/> -->
+        <div class="card round">
+          <AudioPlayerSliders/>
         </div>
       </div>
     </div>
@@ -44,12 +43,13 @@ import {
   Mach1DecoderProxy,
 } from 'mach1spatial-decode';
 
-// import AudioPlayerRadioControls from '../components/AudioPlayerRadioControls.vue';
-import AudioPlayer from '../components/AudioPlayer.vue';
-// import AudioPlayerSliders from '../components/AudioPlayerSliders.vue';
-import AudioPlayerTouch from '../components/AudioPlayerTouch.vue';
+// import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
+import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
+import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
+import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
-import FileList from '../components/FileList.vue';
+import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
+// import FileList from '../components/FileList.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -64,10 +64,11 @@ export default {
   components: {
     // AudioPlayerRadioControls,
     AudioPlayer,
-    // AudioPlayerSliders,
+    AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
-    FileList,
+    AudioPlayerPlaylists,
+    // FileList,
   },
   data() {
     return { isMount: false };
@@ -140,6 +141,10 @@ export default {
     padding-top: 0;
     .light-player {
       padding-bottom: 30px;
+      width: 97%;
     }
+  }
+  .modal-playlist {
+    margin-top: 32px;
   }
 </style>

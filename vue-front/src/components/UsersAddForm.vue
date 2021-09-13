@@ -1,67 +1,54 @@
-<template lang="html">
-  <div class="large-width list">
-    <h4 class="title center-align large-text">User Form</h4>
-    <div class="field label border">
-      <input type="text" v-model="user.nickname" @focus="test()">
-      <label :class="{ active: isActiveNickname }">Nickname</label>
-    </div>
-    <div class="field label border">
-      <input type="text" v-model="user.email">
-      <label class="active">E-mail</label>
-    </div>
-    <div class="field label sufix">
-      <select v-model="user.role">
-        <option>user</option>
-        <option>admin</option>
-      </select>
-      <label class="active">Role</label>
-      <i>arrow_drop_down</i>
-</div>
-    <div>
-      <button class="round large border grey-light-3 transparent-border black-text" @click="add()">
-        <i class="black-text">add</i>
-        <span class="small-text">Add User</span>
-      </button>
-    </div>
+<template>
+  <div class="add-user">
+    <FormInput name="nickname" placeholder="Nickname" v-model="user.nickname"/>
+    <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
+    <FormInput name="password" placeholder="Password" v-model="user.password"/>
+
+    <FormSelect name="users" placeholder="Role" :options="roles" v-model="user.role"/>
+    <FormButton title="Add User" icon="add" @click="add()"/>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 
+import FormButton from './Form/Button.vue';
+import FormInput from './Form/Input.vue';
+import FormSelect from './Form/Select.vue';
+
 export default {
   name: 'UsersAddForm',
+  components: {
+    FormButton,
+    FormInput,
+    FormSelect,
+  },
   data() {
     return {
+      roles: [{ id: 'user', name: 'user' }, { id: 'admin', name: 'admin' }],
       user: {
         nickname: '',
         email: '',
         role: '',
+        password: '',
       },
-      isActiveNickname: false,
+      focused: {},
     };
   },
   methods: {
     ...mapActions('users', ['create']),
-    test() {
-      console.log('test');
-      this.isActiveNickname = true;
+    select({ target: { name }, type }) {
+      if (type === 'focus') {
+        this.focused[name] = true;
+      } else if (type === 'blur' && this.user[name] === '') {
+        this.focused[name] = false;
+      }
     },
     add() {
       this.create(this.user);
-      console.log(this.user);
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-  .list .title {
-    font-style: normal;
-    font-weight: bold;
-
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-    text-transform: uppercase;
-  }
-</style>
+<style lang="scss" scoped></style>

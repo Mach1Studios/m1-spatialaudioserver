@@ -15,9 +15,12 @@ export default {
    *                          node's request and response objects into a single object
    */
   async list(ctx) {
-    // await ctx.redis.flushall();
+    // NOTE: must be changed when there will be too many files
+    // or moved to another db
+    // or added pagination
     let items = await ctx.redis.find('file*', 100);
 
+    // NOTE: must be moved to the database initialization
     if (_.isEmpty(items)) {
       ctx.body = [];
 

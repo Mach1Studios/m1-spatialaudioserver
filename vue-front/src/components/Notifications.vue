@@ -1,6 +1,6 @@
-<template lang="html">
-  <div class="toast white-text" :class="{ pink: notification.isError, green: notification.isSuccess, active: isActive }">
-    <i>{{icon}}</i>
+<template>
+  <div class="toast white-text notification" :class="{ pink: notification.isError, green: notification.isSuccess, active: isActive }">
+    <i class="material-icons">{{icon}}</i>
     <span>{{notification.message}}</span>
   </div>
 </template>
@@ -29,5 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .notification {
+    z-index: 100;
+  }
 </style>

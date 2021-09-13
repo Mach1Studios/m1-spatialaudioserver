@@ -1,16 +1,28 @@
-<template lang="html">
+<template>
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
     <router-link class="link" to="/">Home</router-link>
     <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
     <router-link class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
-    <button class="button">Log in</button>
+    <UsersAuth/>
   </div>
 </template>
 
 <script>
-export default {};
+import _ from 'lodash';
+import { mapState } from 'vuex';
+import UsersAuth from './UsersAuth.vue';
+
+export default {
+  components: {
+    UsersAuth,
+  },
+  computed: mapState({
+    role: (state) => _.get(state, 'auth.profile.user.role'),
+    session: (state) => state.auth.profile.session,
+  }),
+};
 </script>
 
 <style lang="scss" scoped>
