@@ -114,18 +114,12 @@ export default {
       }
       i.active {
         color: #D36646;
-        &:hover {
-          // opacity: 0.75;
-        }
       }
       i.repeat {
         margin-right: 10px;
       }
       i.on-repeat {
         color: #D36646;
-        &:hover {
-          // opacity: 0.75;
-        }
       }
       .duration {
         font-size: 12px;
@@ -157,19 +151,19 @@ export default {
 
     cursor: pointer;
 
-    &:hover{
-      &:after{
+    &:hover {
+      &:after {
         opacity: 1;
         transform: translateY(0) rotateX(0);
       }
 
-      &:before{
+      &:before {
         opacity: 0;
         transform: translateY(-50%) rotateX(-90deg);
       }
     }
 
-    &:after{
+    &:after {
       top: 0;
       left: 0;
       opacity: 0;
@@ -181,7 +175,7 @@ export default {
       transform: translateY(50%) rotateX(-90deg);
     }
 
-    &:before{
+    &:before {
       top: 0;
       left: 0;
       opacity: 1;
@@ -198,21 +192,21 @@ export default {
   }
 
   .dark {
-    &:before{
+    &:before {
       background: #323237;
       color: #adadaf;
     }
-    &:after{
+    &:after {
       background: #adadaf;
       color: #323237;
     }
   }
   .light {
-    &:before{
+    &:before {
       background: #f5e6d7;
       color: #72646f;
     }
-    &:after{
+    &:after {
       background: #72646f;
       color: #f5e6d7;
     }

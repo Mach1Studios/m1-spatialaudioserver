@@ -3,7 +3,7 @@
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
-        <tr v-for="item in tracks" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
+        <tr v-for="item in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
             <p class="medium-text">{{item.number}}</p>
           </td>
@@ -24,15 +24,15 @@
                 <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
               <Modal
+                title="Rename track"
+                button=" "
                 icon="edit"
                 position="center"
                 padding="no-padding"
+                v-if="admin"
               >
-              <PlaylistTrackEditForm/>
+                <PlaylistTrackEditForm/>
               </Modal>
-              <!-- <button v-if="admin" class="border round transparent-border">
-                <i class="material-icons">edit</i>
-              </button> -->
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
               </button>
@@ -46,6 +46,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import _ from 'lodash';
+
 import Modal from './Modal.vue';
 import PlaylistTrackEditForm from './PlaylistTrackEditForm.vue';
 
@@ -55,19 +57,27 @@ export default {
     Modal,
     PlaylistTrackEditForm,
   },
-  props: { admin: Boolean, user: Boolean },
+  props: {
+    admin: Boolean,
+    user: Boolean,
+  },
 
-  computed: mapState({
-    tracks: (state) => state.tracks.items,
-    track: (state) => state.tracks.track,
-  }),
+  computed: {
+    ...mapState({
+      tracks: (state) => state.tracks.items,
+      track: (state) => state.tracks.track,
+    }),
+    isPlaylist() {
+      return this.playlist && this.playlist.id;
+    },
+    items() {
+      return this.isPlaylist ? _.filter(this.tracks, (track) => this.playlist.tracks.indexOf(track.id) !== -1) : this.tracks;
+    },
+  },
   methods: {
     ...mapActions('tracks', [
       'select', 'remove',
     ]),
-  },
-  created() {
-    this.$store.dispatch('tracks/getAll');
   },
 };
 </script>
@@ -81,8 +91,8 @@ export default {
       cursor: default;
     }
   }
+
   tr.on-play {
-    // box-shadow: inset 1.1em 0 0 0 #b0b0b0;
     background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
     p {
       color: #72646f;
@@ -92,6 +102,7 @@ export default {
       color: #72646f;
     }
   }
+
   .list-table {
     p {
       color: #1c1c1c;
@@ -125,6 +136,7 @@ export default {
       }
     }
   }
+
   #Playlist table {
     margin-left: 13px;
   }

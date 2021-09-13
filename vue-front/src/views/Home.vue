@@ -13,7 +13,7 @@
               <FileListUploader/>
             </div>
             <div id="Playlists" class="page padding" :class="{ active: selected === 'playlists'}">
-              <AudioPlayerPlaylists :admin="true"/>
+              <AudioPlayerPlaylists :admin="true" :controls="true"/>
             </div>
           </div>
         </div>
@@ -61,6 +61,9 @@ export default {
     select(value) {
       this.selected = value;
     },
+  },
+  created() {
+    this.$store.dispatch('tracks/getAll');
   },
 };
 </script>

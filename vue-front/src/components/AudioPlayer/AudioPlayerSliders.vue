@@ -26,9 +26,9 @@ export default {
     // ...mapState('dash', ['player', 'isActiveStream']),
   },
   methods: {
-    test(...arg) {
-      console.log(arg);
-    },
+    // test(...arg) {
+    //   console.log(arg);
+    // },
   },
 };
 </script>

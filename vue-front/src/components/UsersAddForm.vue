@@ -51,6 +51,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-  .add-user {}
-</style>
+<style lang="scss" scoped></style>

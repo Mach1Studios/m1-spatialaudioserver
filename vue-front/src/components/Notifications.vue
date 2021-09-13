@@ -21,7 +21,6 @@ export default {
       return 'info';
     },
     isActive() {
-      console.log('nit');
       return this.notification.isError || this.notification.isSuccess;
     },
   },

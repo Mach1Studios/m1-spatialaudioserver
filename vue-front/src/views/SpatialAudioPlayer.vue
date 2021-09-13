@@ -2,14 +2,14 @@
   <div class="container max">
     <div class="row">
       <div class="col s3">
-        <div class="card round">
+        <!-- <div class="card round">
           <AudioPlayerRadioControls/>
-        </div>
+        </div> -->
         <div class="card round transparent playlist">
           <Modal
             title="Playlist(s)"
             icon="play_arrow"
-            position="left"
+            position="left "
             buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
             padding="no-margin"
           >
@@ -43,7 +43,7 @@ import {
   Mach1DecoderProxy,
 } from 'mach1spatial-decode';
 
-import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
+// import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
@@ -62,7 +62,7 @@ const mousemoveListener = (event) => {
 
 export default {
   components: {
-    AudioPlayerRadioControls,
+    // AudioPlayerRadioControls,
     AudioPlayer,
     AudioPlayerSliders,
     AudioPlayerTouch,
@@ -141,6 +141,7 @@ export default {
     padding-top: 0;
     .light-player {
       padding-bottom: 30px;
+      width: 97%;
     }
   }
   .modal-playlist {

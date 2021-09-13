@@ -17,7 +17,6 @@
           <div class="card flat grey-light-4">
             <div class="row no-wrap">
               <div class="col min">
-              <!-- <div class="col min" @click="show = (show === item.id) ? show = false : show = item.id"> -->
                 <img src="../../assets/playlist.svg" class="circle large">
               </div>
               <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
@@ -45,7 +44,7 @@
                     padding="no-padding"
                     button=" "
                   >
-                    <PlaylistInviteForm path="tracks" :playlist="item" :items="permissions"/>
+                    <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
                   </Modal>
                   <button class="border round transparent-border" @click="remove(item)">
                     <i class="material-icons">delete</i>
@@ -62,12 +61,11 @@
               position="center"
               padding="large-padding"
               v-if="controls"
-
               :key="item.id"
             >
               <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
             </Modal>
-            <FileList :admin="true" :playlist="item"/>
+            <FileList :user="true" :playlist="item"/>
           </div>
         </div>
       </transition>
@@ -77,6 +75,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+
 import FileList from '../FileList.vue';
 import Modal from '../Modal.vue';
 import PlaylistForm from '../PlaylistForm.vue';
@@ -84,6 +83,7 @@ import PlaylistInviteForm from '../PlaylistInviteForm.vue';
 
 export default {
   name: 'AudioPlayerPlaylists',
+  el: '#Playlist',
   components: {
     FileList,
     Modal,
@@ -93,13 +93,11 @@ export default {
   props: {
     controls: Boolean,
   },
-  el: '#Playlist',
   data() {
     return {
       show: false,
     };
   },
-  // props: { admin: Boolean, user: Boolean, visibility: Boolean },
   computed: mapState({
     tracks: (state) => state.tracks.items,
     playlists: (state) => state.playlists.items,
@@ -111,12 +109,8 @@ export default {
     ...mapActions('playlists', ['update', 'remove']),
   },
   created() {
-    // this.$store.dispatch('tracks/getAll');
     this.$store.dispatch('playlists/getAll');
   },
-  // updated() {
-  //   this.$store.dispatch('playlists/getAll');
-  // },
 };
 </script>
 
