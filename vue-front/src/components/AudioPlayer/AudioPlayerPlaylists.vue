@@ -8,7 +8,11 @@
         buttonClasses="small absolute center middle grey-light-3"
         padding="medium-padding"
       >
-        <PlaylistForm/>
+        <PlaylistForm
+          title="Create new playlist"
+          icon="add"
+          :action="create"
+        />
       </Modal>
     </div>
     <div v-for="item in playlists" :key="item">
@@ -35,7 +39,13 @@
                     position="center"
                     padding="no-padding"
                   >
-                    <PlaylistForm :playlistId="item.id" :name="item.name"/>
+                    <PlaylistForm
+                      :id="item.id"
+                      :name="item.name"
+                      title="Save"
+                      icon="save"
+                      :action="update"
+                    />
                   </Modal>
                   <Modal
                     title="Invite user(s) in playlist"
@@ -106,7 +116,7 @@ export default {
     ...mapActions('tracks', [
       'select', 'remove',
     ]),
-    ...mapActions('playlists', ['update', 'remove']),
+    ...mapActions('playlists', ['create', 'update', 'remove']),
   },
   created() {
     this.$store.dispatch('playlists/getAll');

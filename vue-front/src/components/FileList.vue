@@ -31,7 +31,13 @@
                 padding="no-padding"
                 v-if="admin"
               >
-                <PlaylistTrackEditForm/>
+                <PlaylistForm
+                  :id="item.id"
+                  :name="item.name"
+                  title="Save"
+                  icon="save"
+                  :action="update"
+                />
               </Modal>
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
@@ -49,13 +55,13 @@ import { mapState, mapActions } from 'vuex';
 import _ from 'lodash';
 
 import Modal from './Modal.vue';
-import PlaylistTrackEditForm from './PlaylistTrackEditForm.vue';
+import PlaylistForm from './PlaylistForm.vue';
 
 export default {
   name: 'FileList',
   components: {
     Modal,
-    PlaylistTrackEditForm,
+    PlaylistForm,
   },
   props: {
     admin: Boolean,
@@ -75,9 +81,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('tracks', [
-      'select', 'remove',
-    ]),
+    ...mapActions('tracks', ['remove', 'select', 'update']),
   },
 };
 </script>

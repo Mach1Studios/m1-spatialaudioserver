@@ -46,6 +46,9 @@ const actions = {
     // NOTE: flush local state after upload event; should be removed in the feature when we start to have a lot of sound files (more than 50 or maybe 100)
     await dispatch('getAll');
   },
+  async update({ commit }, data) {
+    console.log(commit, data);
+  },
   async remove({ commit, dispatch }, id) {
     try {
       await Promise.all([
