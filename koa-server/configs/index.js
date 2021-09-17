@@ -6,6 +6,7 @@ import router from './router';
 
 const server = new Koa();
 
+server.keys = ['test'];
 server.context.redis = redis({ showFriendlyErrorStack: true });
 
 server.use(middleware(server));
