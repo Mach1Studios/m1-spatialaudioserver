@@ -6,6 +6,7 @@ const defaultState = () => ({
   track: {
     id: undefined,
     name: undefined,
+    defaultName: undefined,
     playing: false,
     dash: {},
   },
@@ -47,6 +48,11 @@ const actions = {
     await dispatch('getAll');
   },
   async update({ commit }, data) {
+    // NOTE: update track name
+    if (_.get(data, 'name')) {
+      await api.put(data);
+      commit('updateTrackName', data);
+    }
     console.log(commit, data);
   },
   async remove({ commit, dispatch }, id) {
@@ -71,6 +77,12 @@ const mutations = {
   },
   setPlay(store, track) {
     store.track = { ...track, playing: true };
+  },
+  updateTrackName(store, { id, name }) {
+    const index = _.findIndex(store.items, (item) => item.id === id);
+    const item = store.items[index];
+
+    store.items[index] = { ...item, name };
   },
 };
 
