@@ -82,3 +82,25 @@ export class UserModel extends Model {
     return null;
   }
 }
+
+export class PlaylistModel extends Model {
+  constructor(item) {
+    super();
+
+    this.setModelKey(item, 'id', uuid());
+    this.setModelKey(item, 'name');
+    this.setModelKey(item, 'tracks', []);
+    this.setModelKey(item, 'permission', []);
+    this.setModelKey(item, 'visibility', false);
+  }
+
+  shape = {
+    tracks: Array,
+    permission: Array,
+    visibility: Boolean,
+  }
+
+  get playlist() {
+    return { ...this.item };
+  }
+}

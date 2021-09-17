@@ -23,6 +23,11 @@ const actions = {
     }
     return false;
   },
+  async restore({ commit }) {
+    const profile = await api.get('profile');
+
+    if (profile) commit('setProfile', profile);
+  },
 };
 
 const mutations = {

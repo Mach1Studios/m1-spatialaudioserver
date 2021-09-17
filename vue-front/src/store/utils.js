@@ -12,6 +12,8 @@ export default class FetchHelper {
   constructor(url) {
     this.options = {
       mode: 'cors',
+      referrerPolicy: 'origin-when-cross-origin',
+      credentials: 'include',
     };
 
     if (url && _.isString(url)) {

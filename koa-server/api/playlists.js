@@ -1,28 +1,5 @@
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
-import Model from './services/model';
-
-class PlaylistModel extends Model {
-  constructor(item) {
-    super();
-
-    this.setModelKey(item, 'id', uuid());
-    this.setModelKey(item, 'name');
-    this.setModelKey(item, 'tracks', []);
-    this.setModelKey(item, 'permission', []);
-    this.setModelKey(item, 'visibility', false);
-  }
-
-  shape = {
-    tracks: Array,
-    permission: Array,
-    visibility: Boolean,
-  }
-
-  get playlist() {
-    return { ...this.item };
-  }
-}
+import { PlaylistModel } from './services/model';
 
 export default {
   async list(ctx) {
@@ -56,17 +33,13 @@ export default {
     const { id } = ctx.params;
     const { body } = ctx.request;
 
-    console.log(body);
-
     const item = await ctx.redis.hgetall(`playlist:${id}`);
     if (_.isNull(item)) ctx.throw(404);
     if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
 
     const model = new PlaylistModel(item);
-    console.log(model.item);
     const payload = model.difference(body);
     if (_.isEmpty(payload)) ctx.throw(400, 'Error! Nothing to change');
-    console.log(payload);
 
     await ctx.redis.hset(`playlist:${id}`, payload);
     ctx.body = { ...item, ...payload };
