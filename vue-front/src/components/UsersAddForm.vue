@@ -1,8 +1,8 @@
 <template>
   <div class="add-user">
-    <FormInput name="nickname" placeholder="Nickname" v-model="user.nickname"/>
-    <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
-    <FormInput name="password" placeholder="Password" :type="'password'" v-model="user.password"/>
+    <FormInput name="nickname" placeholder="Nickname" type="text" v-model="user.nickname"/>
+    <FormInput name="email" placeholder="E-mail" type="text" v-model="user.email"/>
+    <FormInput name="password" placeholder="Password" type="password" v-model="user.password"/>
     <FormSelect name="users" placeholder="Role" :options="roles" v-model="user.role"/>
     <FormButton v-if="!userId" title="Add User" icon="add" @click="add()"/>
     <FormButton v-else title="Save" icon="save" @click="save()"/>

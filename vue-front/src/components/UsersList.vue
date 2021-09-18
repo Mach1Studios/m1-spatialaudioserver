@@ -29,9 +29,18 @@
           <p class="medium-text">{{item.lastSeen}}</p>
         </td>
         <td>
-          <button class="border round transparent-border black-text">
-            <i class="material-icons">edit</i>
-          </button>
+          <Modal
+            title="Edit user"
+            button=" "
+            icon="edit"
+            position="center"
+            padding="no-padding"
+            buttonClasses="small absolute center middle"
+            titleClasses="large-width"
+            :userId="item.id"
+          >
+            <UsersAddForm/>
+          </Modal>
         </td>
         <td>
           <button class="border round transparent-border black-text" @click="remove(item)">
@@ -45,10 +54,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import Modal from './Modal.vue';
+import UsersAddForm from './UsersAddForm.vue';
 
 export default {
   name: 'UsersList',
   props: { admin: Boolean },
+  components: {
+    Modal,
+    UsersAddForm,
+  },
   computed: mapState({
     users: (state) => state.users.items,
   }),
