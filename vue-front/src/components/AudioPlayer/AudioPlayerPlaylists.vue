@@ -67,9 +67,8 @@
             <Modal
               title="Add track(s) in playlist"
               icon="add"
-              buttonClasses="small absolute center middle grey-light-3 large-width small-space"
+              buttonClasses="small small-space large-width small-margin grey-light-3"
               position="center"
-              padding="large-padding"
               v-if="controls"
               :key="item.id"
             >

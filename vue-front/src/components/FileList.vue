@@ -1,5 +1,5 @@
 <template>
-  <div class="large-width">
+  <div class="large-width small-padding">
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
@@ -66,8 +66,8 @@ export default {
   props: {
     admin: Boolean,
     user: Boolean,
+    playlist: Object,
   },
-
   computed: {
     ...mapState({
       tracks: (state) => state.tracks.items,
@@ -94,6 +94,10 @@ export default {
       font-size: 16px;
       cursor: default;
     }
+  }
+
+  .large-width {
+    max-width: fill-available !important;
   }
 
   tr.on-play {
@@ -139,9 +143,5 @@ export default {
         font-size: 20px;
       }
     }
-  }
-
-  #Playlist table {
-    margin-left: 13px;
   }
 </style>

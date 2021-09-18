@@ -57,7 +57,7 @@ export default {
       };
     },
     paddingSize() {
-      const { padding } = this;
+      const { padding = 'no-padding' } = this;
       return {
         [padding]: true,
       };
@@ -94,6 +94,7 @@ export default {
   }
 
   .default-modal-btn {
+    max-width: fill-available;
     i {
       font-size: 14px;
       color: #4d4d4d;
@@ -105,7 +106,8 @@ export default {
 
     &:hover {
       i {
-        font-size: 18px;
+        color: #1d1d1d;
+        // font-size: 18px;
       }
     }
   }
