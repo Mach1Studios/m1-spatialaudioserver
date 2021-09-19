@@ -9,13 +9,17 @@ export default {
     if (id !== 'profile') ctx.throw(404);
 
     const { user } = ctx.session;
+    // const profile = await ctx.redis.hget(`user:${user.id}`, 'id');
+    //
+    // if (_.isNull(profile)) {
+    //   ctx.session = null;
+    //   ctx.throw(403, 'Session expired');
+    // }
 
     ctx.status = _.get(user, 'id') ? 200 : 204;
     ctx.body = { user };
   },
   async post(ctx) {
-    ctx.cookies.set('auth.post', 1234, { httpOnly: false });
-
     const { body: { login, password } } = ctx.request;
 
     const id = await ctx.redis.hget('users:lookup:all', login);

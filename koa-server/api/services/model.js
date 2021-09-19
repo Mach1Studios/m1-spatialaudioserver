@@ -90,13 +90,13 @@ export class PlaylistModel extends Model {
     this.setModelKey(item, 'id', uuid());
     this.setModelKey(item, 'name');
     this.setModelKey(item, 'tracks', []);
-    this.setModelKey(item, 'permission', []);
+    this.setModelKey(item, 'permissions', []);
     this.setModelKey(item, 'visibility', false);
   }
 
   shape = {
     tracks: Array,
-    permission: Array,
+    permissions: Array,
     visibility: Boolean,
   }
 

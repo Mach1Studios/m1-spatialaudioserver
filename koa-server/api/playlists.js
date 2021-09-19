@@ -4,6 +4,7 @@ import { PlaylistModel } from './services/model';
 export default {
   async list(ctx) {
     const model = new PlaylistModel();
+    const { user } = ctx.session;
 
     const items = await ctx.redis.lrange('playlist:all', 0, 100);
     const playlists = await Promise.all(_.map(items, async (item) => {
@@ -14,7 +15,22 @@ export default {
       return playlist;
     }));
 
-    ctx.body = playlists;
+    const visible = _.filter(playlists, { visibility: true });
+    console.log(user, visible);
+
+    switch (_.get(user, 'role')) {
+      case 'admin':
+        ctx.body = playlists;
+        break;
+      case 'user':
+        ctx.body = [
+          ...visible, ..._.filter(playlists, ({ permissions }) => permissions.includes(user.id))
+        ];
+        break;
+      default:
+        ctx.body = visible;
+        break;
+    }
   },
   async create(ctx) {
     const { body } = ctx.request;
