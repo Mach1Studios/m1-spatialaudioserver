@@ -15,25 +15,20 @@ export default (options) => {
 
     if (!origin || !isEnabled) return next();
 
-    if (ctx.method !== 'OPTIONS') {
-      ctx.set('Access-Control-Allow-Origin', origin);
-      ctx.set('Access-Control-Allow-Credentials', 'true');
+    ctx.set('Access-Control-Allow-Origin', origin);
+    ctx.set('Access-Control-Allow-Credentials', 'true');
 
+    if (ctx.method !== 'OPTIONS') {
       return next().catch((err) => {
         _.set(err, 'headers.Access-Control-Allow-Origin', origin);
+        _.set(err, 'headers.Access-Control-Allow-Credentials', 'true');
+
         throw err;
       });
     }
 
-    // ctx.set('Access-Control-Allow-Origin', '*');
-    // ctx.set('Access-Control-Allow-Methods', '*');
-    // ctx.set('Access-Control-Allow-Headers', '*');
-
-    ctx.set('Access-Control-Allow-Origin', origin);
     ctx.set('Access-Control-Allow-Methods', defaultOptions.allowMethods.join(','));
     ctx.set('Access-Control-Allow-Headers', defaultOptions.allowHeaders.join(','));
-
-    ctx.set('Access-Control-Allow-Credentials', 'true');
 
     ctx.status = 204;
   };

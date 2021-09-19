@@ -7,7 +7,7 @@ import { encryptSync } from './encryption';
 function proceed(Basic, value) {
   switch (Basic.name) {
     case 'Array':
-      return _.compact(_.isString(value) ? value.split(','): []);
+      return _.compact(_.isString(value) ? value.split(',') : []);
     case 'Boolean':
       return value === 'true';
     default:
@@ -30,10 +30,6 @@ export default class Model {
 
   setModelKey(source, path, defaultValue) {
     this.#keys = _.union(this.keys, [path]);
-    // if (this.shape && this.shape[path] && path === 'visibility') {
-    //   console.log('path', path, this.shape[path].name, _.get(source, path, defaultValue));
-    //   console.log(new this.shape[path](_.get(source, path, defaultValue)));
-    // }
     this.#item[path] = (this.shape && this.shape[path])
       ? proceed(this.shape[path], _.get(source, path, defaultValue))
       : _.get(source, path, defaultValue);

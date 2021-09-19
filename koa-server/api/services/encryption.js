@@ -22,4 +22,4 @@ export const encryptSync = (string, iteration = 64) => {
   const hash = crypto.pbkdf2Sync(string, salt, iteration, iteration, 'sha512').toString('base64');
 
   return { hash, salt };
-}
+};

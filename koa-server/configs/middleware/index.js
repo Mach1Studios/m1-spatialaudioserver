@@ -10,7 +10,6 @@ import session from 'koa-session';
 import cors from './cors';
 import errors from './errors';
 
-// const session
 const dirServe = path.join(__dirname, '../..', 'www');
 
 export default function middleware(application) {

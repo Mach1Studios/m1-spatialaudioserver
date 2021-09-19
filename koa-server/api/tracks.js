@@ -2,7 +2,6 @@
 import { readdir, rm } from 'fs/promises';
 
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
 import got from 'got';
 
 const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
@@ -18,7 +17,7 @@ export default {
     // NOTE: must be changed when there will be too many files
     // or moved to another db
     // or added pagination
-    let items = await ctx.redis.find('file*', 100);
+    const items = await ctx.redis.find('file*', 100);
     const keys = sanitizeId(...items);
 
     const tracks = await ctx.redis.mget(...items);
