@@ -71,7 +71,7 @@ export default class FetchHelper {
   async #request({ itemId, method, body }) {
     this.path = itemId;
     this.options.method = method ?? 'GET';
-    if (_.isObject(body)) {
+    if (_.isObject(body) && !(body instanceof FormData)) {
       _.set(this.options, 'headers.Accept', 'application/json');
       _.set(this.options, 'headers.Content-Type', 'application/json');
 
