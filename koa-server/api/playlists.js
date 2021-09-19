@@ -16,7 +16,6 @@ export default {
     }));
 
     const visible = _.filter(playlists, { visibility: true });
-    console.log(user, visible);
 
     switch (_.get(user, 'role')) {
       case 'admin':
@@ -24,7 +23,7 @@ export default {
         break;
       case 'user':
         ctx.body = [
-          ...visible, ..._.filter(playlists, ({ permissions }) => permissions.includes(user.id))
+          ...visible, ..._.filter(playlists, ({ permissions }) => permissions.includes(user.id)),
         ];
         break;
       default:

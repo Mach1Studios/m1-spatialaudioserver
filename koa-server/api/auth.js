@@ -9,15 +9,19 @@ export default {
     if (id !== 'profile') ctx.throw(404);
 
     const { user } = ctx.session;
-    // const profile = await ctx.redis.hget(`user:${user.id}`, 'id');
-    //
-    // if (_.isNull(profile)) {
-    //   ctx.session = null;
-    //   ctx.throw(403, 'Session expired');
-    // }
+    const userId = _.get(user, 'id');
 
-    ctx.status = _.get(user, 'id') ? 200 : 204;
+    ctx.status = userId ? 200 : 204;
     ctx.body = { user };
+
+    if (userId) {
+      const profile = await ctx.redis.hget(`user:${userId}`, 'id');
+
+      if (_.isNull(profile)) {
+        ctx.session = null;
+        ctx.throw(403, 'Session expired');
+      }
+    }
   },
   async post(ctx) {
     const { body: { login, password } } = ctx.request;
