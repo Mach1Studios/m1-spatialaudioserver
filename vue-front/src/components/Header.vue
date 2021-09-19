@@ -1,8 +1,8 @@
 <template>
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
-    <router-link v-if="role === 'admin'" class="link" to="/">Home</router-link>
-    <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
+    <router-link v-if="role === 'admin'" class="link" to="/dashboard">Dashboard</router-link>
+    <router-link class="link" to="/">Spatial Audio Player</router-link>
     <router-link v-if="role === 'admin'" class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
     <UsersAuth/>
@@ -11,7 +11,7 @@
 
 <script>
 import _ from 'lodash';
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import UsersAuth from './UsersAuth.vue';
 
 export default {
@@ -20,12 +20,7 @@ export default {
   },
   computed: mapState({
     role: (state) => _.get(state, 'auth.profile.user.role', 'user'),
-    user: (state) => state.auth.profile.user,
   }),
-  methods: mapActions('auth', ['restore']),
-  created() {
-    this.restore();
-  },
 };
 </script>
 
