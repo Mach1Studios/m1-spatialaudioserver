@@ -19,20 +19,6 @@ export default {
     // or moved to another db
     // or added pagination
     let items = await ctx.redis.find('file*', 100);
-
-    // NOTE: must be moved to the database initialization
-    if (_.isEmpty(items)) {
-      ctx.body = [];
-
-      const files = await readdir(new URL('../public', import.meta.url));
-      const tracks = _.filter(files, (file) => _.endsWith(file, '.wav'));
-
-      const body = _.reduce(tracks, (result, track) => _.set(result, `file:${uuid()}`, track), {});
-      if (_.isEmpty(body)) return;
-
-      await ctx.redis.mset(body);
-      items = await ctx.redis.find('file*', 100);
-    }
     const keys = sanitizeId(...items);
 
     const tracks = await ctx.redis.mget(...items);
