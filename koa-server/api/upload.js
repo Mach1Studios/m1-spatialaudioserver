@@ -7,6 +7,8 @@ import multer from '@koa/multer';
 const uploader = multer().any();
 
 export default {
+  protectored: true,
+
   async post(ctx, next) {
     await uploader(ctx, next);
     await Promise.all(_.map(

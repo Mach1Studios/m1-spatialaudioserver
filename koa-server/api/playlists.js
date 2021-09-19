@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { PlaylistModel } from './services/model';
 
 export default {
+  protectored: ['create', 'update', 'del'],
+
   async list(ctx) {
     const model = new PlaylistModel();
     const { user } = ctx.session;

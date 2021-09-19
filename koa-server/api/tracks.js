@@ -7,6 +7,7 @@ import got from 'got';
 const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
 
 export default {
+  protectored: ['del'],
   /**
    * Scaning and returns a list of available sound files (by match .wav extention)
    * from the public dir
