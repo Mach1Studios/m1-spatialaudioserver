@@ -53,7 +53,6 @@ const actions = {
       await api.put(data);
       commit('updateTrackName', data);
     }
-    console.log(commit, data);
   },
   async remove({ commit, dispatch }, id) {
     try {

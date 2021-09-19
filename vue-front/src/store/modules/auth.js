@@ -30,6 +30,12 @@ const actions = {
   },
 };
 
+const getters = {
+  userId(state) {
+    return state.profile.user.id;
+  },
+};
+
 const mutations = {
   setProfile(store, profile) {
     store.profile = profile;
@@ -37,5 +43,5 @@ const mutations = {
 };
 
 export default {
-  namespaced: true, state: defaultState, actions, mutations,
+  namespaced: true, state: defaultState, actions, getters, mutations,
 };

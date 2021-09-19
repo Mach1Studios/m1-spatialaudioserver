@@ -90,14 +90,11 @@ export default class FetchHelper {
       try {
         if (response.ok) return await response.json();
 
-        console.log('response', response);
         // FIXME: need review
         const error = await response.json();
         Store.dispatch('toast', { error });
         throw error;
       } catch (e) {
-        console.log('response', response);
-
         if (response.ok) throw new Error('Wrong JSON response');
         throw e;
       }
