@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import _ from 'lodash';
 
 import FormSelect from './Form/Select.vue';
@@ -42,14 +42,19 @@ export default {
     },
   },
   computed: {
-    ...mapState({
-      tracks: (state) => state.tracks.items,
-    }),
     bindedItems() {
-      return _.filter(this.items, ({ id }) => this.playlist[this.path].indexOf(id) !== -1);
+      return _
+        .chain(this.items)
+        .filter(({ id }) => this.playlist[this.path].indexOf(id) !== -1)
+        .map(({ id, name, email }) => ({ id, name: name || email }))
+        .value();
     },
     unbindedItems() {
-      return _.filter(this.items, ({ id }) => this.playlist[this.path].indexOf(id) === -1);
+      return _
+        .chain(this.items)
+        .filter(({ id }) => this.playlist[this.path].indexOf(id) === -1)
+        .map(({ id, name, email }) => ({ id, name: name || email }))
+        .value();
     },
   },
   data() {

@@ -54,7 +54,7 @@
                     padding="no-padding"
                     button=" "
                   >
-                    <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+                    <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
                   </Modal>
                   <button class="border round transparent-border" @click="remove(item)">
                     <i class="material-icons">delete</i>
@@ -109,6 +109,7 @@ export default {
   },
   computed: mapState({
     tracks: (state) => state.tracks.items,
+    users: (state) => state.users.items,
     playlists: (state) => state.playlists.items,
   }),
   methods: {
@@ -119,6 +120,7 @@ export default {
   },
   created() {
     this.$store.dispatch('playlists/getAll');
+    this.$store.dispatch('users/getAll');
   },
 };
 </script>
