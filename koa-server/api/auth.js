@@ -41,4 +41,8 @@ export default {
       user: ctx.session.user,
     };
   },
+  async del(ctx) {
+    ctx.session = null;
+    ctx.redirect('/');
+  },
 };

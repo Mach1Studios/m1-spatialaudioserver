@@ -2,8 +2,9 @@ import _ from 'lodash';
 import { UserModel } from './services/model';
 
 export default {
+  protectored: true,
+
   async list(ctx) {
-    // await ctx.redis.flushall();
     const model = new UserModel();
 
     const items = await ctx.redis.lrange('users:all', 0, 100);
