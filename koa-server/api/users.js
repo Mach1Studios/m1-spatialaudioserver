@@ -2,8 +2,16 @@ import _ from 'lodash';
 import { UserModel } from './services/model';
 
 export default {
+  /**
+   * All methods from resource will be called only if `authenticator` method success
+   * @type {Boolean}
+   */
   protectored: true,
-
+  /**
+   * [list description]
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async list(ctx) {
     const model = new UserModel();
 
@@ -32,6 +40,11 @@ export default {
     ctx.status = 201;
     ctx.body = user;
   },
+  /**
+   * Finds and removes a user from the database by id, if there is no user, returns a 404 error code
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async del(ctx) {
     const { id } = ctx.params;
     const key = `user:${id}`;

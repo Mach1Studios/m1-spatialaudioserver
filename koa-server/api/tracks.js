@@ -7,6 +7,10 @@ import got from 'got';
 const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
 
 export default {
+  /**
+   * List of methods that will be called only if `authenticator` method success
+   * @type {Array}
+   */
   protectored: ['del'],
   /**
    * Scaning and returns a list of available sound files (by match .wav extention)

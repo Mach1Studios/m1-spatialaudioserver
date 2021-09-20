@@ -4,6 +4,12 @@ import { UserModel } from './services/model';
 import service from './services/encryption';
 
 export default {
+  /**
+   * Checking and returning current user session: if exist return 200 else empty body and 204.
+   * Removing session object if a session was corrupted
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async get(ctx) {
     const { id } = ctx.params;
     if (id !== 'profile') ctx.throw(404);
@@ -23,6 +29,12 @@ export default {
       }
     }
   },
+  /**
+   * Authenticating user by login (it can be nickname for email) and password;
+   * if login success adding user profile into session
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async post(ctx) {
     const { body: { login, password } } = ctx.request;
 
@@ -41,6 +53,11 @@ export default {
       user: ctx.session.user,
     };
   },
+  /**
+   * Simple logout handler; Removing user sessions and redirect them to root
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async del(ctx) {
     ctx.session = null;
     ctx.redirect('/');
