@@ -7,13 +7,13 @@
     <template #default="parrent">
       <FormInput
         name="login"
-        placeholder="Nickname or email"
+        placeholder="Email"
         type="text"
         v-model="login"
       />
       <FormInput
         name="password"
-        placeholder="Your Password"
+        placeholder="Password"
         type="text"
         v-model="password"
       />
@@ -21,7 +21,7 @@
     </template>
   </Modal>
   <div v-else>
-    <p style="z-index: 1; color: white">Hello, {{user?.nickname}}!</p>
+    <p style="z-index: 1; color: white">{{user?.nickname}}</p>
   </div>
 </template>
 
