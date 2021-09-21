@@ -120,7 +120,7 @@ export default {
   },
   created() {
     this.$store.dispatch('playlists/getAll');
-    this.$store.dispatch('users/getAll');
+    this.$store.dispatch('tracks/getAll');
   },
 };
 </script>
