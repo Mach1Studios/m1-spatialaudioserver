@@ -15,7 +15,7 @@
     "hex-rgb": "^5.0.0",
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
-    "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
+    "mach1spatial-decode": "file:/home/anton/Projects/mach1/NodeJS-Mach1Decode",
     "uuid": "^8.3.2",
     "vue": "^3.2.12",
     "vue-router": "^4.0.11",
@@ -33,6 +33,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-vue": "^7.18.0",
+    "exports-loader": "^3.0.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "vue-eslint-parser": "^7.11.0"
