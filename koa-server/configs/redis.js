@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import Redis from 'ioredis';
 
-import { UserModel } from '../api/services/model';
+import { UserModel } from '../api/models';
 
 export default (options) => {
   const client = new Redis(options);

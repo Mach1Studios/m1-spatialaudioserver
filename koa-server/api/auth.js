@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { UserModel } from './services/model';
+import { UserModel } from './models';
 import service from './services/encryption';
 
 export default {

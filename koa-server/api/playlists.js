@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PlaylistModel } from './services/model';
+import { PlaylistModel } from './models';
 
 export default {
   /**
