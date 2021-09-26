@@ -8,7 +8,7 @@ export default {
    */
   protectored: true,
   /**
-   * [list description]
+   * Scaning and returns a list of users
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
@@ -24,12 +24,16 @@ export default {
 
     ctx.body = users;
   },
+  /**
+   * Creating a new user
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async create(ctx) {
     const { body } = ctx.request;
 
-    const { user } = new UserModel(body);
-
-    // TODO: add validation
+    const { user, validation } = new UserModel(body);
+    await ctx.validate(validation);
 
     await ctx.redis.multi()
       .hset(`user:${user.id}`, user)

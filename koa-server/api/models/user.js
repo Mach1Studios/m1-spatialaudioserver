@@ -7,6 +7,13 @@ import Model from './model';
 export default class UserModel extends Model {
   #item = {}
 
+  #validation = {
+    nickname: 'required|minLength:3',
+    email: 'required|email',
+    role: 'required|in:admin,user',
+    password: 'required|minLength:8',
+  }
+
   #errors = []
 
   constructor(item) {
@@ -17,6 +24,8 @@ export default class UserModel extends Model {
     this.setModelKey(item, 'email');
     this.setModelKey(item, 'role', 'user');
     this.setModelKey(item, 'lastSeen');
+
+    this.validation = this.#validation;
 
     if (_.has(item, 'password')) {
       const { hash, salt } = encryptSync(_.get(item, 'password'));
@@ -33,17 +42,4 @@ export default class UserModel extends Model {
   get isValid() {
     return this.#errors.length === 0;
   }
-
-  // rules() {
-  //   const validation = Model.validator();
-  //   const { nickname, email, role } = this.user;
-  //
-  //   validation.inspect(_.isString(nickname) && nickname.length > 3, 'Field nickname should be string and has length more then 3');
-  //   validation.inspect(_.isString(email))
-  //
-  //   // if (!_.isString(nickname) || nickname.length <= 3) this.#errors.push({ message : })
-  //
-  //   // TODO: should store standart validation object
-  //   return validation;
-  // }
 }

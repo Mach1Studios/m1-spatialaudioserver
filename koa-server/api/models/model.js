@@ -34,10 +34,6 @@ export default class Model {
       : _.get(source, path, defaultValue);
   }
 
-  // setModelRule(key, rule, message) {
-  //
-  // }
-
   difference(payload) {
     if (!_.isObject(payload) || _.isEmpty(payload)) throw new Error('An empty payload was passed to the method');
 
@@ -51,20 +47,11 @@ export default class Model {
     }, {});
   }
 
-  // validationRules() {
-  //
-  // }
-  //
-  // static validator() {
-  //   const errors = [];
-  //   const inspect = (rule, value, message) => {
-  //     if (!validator[rule](value)) errors.push({ message });
-  //   };
-  //   return { errors, inspect };
-  // }
+  set validation(validation) {
+    this.#validation = validation;
+  }
 
-  // static validation(errors, rule, message) {
-  //   if (!rule)
-  //   return errors;
-  // }
+  get validation() {
+    return this.#validation;
+  }
 }
