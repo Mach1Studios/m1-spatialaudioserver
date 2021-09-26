@@ -1,7 +1,7 @@
 <template>
   <div class="toast white-text notification" :class="{ pink: notification.isError, green: notification.isSuccess, active: isActive }">
     <i class="material-icons">{{icon}}</i>
-    <span>{{notification.message}}</span>
+    <span style="white-space: pre-line">{{notification.message}}</span>
   </div>
 </template>
 <script>

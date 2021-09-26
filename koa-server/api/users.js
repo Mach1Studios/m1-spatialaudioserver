@@ -54,6 +54,7 @@ export default {
     const key = `user:${id}`;
     const user = await ctx.redis.hgetall(key);
     if (_.isEmpty(user)) ctx.throw(404);
+    if (user.id === ctx.session.user.id) ctx.throw(403, 'You cannot delete yourself');
 
     await Promise.all([
       ctx.redis.del(key),
