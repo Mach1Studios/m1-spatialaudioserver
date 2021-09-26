@@ -7,6 +7,8 @@ import Model from './model';
 export default class UserModel extends Model {
   #item = {}
 
+  #errors = []
+
   constructor(item) {
     super();
 
@@ -28,8 +30,20 @@ export default class UserModel extends Model {
     return { ...this.item, ...password };
   }
 
-  static validate() {
-    // TODO: should store standart validation object
-    return null;
+  get isValid() {
+    return this.#errors.length === 0;
   }
+
+  // rules() {
+  //   const validation = Model.validator();
+  //   const { nickname, email, role } = this.user;
+  //
+  //   validation.inspect(_.isString(nickname) && nickname.length > 3, 'Field nickname should be string and has length more then 3');
+  //   validation.inspect(_.isString(email))
+  //
+  //   // if (!_.isString(nickname) || nickname.length <= 3) this.#errors.push({ message : })
+  //
+  //   // TODO: should store standart validation object
+  //   return validation;
+  // }
 }

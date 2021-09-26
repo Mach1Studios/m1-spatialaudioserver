@@ -1,4 +1,5 @@
 import _ from 'lodash';
+// import validator from 'validator';
 
 function proceed(Basic, value) {
   switch (Basic.name) {
@@ -16,6 +17,8 @@ export default class Model {
 
   #item = {}
 
+  #validation = {}
+
   get keys() {
     return _.uniq(this.#keys);
   }
@@ -31,6 +34,10 @@ export default class Model {
       : _.get(source, path, defaultValue);
   }
 
+  // setModelRule(key, rule, message) {
+  //
+  // }
+
   difference(payload) {
     if (!_.isObject(payload) || _.isEmpty(payload)) throw new Error('An empty payload was passed to the method');
 
@@ -43,4 +50,21 @@ export default class Model {
       return result;
     }, {});
   }
+
+  // validationRules() {
+  //
+  // }
+  //
+  // static validator() {
+  //   const errors = [];
+  //   const inspect = (rule, value, message) => {
+  //     if (!validator[rule](value)) errors.push({ message });
+  //   };
+  //   return { errors, inspect };
+  // }
+
+  // static validation(errors, rule, message) {
+  //   if (!rule)
+  //   return errors;
+  // }
 }
