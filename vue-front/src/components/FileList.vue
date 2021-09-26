@@ -141,7 +141,11 @@ export default {
     button:hover {
       i {
         font-size: 20px;
+        color: #1c1c1c;
       }
+    }
+    button.border::after {
+      background-image: none;
     }
   }
 </style>
