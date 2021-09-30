@@ -16,8 +16,8 @@ export default class UserModel extends Model {
 
   #errors = []
 
-  constructor(item) {
-    super();
+  constructor(item, { validation = true }) {
+    super(item);
 
     this.setModelKey(item, 'id', uuid());
     this.setModelKey(item, 'nickname');
@@ -25,7 +25,9 @@ export default class UserModel extends Model {
     this.setModelKey(item, 'role', 'user');
     this.setModelKey(item, 'lastSeen');
 
-    this.validation = this.#validation;
+    if (validation) {
+      this.validation = this.#validation;
+    }
 
     if (_.has(item, 'password')) {
       const { hash, salt } = encryptSync(_.get(item, 'password'));

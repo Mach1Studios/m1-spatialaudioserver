@@ -4,18 +4,19 @@ import { v4 as uuid } from 'uuid';
 import Model from './model';
 
 export default class TrackModel extends Model {
-  #item = {}
-
   constructor(item) {
-    super();
+    super(item);
 
     this.setModelKey(item, 'id', uuid());
     this.setModelKey(item, 'name');
     this.setModelKey(item, 'filename');
   }
 
+  shape = {
+    playlists: Array,
+  }
+
   get track() {
-    const password = this.#item ? this.#item : {};
-    return { ...this.item, ...password };
+    return { ...this.item };
   }
 }

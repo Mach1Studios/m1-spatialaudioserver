@@ -1,5 +1,5 @@
 import _ from 'lodash';
-// import validator from 'validator';
+import { DateTime } from 'luxon';
 
 function proceed(Basic, value) {
   switch (Basic.name) {
@@ -19,12 +19,27 @@ export default class Model {
 
   #validation = {}
 
+  constructor(item) {
+    const timestamp = DateTime.now();
+    this.setModelKey(item, 'updated', timestamp);
+
+    if (!_.has(item, 'id')) this.setModelKey(item, 'created', timestamp);
+  }
+
   get keys() {
     return _.uniq(this.#keys);
   }
 
   get item() {
     return { ...this.#item };
+  }
+
+  set validation(validation) {
+    this.#validation = validation;
+  }
+
+  get validation() {
+    return this.#validation;
   }
 
   setModelKey(source, path, defaultValue) {
@@ -45,13 +60,5 @@ export default class Model {
 
       return result;
     }, {});
-  }
-
-  set validation(validation) {
-    this.#validation = validation;
-  }
-
-  get validation() {
-    return this.#validation;
   }
 }
