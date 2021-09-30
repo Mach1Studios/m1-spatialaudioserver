@@ -1,13 +1,14 @@
 import Koa from 'koa';
 
 import middleware from './middleware';
-import redis from './redis';
+import Redis from './redis';
 import router from './router';
 
 const server = new Koa();
+const redis = Redis({ showFriendlyErrorStack: true });
 
 server.keys = ['test'];
-server.context.redis = redis({ showFriendlyErrorStack: true });
+server.context.redis = redis;
 
 server.use(middleware(server));
 
@@ -18,4 +19,4 @@ const config = {
   port: process.env.PORT,
 };
 
-export { server, config };
+export { server, config, redis };
