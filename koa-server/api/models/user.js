@@ -16,7 +16,7 @@ export default class UserModel extends Model {
 
   #errors = []
 
-  constructor(item, { validation = true }) {
+  constructor(item, { validation = true } = {}) {
     super(item);
 
     this.setModelKey(item, 'id', uuid());
