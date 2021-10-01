@@ -6,9 +6,6 @@ import got from 'got';
 
 import { PlaylistModel, TrackModel } from './models';
 
-
-const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
-
 export default {
   /**
    * List of methods that will be called only if `authenticator` method success
@@ -23,39 +20,21 @@ export default {
    */
   async list(ctx) {
     ctx.body = [];
-    // NOTE: must be changed when there will be too many files
-    // or moved to another db
-    // or added pagination
-    // const items = await ctx.redis.find('file*', 100);
-    // const keys = sanitizeId(...items);
-    //
-    // const tracks = await ctx.redis.mget(...items);
-    // const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
-    //
-    // ctx.body = body;
     const { user } = ctx.session;
-    const items = await ctx.redis.lrange('tracks:all', 0, -1);
 
     if (user && user.role === 'admin') {
-      const keys = sanitizeId(...items);
-      console.log(keys);
-
-      const tracks = await ctx.redis.mget(...items);
-      const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
-
-      ctx.body = body;
+      ctx.body = await new TrackModel().getAllItemsFromStore();
+      return;
     }
 
-    // const Playlist = new PlaylistModel();
-    //
-    // await Playlist.getItemsByUserRole(user);
-    // console.log(Playlist.availableTracksId);
-    // if (Playlist.availableTracksId.length !== 0) {
-    //   const tracks = await ctx.redis.mget(...Playlist.availableTracksId);
-    //
-    //   console.log(tracks);
-    //   ctx.body = tracks;
-    // }
+    const Playlist = new PlaylistModel();
+
+    await Playlist.getItemsByUserRole(user);
+    if (Playlist.availableTracksId.length !== 0) {
+      const tracks = await new TrackModel().getAllItemsFromStore();
+
+      ctx.body = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
+    }
   },
   /**
    * Starting play sound file by id; send a request to the transcoded Nginx server

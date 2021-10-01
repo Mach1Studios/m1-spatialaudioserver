@@ -1,10 +1,10 @@
-import { readdir } from 'fs/promises';
+import { readdir, stat } from 'fs/promises';
 
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import Redis from 'ioredis';
 
-import { UserModel } from '../api/models';
+import { TrackModel, UserModel } from '../api/models';
 
 export default (options) => {
   const client = new Redis(options);
@@ -23,18 +23,26 @@ export default (options) => {
   client.on('ready', async () => {
     console.info('Connected to redis!');
 
-    const [tracks, user] = await Promise.all([client.find('file*', 100), client.find('user*', 100)]);
+    const [tracks, user] = await Promise.all([client.find('track*', 100), client.find('user*', 100)]);
     if (_.isEmpty(tracks)) {
       console.info('Empty tracks directory. Scanning...');
       const files = await readdir(new URL('../public', import.meta.url));
       const items = _.filter(files, (file) => _.endsWith(file, '.wav'));
 
-      const body = _.reduce(items, (result, track) => _.set(result, `file:${uuid()}`, track), {});
-      if (_.isEmpty(body)) {
+      if (_.isEmpty(items)) {
         console.info('Nothing 🎶 was found. You can upload a new track in the admin dashboard');
       } else {
-        console.info(`Found ${Object.keys(body).length} 🎶`);
-        await client.mset(body);
+        const body = await Promise.all(_.map(items, async (originalname) => {
+          const { size } = await stat(new URL(`../public/${originalname}`, import.meta.url));
+          const { track } = new TrackModel({ mimetype: 'audio/wav', originalname, size });
+
+          await client.multi()
+            .hset(`track:${track.id}`, track)
+            .rpush('tracks:all', `track:${track.id}`)
+            .exec();
+          return track;
+        }));
+        console.info(`Found and stored ${body.length} 🎶`);
       }
     }
     if (_.isEmpty(user)) {

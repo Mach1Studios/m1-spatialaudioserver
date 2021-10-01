@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid, validate } from 'uuid';
 
 import Model from './model';
 import { redis } from '../../configs';
@@ -40,8 +40,11 @@ export default class PlaylistModel extends Model {
     return _.map(this.#tracksId, (id) => `track:${id}`);
   }
 
-  isTrackIncludes(trackId) {
-    return this.#tracksId.includes(trackId) !== -1;
+  isTrackIncludes(payload) {
+    const id = (_.has(payload, 'id') || validate(payload))
+      ? _.get(payload, 'id', payload)
+      : undefined;
+    return payload && this.#tracksId.includes(id);
   }
 
   async getItemsByUserRole(user) {
@@ -55,8 +58,6 @@ export default class PlaylistModel extends Model {
       return playlist;
     }));
     const visible = _.filter(playlists, { visibility: true });
-    console.log('playlists', playlists);
-    console.log('visible', visible);
 
     switch (_.get(user, 'role')) {
       case 'admin':
