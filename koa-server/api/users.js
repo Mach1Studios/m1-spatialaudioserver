@@ -15,7 +15,7 @@ export default {
   async list(ctx) {
     const model = new UserModel();
 
-    const items = await ctx.redis.lrange('users:all', 0, 100);
+    const items = await ctx.redis.lrange('users:all', 0, -1);
     const users = await Promise.all(_.map(items, async (item) => {
       const values = await ctx.redis.hmget(item, model.keys);
 

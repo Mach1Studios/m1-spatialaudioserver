@@ -76,10 +76,13 @@ export default class Model {
       }));
       return items;
     } catch (e) {
+      // NOTE: doesn't matter if database return error (we can skip it and return empty array)
       console.error('DB Request Execution Issue:');
       console.error(e);
 
       return [];
     }
   }
+
+  static sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
 }

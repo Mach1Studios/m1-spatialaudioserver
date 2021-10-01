@@ -45,7 +45,7 @@ export default class PlaylistModel extends Model {
   }
 
   async getItemsByUserRole(user) {
-    const items = await redis.lrange('playlist:all', 0, 100);
+    const items = await redis.lrange('playlist:all', 0, -1);
 
     const playlists = await Promise.all(_.map(items, async (item) => {
       const values = await redis.hmget(item, this.keys);
