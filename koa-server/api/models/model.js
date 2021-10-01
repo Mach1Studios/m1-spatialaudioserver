@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { DateTime } from 'luxon';
 
+import { redis } from '../../configs';
+
 function proceed(Basic, value) {
   switch (Basic.name) {
     case 'Array':
@@ -47,6 +49,8 @@ export default class Model {
     this.#item[path] = (this.shape && this.shape[path])
       ? proceed(this.shape[path], _.get(source, path, defaultValue))
       : _.get(source, path, defaultValue);
+
+    return this.#item[path];
   }
 
   difference(payload) {
@@ -60,5 +64,22 @@ export default class Model {
 
       return result;
     }, {});
+  }
+
+  async getAllItemsFromStore() {
+    try {
+      if (!_.has(this, 'redisStoreKey')) throw new Error('Missing "redisStoreKey" props');
+      const ids = await redis.lrange(this.redisStoreKey, 0, -1);
+      const items = await Promise.all(_.map(ids, async (item) => {
+        const values = await redis.hmget(item, this.keys);
+        return _.zipObject(this.keys, values);
+      }));
+      return items;
+    } catch (e) {
+      console.error('DB Request Execution Issue:');
+      console.error(e);
+
+      return [];
+    }
   }
 }

@@ -4,6 +4,9 @@ import { readdir, rm } from 'fs/promises';
 import _ from 'lodash';
 import got from 'got';
 
+import { PlaylistModel, TrackModel } from './models';
+
+
 const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
 
 export default {
@@ -19,16 +22,40 @@ export default {
    *                          node's request and response objects into a single object
    */
   async list(ctx) {
+    ctx.body = [];
     // NOTE: must be changed when there will be too many files
     // or moved to another db
     // or added pagination
-    const items = await ctx.redis.find('file*', 100);
-    const keys = sanitizeId(...items);
+    // const items = await ctx.redis.find('file*', 100);
+    // const keys = sanitizeId(...items);
+    //
+    // const tracks = await ctx.redis.mget(...items);
+    // const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
+    //
+    // ctx.body = body;
+    const { user } = ctx.session;
+    const items = await ctx.redis.lrange('tracks:all', 0, -1);
 
-    const tracks = await ctx.redis.mget(...items);
-    const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
+    if (user && user.role === 'admin') {
+      const keys = sanitizeId(...items);
+      console.log(keys);
 
-    ctx.body = body;
+      const tracks = await ctx.redis.mget(...items);
+      const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
+
+      ctx.body = body;
+    }
+
+    // const Playlist = new PlaylistModel();
+    //
+    // await Playlist.getItemsByUserRole(user);
+    // console.log(Playlist.availableTracksId);
+    // if (Playlist.availableTracksId.length !== 0) {
+    //   const tracks = await ctx.redis.mget(...Playlist.availableTracksId);
+    //
+    //   console.log(tracks);
+    //   ctx.body = tracks;
+    // }
   },
   /**
    * Starting play sound file by id; send a request to the transcoded Nginx server

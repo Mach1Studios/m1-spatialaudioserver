@@ -7,9 +7,12 @@ export default class TrackModel extends Model {
   constructor(item) {
     super(item);
 
+    const filename = this.setModelKey(item, 'originalname');
+
     this.setModelKey(item, 'id', uuid());
-    this.setModelKey(item, 'name');
-    this.setModelKey(item, 'filename');
+    this.setModelKey(item, 'name', filename);
+    this.setModelKey(item, 'size');
+    this.setModelKey(item, 'mimetype');
   }
 
   shape = {

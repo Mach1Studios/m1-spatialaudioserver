@@ -24,6 +24,8 @@ export default class PlaylistModel extends Model {
     this.setModelKey(item, 'visibility', false);
   }
 
+  redisStoreKey = 'playlist:all'
+
   shape = {
     tracks: Array,
     permissions: Array,
@@ -34,6 +36,10 @@ export default class PlaylistModel extends Model {
     return { ...this.item };
   }
 
+  get availableTracksId() {
+    return _.map(this.#tracksId, (id) => `file:${id}`);
+  }
+
   isTrackIncludes(trackId) {
     return this.#tracksId.includes(trackId) !== -1;
   }
@@ -41,7 +47,7 @@ export default class PlaylistModel extends Model {
   async getItemsByUserRole(user) {
     const items = await redis.lrange('playlist:all', 0, 100);
 
-    const playlists = Promise.all(_.map(items, async (item) => {
+    const playlists = await Promise.all(_.map(items, async (item) => {
       const values = await redis.hmget(item, this.keys);
 
       const { playlist } = new PlaylistModel(_.zipObject(this.keys, values));
@@ -49,6 +55,8 @@ export default class PlaylistModel extends Model {
       return playlist;
     }));
     const visible = _.filter(playlists, { visibility: true });
+    console.log('playlists', playlists);
+    console.log('visible', visible);
 
     switch (_.get(user, 'role')) {
       case 'admin':
