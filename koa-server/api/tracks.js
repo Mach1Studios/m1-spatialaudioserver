@@ -66,7 +66,7 @@ export default {
   async get(ctx) {
     const { id } = ctx.params;
 
-    const track = await ctx.redis.get(`file:${id}`);
+    const track = await ctx.redis.get(`track:${id}`);
     if (_.isNull(track)) ctx.throw(404);
 
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
@@ -83,7 +83,7 @@ export default {
   async del(ctx) {
     const { id } = ctx.params;
 
-    const track = await ctx.redis.getdel(`file:${id}`);
+    const track = await ctx.redis.getdel(`track:${id}`);
     if (_.isNull(track)) ctx.throw(404);
 
     const options = { force: true, recursive: true };

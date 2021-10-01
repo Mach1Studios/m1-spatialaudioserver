@@ -1,7 +1,7 @@
 import { writeFile } from 'fs/promises';
 
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 import multer from '@koa/multer';
 
 import { TrackModel } from './models';
@@ -27,13 +27,12 @@ export default {
       ctx.request.files, async (file) => {
         const { track } = new TrackModel(file);
         tracks.push(track);
-        // console.log(track);
+
         return Promise.all([
           writeFile(new URL(`../public/${track.originalname}`, import.meta.url), file.buffer),
-          // ctx.redis.set(`file:${track.id}`, track.name),
           ctx.redis.multi()
-            .hset(`file:${track.id}`, track)
-            .rpush('tracks:all', `file:${track.id}`)
+            .hset(`track:${track.id}`, track)
+            .rpush('tracks:all', `track:${track.id}`)
             .exec(),
         ]);
       },

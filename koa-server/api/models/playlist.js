@@ -37,7 +37,7 @@ export default class PlaylistModel extends Model {
   }
 
   get availableTracksId() {
-    return _.map(this.#tracksId, (id) => `file:${id}`);
+    return _.map(this.#tracksId, (id) => `track:${id}`);
   }
 
   isTrackIncludes(trackId) {
