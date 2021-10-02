@@ -71,14 +71,23 @@ export default {
     const track = await ctx.redis.hgetall(key);
 
     if (_.isEmpty(track)) ctx.throw(404);
+    const playlists = await ctx.redis.smembers(`${key}:playlists`);
+    console.log(playlists);
+
+    // const transaction = ctx.redis.multi();
+    if (!_.isEmpty(playlists)) {
+      // _.each(playlists, (playlist) => {
+      //
+      // });
+    }
+    // transaction.del(key).lrem('tracks:all', 0, key);
 
     const options = { force: true, recursive: true };
     await Promise.all([
-      rm(new URL(`../public/preload/${id}`, import.meta.url), options),
-      rm(new URL(`../public/${track}`, import.meta.url), options),
+      // rm(new URL(`../public/preload/${id}`, import.meta.url), options),
+      // rm(new URL(`../public/${track}`, import.meta.url), options),
 
-      ctx.redis.del(key),
-      ctx.redis.lrem('tracks:all', 0, key),
+      // transaction.exec(),
     ]);
 
     ctx.status = 204;
