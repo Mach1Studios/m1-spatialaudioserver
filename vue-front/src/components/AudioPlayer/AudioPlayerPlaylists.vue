@@ -142,6 +142,15 @@ export default {
     .card {
       border-radius: 0;
     }
+    button.border::after {
+      background-image: none;
+    }
+    button:hover {
+      i {
+        font-size: 20px;
+        color: #1c1c1c;
+      }
+    }
   }
 
   .fade-enter-active, .fade-leave-active {
