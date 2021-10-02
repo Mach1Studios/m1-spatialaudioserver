@@ -43,9 +43,10 @@ export default {
     const { id } = ctx.params;
     const { body } = ctx.request;
 
+    if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
+
     const item = await ctx.redis.hgetall(`playlist:${id}`);
     if (_.isNull(item)) ctx.throw(404);
-    if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
 
     const model = new PlaylistModel(item);
     const payload = model.difference(body);
