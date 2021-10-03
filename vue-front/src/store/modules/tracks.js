@@ -6,7 +6,11 @@ const defaultState = () => ({
   track: {
     id: undefined,
     name: undefined,
-    defaultName: undefined,
+    originalname: undefined,
+    prepared: false,
+    size: 0,
+    mimetype: undefined,
+    // NOTE: Additional stored params for playble track
     playing: false,
     dash: {},
   },
@@ -22,18 +26,21 @@ const actions = {
    */
   async getAll({ commit }) {
     const tracks = await api.get();
-    commit('setTracks', _.map(tracks, ({ id, name }, index) => ({
-      number: index + 1, id, name, duration: 'repeat',
+    commit('setTracks', _.map(tracks, ({
+      id, name, originalname, prepared, size, mimetype,
+    }) => ({
+      id, name, originalname, prepared, size, mimetype, duration: 'repeat',
     })));
   },
   async select({ commit, state, dispatch }, id) {
     if (id === state.track.id) return;
 
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
-    const { name } = _.find(state.items, { id });
     await api.get(id);
+    await commit('getAll');
+    const track = _.find(state.items, { id });
 
-    commit('setPlay', { id, name });
+    commit('setPlay', { ...track, prepared: true });
     dispatch('dash/start', id, { root: true });
   },
   /**
@@ -69,7 +76,7 @@ const actions = {
 
 const mutations = {
   setTracks(store, tracks) {
-    store.items = tracks;
+    store.items = [...tracks];
   },
   removeTrack(store, id) {
     store.items = _.filter(store.items, (item) => item.id !== id);
