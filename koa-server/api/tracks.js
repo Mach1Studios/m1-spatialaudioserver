@@ -3,6 +3,7 @@ import { readdir, rm } from 'fs/promises';
 
 import _ from 'lodash';
 import got from 'got';
+import { DateTime } from 'luxon';
 
 import { PlaylistModel, TrackModel } from './models';
 
@@ -44,9 +45,17 @@ export default {
    */
   async get(ctx) {
     const { id } = ctx.params;
+    const { user } = ctx.session;
 
     const track = await ctx.redis.hgetall(`track:${id}`);
     if (_.isEmpty(track)) ctx.throw(404);
+
+    const Playlist = new PlaylistModel();
+
+    await Playlist.getItemsByUserRole(user);
+    if (!(user && user.role === 'admin') && !Playlist.isTrackIncludes(id)) {
+      ctx.throw(401, 'Permission deny');
+    }
 
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
     // and should be added the status of live broadcast
