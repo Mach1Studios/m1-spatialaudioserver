@@ -23,6 +23,7 @@ export default class TrackModel extends Model {
 
   shape = {
     playlists: Array,
+    prepared: Boolean,
   }
 
   get track() {

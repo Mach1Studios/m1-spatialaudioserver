@@ -24,7 +24,8 @@ export default {
     const { user } = ctx.session;
 
     if (user && user.role === 'admin') {
-      ctx.body = await new TrackModel().getAllItemsFromStore();
+      const items = await new TrackModel().getAllItemsFromStore();
+      ctx.body = _.map(items, (item) => new TrackModel(item).track);
       return;
     }
 
@@ -34,7 +35,8 @@ export default {
     if (Playlist.availableTracksId.length !== 0) {
       const tracks = await new TrackModel().getAllItemsFromStore();
 
-      ctx.body = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
+      const items = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
+      ctx.body = _.map(items, (item) => new TrackModel(item).track);
     }
   },
   /**
@@ -61,6 +63,7 @@ export default {
     // and should be added the status of live broadcast
 
     await got.get(`http://localhost:8080/play?sound=${track.originalname}&id=${track.id}`).json();
+    await ctx.redis.hset(`track:${id}`, { prepared: true });
     ctx.status = 204;
   },
   async update(ctx) {
