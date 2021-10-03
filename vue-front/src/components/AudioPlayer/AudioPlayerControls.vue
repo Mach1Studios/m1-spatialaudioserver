@@ -14,7 +14,7 @@
             {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
           </i>
         </div>
-        <div class="col min volume">
+        <div class="col channel">
           <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
         </div>
         <div class="col channel">
@@ -240,44 +240,44 @@ export default {
     left: 45%;
   }
 
-  .volume input[type='range']{
-    -webkit-appearance: none;
-    // width: calc(100% - (#{10px + 10px}));
-    height: 1rem;
-    width: 7em;
-    border-radius: 5px;
-    background: #c1c1c1;
-    outline: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-
-    // Range Handle
-      &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 10rem;
-        height: 10rem;
-        border-radius: 50%;
-        // background: #2c3e50;
-        box-shadow: 0 1px 3px #7d7d7d;
-        background:
-          linear-gradient(#c5c5c5, whitesmoke) padding-box,
-          linear-gradient(#fbfbfb, #c2c2c2) border-box;
-        cursor: pointer;
-      transition: all 0.15s ease-in-out;
-    }
-    &::-moz-range-thumb {
-      border: 0;
-      width: 10rem;
-      height: 10rem;
-      border-radius: 50%;
-      // background: #2c3e50;
-      box-shadow: 0 2px 5px #7d7d7d;
-      background:
-        linear-gradient(#c5c5c5, whitesmoke) padding-box,
-        linear-gradient(#fbfbfb, #c2c2c2) border-box;
-      cursor: pointer;
-      transition: background 0.15s ease-in-out;
-    }
-  }
+  // .volume input[type='range']{
+  //   -webkit-appearance: none;
+  //   // width: calc(100% - (#{10px + 10px}));
+  //   height: 1rem;
+  //   width: 7em;
+  //   border-radius: 5px;
+  //   background: #000000;
+  //   outline: none;
+  //   padding: 0;
+  //   margin: 0;
+  //   cursor: pointer;
+  //
+  //   // Range Handle
+  //     &::-webkit-slider-thumb {
+  //       -webkit-appearance: none;
+  //       width: 10rem;
+  //       height: 10rem;
+  //       border-radius: 50%;
+  //       background: #000;
+  //       box-shadow: 0 1px 3px #7d7d7d;
+  //       background:
+  //         linear-gradient(#c5c5c5, whitesmoke) padding-box,
+  //         linear-gradient(#fbfbfb, #c2c2c2) border-box;
+  //       cursor: pointer;
+  //     transition: all 0.15s ease-in-out;
+  //   }
+  //   &::-moz-range-thumb {
+  //     border: 0;
+  //     width: 10rem;
+  //     height: 10rem;
+  //     border-radius: 50%;
+  //     // background: #2c3e50;
+  //     box-shadow: 0 2px 5px #7d7d7d;
+  //     background:
+  //       linear-gradient(#c5c5c5, whitesmoke) padding-box,
+  //       linear-gradient(#fbfbfb, #c2c2c2) border-box;
+  //     cursor: pointer;
+  //     transition: background 0.15s ease-in-out;
+  //   }
+  // }
 </style>

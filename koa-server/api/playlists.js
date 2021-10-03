@@ -51,24 +51,11 @@ export default {
     const payload = new PlaylistModel(item).difference(body);
     if (_.isEmpty(payload)) ctx.throw(400, 'Error! Nothing to change');
 
-    // const { tracks, visibility } = payload;
-    const transaction = PlaylistModel.initStoreTransaction(item, payload);
+    await PlaylistModel
+      .initStoreTransaction(item, payload)
+      .hset(`playlist:${id}`, payload)
+      .exec();
 
-    transaction.hset(`playlist:${id}`, payload);
-    // if (!_.isEmpty(tracks)) {
-    //   // transaction.del(`playlist:${id}:tracks`);
-    //   // transaction.sadd(`playlist:${id}:tracks`, ...tracks);
-    //
-    //   _.each(tracks, (track) => transaction.sadd(`track:${track}:playlists`, id));
-    // }
-    // if (!_.isEmpty(visibility)) {
-    //   // transaction.del(`playlist:${id}:visibility`);
-    //   // transaction.sadd(`playlist:${id}:visibility`, ...visibility);
-    //
-    //   _.each(visibility, (user) => transaction.sadd(`user:${user}:playlists`, id));
-    // }
-    //
-    await transaction.exec();
     ctx.body = { ...item, ...payload };
   },
   /**

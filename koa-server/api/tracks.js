@@ -58,7 +58,17 @@ export default {
     const { id } = ctx.params;
     const { body } = ctx.request;
 
-    console.log(id, body);
+    if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
+
+    const item = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isNull(item)) ctx.throw(404);
+    const payload = {
+      name: _.get(body, 'name', item.name),
+      updated: DateTime.now(),
+    };
+
+    await ctx.redis.hset(`track:${id}`, payload);
+    ctx.body = { ...item, ...payload };
   },
   /**
    * Removing a file and its prepared cache from the file system and database
@@ -72,22 +82,35 @@ export default {
 
     if (_.isEmpty(track)) ctx.throw(404);
     const playlists = await ctx.redis.smembers(`${key}:playlists`);
-    console.log(playlists);
 
-    // const transaction = ctx.redis.multi();
     if (!_.isEmpty(playlists)) {
-      // _.each(playlists, (playlist) => {
-      //
-      // });
+      const RTransaction = ctx.redis.pipeline();
+      const WTransaction = ctx.redis.pipeline();
+
+      _.each(playlists, (playlist) => {
+        RTransaction.hget(`playlist:${playlist}`, 'tracks', (err, value) => {
+          const items = _.compact(
+            _.isString(value)
+              ? _.pull(value.split(','), id)
+              : [],
+          );
+          WTransaction.hset(`playlist:${playlist}`, 'tracks', items.toString());
+        });
+      });
+      await RTransaction.exec();
+      await WTransaction.exec();
     }
-    // transaction.del(key).lrem('tracks:all', 0, key);
+
+    const transaction = ctx.redis.multi()
+      .del(key)
+      .lrem('tracks:all', 0, key)
+      .exec();
 
     const options = { force: true, recursive: true };
     await Promise.all([
-      // rm(new URL(`../public/preload/${id}`, import.meta.url), options),
-      // rm(new URL(`../public/${track}`, import.meta.url), options),
-
-      // transaction.exec(),
+      rm(new URL(`../public/preload/${id}`, import.meta.url), options),
+      rm(new URL(`../public/${track}`, import.meta.url), options),
+      transaction,
     ]);
 
     ctx.status = 204;
