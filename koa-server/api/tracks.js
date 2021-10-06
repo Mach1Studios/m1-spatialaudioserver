@@ -2,12 +2,17 @@
 import { readdir, rm } from 'fs/promises';
 
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
 import got from 'got';
+import { DateTime } from 'luxon';
 
-const sanitizeId = (...args) => _.map(args, (id) => _.words(id, /[^:]+/g)[1]);
+import { PlaylistModel, TrackModel } from './models';
 
 export default {
+  /**
+   * List of methods that will be called only if `authenticator` method success
+   * @type {Array}
+   */
+  protectored: ['update', 'del'],
   /**
    * Scaning and returns a list of available sound files (by match .wav extention)
    * from the public dir
@@ -15,30 +20,24 @@ export default {
    *                          node's request and response objects into a single object
    */
   async list(ctx) {
-    // NOTE: must be changed when there will be too many files
-    // or moved to another db
-    // or added pagination
-    let items = await ctx.redis.find('file*', 100);
+    ctx.body = [];
+    const { user } = ctx.session;
 
-    // NOTE: must be moved to the database initialization
-    if (_.isEmpty(items)) {
-      ctx.body = [];
-
-      const files = await readdir(new URL('../public', import.meta.url));
-      const tracks = _.filter(files, (file) => _.endsWith(file, '.wav'));
-
-      const body = _.reduce(tracks, (result, track) => _.set(result, `file:${uuid()}`, track), {});
-      if (_.isEmpty(body)) return;
-
-      await ctx.redis.mset(body);
-      items = await ctx.redis.find('file*', 100);
+    if (user && user.role === 'admin') {
+      const items = await new TrackModel().getAllItemsFromStore();
+      ctx.body = _.map(items, (item) => new TrackModel(item).track);
+      return;
     }
-    const keys = sanitizeId(...items);
 
-    const tracks = await ctx.redis.mget(...items);
-    const body = _.zipWith(keys, tracks, (id, name) => ({ id, name }));
+    const Playlist = new PlaylistModel();
 
-    ctx.body = body;
+    await Playlist.getItemsByUserRole(user);
+    if (Playlist.availableTracksId.length !== 0) {
+      const tracks = await new TrackModel().getAllItemsFromStore();
+
+      const items = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
+      ctx.body = _.map(items, (item) => new TrackModel(item).track);
+    }
   },
   /**
    * Starting play sound file by id; send a request to the transcoded Nginx server
@@ -48,15 +47,40 @@ export default {
    */
   async get(ctx) {
     const { id } = ctx.params;
+    const { user } = ctx.session;
 
-    const track = await ctx.redis.get(`file:${id}`);
-    if (_.isNull(track)) ctx.throw(404);
+    const track = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isEmpty(track)) ctx.throw(404);
+
+    const Playlist = new PlaylistModel();
+
+    await Playlist.getItemsByUserRole(user);
+    if (!(user && user.role === 'admin') && !Playlist.isTrackIncludes(id)) {
+      ctx.throw(401, 'Permission deny');
+    }
 
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
     // and should be added the status of live broadcast
 
-    await got.get(`http://localhost:8080/play?sound=${track}&id=${id}`).json();
-    ctx.status = 202;
+    await got.get(`http://localhost:8080/play?sound=${track.originalname}&id=${track.id}`).json();
+    await ctx.redis.hset(`track:${id}`, { prepared: true });
+    ctx.status = 204;
+  },
+  async update(ctx) {
+    const { id } = ctx.params;
+    const { body } = ctx.request;
+
+    if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
+
+    const item = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isNull(item)) ctx.throw(404);
+    const payload = {
+      name: _.get(body, 'name', item.name),
+      updated: DateTime.now(),
+    };
+
+    await ctx.redis.hset(`track:${id}`, payload);
+    ctx.body = { ...item, ...payload };
   },
   /**
    * Removing a file and its prepared cache from the file system and database
@@ -65,14 +89,40 @@ export default {
    */
   async del(ctx) {
     const { id } = ctx.params;
+    const key = `track:${id}`;
+    const track = await ctx.redis.hgetall(key);
 
-    const track = await ctx.redis.getdel(`file:${id}`);
-    if (_.isNull(track)) ctx.throw(404);
+    if (_.isEmpty(track)) ctx.throw(404);
+    const playlists = await ctx.redis.smembers(`${key}:playlists`);
+
+    if (!_.isEmpty(playlists)) {
+      const RTransaction = ctx.redis.pipeline();
+      const WTransaction = ctx.redis.pipeline();
+
+      _.each(playlists, (playlist) => {
+        RTransaction.hget(`playlist:${playlist}`, 'tracks', (err, value) => {
+          const items = _.compact(
+            _.isString(value)
+              ? _.pull(value.split(','), id)
+              : [],
+          );
+          WTransaction.hset(`playlist:${playlist}`, 'tracks', items.toString());
+        });
+      });
+      await RTransaction.exec();
+      await WTransaction.exec();
+    }
+
+    const transaction = ctx.redis.multi()
+      .del(key)
+      .lrem('tracks:all', 0, key)
+      .exec();
 
     const options = { force: true, recursive: true };
     await Promise.all([
       rm(new URL(`../public/preload/${id}`, import.meta.url), options),
       rm(new URL(`../public/${track}`, import.meta.url), options),
+      transaction,
     ]);
 
     ctx.status = 204;

@@ -44,7 +44,19 @@ const Store = createStore({
       state.notification = { isError: false, isSuccess: false, message: '' };
 
       if (error) {
-        state.notification = { ...state.notification, isError: true, message: error.message ?? 'Something went wrong' };
+        let message = error.message ?? 'Something went wrong';
+        if (_.isObject(error.errors)) {
+          if (_.values(error.errors).length === 1) {
+            const [value] = _.values(error.errors);
+            message = value.message ?? 'Something went wrong';
+          } else {
+            message = `${message} The list of incorrect fields: \r\n`;
+            _.each(error.errors, (description) => {
+              message = `${message} \r\n ${description.message}`;
+            });
+          }
+        }
+        state.notification = { ...state.notification, isError: true, message };
       }
       if (event) {
         state.notification = { ...state.notification, isSuccess: true, message: event.message ?? 'Complete!' };

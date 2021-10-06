@@ -1,24 +1,25 @@
 <template>
   <div class="large-width playlist-form">
-    <FormInput name="name" placeholder="Name" type="text" v-model="playlist.name"/>
+    <FormInput name="name" placeholder="Name" type="text" v-model="item.name" @keyup.enter="click"/>
     <div>
-      <FormButton v-if="!playlistId" title="Add Playlist" icon="add" @click="add()"/>
-      <FormButton v-else title="Save" icon="save" @click="save()"/>
+      <FormButton :icon="icon" :title="title" @click="click"/>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 import FormButton from './Form/Button.vue';
 import FormInput from './Form/Input.vue';
 
 export default {
   name: 'PlaylistForm',
   props: {
-    playlistId: String,
+    id: String,
     name: String,
+    title: String,
+    icon: String,
+
+    action: Function,
   },
   components: {
     FormButton,
@@ -26,7 +27,7 @@ export default {
   },
   data() {
     return {
-      playlist: {
+      item: {
         id: '',
         name: '',
       },
@@ -34,26 +35,23 @@ export default {
     };
   },
   methods: {
-    ...mapActions('playlists', ['create', 'update']),
     select({ target: { name }, type }) {
       if (type === 'focus') {
         this.focused[name] = true;
-      } else if (type === 'blur' && this.playlist[name] === '') {
+      } else if (type === 'blur' && this.item[name] === '') {
         this.focused[name] = false;
       }
     },
-    add() {
-      this.create(this.playlist);
-    },
-    save() {
-      this.update(this.playlist);
+    click() {
+      const { item } = this;
+      this.action(item);
     },
   },
   created() {
-    const { playlistId, name } = this;
-    if (playlistId && name) {
-      this.playlist.id = playlistId;
-      this.playlist.name = name;
+    const { id, name } = this;
+    if (id && name) {
+      this.item.id = id;
+      this.item.name = name;
     }
   },
 };

@@ -34,9 +34,5 @@ export default {
   span {
     color: #1c1c1c;
   }
-  i {
-    font-size: 16px;
-    color: #4d4d4d;
-  }
 }
 </style>

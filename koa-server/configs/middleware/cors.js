@@ -6,7 +6,7 @@ export default (options) => {
 
   const defaultOptions = {
     allowMethods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowHeaders: ['Content-Type'],
+    allowHeaders: ['Content-Type', 'Set-Cookie', 'Cookie'],
   };
 
   return async (ctx, next) => {
@@ -15,15 +15,18 @@ export default (options) => {
 
     if (!origin || !isEnabled) return next();
 
+    ctx.set('Access-Control-Allow-Origin', origin);
+    ctx.set('Access-Control-Allow-Credentials', 'true');
+
     if (ctx.method !== 'OPTIONS') {
-      ctx.set('Access-Control-Allow-Origin', origin);
       return next().catch((err) => {
         _.set(err, 'headers.Access-Control-Allow-Origin', origin);
+        _.set(err, 'headers.Access-Control-Allow-Credentials', 'true');
+
         throw err;
       });
     }
 
-    ctx.set('Access-Control-Allow-Origin', origin);
     ctx.set('Access-Control-Allow-Methods', defaultOptions.allowMethods.join(','));
     ctx.set('Access-Control-Allow-Headers', defaultOptions.allowHeaders.join(','));
 

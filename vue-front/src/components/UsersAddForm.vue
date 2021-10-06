@@ -1,11 +1,11 @@
 <template>
   <div class="add-user">
-    <FormInput name="nickname" placeholder="Nickname" v-model="user.nickname"/>
-    <FormInput name="email" placeholder="E-mail" v-model="user.email"/>
-    <FormInput name="password" placeholder="Password" v-model="user.password"/>
-
+    <FormInput name="nickname" placeholder="Nickname" type="text" v-model="user.nickname"/>
+    <FormInput name="email" placeholder="E-mail" type="text" v-model="user.email"/>
+    <FormInput name="password" placeholder="Password" type="password" v-model="user.password"/>
     <FormSelect name="users" placeholder="Role" :options="roles" v-model="user.role"/>
-    <FormButton title="Add User" icon="add" @click="add()"/>
+    <FormButton v-if="!userId" title="Add User" icon="add" @click="add()"/>
+    <FormButton v-else title="Save" icon="save" @click="save()"/>
   </div>
 </template>
 
@@ -23,10 +23,14 @@ export default {
     FormInput,
     FormSelect,
   },
+  props: {
+    userId: String,
+  },
   data() {
     return {
       roles: [{ id: 'user', name: 'user' }, { id: 'admin', name: 'admin' }],
       user: {
+        id: '',
         nickname: '',
         email: '',
         role: '',
@@ -36,7 +40,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('users', ['create']),
+    ...mapActions('users', ['create', 'update']),
     select({ target: { name }, type }) {
       if (type === 'focus') {
         this.focused[name] = true;
@@ -47,8 +51,12 @@ export default {
     add() {
       this.create(this.user);
     },
+    save() {
+      this.update(this.user);
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

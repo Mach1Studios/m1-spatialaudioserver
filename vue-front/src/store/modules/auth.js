@@ -23,6 +23,17 @@ const actions = {
     }
     return false;
   },
+  async restore({ commit }) {
+    const profile = await api.get('profile');
+
+    if (profile) commit('setProfile', profile);
+  },
+};
+
+const getters = {
+  userId(state) {
+    return state.profile.user.id;
+  },
 };
 
 const mutations = {
@@ -32,5 +43,5 @@ const mutations = {
 };
 
 export default {
-  namespaced: true, state: defaultState, actions, mutations,
+  namespaced: true, state: defaultState, actions, getters, mutations,
 };

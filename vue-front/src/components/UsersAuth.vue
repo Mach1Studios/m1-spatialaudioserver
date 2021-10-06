@@ -1,5 +1,5 @@
 <template>
-  <Modal v-if="!session" title="Log In" titleClasses="large-width add-user">
+  <Modal v-if="!user" title="Log In" titleClasses="large-width add-user">
     <template #button>
       <button>Log in</button>
     </template>
@@ -46,7 +46,6 @@ export default {
   },
   computed: mapState({
     user: (state) => state.auth.profile.user,
-    session: (state) => state.auth.profile.session,
   }),
   methods: {
     ...mapActions('auth', { auth: 'login' }),

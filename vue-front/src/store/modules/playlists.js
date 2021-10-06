@@ -9,7 +9,7 @@ const defaultState = () => ({
   //   id: undefined,
   //   name: undefined,
   //   tracks: undefined,
-  //   permission: undefined,
+  //   permissions: undefined,
   //   visibility: undefined,
   // },
   items: [],
@@ -60,6 +60,9 @@ const actions = {
     await api.put(data);
     if (_.has(data, 'tracks')) {
       commit('updatePlaylistTracks', data);
+    }
+    if (_.has(data, 'permissions')) {
+      commit('updatePlaylistPermissions', data);
     }
   },
 };

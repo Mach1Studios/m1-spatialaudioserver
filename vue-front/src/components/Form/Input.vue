@@ -4,6 +4,7 @@
       :name="name"
       :type="type"
       :value="modelValue"
+
       @blur="select"
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -38,11 +39,6 @@ export default {
   data() {
     return { focused: false };
   },
-  // computed: {
-  //   isActive() {
-  //     return this.focused && this.modelValue !== '';
-  //   },
-  // },
   methods: {
     select({ type }) {
       if (type === 'focus') {
@@ -59,11 +55,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.field {
-  input {
-    &:focus {
-      border-color: #1c1c1c;
+  .field {
+    input {
+      &:focus {
+        border-color: #1c1c1c;
+      }
     }
   }
-}
 </style>

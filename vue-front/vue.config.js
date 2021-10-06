@@ -1,16 +1,30 @@
 module.exports = {
   transpileDependencies: ['mach1spatial-decode'],
   chainWebpack: (config) => {
+    /**
+     * Rewriting default path for .wasm module for the 'mach1spatial-decode'
+     * It can change and in package too into "locateFile" function
+     * {@link https://github.com/rustwasm/wasm-pack/pull/705#issuecomment-623016429}
+     * {@link https://gist.github.com/surma/b2705b6cca29357ebea1c9e6e15684cc}
+     */
     config.module
-      .rule('vue')
-      .use('vue-loader')
-      .tap((options) => {
-        // eslint-disable-next-line
-        options.compilerOptions = {
-          ...options.compilerOptions,
-          isCustomElement: (tag) => tag.startsWith('ion-'),
-        };
-        return options;
-      });
+      .rule('wasm')
+      .type('javascript/auto')
+      .test(require.resolve('mach1spatial-decode/lib/Mach1Decode.wasm'))
+      .use('file-loader')
+        .loader(require.resolve('file-loader'))
+        .options({
+          name: 'Mach1Decode.wasm',
+          outputPath: 'js',
+          publicPath: 'js'
+        })
+        .end();
+
+    // config.module
+    //   .rule('wasm-loader')
+    //   .test(require.resolve('mach1spatial-decode/lib/Mach1Decode.js'))
+    //   .use('exports-loader')
+    //     .loader(require.resolve('exports-loader'))
+    //     .end();
   },
 };

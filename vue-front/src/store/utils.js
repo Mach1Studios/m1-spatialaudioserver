@@ -12,6 +12,8 @@ export default class FetchHelper {
   constructor(url) {
     this.options = {
       mode: 'cors',
+      referrerPolicy: 'origin-when-cross-origin',
+      credentials: 'include',
     };
 
     if (url && _.isString(url)) {
@@ -69,7 +71,7 @@ export default class FetchHelper {
   async #request({ itemId, method, body }) {
     this.path = itemId;
     this.options.method = method ?? 'GET';
-    if (_.isObject(body)) {
+    if (_.isObject(body) && !(body instanceof FormData)) {
       _.set(this.options, 'headers.Accept', 'application/json');
       _.set(this.options, 'headers.Content-Type', 'application/json');
 
@@ -85,10 +87,10 @@ export default class FetchHelper {
     // TODO: For next iteration need to create full response method with error handler
     try {
       const response = await fetch(this.url, this.options);
+      if (response.status === 204) return null;
       try {
         if (response.ok) return await response.json();
 
-        // console.log(response);
         // FIXME: need review
         const error = await response.json();
         Store.dispatch('toast', { error });
@@ -103,7 +105,8 @@ export default class FetchHelper {
       }
 
       Store.dispatch('toast', { error: { ...e } });
-      return null;
+
+      throw new Error('API error response');
     }
   }
 }

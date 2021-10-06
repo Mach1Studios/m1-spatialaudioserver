@@ -1,5 +1,5 @@
 <template>
-  <div class="large-width">
+  <div class="large-width small-padding">
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
@@ -14,10 +14,20 @@
             <nav class="right-align">
               <button class="border round transparent-border">
                 <i class="material-icons-outlined">info</i>
+                <div class="card dropdown right no-wrap">
+                  <p>created: "2021-10-02T20:20:02.254+03:00"</p>
+                  <p>id: "f08ce45d-991f-45f3-8238-af3204d462a4"</p>
+                  <p>mimetype: "audio/wav"</p>
+                  <p>name: "m1-debug-shrtpt-m1spatial.wav"</p>
+                  <p>originalname: "m1-debug-shrtpt-m1spatial.wav"</p>
+                  <p>prepared: "false"</p>
+                  <p>size: "12701536"</p>
+                  <p>updated: "2021-10-02T20:20:02.254+03:00"</p>
+                </div>
               </button>
+              <div class="info popup"></div>
               <span class="disabled">
-                <i class="material-icons">mood</i>
-                <!-- <i class="small grey-dark-4-text">mood_bad</i> -->
+                <i class="material-icons">{{item.prepared ? 'mood' : 'mood_bad'}}</i>
               </span>
               <button class="border round transparent-border">
                 <i class="material-icons">repeat</i>
@@ -31,7 +41,13 @@
                 padding="no-padding"
                 v-if="admin"
               >
-                <PlaylistTrackEditForm/>
+                <PlaylistForm
+                  :id="item.id"
+                  :name="item.name"
+                  title="Save"
+                  icon="save"
+                  :action="update"
+                />
               </Modal>
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
@@ -49,19 +65,19 @@ import { mapState, mapActions } from 'vuex';
 import _ from 'lodash';
 
 import Modal from './Modal.vue';
-import PlaylistTrackEditForm from './PlaylistTrackEditForm.vue';
+import PlaylistForm from './PlaylistForm.vue';
 
 export default {
   name: 'FileList',
   components: {
     Modal,
-    PlaylistTrackEditForm,
+    PlaylistForm,
   },
   props: {
     admin: Boolean,
     user: Boolean,
+    playlist: Object,
   },
-
   computed: {
     ...mapState({
       tracks: (state) => state.tracks.items,
@@ -75,9 +91,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('tracks', [
-      'select', 'remove',
-    ]),
+    ...mapActions('tracks', ['remove', 'select', 'update']),
   },
 };
 </script>
@@ -90,6 +104,10 @@ export default {
       font-size: 16px;
       cursor: default;
     }
+  }
+
+  .large-width {
+    max-width: fill-available !important;
   }
 
   tr.on-play {
@@ -133,11 +151,11 @@ export default {
     button:hover {
       i {
         font-size: 20px;
+        color: #1c1c1c;
       }
     }
-  }
-
-  #Playlist table {
-    margin-left: 13px;
+    button.border::after {
+      background-image: none;
+    }
   }
 </style>

@@ -1,44 +1,26 @@
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
-import Model from './services/model';
-
-class PlaylistModel extends Model {
-  constructor(item) {
-    super();
-
-    this.setModelKey(item, 'id', uuid());
-    this.setModelKey(item, 'name');
-    this.setModelKey(item, 'tracks', []);
-    this.setModelKey(item, 'permission', []);
-    this.setModelKey(item, 'visibility', false);
-  }
-
-  shape = {
-    tracks: Array,
-    permission: Array,
-    visibility: Boolean,
-  }
-
-  get playlist() {
-    return { ...this.item };
-  }
-}
+import { PlaylistModel } from './models';
 
 export default {
+  /**
+   * List of methods that will be called only if `authenticator` method success
+   * @type {Array}
+   */
+  protectored: ['create', 'update', 'del'],
+  /**
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async list(ctx) {
-    const model = new PlaylistModel();
+    const { user } = ctx.session;
 
-    const items = await ctx.redis.lrange('playlist:all', 0, 100);
-    const playlists = await Promise.all(_.map(items, async (item) => {
-      const values = await ctx.redis.hmget(item, model.keys);
-
-      const { playlist } = new PlaylistModel(_.zipObject(model.keys, values));
-
-      return playlist;
-    }));
-
-    ctx.body = playlists;
+    ctx.body = await new PlaylistModel().getItemsByUserRole(user);
   },
+  /**
+   * Creating a new playlist by PlaylistModel and save it to DB
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async create(ctx) {
     const { body } = ctx.request;
 
@@ -52,25 +34,36 @@ export default {
     ctx.status = 201;
     ctx.body = playlist;
   },
+  /**
+   * Updating a playlist by playlist id and save it to DB
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async update(ctx) {
     const { id } = ctx.params;
     const { body } = ctx.request;
 
-    console.log(body);
+    if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
 
     const item = await ctx.redis.hgetall(`playlist:${id}`);
     if (_.isNull(item)) ctx.throw(404);
-    if (_.isEmpty(body)) ctx.throw(400, 'Error! An empty payload was passed to the request');
 
-    const model = new PlaylistModel(item);
-    console.log(model.item);
-    const payload = model.difference(body);
+    const payload = new PlaylistModel(item).difference(body);
     if (_.isEmpty(payload)) ctx.throw(400, 'Error! Nothing to change');
-    console.log(payload);
 
-    await ctx.redis.hset(`playlist:${id}`, payload);
+    await PlaylistModel
+      .initStoreTransaction(item, payload)
+      .hset(`playlist:${id}`, payload)
+      .exec();
+
     ctx.body = { ...item, ...payload };
   },
+  /**
+   * Removing a playlist from DB by playlist id and return empty body with 204;
+   * returns 404 if not found
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
   async del(ctx) {
     const { id } = ctx.params;
     const key = `playlist:${id}`;

@@ -1,9 +1,9 @@
 <template>
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
-    <router-link class="link" to="/">Home</router-link>
-    <router-link class="link" to="/spatialaudioplayer">Spatial Audio Player</router-link>
-    <router-link class="link" to="/users">Users</router-link>
+    <router-link v-if="role === 'admin'" class="link" to="/dashboard">Dashboard</router-link>
+    <router-link class="link" to="/">Spatial Audio Player</router-link>
+    <router-link v-if="role === 'admin'" class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
     <UsersAuth/>
   </div>
@@ -19,8 +19,7 @@ export default {
     UsersAuth,
   },
   computed: mapState({
-    role: (state) => _.get(state, 'auth.profile.user.role'),
-    session: (state) => state.auth.profile.session,
+    role: (state) => _.get(state, 'auth.profile.user.role', 'user'),
   }),
 };
 </script>

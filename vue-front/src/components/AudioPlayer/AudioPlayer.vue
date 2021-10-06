@@ -99,6 +99,7 @@ export default {
   .player {
     height: 30px;
     user-select: none;
+    width: 90%;
 
     .btn-box {
       position: absolute;
@@ -129,7 +130,7 @@ export default {
     }
 
     .music-box {
-      width: 90%;
+      // width: 90%;
       position: absolute;
       left: 50%;
       top: 5px;

@@ -8,7 +8,11 @@
         buttonClasses="small absolute center middle grey-light-3"
         padding="medium-padding"
       >
-        <PlaylistForm/>
+        <PlaylistForm
+          title="Create new playlist"
+          icon="add"
+          :action="create"
+        />
       </Modal>
     </div>
     <div v-for="item in playlists" :key="item">
@@ -35,7 +39,13 @@
                     position="center"
                     padding="no-padding"
                   >
-                    <PlaylistForm :playlistId="item.id" :name="item.name"/>
+                    <PlaylistForm
+                      :id="item.id"
+                      :name="item.name"
+                      title="Save"
+                      icon="save"
+                      :action="update"
+                    />
                   </Modal>
                   <Modal
                     title="Invite user(s) in playlist"
@@ -44,7 +54,7 @@
                     padding="no-padding"
                     button=" "
                   >
-                    <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+                    <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
                   </Modal>
                   <button class="border round transparent-border" @click="remove(item)">
                     <i class="material-icons">delete</i>
@@ -57,9 +67,8 @@
             <Modal
               title="Add track(s) in playlist"
               icon="add"
-              buttonClasses="small absolute center middle grey-light-3 large-width small-space"
+              buttonClasses="small small-space large-width small-margin grey-light-3"
               position="center"
-              padding="large-padding"
               v-if="controls"
               :key="item.id"
             >
@@ -100,16 +109,18 @@ export default {
   },
   computed: mapState({
     tracks: (state) => state.tracks.items,
+    users: (state) => state.users.items,
     playlists: (state) => state.playlists.items,
   }),
   methods: {
     ...mapActions('tracks', [
       'select', 'remove',
     ]),
-    ...mapActions('playlists', ['update', 'remove']),
+    ...mapActions('playlists', ['create', 'update', 'remove']),
   },
   created() {
     this.$store.dispatch('playlists/getAll');
+    this.$store.dispatch('tracks/getAll');
   },
 };
 </script>
@@ -130,6 +141,15 @@ export default {
     }
     .card {
       border-radius: 0;
+    }
+    button.border::after {
+      background-image: none;
+    }
+    button:hover {
+      i {
+        font-size: 20px;
+        color: #1c1c1c;
+      }
     }
   }
 

@@ -20,7 +20,7 @@
       </div>
       <div class="col s4">
         <div class="card round transparent audioplayer">
-          <AudioPlayer/>
+          <AudioPlayer class="dark-player"/>
         </div>
         <div class="card round">
           <AudioPlayerControls/>
@@ -69,6 +69,9 @@ export default {
 </script>
 <style lang="scss" scoped>
   .audioplayer {
+    .dark-player {
+      width: 100%;
+    }
     box-shadow: none;
     padding-top: 0;
   }

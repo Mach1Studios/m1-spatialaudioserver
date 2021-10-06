@@ -3,6 +3,7 @@
     <select
       :name="name"
       :value="modelValue"
+
       @blur="select"
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -23,11 +24,6 @@ export default {
       type: String,
       required: true,
     },
-    // type: {
-    //   type: String,
-    //   required: true,
-    //   default: 'text',
-    // },
     modelValue: {
       type: String,
     },

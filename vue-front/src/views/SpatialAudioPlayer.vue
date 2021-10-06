@@ -140,8 +140,9 @@ export default {
     box-shadow: none;
     padding-top: 0;
     .light-player {
-      padding-bottom: 30px;
-      width: 97%;
+      padding-left: 13rem;
+      padding-right: 13rem;
+      padding-bottom: 30rem;
     }
   }
   .modal-playlist {

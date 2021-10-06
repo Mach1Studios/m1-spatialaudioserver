@@ -57,7 +57,7 @@ export default {
       };
     },
     paddingSize() {
-      const { padding } = this;
+      const { padding = 'no-padding' } = this;
       return {
         [padding]: true,
       };
@@ -94,18 +94,19 @@ export default {
   }
 
   .default-modal-btn {
+    max-width: fill-available;
     i {
-      font-size: 14px;
+      font-size: 16px;
       color: #4d4d4d;
     }
     span {
       color: #1c1c1c;
       font-size: 14px;
     }
-
     &:hover {
       i {
-        font-size: 18px;
+        color: #1c1c1c;
+        font-size: 20px;
       }
     }
   }
@@ -121,5 +122,8 @@ export default {
   td>nav>div>button {
     min-height: 24rem;
     max-height: 24rem;
+  }
+  button.border::after {
+    background-image: none;
   }
 </style>
