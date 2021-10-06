@@ -15,7 +15,7 @@
     "hex-rgb": "^5.0.0",
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
-    "mach1spatial-decode": "file:/home/anton/Projects/mach1/NodeJS-Mach1Decode",
+    "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
     "uuid": "^8.3.2",
     "vue": "^3.2.12",
     "vue-router": "^4.0.11",
