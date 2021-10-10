@@ -7,7 +7,7 @@ import tracks from '../api/tracks';
 import upload from '../api/upload';
 import users from '../api/users';
 
-const router = new Router({ prefix: 'v1' });
+const router = new Router({ prefix: '/v1' });
 
 // Authorization route
 router

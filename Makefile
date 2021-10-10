@@ -23,7 +23,8 @@ setup:
 	cd koa-server && npm i
 	cd vue-front && npm i
 
-build:
+build: stop
+	docker network create m1-network &> /dev/null
 	docker build -f ./containers/koa/Dockerfile -t m1-api .
 	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
 	docker build -f ./containers/redis/Dockerfile -t m1-redis .
@@ -41,15 +42,19 @@ local: build
 	make run_redis_docker
 	make run_nginx_docker
 
-run_koa_server:
-	cd koa-server && ~/anton/.nvm/nvm.sh use && npm i && npm run local
+run_node_docker:
+	docker run -it --net m1-network --name m1-api --rm m1-api
 run_redis_docker:
-	docker run -it -p 6379:6379 --name m1-redis --rm m1-redis
+	docker run -it -p 6379:6379 --net m1-network --name m1-redis --rm m1-redis
 run_nginx_docker:
-	docker run -it -p 1935:1935 -p 8080:80 --mount type=bind,source="$(shell pwd)/koa-server/public",target=/share/sound --name m1-transcode --rm m1-transcode
+	docker run -it -p 1935:1935 -p 8080:80 \
+		--net m1-network \
+		 --mount type=bind,source="$(shell pwd)/koa-server/public",target=/share/sound \
+		 --name m1-transcode \
+		 --rm m1-transcode
 
 development: stop
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_redis_docker"
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_nginx_docker"
-	io.elementary.terminal --new-tab --working-directory="$(shell pwd)/koa-server"
+	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_node_docker"
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)/vue-front"

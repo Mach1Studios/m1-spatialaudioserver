@@ -20,10 +20,14 @@ module.exports = {
     env: {
       NODE_ENV: 'development',
       PORT: 3000,
+      REDIS_HOST: 'localhost',
+      REDIS_PORT: 6379,
     },
     env_production: {
       NODE_ENV: 'production',
       PORT: 3000,
+      REDIS_HOST: 'm1-redis',
+      REDIS_PORT: 6379,
     },
   }],
 
