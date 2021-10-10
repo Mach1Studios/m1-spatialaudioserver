@@ -13,16 +13,19 @@ clean:
 clear: clean
 
 stop:
-	docker container stop m1-transcode && docker container stop m1-redis
+ifeq ($(shell docker ps -q --filter name="m1*"),)
+	# Not found m1 containers
+else
+	docker container stop $(shell docker ps -q --filter name="m1*")
+endif
 
 setup:
 	cd koa-server && npm i
 	cd vue-front && npm i
 
 build:
-	cd containers/nginx && docker build -t m1-transcode .
-	cd containers/redis && docker build -t m1-redis .
-	cd vue-front && npm i && npm run build
+	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
+	docker build -f ./containers/redis/Dockerfile -t m1-redis .
 
 deploy: build
 	# deploys build to public AWS bucket
@@ -34,13 +37,18 @@ stage: build
 
 local: build
 	make -i -k stop
-	make run_docker
 	make run_redis_docker
-	make run_koa_server
+	make run_nginx_docker
 
 run_koa_server:
-	cd koa-server && npm i && npm run local
+	cd koa-server && ~/anton/.nvm/nvm.sh use && npm i && npm run local
 run_redis_docker:
-	cd containers/redis && docker run -it -d -p 6379:6379 --name m1-redis --rm m1-redis
-run_docker:
-	cd containers/nginx && docker run -it -d -p 1935:1935 -p 8080:80 --mount type=bind,source="$(shell pwd)/koa-server/public",target=/share/sound --mount type=bind,source="$(shell pwd)/vue-front/dist",target=/www --name m1-transcode --rm m1-transcode
+	docker run -it -p 6379:6379 --name m1-redis --rm m1-redis
+run_nginx_docker:
+	docker run -it -p 1935:1935 -p 8080:80 --mount type=bind,source="$(shell pwd)/koa-server/public",target=/share/sound --name m1-transcode --rm m1-transcode
+
+development: stop
+	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_redis_docker"
+	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_nginx_docker"
+	io.elementary.terminal --new-tab --working-directory="$(shell pwd)/koa-server"
+	io.elementary.terminal --new-tab --working-directory="$(shell pwd)/vue-front"

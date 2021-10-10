@@ -89,7 +89,7 @@ RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/luajit/lib LUAJIT_INC=/usr/l
 
 # FFpeg build from source code
 FROM ubuntu:focal as ffmpeg-build
-ARG FFMPEG
+ARG FFMPEG=4.4
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV TZ=Europe/Moscow
@@ -142,6 +142,18 @@ RUN cd /tmp/ffmpeg-${FFMPEG} && \
     --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
+# Frontend Build
+FROM node:14.16 as vue-build
+
+WORKDIR /tmp/build
+
+COPY ./vue-front/package*.json ./
+RUN npm install
+
+COPY ./vue-front .
+RUN npm run build
+
+
 # Core Builds image with NGINX, RTMP and FFmpeg
 FROM ubuntu:focal
 
@@ -172,9 +184,9 @@ COPY --from=nginx-build /usr/local/luajit /usr/local/luajit
 COPY --from=nginx-build /usr/local/nginx /usr/local/nginx
 COPY --from=nginx-build /etc/nginx /etc/nginx
 COPY --from=ffmpeg-build /usr/local /usr/local
+COPY --from=vue-build /tmp/build/dist /www
 
 VOLUME ["/share/sound"]
-VOLUME ["/www"]
 
 # Updating NGINX enviroment
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
@@ -182,13 +194,14 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 # ENV LD_LIBRARY_PATH "/usr/local/luajit:$LD_LIBRARY_PATH"
 
 # Adding NGINX configs
-COPY nginx.conf /etc/nginx/nginx.conf.template
+COPY ./containers/nginx/nginx.conf /etc/nginx/nginx.conf.template
 RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 
 EXPOSE 1935
 EXPOSE 80
 
-CMD chown nginx /opt/data/dash && chmod 777 /opt/data/dash && chmod -R 777 /share/sound && \
+CMD chown nginx /opt/data/dash && \
+ chmod 777 /opt/data/dash && chmod -R 777 /share/sound && \
  envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
  /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
  export LD_LIBRARY_PATH=/usr/local/luajit/lib:$LD_LIBRARY_PATH && \
