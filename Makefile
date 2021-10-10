@@ -24,6 +24,7 @@ setup:
 	cd vue-front && npm i
 
 build:
+	docker build -f ./containers/koa/Dockerfile -t m1-api .
 	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
 	docker build -f ./containers/redis/Dockerfile -t m1-redis .
 

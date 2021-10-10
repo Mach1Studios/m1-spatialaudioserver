@@ -16,8 +16,8 @@ router
 
 // User profile route
 router
-  .get('/profile', auth.validate, profile.get)
-  .put('/profile', auth.validate, profile.update);
+  .get('/profile', auth.validate, profile.get);
+// .put('/profile', auth.validate, profile.update);
 
 // Playlist route
 router
