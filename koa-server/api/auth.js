@@ -35,7 +35,7 @@ export default {
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
-  async post(ctx) {
+  async login(ctx) {
     const { body: { login, password } } = ctx.request;
 
     const id = await ctx.redis.hget('users:lookup:all', login);
@@ -58,8 +58,17 @@ export default {
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
-  async del(ctx) {
+  async logout(ctx) {
     ctx.session = null;
-    ctx.redirect('/');
+    ctx.status = 204;
+  },
+  async validate(ctx, next) {
+    const { user } = ctx.session;
+
+    if (_.get(user, 'role') === 'admin') {
+      await next();
+    } else {
+      ctx.throw(401, 'Permission deny');
+    }
   },
 };

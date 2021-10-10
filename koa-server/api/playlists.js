@@ -64,7 +64,7 @@ export default {
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
-  async del(ctx) {
+  async remove(ctx) {
     const { id } = ctx.params;
     const key = `playlist:${id}`;
     const playlist = await ctx.redis.hgetall(key);

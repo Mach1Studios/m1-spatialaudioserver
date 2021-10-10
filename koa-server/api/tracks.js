@@ -14,32 +14,6 @@ export default {
    */
   protectored: ['update', 'del'],
   /**
-   * Scaning and returns a list of available sound files (by match .wav extention)
-   * from the public dir
-   * @param  {Object}  ctx  the default koa context whose encapsulates
-   *                          node's request and response objects into a single object
-   */
-  async list(ctx) {
-    ctx.body = [];
-    const { user } = ctx.session;
-
-    if (user && user.role === 'admin') {
-      const items = await new TrackModel().getAllItemsFromStore();
-      ctx.body = _.map(items, (item) => new TrackModel(item).track);
-      return;
-    }
-
-    const Playlist = new PlaylistModel();
-
-    await Playlist.getItemsByUserRole(user);
-    if (Playlist.availableTracksId.length !== 0) {
-      const tracks = await new TrackModel().getAllItemsFromStore();
-
-      const items = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
-      ctx.body = _.map(items, (item) => new TrackModel(item).track);
-    }
-  },
-  /**
    * Starting play sound file by id; send a request to the transcoded Nginx server
    *  supported dynamic and static mpeg-dash behavior
    * @param  {Object}  ctx  the default koa context whose encapsulates
@@ -66,6 +40,32 @@ export default {
     await ctx.redis.hset(`track:${id}`, { prepared: true });
     ctx.status = 204;
   },
+  /**
+   * Scaning and returns a list of available sound files (by match .wav extention)
+   * from the public dir
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
+  async list(ctx) {
+    ctx.body = [];
+    const { user } = ctx.session;
+
+    if (user && user.role === 'admin') {
+      const items = await new TrackModel().getAllItemsFromStore();
+      ctx.body = _.map(items, (item) => new TrackModel(item).track);
+      return;
+    }
+
+    const Playlist = new PlaylistModel();
+
+    await Playlist.getItemsByUserRole(user);
+    if (Playlist.availableTracksId.length !== 0) {
+      const tracks = await new TrackModel().getAllItemsFromStore();
+
+      const items = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
+      ctx.body = _.map(items, (item) => new TrackModel(item).track);
+    }
+  },
   async update(ctx) {
     const { id } = ctx.params;
     const { body } = ctx.request;
@@ -87,7 +87,7 @@ export default {
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
-  async del(ctx) {
+  async remove(ctx) {
     const { id } = ctx.params;
     const key = `track:${id}`;
     const track = await ctx.redis.hgetall(key);
