@@ -36,7 +36,8 @@ export default {
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
     // and should be added the status of live broadcast
 
-    await got.get(`http://localhost:8080/play?sound=${track.originalname}&id=${track.id}`).json();
+    // FIXME: all this setting need to move to env var
+    await got.get(`http://m1-transcode/play?sound=${track.originalname}&id=${track.id}`).json();
     await ctx.redis.hset(`track:${id}`, { prepared: true });
     ctx.status = 204;
   },
