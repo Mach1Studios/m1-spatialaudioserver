@@ -23,8 +23,8 @@ setup:
 	cd koa-server && npm i
 	cd vue-front && npm i
 
+# docker network create m1-network &> /dev/null
 build: stop
-	docker network create m1-network &> /dev/null
 	docker build -f ./containers/koa/Dockerfile -t m1-api .
 	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
 	docker build -f ./containers/redis/Dockerfile -t m1-redis .
@@ -40,12 +40,13 @@ stage: build
 local: build
 	make -i -k stop
 	make run_redis_docker
+	make run_node_docker
 	make run_nginx_docker
 
 run_node_docker:
-	docker run -it --net m1-network --name m1-api --rm m1-api
+	docker run -it -d --net m1-network --name m1-api --rm m1-api
 run_redis_docker:
-	docker run -it -p 6379:6379 --net m1-network --name m1-redis --rm m1-redis
+	docker run -it -d -p 6379:6379 --net m1-network --name m1-redis --rm m1-redis
 run_nginx_docker:
 	docker run -it -p 1935:1935 -p 8080:80 \
 		--net m1-network \
