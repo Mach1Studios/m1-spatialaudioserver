@@ -1,6 +1,6 @@
-# m1-spatialaudioplayer-app
+# m1-spatialaudioserver
 
-Frontend & Backend for serving custom streaming spatial audio players
+Frontend & Backend for serving custom streaming spatial audio players with included web playback example
 
 ### Setup
 
