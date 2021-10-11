@@ -1,4 +1,3 @@
-# https://mach1.tech resolves to:
 s3_bucket_name =
 s3_stage_bucket_name =
 
@@ -14,7 +13,7 @@ clear: clean
 
 stop:
 ifeq ($(shell docker ps -q --filter name="m1*"),)
-	# Not found m1 containers
+	# No m1 containers found.
 else
 	docker container stop $(shell docker ps -q --filter name="m1*")
 endif
