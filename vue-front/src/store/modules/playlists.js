@@ -85,7 +85,7 @@ const mutations = {
 
     store.items[index] = { ...item, name };
   },
-  updatePlaylistVisibility(store, { id }) {
+  updatePlaylistPermissions(store, { id }) {
     const index = _.findIndex(store.items, (item) => item.id === id);
     const item = store.items[index];
 

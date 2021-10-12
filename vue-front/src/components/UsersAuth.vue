@@ -15,7 +15,7 @@
       <FormInput
         name="password"
         placeholder="Password"
-        type="text"
+        type="password"
         v-model="credentials.password"
         @keyup.enter="handler(parrent.close)"
       />
