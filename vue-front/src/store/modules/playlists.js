@@ -97,6 +97,12 @@ const mutations = {
 
     store.items[index] = { ...item, tracks };
   },
+  updatePlaylistPermissions(store, { id, permissions }) {
+    const index = _.findIndex(store.items, (item) => item.id === id);
+    const item = store.items[index];
+
+    store.items[index] = { ...item, permissions };
+  },
   removePlaylist(store, id) {
     store.items = _.remove(store.items, (item) => item.id !== id);
   },

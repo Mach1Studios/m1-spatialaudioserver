@@ -24,9 +24,14 @@ const actions = {
     return false;
   },
   async restore({ commit }) {
-    const profile = await api.get('profile');
+    const profile = await new FetchHelper('profile').get();
 
     if (profile) commit('setProfile', profile);
+  },
+  async logout({ commit, dispatch }) {
+    await api.del('logout');
+    dispatch('toast', { event: { message: 'Log out success! See you later ;)' } }, { root: true });
+    commit('setProfile', { session: false });
   },
 };
 

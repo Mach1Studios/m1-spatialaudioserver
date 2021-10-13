@@ -14,6 +14,34 @@ export default {
    */
   protectored: ['update', 'del'],
   /**
+   * Starting play sound file by id; send a request to the transcoded Nginx server
+   *  supported dynamic and static mpeg-dash behavior
+   * @param  {Object}  ctx  the default koa context whose encapsulates
+   *                          node's request and response objects into a single object
+   */
+  async get(ctx) {
+    const { id } = ctx.params;
+    const { user } = ctx.session;
+
+    const track = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isEmpty(track)) ctx.throw(404);
+
+    const Playlist = new PlaylistModel();
+
+    await Playlist.getItemsByUserRole(user);
+    if (!(user && user.role === 'admin') && !Playlist.isTrackIncludes(id)) {
+      ctx.throw(401, 'Permission deny');
+    }
+
+    // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
+    // and should be added the status of live broadcast
+
+    // FIXME: all this setting need to move to env var
+    await got.get(`http://m1-transcode/play?sound=${track.originalname}&id=${track.id}`).json();
+    await ctx.redis.hset(`track:${id}`, { prepared: true });
+    ctx.status = 204;
+  },
+  /**
    * Scaning and returns a list of available sound files (by match .wav extention)
    * from the public dir
    * @param  {Object}  ctx  the default koa context whose encapsulates
@@ -39,33 +67,6 @@ export default {
       ctx.body = _.map(items, (item) => new TrackModel(item).track);
     }
   },
-  /**
-   * Starting play sound file by id; send a request to the transcoded Nginx server
-   *  supported dynamic and static mpeg-dash behavior
-   * @param  {Object}  ctx  the default koa context whose encapsulates
-   *                          node's request and response objects into a single object
-   */
-  async get(ctx) {
-    const { id } = ctx.params;
-    const { user } = ctx.session;
-
-    const track = await ctx.redis.hgetall(`track:${id}`);
-    if (_.isEmpty(track)) ctx.throw(404);
-
-    const Playlist = new PlaylistModel();
-
-    await Playlist.getItemsByUserRole(user);
-    if (!(user && user.role === 'admin') && !Playlist.isTrackIncludes(id)) {
-      ctx.throw(401, 'Permission deny');
-    }
-
-    // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
-    // and should be added the status of live broadcast
-
-    await got.get(`http://localhost:8080/play?sound=${track.originalname}&id=${track.id}`).json();
-    await ctx.redis.hset(`track:${id}`, { prepared: true });
-    ctx.status = 204;
-  },
   async update(ctx) {
     const { id } = ctx.params;
     const { body } = ctx.request;
@@ -87,7 +88,7 @@ export default {
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
-  async del(ctx) {
+  async remove(ctx) {
     const { id } = ctx.params;
     const key = `track:${id}`;
     const track = await ctx.redis.hgetall(key);

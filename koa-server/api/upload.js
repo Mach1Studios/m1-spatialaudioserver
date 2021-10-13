@@ -19,7 +19,7 @@ export default {
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */
-  async post(ctx, next) {
+  async save(ctx, next) {
     await uploader(ctx, next);
 
     const tracks = [];

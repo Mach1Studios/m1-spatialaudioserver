@@ -7,7 +7,7 @@
         <th><abbr title="E-MAIL">E-MAIL</abbr></th>
         <th><abbr title="ROLE">ROLE</abbr></th>
         <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-        <th><abbr title="EDIT">EDIT</abbr></th>
+        <!-- <th><abbr title="EDIT">EDIT</abbr></th> -->
         <th><abbr title="REMOVE"></abbr></th>
       </tr>
     </thead>
@@ -28,7 +28,7 @@
         <td>
           <p class="medium-text">{{item.lastSeen}}</p>
         </td>
-        <td>
+        <!-- <td>
           <Modal
             title="Edit user"
             button=" "
@@ -41,9 +41,9 @@
           >
             <UsersAddForm/>
           </Modal>
-        </td>
+        </td> -->
         <td>
-          <button class="border round transparent-border black-text" @click="remove(item)">
+          <button class="border round transparent-border black-text" @click="remove(item.id)">
             <i class="material-icons">delete</i>
           </button>
         </td>
@@ -54,16 +54,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import Modal from './Modal.vue';
-import UsersAddForm from './UsersAddForm.vue';
+// import Modal from './Modal.vue';
+// import UsersAddForm from './UsersAddForm.vue';
 
 export default {
   name: 'UsersList',
   props: { admin: Boolean },
-  components: {
-    Modal,
-    UsersAddForm,
-  },
+  // components: {
+  //   Modal,
+  //   UsersAddForm,
+  // },
   computed: mapState({
     users: (state) => state.users.items,
   }),

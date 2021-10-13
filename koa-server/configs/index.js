@@ -8,6 +8,8 @@ const server = new Koa();
 const redis = Redis({ showFriendlyErrorStack: true });
 
 server.keys = ['test'];
+server.proxy =true;
+
 server.context.redis = redis;
 
 server.use(middleware(server));

@@ -1,60 +1,45 @@
-import _ from 'lodash';
 import Router from '@koa/router';
 
-import * as resources from '../api';
+import auth from '../api/auth';
+import playlists from '../api/playlists';
+import profile from '../api/profile';
+import tracks from '../api/tracks';
+import upload from '../api/upload';
+import users from '../api/users';
 
-const router = new Router();
-const supportMethods = ['list', 'get', 'post', 'create', 'put', 'save', 'update', 'del'];
+const router = new Router({ prefix: '/v1' });
 
-const authenticator = (resource, method) => {
-  const middleware = async (ctx, next) => next();
-  if (!_.has(resource, 'protectored')) return middleware;
+// Authorization route
+router
+  .post('/auth', auth.login)
+  .del('/auth/logout', auth.validate, auth.logout);
 
-  const protectored = _.get(resource, 'protectored');
-  if (_.isArray(protectored)) {
-    if (!protectored.includes(method)) return middleware;
-  }
-  return async (ctx, next) => {
-    const { user } = ctx.session;
+// User profile route
+router
+  .get('/profile', profile.get);
+// .put('/profile', auth.validate, profile.update);
 
-    if (_.get(user, 'role') === 'admin') {
-      await next();
-    } else {
-      ctx.throw(401, 'Permission deny');
-    }
-  };
-};
+// Playlist route
+router
+  .get('/playlists', playlists.list)
+  .post('/playlists', auth.validate, playlists.create)
+  .put('/playlists/:id', auth.validate, playlists.update)
+  .del('/playlists/:id', auth.validate, playlists.remove);
 
-_.each(resources, (methods, resource) => {
-  _.each(methods, (handler, method) => {
-    if (supportMethods.includes(method)) {
-      const protector = authenticator(resources[resource], method);
+// Tracks route
+router
+  .get('/tracks/:id', tracks.get)
+  .get('/tracks', tracks.list)
+  .put('/tracks/:id', auth.validate, tracks.update)
+  .del('/tracks/:id', auth.validate, tracks.remove);
 
-      switch (method) {
-        case 'get':
-          router.get(`/${resource}/:id`, protector, handler);
-          break;
-        case 'list':
-          router.get(`/${resource}`, protector, handler);
-          break;
-        case 'post':
-        case 'create':
-          router.post(`/${resource}`, protector, handler);
-          break;
-        case 'put':
-        case 'save':
-        case 'update':
-          router.put(`/${resource}/:id`, protector, handler);
-          break;
-        case 'del':
-          router.del(`/${resource}/:id`, protector, handler);
-          break;
-        default:
-          router[method](`/${resource}`, protector, handler);
-          break;
-      }
-    }
-  });
-});
+// Uploader
+router.post('/upload', auth.validate, upload.save);
+
+// User route
+router
+  .get('/users', auth.validate, users.list)
+  .post('/users', auth.validate, users.create)
+  .del('/users/:id', auth.validate, users.remove);
 
 export default router;

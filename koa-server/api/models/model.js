@@ -23,9 +23,8 @@ export default class Model {
 
   constructor(item) {
     const timestamp = DateTime.now();
+    this.setModelKey(item, 'created', timestamp);
     this.setModelKey(item, 'updated', timestamp);
-
-    if (!_.has(item, 'id')) this.setModelKey(item, 'created', timestamp);
   }
 
   get keys() {

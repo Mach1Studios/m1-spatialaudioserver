@@ -1,13 +1,15 @@
 import { readdir, stat } from 'fs/promises';
 
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
 import Redis from 'ioredis';
 
 import { TrackModel, UserModel } from '../api/models';
 
+const redisHost = process.env.REDIS_HOST;
+const redisPort = process.env.REDIS_PORT;
+
 export default (options) => {
-  const client = new Redis(options);
+  const client = new Redis({ host: redisHost, port: redisPort, ...options });
 
   Redis.prototype.find = (match, count = 100) => new Promise((resolve) => {
     let items = [];

@@ -30,7 +30,6 @@ export default {
     return {
       roles: [{ id: 'user', name: 'user' }, { id: 'admin', name: 'admin' }],
       user: {
-        id: '',
         nickname: '',
         email: '',
         role: '',
