@@ -1,6 +1,6 @@
 <template>
   <button class="button border round transparent-border small-space grey-light-3">
-    <i class="material-icons">{{icon}}</i>
+    <i v-if="icon" class="material-icons">{{icon}}</i>
     <span class="small-text">{{title}}</span>
   </button>
 </template>
@@ -15,7 +15,7 @@ export default {
     },
     icon: {
       type: String,
-      required: true,
+      required: false,
     },
   },
 };

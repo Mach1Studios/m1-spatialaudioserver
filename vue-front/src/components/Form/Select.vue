@@ -47,6 +47,11 @@ export default {
       }
     },
   },
+  created() {
+    if (this.modelValue !== '') {
+      this.focused = true;
+    }
+  },
 };
 </script>
 
