@@ -1,16 +1,23 @@
 <template>
-  <div class="add-user">
+  <form class="add-user">
     <FormInput name="nickname" placeholder="Nickname" type="text" v-model="user.nickname"/>
     <FormInput name="email" placeholder="E-mail" type="text" v-model="user.email"/>
-    <FormInput name="password" placeholder="Password" type="password" v-model="user.password"/>
+    <FormInput
+      v-if="!user.id"
+      v-model="user.password"
+
+      autocomplete="new-password"
+      name="password"
+      placeholder="Password"
+      type="password"
+    />
     <FormSelect name="users" placeholder="Role" :options="roles" v-model="user.role"/>
-    <FormButton v-if="!userId" title="Add User" icon="add" @click="add()"/>
-    <FormButton v-else title="Save" icon="save" @click="save()"/>
-  </div>
+    <FormButton :icon="icon" :title="title" @click="click"/>
+  </form>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+// import { mapActions } from 'vuex';
 
 import FormButton from './Form/Button.vue';
 import FormInput from './Form/Input.vue';
@@ -24,22 +31,27 @@ export default {
     FormSelect,
   },
   props: {
-    userId: String,
+    title: String,
+    icon: String,
+    item: {
+      type: Object,
+      required: false,
+    },
+
+    action: Function,
   },
   data() {
     return {
-      roles: [{ id: 'user', name: 'user' }, { id: 'admin', name: 'admin' }],
-      user: {
-        nickname: '',
-        email: '',
-        role: '',
-        password: '',
-      },
+      roles: [
+        { id: 'user', name: 'user' },
+        { id: 'admin', name: 'admin' },
+      ],
+      user: {},
       focused: {},
     };
   },
   methods: {
-    ...mapActions('users', ['create', 'update']),
+    // ...mapActions('users', ['create', 'update']),
     select({ target: { name }, type }) {
       if (type === 'focus') {
         this.focused[name] = true;
@@ -47,12 +59,22 @@ export default {
         this.focused[name] = false;
       }
     },
-    add() {
-      this.create(this.user);
+    click() {
+      const { user } = this;
+      this.action(user);
     },
-    save() {
-      this.update(this.user);
-    },
+    // add() {
+    //   this.create(this.user);
+    // },
+    // save() {
+    //   this.update(this.user);
+    // },
+  },
+  created() {
+    const { item } = this;
+    if (item && item.id) {
+      this.user = { ...item };
+    }
   },
 };
 </script>

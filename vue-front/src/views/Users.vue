@@ -12,7 +12,12 @@
             title="Add user"
             titleClasses="large-width add-user"
           >
-            <UsersAddForm/>
+            <UsersAddForm
+              title="Add user"
+              icon="add"
+
+              :action="create"
+            />
           </Modal>
         </div>
       </div>
@@ -21,6 +26,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import UsersList from '../components/UsersList.vue';
 import Modal from '../components/Modal.vue';
 import UsersAddForm from '../components/UsersAddForm.vue';
@@ -30,6 +37,9 @@ export default {
     UsersList,
     Modal,
     UsersAddForm,
+  },
+  methods: {
+    ...mapActions('users', ['create']),
   },
 };
 </script>

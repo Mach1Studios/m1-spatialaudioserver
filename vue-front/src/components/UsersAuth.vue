@@ -5,21 +5,27 @@
     </template>
 
     <template #default="parrent">
-      <FormInput
-        name="login"
-        placeholder="Email"
-        type="text"
-        v-model="credentials.login"
-        @keyup.enter="handler(parrent.close)"
-      />
-      <FormInput
-        name="password"
-        placeholder="Password"
-        type="password"
-        v-model="credentials.password"
-        @keyup.enter="handler(parrent.close)"
-      />
-      <FormButton title="Enter" icon="login" @click="handler(parrent.close)"/>
+      <form >
+        <FormInput
+          autocomplete="username"
+          name="login"
+          placeholder="Email"
+          type="text"
+
+          v-model="credentials.login"
+          @keyup.enter="handler(parrent.close)"
+        />
+        <FormInput
+          autocomplete="current-password"
+          name="password"
+          placeholder="Password"
+          type="password"
+
+          v-model="credentials.password"
+          @keyup.enter="handler(parrent.close)"
+        />
+        <FormButton title="Enter" icon="login" @click="handler(parrent.close)"/>
+      </form>
     </template>
   </Modal>
   <div class="profile" v-else>

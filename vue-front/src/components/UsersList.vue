@@ -7,7 +7,7 @@
         <th><abbr title="E-MAIL">E-MAIL</abbr></th>
         <th><abbr title="ROLE">ROLE</abbr></th>
         <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-        <!-- <th><abbr title="EDIT">EDIT</abbr></th> -->
+        <th><abbr title="EDIT"></abbr></th>
         <th><abbr title="REMOVE"></abbr></th>
       </tr>
     </thead>
@@ -28,20 +28,25 @@
         <td>
           <p class="medium-text">{{item.lastSeen}}</p>
         </td>
-        <!-- <td>
+        <td>
           <Modal
-            title="Edit user"
+            title="Update user"
             button=" "
             icon="edit"
             position="center"
             padding="no-padding"
             buttonClasses="small absolute center middle"
             titleClasses="large-width"
-            :userId="item.id"
           >
-            <UsersAddForm/>
+            <UsersAddForm
+              icon="save"
+              title="Save"
+              :item="item"
+
+              :action="update"
+            />
           </Modal>
-        </td> -->
+        </td>
         <td>
           <button class="border round transparent-border black-text" @click="remove(item.id)">
             <i class="material-icons">delete</i>
@@ -54,21 +59,21 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-// import Modal from './Modal.vue';
-// import UsersAddForm from './UsersAddForm.vue';
+import Modal from './Modal.vue';
+import UsersAddForm from './UsersAddForm.vue';
 
 export default {
   name: 'UsersList',
   props: { admin: Boolean },
-  // components: {
-  //   Modal,
-  //   UsersAddForm,
-  // },
+  components: {
+    Modal,
+    UsersAddForm,
+  },
   computed: mapState({
     users: (state) => state.users.items,
   }),
   methods: {
-    ...mapActions('users', ['remove']),
+    ...mapActions('users', ['update', 'remove']),
   },
   created() {
     this.$store.dispatch('users/getAll');

@@ -3,7 +3,7 @@
     <div @click="open">
       <slot name="button">
         <button class="round border transparent-border default-modal-btn" :class="buttonClasses">
-          <i v-show="icon" class="material-icons">{{icon}}</i>
+          <i v-if="icon" class="material-icons">{{icon}}</i>
           <span class="small-text">{{button || title}}</span>
         </button>
       </slot>
@@ -39,7 +39,10 @@ export default {
   props: {
     button: String,
     buttonClasses: String,
-    icon: String,
+    icon: {
+      type: String,
+      required: false,
+    },
     padding: String,
     position: String,
     title: String,
