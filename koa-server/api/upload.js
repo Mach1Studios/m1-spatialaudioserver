@@ -29,7 +29,7 @@ export default {
         tracks.push(track);
 
         return Promise.all([
-          writeFile(new URL(`../public/${track.originalname}`, import.meta.url), file.buffer),
+          writeFile(new URL(`/public/${track.originalname}`, import.meta.url), file.buffer),
           ctx.redis.multi()
             .hset(`track:${track.id}`, track)
             .rpush('tracks:all', `track:${track.id}`)

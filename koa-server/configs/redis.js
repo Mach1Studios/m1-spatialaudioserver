@@ -28,14 +28,14 @@ export default (options) => {
     const [tracks, user] = await Promise.all([client.find('track*', 100), client.find('user*', 100)]);
     if (_.isEmpty(tracks)) {
       console.info('Empty tracks directory. Scanning...');
-      const files = await readdir(new URL('../public', import.meta.url));
+      const files = await readdir(new URL('/public', import.meta.url));
       const items = _.filter(files, (file) => _.endsWith(file, '.wav'));
 
       if (_.isEmpty(items)) {
         console.info('Nothing 🎶 was found. You can upload a new track in the admin dashboard');
       } else {
         const body = await Promise.all(_.map(items, async (originalname) => {
-          const { size } = await stat(new URL(`../public/${originalname}`, import.meta.url));
+          const { size } = await stat(new URL(`/public/${originalname}`, import.meta.url));
           const { track } = new TrackModel({ mimetype: 'audio/wav', originalname, size });
 
           await client.multi()

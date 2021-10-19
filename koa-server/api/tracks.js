@@ -121,8 +121,8 @@ export default {
 
     const options = { force: true, recursive: true };
     await Promise.all([
-      rm(new URL(`../public/preload/${id}`, import.meta.url), options),
-      rm(new URL(`../public/${track}`, import.meta.url), options),
+      rm(`/public/preload/${id}`, options),
+      rm(`/public/${track.originalname}`, options),
       transaction,
     ]);
 

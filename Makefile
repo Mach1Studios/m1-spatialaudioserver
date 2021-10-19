@@ -44,7 +44,7 @@ local: build
 	make run_nginx_docker
 
 run_node_docker:
-	docker run -it -d --net m1-network --mount type=volume,source=m1-volume,target=/usr/src/app/public --name m1-api --rm m1-api
+	docker run -it -d --net m1-network --mount type=volume,source=m1-volume,target=/public --name m1-api --rm m1-api
 run_redis_docker:
 	docker run -it -d -p 6379:6379 --net m1-network --name m1-redis --rm m1-redis
 run_nginx_docker:

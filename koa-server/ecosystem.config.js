@@ -10,7 +10,7 @@ module.exports = {
 
     instances: 1,
     exec_mode: 'fork',
-    max_memory_restart: '500M',
+    max_memory_restart: '1000M',
     watch: '.',
     ignore_watch: ['public/*'],
 
