@@ -79,14 +79,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // .active {
-  //   opacity: 1;
-  //   visibility: visible;
-  // }
-  // .modal{
-  //   opacity: 1;
-  //   visibility: visible;
-  // }
   .title {
     font-style: normal;
     font-weight: bold;
@@ -106,12 +98,6 @@ export default {
       color: #1c1c1c;
       font-size: 14px;
     }
-    &:hover {
-      i {
-        color: #1c1c1c;
-        font-size: 20px;
-      }
-    }
   }
 
   .close {
@@ -128,5 +114,18 @@ export default {
   }
   button.border::after {
     background-image: none;
+  }
+
+  .active {
+    animation: none;
+  }
+
+  nav {
+    button:hover {
+      i {
+        color: #1c1c1c;
+        font-size: 20px;
+      }
+    }
   }
 </style>

@@ -6,7 +6,7 @@
         icon="add"
         position="center"
         buttonClasses="small absolute center middle grey-light-3"
-        padding="medium-padding"
+        padding="large-margin"
       >
         <PlaylistForm
           title="Create new playlist"
