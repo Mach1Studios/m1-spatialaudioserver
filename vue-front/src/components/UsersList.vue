@@ -12,9 +12,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in users" :key="item">
+      <tr v-for="(item, index) in users" :key="item">
         <td>
-          <p class="medium-text">{{item.number}}</p>
+          <p class="medium-text">{{ index + 1 }}</p>
         </td>
         <td>
           <p class="medium-text">{{item.nickname}}</p>

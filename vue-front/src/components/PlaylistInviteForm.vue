@@ -3,9 +3,9 @@
     <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
     <table class="list-table border">
       <tbody>
-        <tr v-for="item in bindedItems" :key="item">
+        <tr v-for="(item, index) in bindedItems" :key="item">
           <td>
-            <p class="medium-text">{{item.number}}</p>
+            <p class="medium-text">{{ index + 1 }}</p>
           </td>
           <td class="small-width">
             <p class="medium-text">{{item.name}}</p>

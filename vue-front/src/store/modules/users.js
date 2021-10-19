@@ -19,7 +19,8 @@ const api = new FetchHelper('users');
 const actions = {
   async getAll({ commit }) {
     const users = await api.get();
-    commit('setUsers', _.map(users, (user, index) => ({ number: index + 1, ...user })));
+    commit('setUsers', _.map(users, (user) => ({ ...user })));
+    // commit('setUsers', _.map(users, (user, index) => ({ number: index + 1, ...user })));
   },
   async create({ commit }, data) {
     const user = await api.post(data);
