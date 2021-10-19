@@ -8,11 +8,11 @@
               <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
               <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
             </div>
-            <div id="FileList" class="page padding" :class="{ active: selected === 'filelist'}">
+            <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
               <FileList :admin="true"/>
               <FileListUploader/>
             </div>
-            <div id="Playlists" class="page padding" :class="{ active: selected === 'playlists'}">
+            <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
               <AudioPlayerPlaylists :admin="true" :controls="true"/>
             </div>
           </div>

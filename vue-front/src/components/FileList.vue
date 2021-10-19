@@ -1,31 +1,31 @@
 <template>
-  <div class="large-width small-padding">
+  <div class="large-width">
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
-        <tr v-for="item in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
+        <tr v-for="(item, index) in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
-            <p class="medium-text">{{item.number}}</p>
+            <p class="medium-text">{{ index + 1 }}</p>
           </td>
-          <td class="small-width" @click="select(item.id)">
+          <td @click="select(item.id)">
             <p class="medium-text">{{item.name}}</p>
           </td>
           <td>
             <nav class="right-align">
-              <button class="border round transparent-border">
+              <button class="border round transparent-border" @mouseleave.stop="active = null" @click.stop="active = item.id">
                 <i class="material-icons-outlined">info</i>
-                <div class="card dropdown right no-wrap">
-                  <p>created: "2021-10-02T20:20:02.254+03:00"</p>
-                  <p>id: "f08ce45d-991f-45f3-8238-af3204d462a4"</p>
-                  <p>mimetype: "audio/wav"</p>
-                  <p>name: "m1-debug-shrtpt-m1spatial.wav"</p>
-                  <p>originalname: "m1-debug-shrtpt-m1spatial.wav"</p>
-                  <p>prepared: "false"</p>
-                  <p>size: "12701536"</p>
-                  <p>updated: "2021-10-02T20:20:02.254+03:00"</p>
-                </div>
               </button>
-              <div class="info popup"></div>
+              <div class="card dropdown right no-wrap" :class="{ active: active === item.id}">
+                <p>id: {{item.id}}</p>
+                <p>created: {{item.created}}</p>
+                <p>mimetype: {{item.mimetype}}</p>
+                <p>name: {{item.name}}</p>
+                <p>originalname:{{item.originalname}}</p>
+                <p>prepared: {{item.prepared}}</p>
+                <p>size: {{item.size}}</p>
+                <p>updated: {{item.updated}}</p>
+              </div>
+              <!-- <div class="info popup"></div> -->
               <span class="disabled">
                 <i class="material-icons">{{item.prepared ? 'mood' : 'mood_bad'}}</i>
               </span>
@@ -73,6 +73,9 @@ export default {
     Modal,
     PlaylistForm,
   },
+  data() {
+    return { active: '' };
+  },
   props: {
     admin: Boolean,
     user: Boolean,
@@ -97,11 +100,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  i {
+    color: #4d4d4d;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
   .disabled {
     i {
-      color: #4d4d4d;
-      background: transparent;
-      font-size: 16px;
       cursor: default;
     }
   }
@@ -125,13 +131,13 @@ export default {
     p {
       color: #1c1c1c;
     }
-    i {
-      color: #4d4d4d;
-    }
     td {
       vertical-align: middle;
       .disabled ~ i, p {
         cursor: pointer;
+      }
+      &:last-child {
+        padding-right: 13px;
       }
     }
     th {
@@ -140,20 +146,15 @@ export default {
     tr:hover {
       background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
     }
-    td:last-child {
-      padding-right: 13px;
-    }
     button {
-      i {
-        font-size: 16px;
+      &:hover {
+        i {
+          font-size: 20px;
+          color: #1c1c1c;
+        }
       }
     }
-    button:hover {
-      i {
-        font-size: 20px;
-        color: #1c1c1c;
-      }
-    }
+
     button.border::after {
       background-image: none;
     }

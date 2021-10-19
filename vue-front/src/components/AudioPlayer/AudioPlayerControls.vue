@@ -3,22 +3,29 @@
     <div class="preview" v-show="isActiveStream === true">
       <h4 class="title large-text">AUDIO PREVIEW</h4>
       <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
-        <div class="col">
+        <div class="col min">
           <p class="small-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
         </div>
         <div class="col">
           <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
         </div>
         <div class="col min">
-          <i class="material-icons small black-text" @click="mute(channel)">
+          <i class="material-icons small" @click="mute(channel)">
             {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
           </i>
         </div>
         <div class="col channel">
           <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
         </div>
+        <div class="col min"></div>
+        <div class="col min">
+          <p>L</p>
+        </div>
         <div class="col channel">
           <input step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
+        </div>
+        <div class="col min">
+          <p>R</p>
         </div>
       </div>
     </div>
@@ -68,13 +75,13 @@ export default {
     ...mapState('dash', ['player', 'isActiveStream']),
   },
   created() {
-    setInterval(() => {
-      if (this.spinner === '...') {
-        this.spinner = '';
-      } else {
-        this.spinner = `${this.spinner}.`;
-      }
-    }, 400);
+    // setInterval(() => {
+    //   if (this.spinner === '...') {
+    //     this.spinner = '';
+    //   } else {
+    //     this.spinner = `${this.spinner}.`;
+    //   }
+    // }, 400);
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
@@ -170,6 +177,7 @@ export default {
   }
 
   .channel input[type='range']{
+    margin: 0;
     &,
     &::-webkit-slider-runnable-track,
     &::-webkit-slider-thumb {
@@ -206,7 +214,6 @@ export default {
     &::-ms-thumb {
       @include thumb();
     }
-
     &::-webkit-slider-runnable-track, /deep/ #track {
       &:before, &:after {
         position: relative;
@@ -233,51 +240,18 @@ export default {
 
     i {
       cursor: pointer;
+      color: #4d4d4d;
     }
   }
   .channel-spinner {
     float: left;
     left: 45%;
   }
-
-  // .volume input[type='range']{
-  //   -webkit-appearance: none;
-  //   // width: calc(100% - (#{10px + 10px}));
-  //   height: 1rem;
-  //   width: 7em;
-  //   border-radius: 5px;
-  //   background: #000000;
-  //   outline: none;
-  //   padding: 0;
-  //   margin: 0;
-  //   cursor: pointer;
-  //
-  //   // Range Handle
-  //     &::-webkit-slider-thumb {
-  //       -webkit-appearance: none;
-  //       width: 10rem;
-  //       height: 10rem;
-  //       border-radius: 50%;
-  //       background: #000;
-  //       box-shadow: 0 1px 3px #7d7d7d;
-  //       background:
-  //         linear-gradient(#c5c5c5, whitesmoke) padding-box,
-  //         linear-gradient(#fbfbfb, #c2c2c2) border-box;
-  //       cursor: pointer;
-  //     transition: all 0.15s ease-in-out;
-  //   }
-  //   &::-moz-range-thumb {
-  //     border: 0;
-  //     width: 10rem;
-  //     height: 10rem;
-  //     border-radius: 50%;
-  //     // background: #2c3e50;
-  //     box-shadow: 0 2px 5px #7d7d7d;
-  //     background:
-  //       linear-gradient(#c5c5c5, whitesmoke) padding-box,
-  //       linear-gradient(#fbfbfb, #c2c2c2) border-box;
-  //     cursor: pointer;
-  //     transition: background 0.15s ease-in-out;
-  //   }
-  // }
+  .sub-col {
+    padding: 0;
+  }
+  .channel {
+    padding: 0;
+    margin: 0;
+  }
 </style>
