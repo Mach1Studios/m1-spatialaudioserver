@@ -16,6 +16,7 @@
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
     "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
+    "tus-js-client": "^2.3.0",
     "uuid": "^8.3.2",
     "vue": "^3.2.12",
     "vue-router": "^4.0.11",
