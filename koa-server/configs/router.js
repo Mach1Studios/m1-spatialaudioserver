@@ -4,7 +4,7 @@ import auth from '../api/auth';
 import playlists from '../api/playlists';
 import profile from '../api/profile';
 import tracks from '../api/tracks';
-import upload from '../api/upload';
+// import upload from '../api/upload';
 import users from '../api/users';
 
 const router = new Router({ prefix: '/v1' });

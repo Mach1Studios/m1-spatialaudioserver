@@ -23,7 +23,6 @@ if tus.resource.name and tus.resource.state == "completed" then
   os.rename(path, uploaded)
   tus.sb:delete(tus.resource.name)
 
-  -- ok now we can try to create manifest for dash
   local id = uuid.generate_v4()
 
   -- Redis connection and transaction proceed
@@ -48,6 +47,7 @@ if tus.resource.name and tus.resource.state == "completed" then
   redis:rpush("tracks:all", fileKey)
   redis:exec()
 
+  -- ok now we can try to create manifest for dash
   local command = "/etc/nginx/switcher.sh " .. filename .. " " .. id
   local handle = io.popen(command)
 end

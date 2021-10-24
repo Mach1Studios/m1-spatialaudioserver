@@ -49,36 +49,32 @@ const actions = {
    * @param  {Function} dispatch Dispatch an action. options can have `root: true` that allows to dispatch root actions in namespaced modules
    * @param  {Object}   data     File from new FormData()
    */
-  async upload({ dispatch }, data) {
-    console.log(data, tus);
-
+  async upload({ commit, dispatch }, data) {
     await new Promise((resolve, reject) => {
       const upload = new tus.Upload(data, {
         endpoint: 'http://localhost:8080/upload/',
-        retryDelays: [0, 3000, 5000, 10000, 20000],
-        chunkSize: 10 * 1000000,
+        retryDelays: [0, 1000, 3000, 5000, 10000, 20000],
+        chunkSize: 8 * 1000000,
         metadata: {
           filename: data.name,
           filetype: data.type,
         },
-        onError(error) {
-          console.log(`Failed because: ${error}`);
-          reject(error);
+        onError(e) {
+          dispatch('toast', { error: { ...e } });
+          reject(e);
         },
         onProgress(bytesUploaded, bytesTotal) {
           const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-          console.log(bytesUploaded, bytesTotal, `${percentage}%`);
+          commit('loader', { enable: true, description: `Uploading Progress: ${percentage}%` }, { root: true });
         },
         onSuccess() {
-          console.log('Download %s from %s', upload.file.name, upload.url);
+          dispatch('toast', { event: { message: 'File upload successfully!' } }, { root: true });
           resolve();
         },
       });
 
       upload.start();
     });
-
-    // await new FetchHelper('upload').post(data);
 
     // NOTE: flush local state after upload event; should be removed in the feature when we start to have a lot of sound files (more than 50 or maybe 100)
     await dispatch('getAll');

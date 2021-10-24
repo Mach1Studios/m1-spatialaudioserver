@@ -19,7 +19,6 @@ export default class FetchHelper {
     if (url && _.isString(url)) {
       if (url && url !== this.#defaultUrl.origin) {
         try {
-          console.log('here');
           this.#defaultUrl = new URL(url);
         } catch (e) {
           // if (e.message !== "Failed to construct 'URL': Invalid URL") throw e;

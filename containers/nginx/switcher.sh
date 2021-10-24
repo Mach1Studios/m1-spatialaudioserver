@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# NOTE: that is stabing throtled fix; should be remove after compleate test
-pkill ffmpeg
-
 fileName="${1:-unknownfile}"
 fileId="${2:-$(cat /proc/sys/kernel/random/uuid)}"
 filePath="/share/sound/$fileName"
