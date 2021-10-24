@@ -34,7 +34,7 @@ router
   .del('/tracks/:id', auth.validate, tracks.remove);
 
 // Uploader
-router.post('/upload', auth.validate, upload.save);
+// router.post('/upload', auth.validate, upload.save); // moved to nginx layer
 
 // User route
 router

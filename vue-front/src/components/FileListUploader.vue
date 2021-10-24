@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { mapActions, mapMutations } from 'vuex';
 
 export default {
@@ -25,14 +24,9 @@ export default {
     ...mapMutations(['loader']),
     async upload($event) {
       this.loader({ enable: true });
-      const { files } = $event.target;
-      const form = new FormData();
+      const [file] = $event.target.files;
 
-      _.each(files, (file) => {
-        form.append('file', file, file.name);
-      });
-
-      await this.request(form);
+      await this.request(file);
       this.loader({ enable: false });
     },
   },

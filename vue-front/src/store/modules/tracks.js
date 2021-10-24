@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as tus from 'tus-js-client';
 
 import FetchHelper from '../utils';
 
@@ -49,7 +50,35 @@ const actions = {
    * @param  {Object}   data     File from new FormData()
    */
   async upload({ dispatch }, data) {
-    await new FetchHelper('upload').post(data);
+    console.log(data, tus);
+
+    await new Promise((resolve, reject) => {
+      const upload = new tus.Upload(data, {
+        endpoint: 'http://localhost:8080/upload/',
+        retryDelays: [0, 3000, 5000, 10000, 20000],
+        chunkSize: 10 * 1000000,
+        metadata: {
+          filename: data.name,
+          filetype: data.type,
+        },
+        onError(error) {
+          console.log(`Failed because: ${error}`);
+          reject(error);
+        },
+        onProgress(bytesUploaded, bytesTotal) {
+          const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+          console.log(bytesUploaded, bytesTotal, `${percentage}%`);
+        },
+        onSuccess() {
+          console.log('Download %s from %s', upload.file.name, upload.url);
+          resolve();
+        },
+      });
+
+      upload.start();
+    });
+
+    // await new FetchHelper('upload').post(data);
 
     // NOTE: flush local state after upload event; should be removed in the feature when we start to have a lot of sound files (more than 50 or maybe 100)
     await dispatch('getAll');
