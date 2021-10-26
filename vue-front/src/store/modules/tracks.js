@@ -34,11 +34,9 @@ const actions = {
     })));
   },
   async select({ commit, state, dispatch }, id) {
-    if (id === state.track.id) return;
-
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
     await api.get(id);
-    await commit('getAll');
+    await dispatch('getAll');
     const track = _.find(state.items, { id });
 
     commit('setPlay', { ...track, prepared: true });

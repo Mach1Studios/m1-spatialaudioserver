@@ -5,7 +5,7 @@
     </template>
 
     <template #default="parrent">
-      <form >
+      <form @submit.prevent="handler(parrent.close)">
         <FormInput
           autocomplete="username"
           name="login"
@@ -13,7 +13,6 @@
           type="text"
 
           v-model="credentials.login"
-          @keyup.enter="handler(parrent.close)"
         />
         <FormInput
           autocomplete="current-password"
@@ -22,7 +21,6 @@
           type="password"
 
           v-model="credentials.password"
-          @keyup.enter="handler(parrent.close)"
         />
         <FormButton title="Enter" icon="login" @click="handler(parrent.close)"/>
       </form>
