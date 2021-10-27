@@ -5,31 +5,29 @@
         <!-- <div class="card round">
           <AudioPlayerRadioControls/>
         </div> -->
-        <div class="card round transparent playlist">
+        <div class="card transparent playlist">
           <Modal
-            title="Playlist(s)"
+            title="Playlists"
             icon="play_arrow"
             position="left "
             buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
             padding="no-margin"
           >
             <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
-            <template #footer>
-              <AudioPlayer skin="light" class="light-player"/>
-            </template>
           </Modal>
         </div>
       </div>
       <div class="col s6"></div>
-      <div class="col s3">
-        <div class="card round">
-          <AudioPlayerSliders/>
-        </div>
-      </div>
+      <div class="col s3"></div>
     </div>
   </div>
   <div class="">
     <AudioPlayerTouch/>
+  </div>
+  <div class="row" style="bottom: 0;position: absolute;">
+    <div class="card" style="">
+      <AudioPlayer skin="light" class="light-player"/>
+    </div>
   </div>
 </template>
 
@@ -45,7 +43,7 @@ import {
 
 // import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
-import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
+// import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
@@ -64,7 +62,7 @@ export default {
   components: {
     // AudioPlayerRadioControls,
     AudioPlayer,
-    AudioPlayerSliders,
+    // AudioPlayerSliders,
     AudioPlayerTouch,
     Modal,
     AudioPlayerPlaylists,
