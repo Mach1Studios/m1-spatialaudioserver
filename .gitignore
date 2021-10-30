@@ -1,0 +1,9 @@
+# Logs
+*.log
+logs
+
+# Kyes, tests and backups
+*.pem
+backup
+test
+token
