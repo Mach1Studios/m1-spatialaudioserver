@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const defaultState = () => ({
   channels: 0,
-  context: new (window.AudioContext || window.webkitAudioContext)(),
+  context: null,
   gainNodes: [],
   gainNodesAnalyser: [],
   source: null,
@@ -11,7 +11,7 @@ const defaultState = () => ({
 
 const actions = {
   createGainNodes({ commit, state, getters }, volume = 0) {
-    commit('setGain');
+    commit('setAudioContext');
 
     const { channels, context, source } = state;
     const splitter = context.createChannelSplitter(channels);
@@ -77,11 +77,13 @@ const getters = {
 };
 
 const mutations = {
+  setAudioContext(state) {
+    state.context = new (window.AudioContext || window.webkitAudioContext)();
+    state.gainNodes = [];
+  },
   setGain(state, gain) {
     if (gain) {
       state.gainNodes.push(gain);
-    } else {
-      state.gainNodes = [];
     }
   },
   setGainVolume(state, { channel, volume }) {
@@ -99,7 +101,7 @@ const mutations = {
   },
   setSource(state, source) {
     state.view = source;
-    state.source = state.context.createMediaElementSource(source);
+    state.source = state.context ? state.context.createMediaElementSource(source) : null;
   },
 };
 
