@@ -1,5 +1,5 @@
 <template>
-  <form class="add-user">
+  <form class="add-user" @submit.prevent="click">
     <FormInput name="nickname" placeholder="Nickname" type="text" v-model="user.nickname"/>
     <FormInput name="email" placeholder="E-mail" type="text" v-model="user.email"/>
     <FormInput
@@ -59,9 +59,9 @@ export default {
         this.focused[name] = false;
       }
     },
-    click() {
+    async click() {
       const { user } = this;
-      this.action(user);
+      await this.action(user);
     },
     // add() {
     //   this.create(this.user);

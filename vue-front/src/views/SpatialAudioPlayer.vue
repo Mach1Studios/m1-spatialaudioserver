@@ -9,7 +9,7 @@
           <Modal
             title="Playlists"
             icon="play_arrow"
-            position="left "
+            position="left"
             buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
             padding="no-margin"
           >
@@ -24,9 +24,9 @@
   <div class="">
     <AudioPlayerTouch/>
   </div>
-  <div class="row" style="bottom: 0;position: absolute;">
-    <div class="card" style="">
-      <AudioPlayer skin="light" class="light-player"/>
+  <div class="row absolute bottom dark">
+    <div class="card">
+      <AudioPlayer skin="dark" class="dark-player"/>
     </div>
   </div>
 </template>
@@ -137,13 +137,16 @@ export default {
   .playlist {
     box-shadow: none;
     padding-top: 0;
-    .light-player {
-      padding-left: 13rem;
-      padding-right: 13rem;
-      padding-bottom: 30rem;
-    }
   }
   .modal-playlist {
     margin-top: 32px;
+  }
+  // .dark-player {
+  //   z-index: 600;
+  // }
+  .dark .card{
+    background-color: #1c1c1c;
+    z-index: 600;
+    border-radius: 0;
   }
 </style>

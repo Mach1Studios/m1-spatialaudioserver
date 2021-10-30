@@ -99,7 +99,7 @@ export default {
   .player {
     height: 30px;
     user-select: none;
-    width: 90%;
+    width: 100%;
 
     .btn-box {
       position: absolute;
