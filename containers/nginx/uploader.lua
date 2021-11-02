@@ -48,6 +48,9 @@ if tus.resource.name and tus.resource.state == "completed" then
   redis:exec()
 
   -- ok now we can try to create manifest for dash
-  -- local command = "/etc/nginx/switcher.sh " .. filename .. " " .. id
-  -- local handle = io.popen(command)
+  local command = "/etc/nginx/switcher.sh " .. filename .. " " .. id
+  local handle = io.popen(command, "r")
+
+  local output = handle:read('*a')
+  local _, exit, status = handle:close()
 end
