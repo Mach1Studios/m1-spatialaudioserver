@@ -23,6 +23,9 @@ export default {
     const { id } = ctx.params;
     const { user } = ctx.session;
 
+    console.log(ctx.request);
+    console.log(ctx.session);
+
     const track = await ctx.redis.hgetall(`track:${id}`);
     if (_.isEmpty(track)) ctx.throw(404);
 
@@ -37,7 +40,7 @@ export default {
     // and should be added the status of live broadcast
 
     // FIXME: all this setting need to move to env var
-    await got.get(`http://m1-transcode/play?sound=${track.originalname}&id=${track.id}`).json();
+    // await got.get(`http://m1-transcode/play?sound=${track.originalname}&id=${track.id}`).json();
     await ctx.redis.hset(`track:${id}`, { prepared: true });
     ctx.status = 204;
   },
