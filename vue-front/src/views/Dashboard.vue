@@ -75,4 +75,7 @@ export default {
     box-shadow: none;
     padding-top: 0;
   }
+  .tabs {
+    border-bottom: 0;
+  }
 </style>

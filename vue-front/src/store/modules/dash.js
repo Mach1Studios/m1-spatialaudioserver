@@ -17,6 +17,10 @@ const settings = {
   },
 };
 
+const requestTypeSettings = [
+  'MPD', 'XLinkExpansion', 'InitializationSegment', 'IndexSegment', 'MediaSegment', 'other',
+];
+
 const defaultState = () => ({
   errors: {},
   info: {},
@@ -37,6 +41,8 @@ const load = (ctx) => new Promise((resolve, reject) => {
   const player = dashjs.MediaPlayer().create();
 
   player.updateSettings(settings);
+  _.each(requestTypeSettings, (type) => player.setXHRWithCredentialsForType(type, true));
+
   player.initialize(ctx.rootState.audio.view, ctx.state.info.url, true);
 
   ctx.commit('setPlayer', player);
@@ -133,7 +139,6 @@ const mutations = {
     store.type = type || null;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
-      // store.info.url = `${process.env.VUE_APP_STREAM_URL}/content/${payload.url}.mp4/manifest.mpd`;
       store.info.url = `${process.env.VUE_APP_STREAM_URL}/dash/static/${payload.url}/manifest.mpd`;
       store.processing = true;
     }

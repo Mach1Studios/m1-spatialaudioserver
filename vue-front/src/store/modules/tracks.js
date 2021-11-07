@@ -35,7 +35,7 @@ const actions = {
   },
   async select({ commit, state, dispatch }, id) {
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
-    await api.get(id);
+    // await api.get(id);
     await dispatch('getAll');
     const track = _.find(state.items, { id });
 
@@ -48,14 +48,24 @@ const actions = {
    * @param  {Object}   data     File from new FormData()
    */
   async upload({ commit, dispatch }, data) {
+    const endpoint = _.get(new FetchHelper('upload'), 'url.href');
+    const options = {
+      endpoint,
+      retryDelays: [0, 1000, 3000, 5000, 10000, 20000],
+      chunkSize: 8 * 1000000,
+      metadata: {
+        filename: data.name,
+        filetype: data.type,
+      },
+    };
+
     await new Promise((resolve, reject) => {
       const upload = new tus.Upload(data, {
-        endpoint: 'http://localhost:8080/upload/',
-        retryDelays: [0, 1000, 3000, 5000, 10000, 20000],
-        chunkSize: 8 * 1000000,
-        metadata: {
-          filename: data.name,
-          filetype: data.type,
+        ...options,
+        // NOTE: tus-js using xhr :( and this hook is used for enabling credentials in preflight requests
+        onBeforeRequest(req) {
+          const xhr = req.getUnderlyingObject();
+          xhr.withCredentials = true;
         },
         onError(e) {
           dispatch('toast', { error: { ...e } });
