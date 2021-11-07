@@ -1,12 +1,17 @@
 <template>
   <div class="player">
+    <div class="progress top-align">
+      <progress name="progress" class="progress top" min="0" max="100" :value="playback" @click.prevent="playbackUpdate"></progress>
+    </div>
     <div class="music-box">
       <audio ref="player"></audio>
     </div>
     <div class="btn-box">
       <span class="absolute left">
         <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
+        <span class="name">{{track.name}}</span>
       </span>
+      <!-- <input type="range" name="progress" min="0" max="100" :value="playback" @change.prevent="playbackUpdate"> -->
       <span class="absolute right">
         <span class="duration">{{currentTime}}</span>
         <span class="duration">/</span>
@@ -38,6 +43,7 @@ export default {
       isPlay: false,
       duration: '00:00',
       currentTime: '00:00',
+      playback: 0,
     };
   },
   watch: {
@@ -50,7 +56,7 @@ export default {
     },
   },
   computed: mapState({
-    track: (state) => state.tracks.playing.id,
+    track: (state) => state.tracks.track,
     type: (state) => state.dash.type,
     isActiveStream: (state) => state.dash.isActiveStream,
     icon() {
@@ -72,6 +78,12 @@ export default {
 
       this.isPlay = !this.$refs.player.paused;
     },
+    playbackUpdate(event) {
+      if (event.target && this.$refs.player && this.$refs.player.currentTime) {
+        const offset = event.offsetX / event.target.getBoundingClientRect().width;
+        this.$refs.player.currentTime = (offset * this.$refs.player.duration);
+      }
+    },
     repeat() {
       this.isRepeat = !this.isRepeat;
       this.$refs.player.loop = this.isRepeat;
@@ -79,6 +91,7 @@ export default {
     timeUpdate() {
       if (this.$refs.player && this.$refs.player.currentTime) {
         this.currentTime = Duration.fromObject({ seconds: this.$refs.player.currentTime }).toFormat('mm:ss');
+        this.playback = (this.$refs.player.currentTime / this.$refs.player.duration) * 100;
       }
     },
   },
@@ -97,13 +110,13 @@ export default {
 
 <style lang="scss" scoped>
   .player {
-    height: 30px;
+    height: 50px;
     user-select: none;
     width: 100%;
 
     .btn-box {
       position: absolute;
-      top: 5px;
+      top: 20px;
       width: 100%;
       display: flex;
       justify-content: center;
@@ -212,4 +225,32 @@ export default {
       color: #f5e6d7;
     }
   }
+  progress {
+    width: 100%;
+    cursor: pointer;
+
+    &[value] {
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #323237;
+      color: #72646f;
+      height: 5px;
+      cursor: pointer;
+    }
+    &[value]::-webkit-progress-bar {
+      background-color: #323237;
+      color: #72646f;
+    }
+    &::-webkit-progress-value {
+      background-color: #72646f;
+    }
+    &[value]::-moz-progress-bar {
+      background-color: #72646f;
+    }
+  }
+  .name {
+    color: #adadaf;
+    margin-left: 10px;
+  }
+
 </style>

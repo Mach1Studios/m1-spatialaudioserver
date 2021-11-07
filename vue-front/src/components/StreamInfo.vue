@@ -13,7 +13,7 @@
         </tr>
         <tr>
           <td>
-            <p class="medium-text bold">Number of audio channels</p>
+            <p class="medium-text bold">Number of audio channels:</p>
           </td>
           <td>
             <p class="medium-text">{{channels}}</p>
@@ -21,7 +21,7 @@
         </tr>
         <tr>
           <td>
-            <p class="medium-text bold">Audio Bitrate</p>
+            <p class="medium-text bold">Audio Bitrate:</p>
           </td>
           <td>
             <p class="medium-text">{{info.audioBitRate}} Kbps</p>
@@ -29,7 +29,7 @@
         </tr>
         <tr>
           <td>
-            <p class="medium-text bold">Buffer Level</p>
+            <p class="medium-text bold">Buffer Level:</p>
           </td>
           <td>
             <p class="medium-text">{{info.audioBufferLevel}} secs</p>
@@ -37,7 +37,7 @@
         </tr>
         <tr>
           <td>
-            <p class="medium-text bold">Update Period</p>
+            <p class="medium-text bold">Update Period:</p>
           </td>
           <td>
             <p class="medium-text">{{info.minimumUpdatePeriod}} sec</p>
@@ -45,7 +45,7 @@
         </tr>
         <tr>
           <td>
-            <p class="medium-text bold">Suggestion Delay</p>
+            <p class="medium-text bold">Suggestion Delay:</p>
           </td>
           <td>
             <p class="medium-text">{{info.suggestedPresentationDelay}} sec</p>
@@ -53,7 +53,7 @@
         </tr>
         <tr>
           <td>
-            <p class="medium-text bold">Profiles</p>
+            <p class="medium-text bold">Profiles:</p>
           </td>
           <td>
             <p class="medium-text">{{info.profiles}}</p>
@@ -87,8 +87,8 @@ export default {
   .table td {
     vertical-align: middle;
     text-align: left;
-
     cursor: pointer;
+    border-bottom: 1px #dfdfdf dotted;
   }
 
   .table {
@@ -99,5 +99,8 @@ export default {
     background: transparent;
 
     border: none;
+  }
+  table {
+    border-spacing: 2px;
   }
 </style>

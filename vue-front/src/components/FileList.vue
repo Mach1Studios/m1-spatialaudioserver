@@ -15,20 +15,21 @@
               <button class="border round transparent-border" @mouseleave.stop="active = null" @click.stop="active = item.id">
                 <i class="material-icons-outlined">info</i>
               </button>
-              <div class="card dropdown right no-wrap" :class="{ active: active === item.id}">
-                <p>id: {{item.id}}</p>
-                <p>created: {{item.created}}</p>
-                <p>mimetype: {{item.mimetype}}</p>
-                <p>name: {{item.name}}</p>
-                <p>originalname:{{item.originalname}}</p>
-                <p>prepared: {{item.prepared}}</p>
-                <p>size: {{item.size}}</p>
-                <p>updated: {{item.updated}}</p>
+              <div class="card dropdown round no-wrap medium-padding" :class="{ active: active === item.id}">
+                <p class="info"><b>ID: </b>{{item.id}}</p>
+                <p class="info"><b>CREATED: </b>{{item.created}}</p>
+                <p class="info"><b>MIMETYPE: </b>{{item.mimetype}}</p>
+                <p class="info"><b>NAME: </b>{{item.name}}</p>
+                <p class="info"><b>ORIGINAL NAME: </b>{{item.originalname}}</p>
+                <p class="info"><b>PREPARED: </b>{{item.prepared}}</p>
+                <p class="info"><b>SIZE: </b>{{item.size}}</p>
+                <p class="info"><b>UPDATED: </b>{{item.updated}}</p>
+                <p class="info"><b>LISTENED: </b>1</p>
               </div>
               <!-- <div class="info popup"></div> -->
-              <span class="disabled">
-                <i class="material-icons">{{item.prepared ? 'mood' : 'mood_bad'}}</i>
-              </span>
+              <button class="border round transparent-border">
+                <i class="material-icons">cached</i>
+              </button>
               <button class="border round transparent-border">
                 <i class="material-icons">repeat</i>
                 <!-- <i class="material-icons">keyboard_return</i> -->
@@ -154,9 +155,11 @@ export default {
         }
       }
     }
-
     button.border::after {
       background-image: none;
     }
+  }
+  .info {
+    border-bottom: 1px #dfdfdf dotted;
   }
 </style>

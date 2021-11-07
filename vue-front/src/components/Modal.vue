@@ -128,4 +128,8 @@ export default {
       }
     }
   }
+  .modal.left {
+    height: calc( 100% - 64rem - 65px);
+    margin-top: 64rem;
+  }
 </style>
