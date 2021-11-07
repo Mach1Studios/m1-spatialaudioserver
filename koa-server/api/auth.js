@@ -39,8 +39,8 @@ export default {
   },
   async validate(ctx, next) {
     const { user } = ctx.session;
-
     if (_.get(user, 'role') === 'admin') {
+      ctx.status = 204;
       await next();
     } else {
       ctx.throw(401, 'Permission deny');

@@ -12,7 +12,8 @@ const router = new Router({ prefix: '/v1' });
 // Authorization route
 router
   .post('/auth', auth.login)
-  .del('/auth/logout', auth.validate, auth.logout);
+  .del('/auth/logout', auth.validate, auth.logout)
+  .get('/auth/validate', auth.validate);
 
 // User profile route
 router
@@ -28,13 +29,10 @@ router
 
 // Tracks route
 router
-  .get('/tracks/:id', tracks.get)
   .get('/tracks', tracks.list)
+  .get('/tracks/:id', tracks.get)
   .put('/tracks/:id', auth.validate, tracks.update)
   .del('/tracks/:id', auth.validate, tracks.remove);
-
-// Uploader
-// router.post('/upload', auth.validate, upload.save); // moved to nginx layer
 
 // User route
 router
