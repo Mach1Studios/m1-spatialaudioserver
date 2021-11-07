@@ -9,7 +9,7 @@ local tus = tus_server:new()
 tus.config.storage_backend = "tus.storage_file"
 tus.config.storage_backend_config.storage_path = "/share/sound"
 tus.config.storage_backend_config.lock_zone = ngx.shared.tuslock
-tus.config.upload_url = "/upload"
+tus.config.upload_url = "/api/upload"
 tus.config.expire_timeout = 1209600
 
 tus:process_request()

@@ -119,6 +119,7 @@ RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/luajit/lib LUAJIT_INC=/usr/l
     --with-threads \
     --with-file-aio \
     --with-http_ssl_module \
+    --with-http_auth_request_module \
     --with-debug \
     --with-cc-opt="-Wimplicit-fallthrough=0" && \
   cd /tmp/nginx-${NGINX} && make && make install
