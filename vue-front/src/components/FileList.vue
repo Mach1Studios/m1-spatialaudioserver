@@ -27,7 +27,7 @@
                 <p class="info"><b>LISTENED: </b>1</p>
               </div>
               <!-- <div class="info popup"></div> -->
-              <button class="border round transparent-border">
+              <button class="border round transparent-border" @click="reload(item)">
                 <i class="material-icons">cached</i>
               </button>
               <button class="border round transparent-border">
@@ -95,7 +95,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('tracks', ['remove', 'select', 'update']),
+    ...mapActions('tracks', ['reload', 'remove', 'select', 'update']),
   },
 };
 </script>

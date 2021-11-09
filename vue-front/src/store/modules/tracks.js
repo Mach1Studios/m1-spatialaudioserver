@@ -72,8 +72,12 @@ const actions = {
           reject(e);
         },
         onProgress(bytesUploaded, bytesTotal) {
-          const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-          commit('loader', { enable: true, description: `Uploading Progress: ${percentage}%` }, { root: true });
+          const percentage = (bytesUploaded / bytesTotal) * 100;
+          commit('loader', { enable: true, description: `Uploading Progress: ${percentage.toFixed(2)}%` }, { root: true });
+
+          if (percentage === 100) {
+            commit('loader', { enable: true, description: 'Creating Dash.js manifest' }, { root: true });
+          }
         },
         onSuccess() {
           dispatch('toast', { event: { message: 'File upload successfully!' } }, { root: true });
@@ -86,6 +90,14 @@ const actions = {
 
     // NOTE: flush local state after upload event; should be removed in the feature when we start to have a lot of sound files (more than 50 or maybe 100)
     await dispatch('getAll');
+  },
+  async reload({ commit, dispatch }, { id, name }) {
+    commit('loader', { enable: true, description: 'Trying to flush the sound cache and corrupted dash files' }, { root: true });
+    const endpoint = new FetchHelper();
+    endpoint.path = `reload?${new URLSearchParams({ id, name }).toString()}`;
+
+    await endpoint.get();
+    dispatch('toast', { event: { message: 'Dash manifest reloaded' } }, { root: true });
   },
   async update({ commit }, data) {
     // NOTE: update track name

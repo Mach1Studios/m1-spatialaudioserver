@@ -9,11 +9,12 @@ export default class FetchHelper {
 
   #path = ''
 
-  constructor(url) {
+  constructor(url, options = {}) {
     this.options = {
       mode: 'cors',
       referrerPolicy: 'origin-when-cross-origin',
       credentials: 'include',
+      ...options,
     };
 
     if (url && _.isString(url)) {
@@ -39,7 +40,7 @@ export default class FetchHelper {
 
   set path(value) {
     if (!_.isString(value) || value.length === 0) {
-      this.#path = '';
+      this.#path += '';
       return;
     }
     // TODO: it should be some validation hanlder first
