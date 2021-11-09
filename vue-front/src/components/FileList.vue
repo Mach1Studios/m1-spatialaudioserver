@@ -1,5 +1,5 @@
 <template>
-  <div class="large-width">
+  <div class="scroll">
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
@@ -106,11 +106,14 @@ export default {
     cursor: pointer;
     font-size: 16px;
   }
-
   .disabled {
     i {
       cursor: default;
     }
+  }
+
+  .scroll {
+    overflow-x: hidden;
   }
 
   .large-width {
@@ -131,6 +134,7 @@ export default {
   .list-table {
     p {
       color: #1c1c1c;
+       text-align: justify;
     }
     td {
       vertical-align: middle;

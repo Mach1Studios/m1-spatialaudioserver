@@ -2,9 +2,6 @@
   <div class="container max">
     <div class="row">
       <div class="col s3">
-        <!-- <div class="card round">
-          <AudioPlayerRadioControls/>
-        </div> -->
         <div class="card transparent playlist">
           <Modal
             title="Playlists"
@@ -32,22 +29,14 @@
 </template>
 
 <script>
-/* eslint-disable */
-// import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
-import {
-  // Mach1SoundPlayer,
-  Mach1DecoderProxy,
-} from 'mach1spatial-decode';
+import { Mach1DecoderProxy } from 'mach1spatial-decode';
 
-// import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
-// import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
 import Modal from '../components/Modal.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
-// import FileList from '../components/FileList.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -60,13 +49,10 @@ const mousemoveListener = (event) => {
 
 export default {
   components: {
-    // AudioPlayerRadioControls,
     AudioPlayer,
-    // AudioPlayerSliders,
+    AudioPlayerPlaylists,
     AudioPlayerTouch,
     Modal,
-    AudioPlayerPlaylists,
-    // FileList,
   },
   data() {
     return { isMount: false };
@@ -113,10 +99,6 @@ export default {
 
       const decoded = this.decoder.decode({ yaw, pitch, roll });
 
-      // 0.7521489971346705 90.77363896848141 0.48739495798319327 1.1344537815126046
-      // 0.7511938872970392 90.4297994269341 0.4715219421101774 2.563025210084035
-      // console.log(window.mouseX, yaw, window.mouseY, pitch);
-
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {
           this.changeVolume(i, decoded[i]);
@@ -141,9 +123,6 @@ export default {
   .modal-playlist {
     margin-top: 32px;
   }
-  // .dark-player {
-  //   z-index: 600;
-  // }
   .dark .card{
     background-color: #1c1c1c;
     z-index: 600;
