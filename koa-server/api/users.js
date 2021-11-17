@@ -3,11 +3,6 @@ import { UserModel } from './models';
 
 export default {
   /**
-   * All methods from resource will be called only if `authenticator` method success
-   * @type {Boolean}
-   */
-  protectored: true,
-  /**
    * Scaning and returns a list of users
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object

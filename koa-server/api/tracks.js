@@ -1,18 +1,11 @@
-// eslint-disable-next-line
-import { readdir, rm } from 'fs/promises';
+import { rm } from 'fs/promises';
 
 import _ from 'lodash';
-import got from 'got';
 import { DateTime } from 'luxon';
 
 import { PlaylistModel, TrackModel } from './models';
 
 export default {
-  /**
-   * List of methods that will be called only if `authenticator` method success
-   * @type {Array}
-   */
-  protectored: ['update', 'del'],
   /**
    * Starting play sound file by id; send a request to the transcoded Nginx server
    *  supported dynamic and static mpeg-dash behavior
@@ -22,9 +15,6 @@ export default {
   async get(ctx) {
     const { id } = ctx.params;
     const { user } = ctx.session;
-
-    console.log(ctx.request);
-    console.log(ctx.session);
 
     const track = await ctx.redis.hgetall(`track:${id}`);
     if (_.isEmpty(track)) ctx.throw(404);
@@ -39,8 +29,6 @@ export default {
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
     // and should be added the status of live broadcast
 
-    // FIXME: all this setting need to move to env var
-    // await got.get(`http://m1-transcode/play?sound=${track.originalname}&id=${track.id}`).json();
     await ctx.redis.hset(`track:${id}`, { prepared: true });
     ctx.status = 204;
   },
