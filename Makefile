@@ -8,19 +8,12 @@ else
 	detected_OS := $(shell uname)
 endif
 
-clean:
-clear: clean
-
 stop:
 ifeq ($(shell docker ps -q --filter name="m1*"),)
 	# No m1 containers found.
 else
 	docker container stop $(shell docker ps -q --filter name="m1*")
 endif
-
-setup:
-	cd koa-server && npm i
-	cd vue-front && npm i
 
 build: stop
 ifneq ($(detected_OS),Darwin)
@@ -41,23 +34,31 @@ stage: build
 
 local: build
 	make -i -k stop
-	make run_redis_docker
-	make run_node_docker
-	make run_nginx_docker
+	make run_redis_docker args="-d"
+	make run_node_docker args="-d"
+	make run_nginx_docker args="-d"
 
 run_node_docker:
-	docker run -it -d --net m1-network --mount type=volume,source=m1-volume,target=/public --name m1-api --rm m1-api
-run_redis_docker:
-	docker run -it -d -p 6379:6379 --net m1-network --name m1-redis --rm m1-redis
-run_nginx_docker:
-	docker run -it -d -p 1935:1935 -p 8080:80 \
+	docker run -it $$args \
 		--net m1-network \
-		 --mount type=volume,source=m1-volume,target=/share/sound \
-		 --name m1-transcode \
-		 --rm m1-transcode
+		--mount type=volume,source=m1-volume,target=/public \
+		--name m1-api \
+		--rm m1-api
+run_redis_docker:
+	docker run -it -p 6379:6379 $$args \
+		--net m1-network \
+		--name m1-redis \
+		--rm m1-redis
+run_nginx_docker:
+	docker run -it -p 1935:1935 -p 8080:80 $$args \
+		--net m1-network \
+		--mount type=volume,source=m1-volume,target=/share/sound \
+		--name m1-transcode \
+		--rm m1-transcode
 
+# Run development enviroment on eOS ref: https://github.com/elementary/terminal
 development: stop
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_redis_docker"
-	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_node_docker"
+	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_node_docker args=\"--mount type=bind,source=${PWD}/koa-server,target=/usr/src/app\""
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_nginx_docker"
-	io.elementary.terminal --new-tab --working-directory="$(shell pwd)/vue-front"
+	io.elementary.terminal --working-directory="$(shell pwd)/vue-front"
