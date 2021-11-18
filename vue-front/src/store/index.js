@@ -84,7 +84,10 @@ const Store = createStore({
   },
 });
 
-export { Store };
-export default () => {
-  throw new Error('Missing store instance');
-};
+Store.subscribeAction({
+  error: (action, state, error) => {
+    Store.dispatch('toast', { error });
+  },
+});
+
+export default Store;

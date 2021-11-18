@@ -1,6 +1,4 @@
 import _ from 'lodash';
-// eslint-disable-next-line
-import { Store } from './index';
 
 export default class FetchHelper {
   #defaultUrl = new URL(process.env.VUE_APP_API_URL)
@@ -22,7 +20,6 @@ export default class FetchHelper {
         try {
           this.#defaultUrl = new URL(url);
         } catch (e) {
-          // if (e.message !== "Failed to construct 'URL': Invalid URL") throw e;
           this.#defaultPath = _.startsWith('/') ? `${this.#defaultPath}${url}` : `${this.#defaultPath}/${url}`;
         }
       }
@@ -94,7 +91,7 @@ export default class FetchHelper {
 
         // FIXME: need review
         const error = await response.json();
-        Store.dispatch('toast', { error });
+        // Store.dispatch('toast', { error });
         throw error;
       } catch (e) {
         if (response.ok) throw new Error('Wrong JSON response');
@@ -105,7 +102,7 @@ export default class FetchHelper {
         // NOTE: just skip for this
       }
 
-      Store.dispatch('toast', { error: { ...e } });
+      // Store.dispatch('toast', { error: { ...e } });
 
       throw new Error('API error response');
     }
