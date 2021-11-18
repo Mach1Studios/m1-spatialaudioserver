@@ -1,5 +1,5 @@
 <template>
-  <div class="scroll">
+  <div class="container no-padding no-margin">
     <div v-if="admin"></div>
     <table class="list-table border">
       <tbody>
@@ -7,7 +7,7 @@
           <td>
             <p class="medium-text">{{ index + 1 }}</p>
           </td>
-          <td @click="select(item.id)">
+          <td @click="select(item.id)" class="audio-name">
             <p class="medium-text">{{item.name}}</p>
           </td>
           <td>
@@ -111,15 +111,17 @@ export default {
       cursor: default;
     }
   }
-
-  .scroll {
-    overflow-x: hidden;
+  .container > * {
+    position: sticky;
+    top: 20px;
+    left: 0;
+    bottom: 20px;
+    right: 0;
+    overflow-y: scroll;
   }
-
   .large-width {
     max-width: fill-available !important;
   }
-
   tr.on-play {
     background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
     p {
@@ -130,14 +132,16 @@ export default {
       color: #72646f;
     }
   }
-
   .list-table {
+    .audio-name {
+      width: 30%;
+      word-break: break-all;
+    }
     p {
       color: #1c1c1c;
        text-align: justify;
     }
     td {
-      vertical-align: middle;
       .disabled ~ i, p {
         cursor: pointer;
       }

@@ -2,7 +2,7 @@
   <div class="container max no-scroll">
     <div class="row">
       <div class="col s4">
-        <div class="card round no-scroll">
+        <div class="card round">
           <div>
             <div class="tabs center-align">
               <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
