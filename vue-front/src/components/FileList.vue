@@ -1,7 +1,7 @@
 <template>
-  <div class="container no-padding no-margin">
-    <div v-if="admin"></div>
-    <table class="list-table border">
+  <div class="flex-item scroll">
+    <!-- <div v-if="admin"></div> -->
+    <table class="list-table border flex-item">
       <tbody>
         <tr v-for="(item, index) in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
@@ -34,7 +34,7 @@
                 <i class="material-icons">repeat</i>
                 <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
-              <Modal
+              <!-- <Modal
                 title="Rename track"
                 button=" "
                 icon="edit"
@@ -49,7 +49,7 @@
                   icon="save"
                   :action="update"
                 />
-              </Modal>
+              </Modal> -->
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
               </button>
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+/* eslint-disable */
+
 import { mapState, mapActions } from 'vuex';
 import _ from 'lodash';
 
@@ -101,6 +103,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .flex-item {
+    // flex-shrink: 2;
+    // flex-basis: 20%;
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3em;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 7px;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+  }
   i {
     color: #4d4d4d;
     cursor: pointer;
@@ -110,14 +133,6 @@ export default {
     i {
       cursor: default;
     }
-  }
-  .container > * {
-    position: sticky;
-    top: 20px;
-    left: 0;
-    bottom: 20px;
-    right: 0;
-    overflow-y: scroll;
   }
   .large-width {
     max-width: fill-available !important;
@@ -133,6 +148,8 @@ export default {
     }
   }
   .list-table {
+    display: block;
+    overflow: hidden;
     .audio-name {
       width: 30%;
       word-break: break-all;

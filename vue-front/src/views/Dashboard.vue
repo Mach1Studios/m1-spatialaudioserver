@@ -1,21 +1,22 @@
 <template>
-  <div class="container max no-scroll">
+  <div class="container max">
+    <!-- <FileList :admin="true"/>
+    <FileListUploader/> -->
+
     <div class="row">
       <div class="col s4">
         <div class="card round">
-          <div>
             <div class="tabs center-align">
               <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
               <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
             </div>
             <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
-              <FileList :admin="true"/>
-              <FileListUploader/>
+                <FileList :admin="true"/>
+                <FileListUploader/>
             </div>
             <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
               <AudioPlayerPlaylists :admin="true" :controls="true"/>
             </div>
-          </div>
         </div>
       </div>
       <div class="col s4">
@@ -36,6 +37,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerControls from '../components/AudioPlayer/AudioPlayerControls.vue';
 import FileList from '../components/FileList.vue';
@@ -67,7 +69,16 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+  #FileList {
+    height: auto;
+    max-height: 83vh;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+  }
   .audioplayer {
     .dark-player {
       width: 100%;
@@ -78,6 +89,7 @@ export default {
   .tabs {
     border-bottom: 0;
   }
+
   .card {
     max-height: 85vh;
   }

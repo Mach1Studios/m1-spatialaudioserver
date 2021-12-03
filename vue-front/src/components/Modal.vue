@@ -11,7 +11,7 @@
 
     <div v-show="currentPosition.active" class="active dark overlay" @click="close"></div>
 
-    <div v-show="currentPosition.active" class="modal round large-width" :class="currentPosition">
+    <div v-show="currentPosition.active" class="modal round large-width no-scroll" :class="currentPosition">
       <nav>
         <button class="transparent round absolute right close" @click="close">
           <i class="material-icons">highlight_off</i>

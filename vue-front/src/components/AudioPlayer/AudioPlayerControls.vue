@@ -225,7 +225,6 @@ export default {
       &:after {
         left: 50%;
         width: 3em;
-        // word-spacing: 1em;
       }
     }
   }

@@ -12,19 +12,12 @@ module.exports = {
       .type('javascript/auto')
       .test(require.resolve('mach1spatial-decode/lib/Mach1Decode.wasm'))
       .use('file-loader')
-        .loader(require.resolve('file-loader'))
-        .options({
-          name: 'Mach1Decode.wasm',
-          outputPath: 'js',
-          publicPath: 'js'
-        })
-        .end();
-
-    // config.module
-    //   .rule('wasm-loader')
-    //   .test(require.resolve('mach1spatial-decode/lib/Mach1Decode.js'))
-    //   .use('exports-loader')
-    //     .loader(require.resolve('exports-loader'))
-    //     .end();
+      .loader(require.resolve('file-loader'))
+      .options({
+        name: 'Mach1Decode.wasm',
+        outputPath: 'js',
+        publicPath: 'js',
+      })
+      .end();
   },
 };

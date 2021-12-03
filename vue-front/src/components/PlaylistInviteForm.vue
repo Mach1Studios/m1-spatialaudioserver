@@ -1,7 +1,7 @@
 <template>
-  <div class="invite">
-    <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
-    <table class="list-table border">
+  <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
+  <div class="invite flex-item scroll">
+    <table class="list-table border flex-item">
       <tbody>
         <tr v-for="(item, index) in bindedItems" :key="item">
           <td>
@@ -73,6 +73,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .flex-item {
+    // flex-shrink: 2;
+    // flex-basis: 20%;
+    overflow-x: hidden;
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3em;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 7px;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+  }
   .invite {
     .title {
       font-style: normal;
@@ -107,6 +129,9 @@ export default {
       width: 100%;
       padding: 0;
       margin: 16rem 0 16rem 0;
+    }
+    .list-table {
+      padding-right: 16rem;
     }
   }
 </style>

@@ -15,69 +15,73 @@
         />
       </Modal>
     </div>
-    <div v-for="item in playlists" :key="item">
-      <transition name="fade">
-        <div class="playlists">
-          <div class="card flat grey-light-4">
-            <div class="row no-wrap">
-              <div class="col min">
-                <img src="../../assets/playlist.svg" class="circle large">
-              </div>
-              <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
-                <h6 class="bold no-margin">{{item.name}}</h6>
-                <p>Last upload: music.wav</p>
-              </div>
-              <div class="col min">
-                <nav v-if="controls" class="right-align">
-                  <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
-                    <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
-                  </button>
-                  <Modal
-                    title="Rename playlist"
-                    button=" "
-                    icon="edit"
-                    position="center"
-                    padding="no-padding"
-                  >
-                    <PlaylistForm
-                      :id="item.id"
-                      :name="item.name"
-                      title="Save"
-                      icon="save"
-                      :action="update"
-                    />
-                  </Modal>
-                  <Modal
-                    title="Invite user(s) in playlist"
-                    icon="share"
-                    position="center"
-                    padding="no-padding"
-                    button=" "
-                  >
-                    <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
-                  </Modal>
-                  <button class="border round transparent-border" @click="remove(item)">
-                    <i class="material-icons">delete</i>
-                  </button>
-                </nav>
+    <div class="playlists-items">
+      <div v-for="item in playlists" :key="item">
+        <transition name="fade">
+          <div class="playlists">
+            <div class="card flat grey-light-4">
+              <div class="row no-wrap">
+                <div class="col min">
+                  <img src="../../assets/playlist.svg" class="circle large">
+                </div>
+                <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
+                  <h6 class="bold no-margin">{{item.name}}</h6>
+                  <p>Last upload: music.wav</p>
+                </div>
+                <div class="col min">
+                  <nav v-if="controls" class="right-align">
+                    <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
+                      <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
+                    </button>
+                    <Modal
+                      title="Rename playlist"
+                      button=" "
+                      icon="edit"
+                      position="center"
+                      padding="no-padding"
+                    >
+                      <PlaylistForm
+                        :id="item.id"
+                        :name="item.name"
+                        title="Save"
+                        icon="save"
+                        :action="update"
+                      />
+                    </Modal>
+                    <Modal
+                      title="Invite user(s) in playlist"
+                      icon="share"
+                      position="center"
+                      padding="no-padding"
+                      button=" "
+                    >
+                      <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
+                    </Modal>
+                    <button class="border round transparent-border" @click="remove(item)">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </nav>
+                </div>
               </div>
             </div>
+            <div v-show="show === item.id" class="card flat grey-light-5 list">
+              <Modal
+                title="Add track(s) in playlist"
+                icon="add"
+                buttonClasses="small small-space large-width small-margin grey-light-3"
+                position="center"
+                v-if="controls"
+                :key="item.id"
+              >
+              <div id="Add-tracks">
+                <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+              </div>
+              </Modal>
+              <FileList :user="true" :playlist="item" class="no-scroll"/>
+            </div>
           </div>
-          <div v-show="show === item.id" class="card flat grey-light-5 list">
-            <Modal
-              title="Add track(s) in playlist"
-              icon="add"
-              buttonClasses="small small-space large-width small-margin grey-light-3"
-              position="center"
-              v-if="controls"
-              :key="item.id"
-            >
-              <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
-            </Modal>
-            <FileList :user="true" :playlist="item"/>
-          </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -126,8 +130,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  #Add-tracks {
+    height: auto;
+    max-height: 83vh;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+  }
   .playlists {
-    margin-top: 16rem;
+    margin-bottom: 16rem;
+    margin-right: 8rem;
+    margin-left: 8rem;
     i {
       font-size: 16px;
       color: #4d4d4d;
@@ -135,9 +150,10 @@ export default {
     p {
       font-size: 14px;
       color: #72646f;
-    }
-    p:first-of-type {
-      margin-top: 2px;
+
+      &:first-of-type {
+        margin-top: 2px;
+      }
     }
     .card {
       border-radius: 0;
@@ -167,5 +183,33 @@ export default {
 
   .list {
     margin-top: 0;
+  }
+  .playlists-items{
+    margin-top: 16rem;
+    overflow-y: scroll;
+    height: auto;
+    max-height: 65vh; // note important for playlist scroll
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3em;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 7px;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
   }
 </style>
