@@ -238,6 +238,7 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 COPY ./containers/nginx/uploader.lua /etc/nginx/uploader.lua
 COPY ./containers/nginx/nginx.conf /etc/nginx/nginx.conf.template
 COPY ./containers/nginx/switcher.sh /etc/nginx/switcher.sh
+COPY ./containers/nginx/m1-transcode /etc/nginx/m1-transcode
 
 # RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 

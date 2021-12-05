@@ -62,3 +62,8 @@ development: stop
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_node_docker args=\"--mount type=bind,source=${PWD}/koa-server,target=/usr/src/app\""
 	io.elementary.terminal --new-tab --working-directory="$(shell pwd)" --execute="make run_nginx_docker"
 	io.elementary.terminal --working-directory="$(shell pwd)/vue-front"
+
+rebuild_nginx_docker:
+	docker container stop m1-transcode
+	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
+	io.elementary.terminal --working-directory="$(shell pwd)" --execute="make run_nginx_docker"

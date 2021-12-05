@@ -20,8 +20,17 @@ if tus.resource.name and tus.resource.state == "completed" then
   local uploaded = "/share/sound/" .. filename
 
   -- rename and delete temprorary file
-  os.rename(path, uploaded)
-  tus.sb:delete(tus.resource.name)
+  -- os.rename(path, uploaded)
+  -- tus.sb:delete(tus.resource.name)
+
+  -- execute
+  local command = "/etc/nginx/m1-transcode -in-file " .. path .." -in-fmt ACNSN3D -out-file " .. uploaded .." -out-fmt M1Spatial -out-file-chans 0"
+
+  print(command)
+  local handle = io.popen(command, "r")
+
+  local output = handle:read('*a')
+  local _, exit, status = handle:close()
 
   local id = uuid.generate_v4()
 
