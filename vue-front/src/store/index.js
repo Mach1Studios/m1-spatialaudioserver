@@ -7,6 +7,7 @@ import dash from './modules/dash';
 import playlists from './modules/playlists';
 import tracks from './modules/tracks';
 import users from './modules/users';
+import formats from './modules/formats';
 
 const delay = (sec) => new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
@@ -81,6 +82,7 @@ const Store = createStore({
     playlists,
     tracks,
     users,
+    formats,
   },
 });
 

@@ -12,7 +12,15 @@
             </div>
             <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
                 <FileList :admin="true"/>
-                <FileListUploader/>
+                <Modal
+                  title="CHOOSE A FILE..."
+                  icon=" "
+                  buttonClasses="small grey-light-3 large-width small-space large-margin bold"
+                >
+                  <div id="FileListUploader">
+                    <FileListUploader/>
+                  </div>
+                </Modal>
             </div>
             <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
               <AudioPlayerPlaylists :admin="true" :controls="true"/>
@@ -41,6 +49,7 @@
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerControls from '../components/AudioPlayer/AudioPlayerControls.vue';
 import FileList from '../components/FileList.vue';
+import Modal from '../components/Modal.vue';
 import FileListUploader from '../components/FileListUploader.vue';
 import StreamInfo from '../components/StreamInfo.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
@@ -50,6 +59,7 @@ export default {
     AudioPlayer,
     AudioPlayerControls,
     FileList,
+    Modal,
     FileListUploader,
     StreamInfo,
     AudioPlayerPlaylists,
@@ -71,6 +81,15 @@ export default {
 </script>
 <style lang="scss">
   #FileList {
+    height: auto;
+    max-height: 83vh;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+  }
+  #FileListUploader {
     height: auto;
     max-height: 83vh;
     max-width: 100%;
