@@ -8,7 +8,7 @@
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
     >
-      <option v-for="option in options" :key="option.id" :value="option.id"><label>{{ option.name }}</label></option>
+      <option class="decorated" v-for="option in options" :key="option.id" :value="option.id"><label>{{ option.name }}</label></option>
     </select>
     <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
     <i class="material-icons">arrow_drop_down</i>
@@ -58,6 +58,23 @@ export default {
 <style lang="scss" scoped>
   .field {
     select {
+      &::-webkit-scrollbar-track
+      {
+        border-radius: 3em;
+        background-color: #ffffff;
+      }
+
+      &::-webkit-scrollbar
+      {
+        width: 5px;
+        background-color: #ffffff;
+      }
+
+      &::-webkit-scrollbar-thumb
+      {
+        border-radius: 3em;
+        background-color: #858585;
+      }
       &:focus {
         border-color: #1c1c1c;
         border-bottom: none;

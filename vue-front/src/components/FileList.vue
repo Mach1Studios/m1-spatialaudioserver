@@ -156,7 +156,7 @@ export default {
     }
     p {
       color: #1c1c1c;
-       text-align: justify;
+      text-align: justify;
     }
     td {
       .disabled ~ i, p {
@@ -166,7 +166,7 @@ export default {
         padding-right: 13px;
       }
     }
-    th {
+    tr {
       vertical-align: middle;
     }
     tr:hover {
