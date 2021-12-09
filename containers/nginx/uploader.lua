@@ -19,18 +19,26 @@ if tus.resource.name and tus.resource.state == "completed" then
   local path = tus.sb:get_path(tus.resource.name)
   local uploaded = "/share/sound/" .. filename
 
-  -- rename and delete temprorary file
-  -- os.rename(path, uploaded)
-  -- tus.sb:delete(tus.resource.name)
+  -- local input_format = tus.resource.info.metadata.input_format
+  -- local output_format = tus.resource.info.metadata.output_format
+  local input_format = "ACNSN3D"
+  local output_format = "M1Spatial"
 
-  -- execute
-  local command = "/etc/nginx/m1-transcode -in-file " .. path .." -in-fmt ACNSN3D -out-file " .. uploaded .." -out-fmt M1Spatial -out-file-chans 0"
+  -- execute transcode binary if the input format is present
+  if input_format and input_format ~= "M1Spatial" then
+    print("in condition")
+    local transcode_command = "/etc/nginx/m1-transcode -in-file "
+      .. path .. " -in-fmt "
+      .. input_format .. " -out-file "
+      .. uploaded .." -out-fmt "
+      .. output_format .. " -out-file-chans 0"
+    local transcode = io.popen(transcode_command, "r")
 
-  print(command)
-  local handle = io.popen(command, "r")
-
-  local output = handle:read('*a')
-  local _, exit, status = handle:close()
+    transcode:read('*a')
+    transcode:close()
+  else
+    os.rename(path, uploaded)
+  end
 
   local id = uuid.generate_v4()
 
@@ -39,7 +47,7 @@ if tus.resource.name and tus.resource.state == "completed" then
   redis:set_timeouts(1000, 1000, 1000)
 
   -- FIXME: connection return resolve error for m1-redis
-  local ok, err = redis:connect("172.20.0.2", 6379)
+  local ok, err = redis:connect("172.20.0.3", 6379)
   if not ok then
     ngx.say("Failed to connect: ", err)
     return
@@ -62,4 +70,7 @@ if tus.resource.name and tus.resource.state == "completed" then
 
   local output = handle:read('*a')
   local _, exit, status = handle:close()
+
+  -- delete temprorary files
+  tus.sb:delete(tus.resource.name)
 end

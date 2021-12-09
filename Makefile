@@ -41,17 +41,20 @@ local: build
 run_node_docker:
 	docker run -it $$args \
 		--net m1-network \
+		--ip 172.20.0.2 \
 		--mount type=volume,source=m1-volume,target=/public \
 		--name m1-api \
 		--rm m1-api
 run_redis_docker:
 	docker run -it -p 6379:6379 $$args \
 		--net m1-network \
+		--ip 172.20.0.3 \
 		--name m1-redis \
 		--rm m1-redis
 run_nginx_docker:
 	docker run -it -p 1935:1935 -p 8080:80 $$args \
 		--net m1-network \
+		--ip 172.20.0.4 \
 		--mount type=volume,source=m1-volume,target=/share/sound \
 		--name m1-transcode \
 		--rm m1-transcode
