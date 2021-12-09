@@ -15,18 +15,17 @@
               <button class="border round transparent-border" @mouseleave.stop="active = null" @click.stop="active = item.id">
                 <i class="material-icons-outlined">info</i>
               </button>
-              <div class="card dropdown round no-wrap medium-padding" :class="{ active: active === item.id}">
-                <p class="info"><b>ID: </b>{{item.id}}</p>
-                <p class="info"><b>CREATED: </b>{{item.created}}</p>
-                <p class="info"><b>MIMETYPE: </b>{{item.mimetype}}</p>
-                <p class="info"><b>NAME: </b>{{item.name}}</p>
-                <p class="info"><b>ORIGINAL NAME: </b>{{item.originalname}}</p>
-                <p class="info"><b>PREPARED: </b>{{item.prepared}}</p>
-                <p class="info"><b>SIZE: </b>{{item.size}}</p>
-                <p class="info"><b>UPDATED: </b>{{item.updated}}</p>
-                <p class="info"><b>LISTENED: </b>1</p>
+              <div class="dropdown card round bottom" :class="{ active: active === item.id}">
+                  <p class="info"><b>ID: </b>{{item.id}}</p>
+                  <p class="info"><b>CREATED: </b>{{item.created}}</p>
+                  <p class="info"><b>MIMETYPE: </b>{{item.mimetype}}</p>
+                  <p class="info"><b>NAME: </b>{{item.name}}</p>
+                  <p class="info"><b>ORIGINAL NAME: </b>{{item.originalname}}</p>
+                  <p class="info"><b>PREPARED: </b>{{item.prepared}}</p>
+                  <p class="info"><b>SIZE: </b>{{item.size}}</p>
+                  <p class="info"><b>UPDATED: </b>{{item.updated}}</p>
+                  <p class="info"><b>LISTENED: </b>1</p>
               </div>
-              <!-- <div class="info popup"></div> -->
               <button class="border round transparent-border" @click="reload(item)">
                 <i class="material-icons">cached</i>
               </button>
@@ -104,8 +103,6 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    // flex-shrink: 2;
-    // flex-basis: 20%;
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
@@ -151,7 +148,8 @@ export default {
     display: block;
     overflow: hidden;
     .audio-name {
-      width: 30%;
+      // left: 0;
+      width: 10%;
       word-break: break-all;
     }
     p {

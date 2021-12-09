@@ -5,6 +5,8 @@ const defaultState = () => ({
     { id: 'LCR', name: 'LCR', type: 'standart' },
     { id: 'M1Horizon', name: ' M1Horizon (Mach1 Horizon / Quad)', type: 'mach1' },
     { id: 'M1Horizon+S', name: 'M1Horizon+S (Mach1 Horizon / Quad)', type: 'mach1' },
+    { id: 'M1Spatial', name: 'M1Spatial (Mach1 Spatial)', type: 'mach1' },
+    { id: 'M1Spatial+S', name: 'M1Spatial+S (Mach1 Spatial)', type: 'mach1' },
     { id: 'M1HorizonPairs', name: 'M1SpatialPairs (Mach1 Spatial Pairs)', type: 'mach1' },
     { id: 'M1SpatialFaces', name: 'M1SpatialFaces', type: 'mach1' },
     { id: 'FiveOh', name: 'FiveOh', type: 'standart' },

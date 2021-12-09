@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const defaultState = () => ({
   channels: 0,
-  context: null,
+  context: new (window.AudioContext || window.webkitAudioContext)(),
   gainNodes: [],
   gainNodesAnalyser: [],
   source: null,
@@ -78,7 +78,6 @@ const getters = {
 
 const mutations = {
   setAudioContext(state) {
-    state.context = new (window.AudioContext || window.webkitAudioContext)();
     state.gainNodes = [];
   },
   setGain(state, gain) {
