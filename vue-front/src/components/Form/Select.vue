@@ -8,7 +8,7 @@
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
     >
-      <option class="decorated" v-for="option in options" :key="option.id" :value="option.id"><label>{{ option.name }}</label></option>
+      <option class="decorated" v-for="option in options" :key="option.id" :value="option.id" :selected="defaultValue === option.id"><label>{{ option.name }}</label></option>
     </select>
     <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
     <i class="material-icons">arrow_drop_down</i>
@@ -32,6 +32,12 @@ export default {
     },
     options: {
       type: Array,
+    },
+    defaultValue: {
+      type: String,
+      default() {
+        return null;
+      },
     },
   },
   emits: ['update:modelValue'],

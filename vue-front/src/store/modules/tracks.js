@@ -54,22 +54,41 @@ const actions = {
       retryDelays: [0, 1000, 3000, 5000, 10000, 20000],
       chunkSize: 8 * 1000000,
       metadata: {
-        filename: data.name,
-        filetype: data.type,
+        filename: data.file.name,
+        filetype: data.file.type,
       },
     };
 
+    const inputFormat = _.get(data, 'inputFormat');
+    if (inputFormat) {
+      _.set(options, 'metadata.input_format', inputFormat);
+    }
+
+    const outputFormat = _.get(data, 'outputFormat');
+    if (outputFormat) {
+      _.set(options, 'metadata.output_format', outputFormat);
+    }
+
     await new Promise((resolve, reject) => {
-      const upload = new tus.Upload(data, {
+      const upload = new tus.Upload(data.file, {
         ...options,
         // NOTE: tus-js using xhr :( and this hook is used for enabling credentials in preflight requests
         onBeforeRequest(req) {
           const xhr = req.getUnderlyingObject();
           xhr.withCredentials = true;
         },
-        onError(e) {
-          dispatch('toast', { error: { ...e } });
-          reject(e);
+        onError(err) {
+          try {
+            const response = err.originalResponse.getBody();
+            const error = JSON.parse(response);
+
+            dispatch('toast', { error }, { root: true });
+            resolve();
+          } catch (e) {
+            console.error(e);
+            dispatch('toast', { error: { ...e } }, { root: true });
+            reject(err);
+          }
         },
         onProgress(bytesUploaded, bytesTotal) {
           const percentage = (bytesUploaded / bytesTotal) * 100;

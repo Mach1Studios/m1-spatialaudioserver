@@ -6,14 +6,14 @@
           <i class="material-icons-outlined">audiotrack</i>
           <span class="small-text">Select Audio Track</span>
       </button>
-      <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="items" @change="changeInputFormat"/>
+      <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="items" :defaultValue="defaultInput" @change="changeInputFormat"/>
       <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" @change="switchdefaultInputEnable">
         <span>set this option as default</span>
       </label>
-      <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="items" @change="changeOutputFormat"/>
+      <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="items" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
       <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" @change="switchdefaultOutputEnable">
         <span>set this option as default</span>
       </label>
       <div class="flex-item scroll">
@@ -44,8 +44,8 @@
         </table>
     </div>
   </div>
-  <button class="button small border round transparent-border small-space grey-light-3">
-      <input type="file" name="resume" @change="upload">
+  <button class="button small border round transparent-border small-space grey-light-3" @click="upload">
+      <!-- <input type="button" name="resume" @change="upload"> -->
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
   </button>
@@ -67,22 +67,56 @@ export default {
     return {
       inputFormat: null,
       outputFormat: null,
+
+      defaultInputEnable: false,
+      defaultOutputEnable: false,
+
       files: [],
     };
   },
   computed: {
     ...mapState({
       items: (state) => state.formats.items,
+      defaultInput: (state) => state.formats.defaultInput,
+      defaultOutput: (state) => state.formats.defaultOutput,
     }),
   },
   methods: {
     ...mapActions('tracks', { request: 'upload' }),
+    ...mapActions(['toast']),
+    ...mapActions('formats', ['setOptionAsDefault']),
     ...mapMutations(['loader']),
     changeInputFormat(event) {
       this.inputFormat = event.target.value;
+
+      if (this.defaultInputEnable) {
+        this.setOptionAsDefault({ input: this.inputFormat });
+      }
     },
     changeOutputFormat(event) {
       this.outputFormat = event.target.value;
+
+      if (this.defaultOutputEnable) {
+        this.setOptionAsDefault({ output: this.outputFormat });
+      }
+    },
+    switchdefaultInputEnable() {
+      this.defaultInputEnable = !this.defaultInputEnable;
+
+      this.setOptionAsDefault({
+        input: this.defaultInputEnable
+          ? _.get(this, 'inputFormat', null)
+          : null,
+      });
+    },
+    switchdefaultOutputEnable() {
+      this.defaultOutputEnable = !this.defaultOutputEnable;
+
+      this.setOptionAsDefault({
+        output: this.defaultOutputEnable
+          ? _.get(this, 'outputFormat', null)
+          : null,
+      });
     },
     remove(item) {
       this.files = _.filter(this.files, (file) => file.name !== item.name);
@@ -92,11 +126,21 @@ export default {
       // this.files = _.unionBy(this.files, files, 'name');
       this.files = _.union(this.files, files);
     },
-    async upload(event) {
+    async upload() {
+      if (this.files.length === 0) {
+        this.toast({ error: new Error('Please, select sound file!') });
+      }
       this.loader({ enable: true });
-      const [file] = event.target.files;
 
-      await this.request(file);
+      // eslint-disable-next-line
+      for (const file of this.files) {
+        // eslint-disable-next-line
+        await this.request({
+          file,
+          inputFormat: this.inputFormat,
+          outputFormat: this.outputFormat,
+        });
+      }
       this.loader({ enable: false });
     },
   },
