@@ -67,6 +67,10 @@ development: stop
 	io.elementary.terminal --working-directory="$(shell pwd)/vue-front"
 
 rebuild_nginx_docker:
+ifeq ($(shell docker ps -q --filter name="m1-transcode"),)
+	# No m1 containers found.
+else
 	docker container stop m1-transcode
+endif
 	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
 	io.elementary.terminal --working-directory="$(shell pwd)" --execute="make run_nginx_docker"
