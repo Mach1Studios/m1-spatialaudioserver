@@ -1,5 +1,8 @@
 <template>
+  <!-- <Popup :active="true" :items="item"/> -->
+
   <div class="flex-item scroll">
+
     <!-- <div v-if="admin"></div> -->
     <table class="list-table border flex-item">
       <tbody>
@@ -14,8 +17,9 @@
             <nav class="right-align">
               <button class="border round transparent-border" @mouseleave.stop="active = null" @click.stop="active = item.id">
                 <i class="material-icons-outlined">info</i>
+                <Popup class="popup" :active="active === item.id" :items="item"/>
               </button>
-              <div class="dropdown card round bottom" :class="{ active: active === item.id}">
+              <!-- <div class="dropdown popup-info card" :class="{ active: active === item.id}">
                   <p class="info"><b>ID: </b>{{item.id}}</p>
                   <p class="info"><b>CREATED: </b>{{item.created}}</p>
                   <p class="info"><b>MIMETYPE: </b>{{item.mimetype}}</p>
@@ -25,7 +29,7 @@
                   <p class="info"><b>SIZE: </b>{{item.size}}</p>
                   <p class="info"><b>UPDATED: </b>{{item.updated}}</p>
                   <p class="info"><b>LISTENED: </b>1</p>
-              </div>
+              </div> -->
               <button class="border round transparent-border" @click="reload(item)">
                 <i class="material-icons">cached</i>
               </button>
@@ -61,19 +65,22 @@
 </template>
 
 <script>
-/* eslint-disable */
 
 import { mapState, mapActions } from 'vuex';
 import _ from 'lodash';
 
-import Modal from './Modal.vue';
-import PlaylistForm from './PlaylistForm.vue';
+// import { includes } from 'lodash';
+
+// import Modal from './Modal.vue';
+import Popup from './Base/Popup.vue';
+// import PlaylistForm from './PlaylistForm.vue';
 
 export default {
   name: 'FileList',
   components: {
-    Modal,
-    PlaylistForm,
+    // Modal,
+    // PlaylistForm,
+    Popup,
   },
   data() {
     return { active: '' };
@@ -147,6 +154,7 @@ export default {
   .list-table {
     display: block;
     overflow: hidden;
+    // position: absolute;
     .audio-name {
       // left: 0;
       width: 10%;
@@ -182,7 +190,8 @@ export default {
       background-image: none;
     }
   }
-  .info {
-    border-bottom: 1px #dfdfdf dotted;
+  .popup {
+    margin-left: 30em !important;
+     // float: right;
   }
 </style>
