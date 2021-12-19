@@ -17,6 +17,7 @@ export default {
       return _.zipObject(model.keys, values);
     }));
 
+    ctx.status = 200;
     ctx.body = users;
   },
   /**

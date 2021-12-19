@@ -14,6 +14,7 @@ tus.config.expire_timeout = 1209600
 
 tus:process_request()
 
+-- available default formats of m1 transcoder
 local formats = {
   Stereo = "Stereo", -- L & R spatialized
   Stereo_Cinema = "Stereo_Cinema", -- L & R spatialized, forward focus
@@ -66,11 +67,19 @@ local formats = {
   CH_16 = "16.0", -- 16 channel Surround 3D layout
 }
 
-
+------
+-- helper local function to check if a value is in a collection
+-- @param collection the table based variable (the associative array to inspect)
+-- @param value the value to search for
+-- @return returns true if value is exist in collection, else false.
 local function includes(collection, value)
   return collection[value] ~= nil
 end
 
+------
+-- helper local function for creating and processing bad requests for nginx in JSON format
+-- @param message provided error message
+-- @return terminates the processing of the current request with error [for nginx]
 local function exeption(message)
   local json = cjson.encode({ message = message })
   ngx.header["Content-Length"] = #json
@@ -79,8 +88,10 @@ local function exeption(message)
   return ngx.exit(ngx.HTTP_BAD_REQUEST)
 end
 
-local method = ngx.req.get_method()
-
+------
+-- helper local function for decoding TUS metadata from request header
+-- @param metadata
+-- @return metadata dictionary [the associative array]
 local function decode_metadata(metadata)
   local function split(s, delimiter)
     local result = {};
@@ -126,6 +137,7 @@ local function decode_metadata(metadata)
   return dict
 end
 
+-- payload validation of the first to request; checking available metadata information from header
 if tus.resource.state == "created" then
   local headers = ngx.req.get_headers()
   local umeta = headers["upload-metadata"]
@@ -159,6 +171,7 @@ if tus.resource.state == "created" then
   end
 end
 
+-- processing uploaded track in the last request
 if tus.resource.name and tus.resource.state == "completed" then
   local filename = tus.resource.info.metadata.filename
   local filetype = tus.resource.info.metadata.filetype
