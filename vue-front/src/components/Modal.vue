@@ -123,7 +123,7 @@ export default {
   nav {
     button:hover {
       i {
-        color: #1c1c1c;
+        color: #ffffff;
         font-size: 20px;
       }
     }

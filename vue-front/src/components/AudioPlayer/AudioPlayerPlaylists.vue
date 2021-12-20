@@ -1,12 +1,12 @@
 <template>
-  <div id="Playlist" class="large-width">
+  <div id="Playlist">
     <div v-if="controls" class="add-new-playlist">
       <Modal
         title="Add new playlist"
         icon="add"
         position="center"
-        buttonClasses="small absolute center middle grey-light-3"
-        padding="large-margin"
+        buttonClasses="small grey-light-1 small-space large-margin large-btn"
+        padding="medium-margin"
       >
         <PlaylistForm
           title="Create new playlist"
@@ -18,14 +18,14 @@
     <div class="playlists-items">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
-          <div class="playlists">
-            <div class="card flat grey-light-4">
+          <div class="playlists scroll">
+            <div class="card flat dark-card">
               <div class="row no-wrap">
                 <div class="col min">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
                 <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
-                  <h6 class="bold no-margin">{{item.name}}</h6>
+                  <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
                 <div class="col min">
@@ -64,11 +64,11 @@
                 </div>
               </div>
             </div>
-            <div v-show="show === item.id" class="card flat grey-light-5 list">
+            <div v-show="show === item.id" class="card list">
               <Modal
                 title="Add track(s) in playlist"
                 icon="add"
-                buttonClasses="small small-space large-width small-margin grey-light-3"
+                buttonClasses="small medium-margin grey-light-1 small-space large-btn"
                 position="center"
                 v-if="controls"
                 :key="item.id"
@@ -130,15 +130,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #Add-tracks {
-    height: auto;
-    max-height: 83vh;
-    max-width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
+  .dark-card {
+    background-color: #323237;
   }
+
   .playlists {
     margin-bottom: 16rem;
     margin-right: 8rem;
@@ -164,7 +159,7 @@ export default {
     button:hover {
       i {
         font-size: 20px;
-        color: #1c1c1c;
+        color: #ffffff;
       }
     }
   }
@@ -185,10 +180,10 @@ export default {
     margin-top: 0;
   }
   .playlists-items{
-    margin-top: 16rem;
-    overflow-y: scroll;
+    // margin-top: 16rem;
+    overflow-x: hidden;
     height: auto;
-    max-height: 65vh; // note important for playlist scroll
+    max-height: 67vh; // note important for playlist scroll
     max-width: 100%;
 
     display: flex;
@@ -197,13 +192,13 @@ export default {
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
-      background-color: #ffffff;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar
     {
       width: 7px;
-      background-color: #ffffff;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar-thumb
@@ -211,5 +206,8 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
+  }
+  .large-btn {
+    width: 100%;
   }
 </style>

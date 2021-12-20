@@ -111,10 +111,10 @@ export default {
     i {
       font-size: 16px;
     }
-  }
-  .user-list-table button:hover {
-    i {
-      font-size: 20px;
+    &:hover {
+      i {
+        font-size: 20px;
+      }
     }
   }
 </style>

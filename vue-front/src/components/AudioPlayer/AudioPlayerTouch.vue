@@ -63,6 +63,8 @@ export default {
 
       transition: 0.2s;
       border: 10px solid #000;
+
+      background-color: white;
     }
 
     .card .txt {

@@ -1,12 +1,12 @@
 <template>
-  <div class="container max">
+  <div class="container max no-scroll">
     <!-- <FileList :admin="true"/>
     <FileListUploader/> -->
 
     <div class="row">
-      <div class="col s4">
+      <div class="col s6">
         <div class="card round">
-            <div class="tabs center-align">
+            <div class="tabs left-align">
               <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
               <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
             </div>
@@ -15,7 +15,7 @@
                 <Modal
                   title="CHOOSE A FILE..."
                   icon=" "
-                  buttonClasses="small grey-light-3 large-width small-space large-margin bold"
+                  buttonClasses="small small-space bold large-margin large-btn grey-light-1"
                 >
                   <div id="FileListUploader">
                     <FileListUploader/>
@@ -27,19 +27,17 @@
             </div>
         </div>
       </div>
-      <div class="col s4">
-        <div class="card round transparent audioplayer">
-          <AudioPlayer class="dark-player"/>
-        </div>
-        <div class="card round">
-          <AudioPlayerControls/>
-        </div>
+      <div class="col s6">
+        <AudioPlayerControls/>
       </div>
-      <div class="col s4">
-        <div class="card round">
-          <StreamInfo/>
-        </div>
-      </div>
+    </div>
+  </div>
+  <!-- <div class="col">
+    <StreamInfo/>
+  </div> -->
+  <div class="row absolute dark bottom">
+    <div class="card round transparent audioplayer">
+      <AudioPlayer skin="dark" class="dark-player"/>
     </div>
   </div>
 </template>
@@ -82,16 +80,25 @@ export default {
 <style lang="scss">
   #FileList {
     height: auto;
-    max-height: 83vh;
+    max-height: 77vh;
     max-width: 100%;
 
     display: flex;
     flex-direction: column;
     align-content: space-between;
   }
+  // #Playlists {
+  //   height: auto;
+  //   max-height: 80vh;
+  //   max-width: 100%;
+  //
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-content: space-between;
+  // }
   #FileListUploader {
     height: auto;
-    max-height: 83vh;
+    max-height: 77vh;
     max-width: 100%;
 
     display: flex;
@@ -107,9 +114,28 @@ export default {
   }
   .tabs {
     border-bottom: 0;
+    a {
+      color: #ffffff;
+      font-size: 18rem;
+    }
   }
-
+  .tabs>a.active {
+    border-bottom: 2rem solid #ffffff;
+  }
   .card {
-    max-height: 85vh;
+    max-height: 80vh;
+    background-color: #252526;
+    // position: relative;
   }
+  .dark .card{
+    background-color: #1c1c1c;
+    z-index: 600;
+    border-radius: 0;
+  }
+  .large-btn {
+    width: 100%;
+  }
+  // .controls {
+  //   height: 80vh;
+  // }
 </style>

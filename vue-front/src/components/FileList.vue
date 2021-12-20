@@ -113,13 +113,13 @@ export default {
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
-      background-color: #ffffff;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar
     {
       width: 7px;
-      background-color: #ffffff;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar-thumb
@@ -142,7 +142,7 @@ export default {
     max-width: fill-available !important;
   }
   tr.on-play {
-    background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+    background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
     p {
       color: #72646f;
       font-weight: bold;
@@ -161,7 +161,7 @@ export default {
       word-break: break-all;
     }
     p {
-      color: #1c1c1c;
+      color: #ffffff;
       text-align: justify;
     }
     td {
@@ -176,13 +176,13 @@ export default {
       vertical-align: middle;
     }
     tr:hover {
-      background: linear-gradient(90deg,hsla(0,0%,94.9%,.1),#f2f2f2 17px);
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
     }
     button {
       &:hover {
         i {
           font-size: 20px;
-          color: #1c1c1c;
+          color: #ffffff;
         }
       }
     }

@@ -101,6 +101,8 @@ const actions = {
     if (_.isNull(ctx.state.player)) return;
 
     const activeStream = ctx.state.player.getActiveStream();
+
+    console.log(ctx.state.player);
     if (activeStream) {
       const streamInfo = activeStream.getStreamInfo();
       const dashMetrics = ctx.state.player.getDashMetrics();
@@ -119,6 +121,24 @@ const actions = {
       } else {
         ctx.commit('setActiveStream', activeStream.isActive());
       }
+    } else {
+      const dashMetrics = ctx.state.player.getDashMetrics();
+      const dashAdapter = ctx.state.player.getDashAdapter();
+
+      if (dashMetrics) {
+        const repSwitch = dashMetrics.getCurrentRepresentationSwitch('audio', true);
+
+        console.log(dashAdapter);
+        const audioBufferLevel = dashMetrics.getCurrentBufferLevel('audio', true);
+        const audioBitRate = repSwitch
+          ? Math.round(dashAdapter.getBandwidthForRepresentation(repSwitch.to) / 1000)
+          : undefined;
+
+        console.log({ audioBufferLevel, audioBitRate });
+
+        // ctx.commit('setStreamInformation', { audioBufferLevel, audioBitRate });
+        ctx.commit('setActiveStream', true);
+      }
     }
   },
 };
@@ -126,6 +146,8 @@ const actions = {
 const mutations = {
   setActiveStream(store, status) {
     store.isActiveStream = status;
+
+    console.log('store.isActiveStream', store.isActiveStream);
   },
   setStreamInformation(store, payload) {
     const {

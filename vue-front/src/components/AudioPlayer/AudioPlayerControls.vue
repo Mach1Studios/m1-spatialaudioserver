@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <div class="preview" v-show="isActiveStream === true">
+  <div class="card round controls" v-show="isActiveStream === true">
+    <div class="preview">
       <h4 class="title large-text">AUDIO PREVIEW</h4>
       <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
         <div class="col min">
-          <p class="small-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
+          <p class="small-text upper white-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
         </div>
         <div class="col">
           <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
@@ -28,9 +28,6 @@
           <p>R</p>
         </div>
       </div>
-    </div>
-    <div class="channel-spinner absolute middle" v-show="isActiveStream === false">
-      <p class="small-text bold">Initialization{{spinner}}</p>
     </div>
   </div>
 </template>
@@ -73,15 +70,6 @@ export default {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
-  },
-  created() {
-    // setInterval(() => {
-    //   if (this.spinner === '...') {
-    //     this.spinner = '';
-    //   } else {
-    //     this.spinner = `${this.spinner}.`;
-    //   }
-    // }, 400);
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
@@ -156,27 +144,36 @@ export default {
   @mixin track() {
     width: $track-w; height: $track-h;
     border-radius: .1875em;
-    background-color: #c5c5c5;
+    background-color: #858585;
   }
   @mixin thumb() {
     border: none;
     width: $thumb-w; height: $thumb-h;
     border-radius: .5em;
     box-shadow:
-       -.125em 0 .25em #928886,
+       -.125em 0 .25em #252526,
       inset -1px 0 1px #fff;
+    // background:
+    //   radial-gradient(#{at 100% 50%}, #e8e8e8, #eaeaea 71%, transparent 71%)
+    //     no-repeat ($thumb-w - 2*$thumb-r) 50%,
+    //   linear-gradient(90deg, #e8e8e8, #d0d0d0) no-repeat 100% 50%,
+    //   radial-gradient(#{at 0 50%}, #d0cfcf, #c3c3c3 71%, transparent 71%)
+    //     no-repeat $thumb-r 50%,
+    //   linear-gradient(90deg, #e2e2e2, #d0cfcf) no-repeat 0 50%,
+    //   linear-gradient(#d2d2d2, #f9f9f9, #f9f9f9, #d2d2d2);
     background:
-      radial-gradient(#{at 100% 50%}, #e8e8e8, #eaeaea 71%, transparent 71%)
+      radial-gradient(#{at 100% 50%}, #d0cfcf, #d0cfcf 71%, transparent 71%)
         no-repeat ($thumb-w - 2*$thumb-r) 50%,
-      linear-gradient(90deg, #e8e8e8, #d0d0d0) no-repeat 100% 50%,
+      linear-gradient(90deg, #d0cfcf, #d0d0d0) no-repeat 100% 50%,
       radial-gradient(#{at 0 50%}, #d0cfcf, #c3c3c3 71%, transparent 71%)
         no-repeat $thumb-r 50%,
       linear-gradient(90deg, #e2e2e2, #d0cfcf) no-repeat 0 50%,
-      linear-gradient(#d2d2d2, #f9f9f9, #f9f9f9, #d2d2d2);
+      linear-gradient(#d2d2d2, #f9f9f9, #d0cfcf, #d2d2d2);
     background-size: 1.1*$thumb-r 100%;
   }
 
   .channel input[type='range']{
+    background-color: transparent;
     margin: 0;
     &,
     &::-webkit-slider-runnable-track,
@@ -231,7 +228,9 @@ export default {
   .preview {
     .title {
       font-style: normal;
-      font-weight: bold;
+      // font-weight: bold;
+      font-size: 18rem;
+      color: #ffffff;
 
       line-height: 1.17;
       letter-spacing: -0.5px;
@@ -239,6 +238,9 @@ export default {
 
     i {
       cursor: pointer;
+      color: #4d4d4d;
+    }
+    p {
       color: #4d4d4d;
     }
   }
