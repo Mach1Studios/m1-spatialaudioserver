@@ -154,6 +154,7 @@ export default {
   .list-table {
     display: block;
     overflow: hidden;
+    width: 100%;
     // position: absolute;
     .audio-name {
       // left: 0;

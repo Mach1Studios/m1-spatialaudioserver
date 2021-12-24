@@ -15,7 +15,7 @@
                 <Modal
                   title="CHOOSE A FILE..."
                   icon=" "
-                  buttonClasses="small small-space bold large-margin large-btn grey-light-1"
+                  buttonClasses="small small-space bold large-margin large-btn grey-light-3"
                 >
                   <div id="FileListUploader">
                     <FileListUploader/>

@@ -12,7 +12,7 @@
           </td>
           <td>
             <nav class="right-align">
-              <button class="border round transparent-border"  @click="del(item.id)">
+              <button class="border transparent-border"  @click="del(item.id)">
                 <i class="material-icons">delete</i>
               </button>
             </nav>
@@ -104,9 +104,8 @@ export default {
       letter-spacing: -0.5px;
       text-transform: uppercase;
     }
-    i {
-      font-size: 16px;
-      color: #4d4d4d;
+    p {
+      color: #ffffff;
     }
     input {
       &:focus {
@@ -129,6 +128,14 @@ export default {
       width: 100%;
       padding: 0;
       margin: 16rem 0 16rem 0;
+      &:hover {
+        i {
+          color: #ffffff;
+        }
+      }
+    }
+    .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+      background: none;
     }
     .list-table {
       padding-right: 16rem;

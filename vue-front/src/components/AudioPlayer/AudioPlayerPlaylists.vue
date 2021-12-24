@@ -5,7 +5,7 @@
         title="Add new playlist"
         icon="add"
         position="center"
-        buttonClasses="small grey-light-1 small-space large-margin large-btn"
+        buttonClasses="small grey-light-3 small-space large-margin large-btn"
         padding="medium-margin"
       >
         <PlaylistForm
@@ -68,7 +68,7 @@
               <Modal
                 title="Add track(s) in playlist"
                 icon="add"
-                buttonClasses="small medium-margin grey-light-1 small-space large-btn"
+                buttonClasses="small medium-margin grey-light-3 small-space large-btn"
                 position="center"
                 v-if="controls"
                 :key="item.id"
@@ -180,6 +180,7 @@ export default {
     margin-top: 0;
   }
   .playlists-items{
+    background-color: #232323;
     // margin-top: 16rem;
     overflow-x: hidden;
     height: auto;

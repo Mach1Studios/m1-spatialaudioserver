@@ -83,8 +83,11 @@ export default {
 
 <style lang="scss" scoped>
   .table {
+    abbr {
+      color: #ffffff;
+    }
     p {
-      color: #1c1c1c;
+      color: #ffffff;
     }
     i {
       color: #4d4d4d;
@@ -114,7 +117,11 @@ export default {
     &:hover {
       i {
         font-size: 20px;
+        color: #ffffff;
       }
     }
+  }
+  .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+    background: none;
   }
 </style>

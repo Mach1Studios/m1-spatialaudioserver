@@ -82,6 +82,7 @@ export default {
   .title {
     font-style: normal;
     font-weight: bold;
+    color: #ffffff;
 
     line-height: 1.17;
     letter-spacing: -0.5px;
@@ -104,7 +105,8 @@ export default {
     padding-top: 16px;
     padding-right: 0;
     i {
-      color: #1c1c1c;
+      font-size: 20px;
+      color: #ffffff;
     }
   }
 
@@ -126,10 +128,17 @@ export default {
         color: #ffffff;
         font-size: 20px;
       }
+      background-color: transparent;
     }
   }
   .modal.left {
-    height: calc( 100% - 64rem - 65px);
+    height: calc( 100% - 90rem - 57px);
     margin-top: 64rem;
+  }
+  .modal {
+    background-color: #252526;
+  }
+  .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+    background: none;
   }
 </style>

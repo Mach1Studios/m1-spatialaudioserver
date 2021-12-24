@@ -62,6 +62,7 @@ export default {
 <style lang="scss" scoped>
   .field {
     input {
+      color: #ffffff;
       &:focus {
         border-color: #1c1c1c;
       }
