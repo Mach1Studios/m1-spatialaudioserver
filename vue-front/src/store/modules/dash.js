@@ -94,15 +94,15 @@ const actions = {
   async stop({ commit, state }) {
     if (state.player && state.player.destroy) state.player.destroy();
 
+    commit('setActiveStream', false);
     commit('setPlayer', null);
+    commit('tracks/setPlayingTrack', null, { root: true });
   },
   updateInfo(ctx, info) {
     ctx.commit('setStreamInformation', info);
     if (_.isNull(ctx.state.player)) return;
 
     const activeStream = ctx.state.player.getActiveStream();
-
-    console.log(ctx.state.player);
     if (activeStream) {
       const streamInfo = activeStream.getStreamInfo();
       const dashMetrics = ctx.state.player.getDashMetrics();
@@ -134,9 +134,8 @@ const actions = {
           ? Math.round(dashAdapter.getBandwidthForRepresentation(repSwitch.to) / 1000)
           : undefined;
 
-        console.log({ audioBufferLevel, audioBitRate });
+        console.log(audioBufferLevel, audioBitRate);
 
-        // ctx.commit('setStreamInformation', { audioBufferLevel, audioBitRate });
         ctx.commit('setActiveStream', true);
       }
     }
@@ -146,8 +145,6 @@ const actions = {
 const mutations = {
   setActiveStream(store, status) {
     store.isActiveStream = status;
-
-    console.log('store.isActiveStream', store.isActiveStream);
   },
   setStreamInformation(store, payload) {
     const {

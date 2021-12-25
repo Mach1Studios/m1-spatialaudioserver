@@ -3,18 +3,20 @@ import * as tus from 'tus-js-client';
 
 import FetchHelper from '../utils';
 
+const defaultTrackState = {
+  id: undefined,
+  name: undefined,
+  originalname: undefined,
+  prepared: false,
+  size: 0,
+  mimetype: undefined,
+  // NOTE: Additional stored params for playble track
+  playing: false,
+  dash: {},
+};
+
 const defaultState = () => ({
-  track: {
-    id: undefined,
-    name: undefined,
-    originalname: undefined,
-    prepared: false,
-    size: 0,
-    mimetype: undefined,
-    // NOTE: Additional stored params for playble track
-    playing: false,
-    dash: {},
-  },
+  track: defaultTrackState,
   items: [],
 });
 
@@ -39,7 +41,7 @@ const actions = {
     await dispatch('getAll');
     const track = _.find(state.items, { id });
 
-    commit('setPlay', { ...track, prepared: true });
+    commit('setPlayingTrack', { ...track, prepared: true, playing: true });
     dispatch('dash/start', id, { root: true });
   },
   /**
@@ -145,8 +147,8 @@ const mutations = {
   removeTrack(store, id) {
     store.items = _.filter(store.items, (item) => item.id !== id);
   },
-  setPlay(store, track) {
-    store.track = { ...track, playing: true };
+  setPlayingTrack(store, track = defaultTrackState) {
+    store.track = { ...track };
   },
   updateTrackName(store, { id, name }) {
     const index = _.findIndex(store.items, (item) => item.id === id);

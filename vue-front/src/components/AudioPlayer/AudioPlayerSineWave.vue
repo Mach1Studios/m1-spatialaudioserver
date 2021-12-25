@@ -5,7 +5,7 @@
 </template>
 <script>
 import _ from 'lodash';
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec);
@@ -37,7 +37,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('audio', { channels: 'listOfChannelsD', isActiveChannels: 'isActiveChannels' }),
+    // ...mapGetters('audio', ['isActiveChannels']),
     ...mapState('audio', { audio: 'context', source: 'source', analyser: 'gainNodesAnalyser' }),
     ...mapState('dash', ['isActiveStream']),
 

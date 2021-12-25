@@ -11,7 +11,6 @@
         <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
         <span class="name">{{track.name}}</span>
       </span>
-      <!-- <input type="range" name="progress" min="0" max="100" :value="playback" @change.prevent="playbackUpdate"> -->
       <span class="absolute right">
         <span class="duration">{{currentTime}}</span>
         <span class="duration">/</span>
@@ -65,7 +64,7 @@ export default {
   }),
   methods: {
     ...mapActions('audio', ['updateSource']),
-    ...mapActions('dash', ['start', 'stop']),
+    ...mapActions('dash', ['stop']),
 
     play() {
       if (!this.isActiveStream) return;
@@ -103,6 +102,7 @@ export default {
   beforeUnmount() {
     this.$refs.player.pause();
     this.$refs.player.removeEventListener('timeupdate', this.timeUpdate);
+
     this.stop();
   },
 };

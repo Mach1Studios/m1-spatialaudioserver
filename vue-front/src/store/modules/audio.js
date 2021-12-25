@@ -39,6 +39,9 @@ const actions = {
       splitter.connect(gain, channel);
       gain.connect(merger, 0, position === -1 ? 0 : 1);
 
+      // gain.connect(analyser);
+      // analyser.connect(gain);
+
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
 
@@ -48,8 +51,6 @@ const actions = {
 
     _.each(getters.listOfChannels, processing);
     merger.connect(context.destination);
-
-    // commit('loader', { enable: false }, { root: true });
   },
   updateSource({ commit }, source) {
     commit('setSource', source);
@@ -65,9 +66,6 @@ const actions = {
 };
 
 const getters = {
-  listOfChannelsD(state) {
-    return _.range(state.channels * 2);
-  },
   listOfChannels(state) {
     return _.range(state.channels);
   },
