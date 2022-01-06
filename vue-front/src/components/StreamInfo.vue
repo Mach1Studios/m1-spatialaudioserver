@@ -1,7 +1,6 @@
 <template>
   <div class="dash">
-    <h4 class="title large-text upper">DASH Stream Info</h4>
-    <table class="table border large center-align">
+    <table class="table border center-align">
       <tbody>
         <tr>
           <td>
@@ -76,19 +75,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .dash .title {
-    font-style: normal;
-    font-weight: bold;
-
-    line-height: 1.17;
-    letter-spacing: -0.5px;
-  }
-
   .table td {
     vertical-align: middle;
     text-align: left;
     cursor: pointer;
-    border-bottom: 1px #dfdfdf dotted;
+    border-color: #252526;
   }
 
   .table {
@@ -99,8 +90,5 @@ export default {
     background: transparent;
 
     border: none;
-  }
-  table {
-    border-spacing: 2px;
   }
 </style>

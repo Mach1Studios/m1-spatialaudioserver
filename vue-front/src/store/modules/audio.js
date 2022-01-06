@@ -26,10 +26,6 @@ const actions = {
       const gain = context.createGain();
       const panner = context.createPanner();
 
-      // FIXME: analyser broken spatial sound
-      // gain.connect(analyser);
-      // analyser.connect(context.destination);
-
       gain.gain.value = volume;
 
       panner.setPosition(position, 0, 0);
@@ -37,10 +33,9 @@ const actions = {
       panner.connect(gain);
 
       splitter.connect(gain, channel);
-      gain.connect(merger, 0, position === -1 ? 0 : 1);
 
-      // gain.connect(analyser);
-      // analyser.connect(gain);
+      gain.connect(merger, 0, position === -1 ? 0 : 1);
+      gain.connect(analyser);
 
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);

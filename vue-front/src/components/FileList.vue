@@ -15,10 +15,11 @@
           </td>
           <td>
             <nav class="right-align">
-              <button class="border round transparent-border" @mouseleave.stop="active = null" @click.stop="active = item.id">
+              <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id"/>
+              <!-- <button class="border round transparent-border" @mouseleave.stop="active = null" @click.stop="active = item.id">
                 <i class="material-icons-outlined">info</i>
                 <Popup class="popup" :active="active === item.id" :items="item"/>
-              </button>
+              </button> -->
               <!-- <div class="dropdown popup-info card" :class="{ active: active === item.id}">
                   <p class="info"><b>ID: </b>{{item.id}}</p>
                   <p class="info"><b>CREATED: </b>{{item.created}}</p>
@@ -191,8 +192,8 @@ export default {
       background-image: none;
     }
   }
-  .popup {
-    margin-left: 30em !important;
-     // float: right;
-  }
+  // .popup {
+  //   margin-left: 30em !important;
+  //    // float: right;
+  // }
 </style>

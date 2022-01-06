@@ -32,10 +32,14 @@
       </div>
     </div>
   </div>
-  <!-- <div class="col">
-    <StreamInfo/>
-  </div> -->
   <div class="row absolute dark bottom">
+    <details class="card flat stream">
+      <StreamInfo/>
+      <summary class="medium-text">
+        DASH STREAM INFO
+        <i class="material-icons-outlined white-text">expand_more</i>
+      </summary>
+    </details>
     <div class="card round transparent audioplayer">
       <AudioPlayer skin="dark" class="dark-player"/>
     </div>
@@ -80,7 +84,7 @@ export default {
 <style lang="scss">
   #FileList {
     height: auto;
-    max-height: 77vh;
+    max-height: 73vh;
     max-width: 100%;
 
     display: flex;
@@ -98,7 +102,7 @@ export default {
   // }
   #FileListUploader {
     height: auto;
-    max-height: 77vh;
+    max-height: 73vh;
     max-width: 100%;
 
     display: flex;
@@ -135,7 +139,17 @@ export default {
   .large-btn {
     width: 100%;
   }
-  // .controls {
-  //   height: 80vh;
-  // }
+  details, summary {
+    color: #ffffff;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .stream {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
 </style>

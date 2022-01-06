@@ -61,7 +61,7 @@ export default {
     return {
       spinner: '',
       lineColors: _.map(['#7F842F', '#e1a69f', '#4B3C53', '#C04040', '#D36646', '#9CA2C2', '#8BB4C9', '#DBD534'], (value) => hexRgb(value, { format: 'css' })),
-      defaultVolume: 0.1,
+      defaultVolume: 0.5,
       channelsVolume: {},
       channelsMuted: {},
     };
