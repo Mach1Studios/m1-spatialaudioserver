@@ -16,11 +16,9 @@ else
 endif
 
 build: stop
-ifneq ($(detected_OS),Darwin)
 	docker network rm m1-network &> /dev/null
 	docker network create m1-network --subnet=172.20.0.0/16 &> /dev/null
 	docker volume create m1-volume &> /dev/null
-endif
 	docker build -f ./containers/koa/Dockerfile -t m1-api .
 	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
 	docker build -f ./containers/redis/Dockerfile -t m1-redis .
