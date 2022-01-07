@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { Store } from '../store';
+import Store from '../store';
 import SpatialAudioPlayer from '../views/SpatialAudioPlayer.vue';
 
 const routes = [
