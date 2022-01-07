@@ -17,7 +17,8 @@ endif
 
 build: stop
 ifneq ($(detected_OS),Darwin)
-	docker network create m1-network &> /dev/null
+	docker network rm m1-network &> /dev/null
+	docker network create m1-network --subnet=172.20.0.0/16 &> /dev/null
 	docker volume create m1-volume &> /dev/null
 endif
 	docker build -f ./containers/koa/Dockerfile -t m1-api .
@@ -33,6 +34,12 @@ stage: build
 	# NOTE: relies on `mach1` keys in `~/.aws/credentials`
 
 local: build
+	make -i -k stop
+	make run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis"
+	make run_node_docker args="-d"
+	make run_nginx_docker
+
+production: build
 	make -i -k stop
 	make run_redis_docker args="-d"
 	make run_node_docker args="-d"
