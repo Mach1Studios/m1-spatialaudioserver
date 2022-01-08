@@ -26,7 +26,7 @@
       </form>
     </template>
   </Modal>
-  <div class="profile" v-else>
+  <div v-else class="profile">
     <p>{{user ? user.nickname : 'Profile'}}</p>
     <Modal title="Are you sure?" titleClasses="large-width add-user">
       <template #button>
@@ -80,6 +80,7 @@ export default {
     },
     async ok() {
       await this.logout();
+      await this.$router.push('/');
     },
   },
 };
