@@ -38,7 +38,7 @@
                 <i class="material-icons">repeat</i>
                 <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
-              <!-- <Modal
+              <Modal
                 title="Rename track"
                 button=" "
                 icon="edit"
@@ -53,7 +53,7 @@
                   icon="save"
                   :action="update"
                 />
-              </Modal> -->
+              </Modal>
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
               </button>
@@ -72,15 +72,15 @@ import _ from 'lodash';
 
 // import { includes } from 'lodash';
 
-// import Modal from './Modal.vue';
+import Modal from './Modal.vue';
 import Popup from './Base/Popup.vue';
-// import PlaylistForm from './PlaylistForm.vue';
+import PlaylistForm from './PlaylistForm.vue';
 
 export default {
   name: 'FileList',
   components: {
-    // Modal,
-    // PlaylistForm,
+    Modal,
+    PlaylistForm,
     Popup,
   },
   data() {
@@ -192,8 +192,4 @@ export default {
       background-image: none;
     }
   }
-  // .popup {
-  //   margin-left: 30em !important;
-  //    // float: right;
-  // }
 </style>

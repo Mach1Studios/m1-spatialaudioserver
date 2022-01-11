@@ -1,8 +1,5 @@
 <template>
   <div class="container max no-scroll">
-    <!-- <FileList :admin="true"/>
-    <FileListUploader/> -->
-
     <div class="row">
       <div class="col s6">
         <div class="card round">
@@ -34,9 +31,11 @@
   </div>
   <div class="row absolute dark bottom">
     <details class="card flat stream">
-      <StreamInfo/>
+      <div class="col s6">
+        <StreamInfo/>
+      </div>
       <summary class="medium-text">
-        DASH STREAM INFO
+        DEBUG PLAYER
         <i class="material-icons-outlined white-text">expand_more</i>
       </summary>
     </details>

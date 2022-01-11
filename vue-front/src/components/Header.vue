@@ -1,9 +1,9 @@
 <template>
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
-    <router-link v-if="role === 'admin'" class="link" to="/dashboard">Dashboard</router-link>
+    <router-link v-if="isAdmin" class="link" to="/dashboard">Dashboard</router-link>
     <router-link class="link" to="/">Spatial Audio Player</router-link>
-    <router-link v-if="role === 'admin'" class="link" to="/users">Users</router-link>
+    <router-link v-if="isAdmin" class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
     <UsersAuth/>
   </div>
@@ -19,7 +19,8 @@ export default {
     UsersAuth,
   },
   computed: mapState({
-    role: (state) => _.get(state, 'auth.profile.user.role', 'user'),
+    isAdmin: (state) => _.get(state, 'auth.profile.user.role') === 'admin',
+    isAuthorized: (state) => _.has(state, 'auth.profile.user.role'),
   }),
 };
 </script>
@@ -41,7 +42,7 @@ export default {
       color: #626161;
       font-weight: 500;
       width: fit-content;
-      &:focus, &:focus-within, &:hover {
+      &:focus, &:focus-within, &:hover, &.router-link-active {
         color: #fefefe;
       }
     }
@@ -50,7 +51,7 @@ export default {
       border-radius: 0;
       border: 1px solid #626161;
       color: #626161;
-      &:focus, &:hover {
+      &:focus, &:hover, &.router-link-active {
         color: #fefefe;
         background: transparent;
         border: 1px solid #fefefe;

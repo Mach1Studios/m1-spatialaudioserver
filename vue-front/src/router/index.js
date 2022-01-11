@@ -8,6 +8,7 @@ const routes = [
     path: '/',
     name: 'SpatialAudioPlayer',
     component: SpatialAudioPlayer,
+    meta: { transition: 'slide-left' },
   },
   {
     path: '/dashboard',
@@ -15,6 +16,7 @@ const routes = [
     component: () => import('../views/Dashboard.vue'),
     meta: {
       requiresAdmin: true,
+      transition: 'slide-left',
     },
   },
   {
@@ -23,6 +25,7 @@ const routes = [
     component: () => import('../views/Users.vue'),
     meta: {
       requiresAdmin: true,
+      transition: 'slide-left',
     },
   },
 ];
