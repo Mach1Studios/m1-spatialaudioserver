@@ -5,7 +5,7 @@
         <img id="touchstats:back" src="https://demo.mach1.tech/img/touch-compass.svg"/>
       </div>
       <div class="cardBottom">
-        <div id="touchstats:card" class="card">
+        <div id="touchstats:card" class="card touch">
           <div class="txt">FRONT</div>
         </div>
       </div>
@@ -63,10 +63,10 @@ export default {
 
       transition: 0.2s;
       border: 10px solid #000;
-
+    }
+    .touch {
       background-color: white;
     }
-
     .card .txt {
       position: absolute;
       top: 50%;

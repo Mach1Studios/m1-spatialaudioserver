@@ -44,4 +44,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .card {
+    background-color: #252526;
+  }
 </style>

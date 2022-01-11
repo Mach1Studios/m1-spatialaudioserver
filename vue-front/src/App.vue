@@ -1,6 +1,11 @@
 <template>
   <Header id="app-header"/>
-  <router-view id="app-router"/>
+    <!-- <router-view id="app-router"/> -->
+  <router-view id="app-router" v-slot="{ Component, route }">
+    <transition :name="route.meta.transition || 'slide-left'">
+      <component :is="Component"/>
+    </transition>
+  </router-view>
   <Notifications/>
   <Preloader
     :title="loader.title"
@@ -13,6 +18,7 @@
 /* eslint-disable */
 
 import { mapState } from 'vuex';
+import VueRouter from 'vue-router';
 
 import Header from './components/Header.vue';
 import Notifications from './components/Notifications.vue';
@@ -78,5 +84,19 @@ export default {
     // position: static;
     // display: grid;
     overflow: hidden;
+  }
+  .slide-left-enter-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .slide-left-leave-active {
+    // transition: all 0.3s ease;
+    // transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+
+  .slide-left-enter-from,
+  .slide-left-leave-to {
+    transform: translateX(100px);
+    opacity: 0;
   }
 </style>
