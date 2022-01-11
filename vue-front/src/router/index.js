@@ -28,6 +28,12 @@ const routes = [
       transition: 'slide-left',
     },
   },
+  {
+    path: '/settings',
+    name: 'ProfileSettings',
+    component: () => import('../views/ProfileSettings.vue'),
+    meta: { transition: 'slide-left' },
+  },
 ];
 
 const router = createRouter({

@@ -5,6 +5,9 @@
     <router-link class="link" to="/">Spatial Audio Player</router-link>
     <router-link v-if="isAdmin" class="link" to="/users">Users</router-link>
     <div style="flex-grow: 1;"></div>
+    <router-link v-if="isAuthorized" class="profile link" to="/settings">
+      {{user ? user.nickname : 'Profile'}}
+    </router-link>
     <UsersAuth/>
   </div>
 </template>
@@ -21,6 +24,7 @@ export default {
   computed: mapState({
     isAdmin: (state) => _.get(state, 'auth.profile.user.role') === 'admin',
     isAuthorized: (state) => _.has(state, 'auth.profile.user.role'),
+    user: (state) => state.auth.profile.user,
   }),
 };
 </script>
@@ -44,6 +48,12 @@ export default {
       width: fit-content;
       &:focus, &:focus-within, &:hover, &.router-link-active {
         color: #fefefe;
+      }
+
+      &.profile {
+        margin: auto;
+        padding: 0;
+        font-size: var(--default-font-size);
       }
     }
     button {

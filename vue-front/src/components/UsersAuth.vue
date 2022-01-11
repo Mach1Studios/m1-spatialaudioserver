@@ -27,7 +27,6 @@
     </template>
   </Modal>
   <div v-else class="profile">
-    <p>{{user ? user.nickname : 'Profile'}}</p>
     <Modal title="Are you sure?" titleClasses="large-width add-user">
       <template #button>
         <button class="transparent-border"><i class="material-icons">logout</i></button>
