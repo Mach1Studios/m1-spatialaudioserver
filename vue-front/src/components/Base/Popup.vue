@@ -1,9 +1,4 @@
 <template>
-  <!-- <div class="" :class="{ active }">
-    <p v-for="(value, key) in items" :key="value" class="info small-margin">
-      <b class="upper">{{key}}:</b> {{value}}
-    </p>
-  </div> -->
   <button class="border round transparent-border" @click="open">
     <i class="material-icons-outlined">info</i>
     <div class="popup card" :style="position">
@@ -48,17 +43,12 @@ export default {
   },
   methods: {
     open(event) {
-      console.log(event.pageX, event.pageY);
-
       this.show = true;
 
       this.top = event.pageY;
       this.left = event.pageX;
     },
   },
-  // created() {
-  //   console.log(this.items);
-  // },
 };
 </script>
 

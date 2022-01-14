@@ -5,7 +5,7 @@
         title="Add new playlist"
         icon="add"
         position="center"
-        buttonClasses="small grey-light-3 small-space large-margin large-btn"
+        buttonClasses="small responsive round grey-light-3"
         padding="medium-margin"
       >
         <PlaylistForm
@@ -19,7 +19,7 @@
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
           <div class="playlists scroll">
-            <div class="card flat dark-card">
+            <div class="card dark-card">
               <div class="row no-wrap">
                 <div class="col min">
                   <img src="../../assets/playlist.svg" class="circle large">
@@ -136,8 +136,8 @@ export default {
 
   .playlists {
     margin-bottom: 16rem;
-    margin-right: 8rem;
-    margin-left: 8rem;
+    // margin-right: 8rem;
+    // margin-left: 8rem;
     i {
       font-size: 16px;
       color: #4d4d4d;

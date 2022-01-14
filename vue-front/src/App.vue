@@ -1,6 +1,5 @@
 <template>
   <Header id="app-header"/>
-    <!-- <router-view id="app-router"/> -->
   <router-view id="app-router" v-slot="{ Component, route }">
     <transition :name="route.meta.transition || 'slide-left'">
       <component :is="Component"/>
@@ -15,14 +14,11 @@
 </template>
 
 <script>
-/* eslint-disable */
-
 import { mapState } from 'vuex';
-import VueRouter from 'vue-router';
 
 import Header from './components/Header.vue';
-import Notifications from './components/Notifications.vue';
-import Preloader from './components/Preloader.vue';
+import Notifications from './components/Base/Notifications.vue';
+import Preloader from './components/Base/Preloader.vue';
 
 export default {
   components: {
