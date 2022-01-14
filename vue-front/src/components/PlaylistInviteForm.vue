@@ -74,9 +74,8 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    // flex-shrink: 2;
-    // flex-basis: 20%;
     overflow-x: hidden;
+
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
