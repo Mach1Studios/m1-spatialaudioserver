@@ -91,6 +91,7 @@ export default {
 
   .default-modal-btn {
     max-width: fill-available;
+
     i {
       font-size: 16px;
       color: #4d4d4d;
@@ -124,11 +125,12 @@ export default {
 
   nav {
     button:hover {
+      background-color: transparent;
+
       i {
         color: #ffffff;
         font-size: 20px;
       }
-      background-color: transparent;
     }
   }
   .modal.left {

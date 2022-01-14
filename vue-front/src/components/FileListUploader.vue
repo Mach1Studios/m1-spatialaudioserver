@@ -1,7 +1,7 @@
 <template>
   <div class="medium-margin medium-padding">
     <div class="card round flat grey-light-5">
-      <button class="button no-margin small round border transparent-border small-space grey-light-3">
+      <button class="button small no-margin responsive round grey-light-3">
           <input type="file" name="resume" @change="changeFile" multiple>
           <i class="material-icons-outlined">audiotrack</i>
           <span class="small-text">Select Audio Track</span>
@@ -44,7 +44,7 @@
         </table>
     </div>
   </div>
-  <button class="button small border round transparent-border small-space grey-light-3" @click="upload">
+  <button class="button small responsive round grey-light-3" @click="upload">
       <!-- <input type="button" name="resume" @change="upload"> -->
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
@@ -160,6 +160,7 @@ export default {
     align-content: space-between;
     display: block;
     overflow-x: hidden;
+
     .audio-name {
       width: 30%;
       word-break: break-all;
@@ -177,6 +178,7 @@ export default {
     }
     td {
       padding: 0;
+
       &:last-child {
         padding-right: 13px;
       }
@@ -185,13 +187,8 @@ export default {
         text-align: justify;
       }
     }
-    tr {
-      // vertical-align: middle;
-    }
   }
   .button {
-    width: 100%;
-    padding: 0;
     margin: 16rem 0 16rem 0;
 
     i {
@@ -203,8 +200,6 @@ export default {
     }
   }
   .flex-item {
-    // flex-shrink: 2;
-    // flex-basis: 20%;
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
@@ -226,6 +221,7 @@ export default {
   .switch {
     filter: grayscale(100%) !important;
     text-transform: uppercase;
+
     span {
       font-size: 12rem;
     }

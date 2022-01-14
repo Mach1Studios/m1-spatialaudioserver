@@ -1,8 +1,5 @@
 <template>
-  <!-- <Popup :active="true" :items="item"/> -->
-
   <div class="flex-item scroll">
-
     <!-- <div v-if="admin"></div> -->
     <table class="list-table border flex-item">
       <tbody>
@@ -130,8 +127,9 @@ export default {
     }
   }
   i {
-    color: #4d4d4d;
     cursor: pointer;
+
+    color: #4d4d4d;
     font-size: 16px;
   }
   .disabled {
@@ -139,11 +137,9 @@ export default {
       cursor: default;
     }
   }
-  .large-width {
-    max-width: fill-available !important;
-  }
   tr.on-play {
     background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
+
     p {
       color: #72646f;
       font-weight: bold;
@@ -156,9 +152,8 @@ export default {
     display: block;
     overflow: hidden;
     width: 100%;
-    // position: absolute;
+
     .audio-name {
-      // left: 0;
       width: 10%;
       word-break: break-all;
     }

@@ -1,29 +1,31 @@
 <template>
-  <div class="container max">
-    <div class="row">
-      <div class="col s3">
-        <div class="card transparent playlist">
-          <Modal
-            title="Playlists"
-            icon="play_arrow"
-            position="left"
-            buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
-            padding="no-margin"
-          >
-            <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
-          </Modal>
+  <div class="max-size">
+    <div class="container max">
+      <div class="row">
+        <div class="col s3">
+          <div class="card transparent playlist">
+            <Modal
+              title="Playlists"
+              icon="play_arrow"
+              position="left"
+              buttonClasses="small responsive round grey-light-3"
+              padding="no-margin"
+            >
+              <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
+            </Modal>
+          </div>
         </div>
+        <div class="col s6"></div>
+        <div class="col s3"></div>
       </div>
-      <div class="col s6"></div>
-      <div class="col s3"></div>
     </div>
-  </div>
-  <div class="">
-    <AudioPlayerTouch/>
-  </div>
-  <div class="row absolute bottom dark">
-    <div class="card">
-      <AudioPlayer skin="dark" class="dark-player"/>
+    <div>
+      <AudioPlayerTouch/>
+    </div>
+    <div class="row absolute bottom dark">
+      <div class="card">
+        <AudioPlayer skin="dark" class="dark-player"/>
+      </div>
     </div>
   </div>
 </template>
@@ -116,6 +118,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .max-size {
+    height: 100vh;
+  }
   .playlist {
     box-shadow: none;
     padding-top: 0;

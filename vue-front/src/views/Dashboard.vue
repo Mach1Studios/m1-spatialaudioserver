@@ -1,46 +1,53 @@
 <template>
-  <div class="container max no-scroll">
-    <div class="row">
-      <div class="col s6">
-        <div class="card round">
-            <div class="tabs left-align">
-              <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
-              <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
-            </div>
-            <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
-                <FileList :admin="true"/>
-                <Modal
-                  title="CHOOSE A FILE..."
-                  icon=" "
-                  buttonClasses="small small-space bold large-margin large-btn grey-light-3"
-                >
-                  <div id="FileListUploader">
-                    <FileListUploader/>
-                  </div>
-                </Modal>
-            </div>
-            <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
-              <AudioPlayerPlaylists :admin="true" :controls="true"/>
-            </div>
+  <div class="max-size">
+    <div class="container max no-scroll">
+      <div class="row">
+        <div class="col s6">
+          <div class="card round">
+              <div class="tabs left-align">
+                <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
+                <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
+              </div>
+              <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
+                  <FileList :admin="true"/>
+                  <Modal
+                    title="CHOOSE A FILE..."
+                    icon=" "
+                    buttonClasses="small responsive round bold grey-light-3 uploader"
+                  >
+                    <div id="FileListUploader">
+                      <FileListUploader/>
+                    </div>
+                  </Modal>
+              </div>
+              <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
+                <AudioPlayerPlaylists :admin="true" :controls="true"/>
+              </div>
+          </div>
+        </div>
+        <div class="col s6">
+          <AudioPlayerControls/>
         </div>
       </div>
-      <div class="col s6">
-        <AudioPlayerControls/>
-      </div>
     </div>
-  </div>
-  <div class="row absolute dark bottom">
-    <details class="card flat stream">
-      <div class="col s6">
-        <StreamInfo/>
+    <div class="row no-space dark absolute bottom">
+      <details class="card flat stream">
+        <div class="col s12">
+          <div class="col s6">
+            <StreamInfo/>
+          </div>
+          <div class="col s6">
+
+          </div>
+        </div>
+        <summary class="medium-text">
+          DEBUG PLAYER
+          <i class="material-icons-outlined white-text">expand_more</i>
+        </summary>
+      </details>
+      <div class="card flat transparent audioplayer">
+        <AudioPlayer skin="dark" class="dark-player"/>
       </div>
-      <summary class="medium-text">
-        DEBUG PLAYER
-        <i class="material-icons-outlined white-text">expand_more</i>
-      </summary>
-    </details>
-    <div class="card round transparent audioplayer">
-      <AudioPlayer skin="dark" class="dark-player"/>
     </div>
   </div>
 </template>
@@ -81,6 +88,12 @@ export default {
 };
 </script>
 <style lang="scss">
+  .max-size {
+    height: 100vh;
+  }
+  .uploader {
+    margin: 16rem 0 16rem 0;
+  }
   #FileList {
     height: auto;
     max-height: 73vh;

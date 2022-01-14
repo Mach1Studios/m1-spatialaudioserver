@@ -1,5 +1,5 @@
 <template>
-  <button :type="type" class="button border round transparent-border small-space grey-light-3">
+  <button :type="type" class="button small responsive round grey-light-3">
     <i v-if="icon" class="material-icons">{{icon}}</i>
     <span class="small-text">{{title}}</span>
   </button>
@@ -28,7 +28,7 @@ export default {
 
 <style lang="scss" scoped>
 .button {
-  width: 100%;
+  // width: 100%;
   padding: 0;
   margin: 16rem 0 16rem 0;
 

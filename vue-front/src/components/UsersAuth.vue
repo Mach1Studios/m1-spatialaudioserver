@@ -89,7 +89,7 @@ export default {
   button {
     background-color: transparent;
     border-radius: 0;
-    border: 1px solid #626161;
+    // border: 1px solid #626161;
     color: #626161;
 
     padding: 0 20px;
@@ -98,10 +98,11 @@ export default {
     font-size: 16px;
 
     z-index: 1;
+
     &:focus, &:hover {
       color: #fefefe;
       background: transparent;
-      border: 1px solid #fefefe;
+      // border: 1px solid #fefefe;
       &::after {
         background: transparent;
       }
@@ -112,6 +113,7 @@ export default {
   }
   .profile {
     display: flex;
+
     p {
       z-index: 1;
       color: white;
