@@ -37,7 +37,7 @@ import { Mach1DecoderProxy } from 'mach1spatial-decode';
 
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
-import Modal from '../components/Modal.vue';
+import Modal from '../components/Base/Modal.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
 
 const wait = (sec) => new Promise((resolve) => {

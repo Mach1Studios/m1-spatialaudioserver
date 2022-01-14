@@ -122,22 +122,22 @@ const actions = {
         ctx.commit('setActiveStream', activeStream.isActive());
       }
     } else {
-      const dashMetrics = ctx.state.player.getDashMetrics();
-      const dashAdapter = ctx.state.player.getDashAdapter();
-
-      if (dashMetrics) {
-        const repSwitch = dashMetrics.getCurrentRepresentationSwitch('audio', true);
-
-        console.log(dashAdapter);
-        const audioBufferLevel = dashMetrics.getCurrentBufferLevel('audio', true);
-        const audioBitRate = repSwitch
-          ? Math.round(dashAdapter.getBandwidthForRepresentation(repSwitch.to) / 1000)
-          : undefined;
-
-        console.log(audioBufferLevel, audioBitRate);
-
-        ctx.commit('setActiveStream', true);
-      }
+      // const dashMetrics = ctx.state.player.getDashMetrics();
+      // const dashAdapter = ctx.state.player.getDashAdapter();
+      //
+      // if (dashMetrics) {
+      //   const repSwitch = dashMetrics.getCurrentRepresentationSwitch('audio', true);
+      //
+      //   console.log(dashAdapter);
+      //   const audioBufferLevel = dashMetrics.getCurrentBufferLevel('audio', true);
+      //   const audioBitRate = repSwitch
+      //     ? Math.round(dashAdapter.getBandwidthForRepresentation(repSwitch.to) / 1000)
+      //     : undefined;
+      //
+      //   console.log(audioBufferLevel, audioBitRate);
+      //
+      //   ctx.commit('setActiveStream', true);
+      // }
     }
   },
 };

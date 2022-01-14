@@ -67,9 +67,7 @@
 import { mapState, mapActions } from 'vuex';
 import _ from 'lodash';
 
-// import { includes } from 'lodash';
-
-import Modal from './Modal.vue';
+import Modal from './Base/Modal.vue';
 import Popup from './Base/Popup.vue';
 import PlaylistForm from './PlaylistForm.vue';
 

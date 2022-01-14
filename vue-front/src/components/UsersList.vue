@@ -59,7 +59,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import Modal from './Modal.vue';
+import Modal from './Base/Modal.vue';
 import UsersAddForm from './UsersAddForm.vue';
 
 export default {

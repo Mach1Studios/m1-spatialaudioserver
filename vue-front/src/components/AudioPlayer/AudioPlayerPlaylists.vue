@@ -90,7 +90,7 @@
 import { mapState, mapActions } from 'vuex';
 
 import FileList from '../FileList.vue';
-import Modal from '../Modal.vue';
+import Modal from '../Base/Modal.vue';
 import PlaylistForm from '../PlaylistForm.vue';
 import PlaylistInviteForm from '../PlaylistInviteForm.vue';
 

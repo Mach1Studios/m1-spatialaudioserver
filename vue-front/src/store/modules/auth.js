@@ -1,5 +1,3 @@
-// import _ from 'lodash';
-// import { validate as isUuid } from 'uuid';
 import FetchHelper from '../utils';
 
 const defaultState = () => ({

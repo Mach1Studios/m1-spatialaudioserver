@@ -87,7 +87,7 @@ const Store = createStore({
 });
 
 Store.subscribeAction({
-  error: (action, state, error) => {
+  error: (_action, _state, error) => {
     Store.dispatch('toast', { error });
   },
 });

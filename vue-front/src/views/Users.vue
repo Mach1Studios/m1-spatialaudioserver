@@ -29,7 +29,7 @@
 import { mapActions } from 'vuex';
 
 import UsersList from '../components/UsersList.vue';
-import Modal from '../components/Modal.vue';
+import Modal from '../components/Base/Modal.vue';
 import UsersAddForm from '../components/UsersAddForm.vue';
 
 export default {

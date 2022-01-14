@@ -49,7 +49,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import Modal from './Modal.vue';
+import Modal from './Base/Modal.vue';
 
 import FormInput from './Form/Input.vue';
 import FormButton from './Form/Button.vue';
