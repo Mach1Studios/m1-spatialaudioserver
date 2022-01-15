@@ -31,20 +31,9 @@
       </div>
     </div>
     <div class="row no-space dark absolute bottom">
-      <details class="card flat stream">
-        <div class="col s12">
-          <div class="col s6">
-            <StreamInfo/>
-          </div>
-          <div class="col s6">
-
-          </div>
-        </div>
-        <summary class="medium-text">
-          DEBUG PLAYER
-          <i class="material-icons-outlined white-text">expand_more</i>
-        </summary>
-      </details>
+      <div class="card flat">
+        <AudioPlayerDebug/>
+      </div>
       <div class="card flat transparent audioplayer">
         <AudioPlayer skin="dark" class="dark-player"/>
       </div>
@@ -55,6 +44,7 @@
 <script>
 /* eslint-disable */
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
+import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerControls from '../components/AudioPlayer/AudioPlayerControls.vue';
 import FileList from '../components/FileList.vue';
 import Modal from '../components/Base/Modal.vue';
@@ -65,6 +55,7 @@ import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists
 export default {
   components: {
     AudioPlayer,
+    AudioPlayerDebug,
     AudioPlayerControls,
     FileList,
     Modal,
@@ -122,6 +113,7 @@ export default {
     align-content: space-between;
   }
   .audioplayer {
+    z-index: 600;
     .dark-player {
       width: 100%;
     }
@@ -145,7 +137,6 @@ export default {
   }
   .dark .card{
     background-color: #1c1c1c;
-    z-index: 600;
     border-radius: 0;
   }
   .large-btn {
@@ -159,9 +150,5 @@ export default {
   }
   summary::-webkit-details-marker {
     display: none;
-  }
-  .stream {
-    margin-bottom: 0;
-    padding-bottom: 0;
   }
 </style>

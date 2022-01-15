@@ -1,9 +1,10 @@
 <template>
   <div class="dash">
+    <p>DASH STREAM INFO</p>
     <table class="table border center-align">
-      <thead>
+      <!-- <thead>
         <th>DASH STREAM INFO</th>
-      </thead>
+      </thead> -->
       <tbody>
         <tr>
           <td>
