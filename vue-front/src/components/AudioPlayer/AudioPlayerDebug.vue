@@ -4,15 +4,16 @@
       <div class="col s6">
         <StreamInfo/>
       </div>
-      <div class="col s6 scroll">
+      <div class="col s6">
         <p class="white-text">PLAYER DEBUG</p>
-
-        <div class="" v-for="item in items" :key="item">
-          <div class="responsive row info">
-            <a class="chip upper lime-text">{{item.type}}</a>
-            <a class="chip">{{item.timestamp}}</a>
-            <div class="">
-              <a class="chip responsive left-align message"><i class="material-icons lime-text">arrow_right_alt</i>{{item.message}}</a>
+        <div class="flex-item scroll">
+          <div class="small-margin" v-for="item in items" :key="item">
+            <div class="responsive row">
+              <a class="chip upper info small-chip">{{item.type}}</a>
+              <a class="chip small-chip timestamp">{{item.timestamp}}</a>
+              <div class="">
+                <a class="chip responsive left-align message small-padding"><i class="material-icons info">arrow_right_alt</i><p class="message-info">{{item.message}}</p></a>
+              </div>
             </div>
           </div>
         </div>
@@ -42,29 +43,71 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+  .flex-item {
+    height: 35vh;
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3em;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 7px;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      height: 7em;
+      background-color: #858585;
+    }
+  }
   .debug {
     margin-bottom: 0;
     padding-bottom: 0;
+    max-height: 40vh;
+  }
+  .scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
   p {
     color: white;
   }
-  .info {
-    background-color: #625B71;
-    border-radius: 1em;
-  }
   .chip {
     margin: 4rem;
+    height: 100%;
+    min-height: inherit;
+  }
+  .small-chip {
     height: 20rem;
-    min-height: 30rem;
-
+  }
+  .timestamp {
+    color: #625B71;
+    font-weight: bold;
   }
   .message {
     background-color: #252526;
-    color: #ffffff;
   }
   .chip::after{
-    content: "";
     background-image: none;
+  }
+  .scroll {
+    overflow-x: hidden;
+  }
+  .message-info {
+    font-family: 'Courier Prime', monospace;
+    color: #d4d4d4;
+    width: 95%;
+    word-break: break-all;
+  }
+  .info {
+    color: #cddc39;
+  }
+  .error {
+    color: red;
   }
 </style>
