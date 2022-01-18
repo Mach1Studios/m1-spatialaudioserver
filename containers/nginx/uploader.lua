@@ -177,6 +177,8 @@ if tus.resource.name and tus.resource.state == "completed" then
   local filetype = tus.resource.info.metadata.filetype
   local input_format = tus.resource.info.metadata.input_format
   local output_format = tus.resource.info.metadata.output_format
+  local size = tus.resource.info.size
+  local timestamp = os.date("!%Y-%m-%dT%TZ")
 
   local path = tus.sb:get_path(tus.resource.name)
   local uploaded = "/share/sound/" .. filename
@@ -216,7 +218,19 @@ if tus.resource.name and tus.resource.state == "completed" then
   end
 
   local fileKey = "track:" .. id
-  redis:hset(fileKey, "id", id, "name", filename, "originalname", filename)
+  redis:hset(fileKey,
+    "id", id,
+    "name", filename,
+    "originalname", filename,
+    "mimetype", filetype,
+    "size", size,
+    "prepared", "true",
+    -- creation time in ISO 8601 format
+    "created", timestamp,
+    "updated", timestamp,
+    -- just initial value
+    "listened", 0
+  )
   redis:rpush("tracks:all", fileKey)
   redis:exec()
 

@@ -11,6 +11,7 @@ function proceed(Basic, value) {
       return value === 'true';
     default:
       return new Basic(value);
+      return Basic(value);
   }
 }
 

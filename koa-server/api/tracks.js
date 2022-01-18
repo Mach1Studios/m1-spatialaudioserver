@@ -16,8 +16,9 @@ export default {
     const { id } = ctx.params;
     const { user } = ctx.session;
 
-    const track = await ctx.redis.hgetall(`track:${id}`);
-    if (_.isEmpty(track)) ctx.throw(404);
+    const { part } = ctx.request.query;
+    const item = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isEmpty(item)) ctx.throw(404);
 
     const Playlist = new PlaylistModel();
 
@@ -29,7 +30,13 @@ export default {
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
     // and should be added the status of live broadcast
 
-    await ctx.redis.hset(`track:${id}`, { prepared: true });
+    if (part === 'manifest.mpd') {
+      const { track } = new TrackModel(item);
+      await ctx.redis.hset(`track:${id}`, {
+        listened: track.listened + 1,
+        prepared: true,
+      });
+    }
     ctx.status = 204;
   },
   /**
