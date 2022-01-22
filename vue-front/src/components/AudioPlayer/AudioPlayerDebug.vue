@@ -5,15 +5,41 @@
         <StreamInfo/>
       </div>
       <div class="col s6">
-        <p class="white-text">PLAYER DEBUG</p>
         <div class="flex-item scroll">
-          <div class="small-margin" v-for="item in items" :key="item">
-            <div class="responsive row">
-              <a class="chip upper info small-chip">{{item.type}}</a>
-              <a class="chip small-chip timestamp">{{item.timestamp}}</a>
-              <div class="">
-                <a class="chip responsive left-align message small-padding"><i class="material-icons info">arrow_right_alt</i><p class="message-info">{{item.message}}</p></a>
-              </div>
+          <div class="row no-wrap">
+            <div class="col max">
+              <p class="white-text">PLAYER DEBUG</p>
+            </div>
+            <div class="col min">
+              <nav>
+                <button class="responsive transparent space nav-btn">
+                  <p class="right-align bold upper small-text"><i class="material-icons">file_download</i>download</p>
+                </button>
+                <button class="responsive transparent space nav-btn">
+                  <p class="right-align bold upper small-text"><i class="material-icons">cached</i>clear all</p>
+                </button>
+              </nav>
+            </div>
+          </div>
+          <div class="responsive row no-margin" v-for="item in items" :key="item">
+            <a class="chip upper info small-chip">{{item.type}}</a>
+            <a class="chip small-chip timestamp">{{item.timestamp}}</a>
+            <div class="log">
+              <details class="card transparent flat">
+                <summary class="none">
+                  <div class="row no-wrap middle-align">
+                    <div class="col">
+                      <a class="chip responsive left-align small-padding">
+                        <i class="material-icons info">arrow_right_alt</i><p class="message">{{item.message}}</p>
+                      </a>
+                    </div>
+                    <div class="col min">
+                      <i class="material-icons">more_vert</i>
+                    </div>
+                  </div>
+                </summary>
+                <p class="data">{{item.data}}</p>
+              </details>
             </div>
           </div>
         </div>
@@ -78,19 +104,21 @@ export default {
     color: white;
   }
   .chip {
-    margin: 4rem;
+    margin-top: 4rem;
+    margin-right: 6rem;
+    margin-left: 0;
+    padding-left: 0;
     height: 100%;
     min-height: inherit;
+    background: transparent;
   }
   .small-chip {
     height: 20rem;
+    background: transparent;
   }
   .timestamp {
     color: #625B71;
     font-weight: bold;
-  }
-  .message {
-    background-color: #252526;
   }
   .chip::after{
     background-image: none;
@@ -98,9 +126,9 @@ export default {
   .scroll {
     overflow-x: hidden;
   }
-  .message-info {
+  .message {
     font-family: 'Courier Prime', monospace;
-    color: #d4d4d4;
+    color: #a9a9a9;
     width: 95%;
     word-break: break-all;
   }
@@ -109,5 +137,45 @@ export default {
   }
   .error {
     color: red;
+  }
+  .nav-btn {
+    margin-top: 0;
+    p {
+      color: #a9a9a9;
+    }
+    i {
+      margin-right: 4rem;
+      color: #a9a9a9;
+      font-size: 16px;
+    }
+  }
+  button{
+    &:after {
+      background-image: none;
+    }
+  }
+  .log {
+    background-color: #252526;
+    border-radius: 6rem;
+    margin-right: 8rem;
+  }
+  details {
+    .card {
+      margin-left: 0;
+      padding: 0rem;
+      border-radius: 6rem;
+      margin-top: 0;
+    }
+  }
+  .data {
+    font-family: 'Courier Prime', monospace;
+    color: #eaeaea;
+    margin-left: 8rem;
+    padding-bottom: 8rem;
+  }
+  .download {
+    margin: 0;
+    font-size: 18px;
+    color: #a9a9a9;
   }
 </style>
