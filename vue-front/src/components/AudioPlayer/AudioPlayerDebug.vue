@@ -5,24 +5,24 @@
         <StreamInfo/>
       </div>
       <div class="col s6">
-        <div class="flex-item scroll">
-          <div class="row no-wrap">
-            <div class="col max">
-              <p class="white-text">PLAYER DEBUG</p>
-            </div>
-            <div class="col min">
-              <nav>
-                <button class="responsive transparent space nav-btn">
-                  <p class="right-align bold upper small-text"><i class="material-icons">file_download</i>download</p>
-                </button>
-                <button class="responsive transparent space nav-btn">
-                  <p class="right-align bold upper small-text"><i class="material-icons">cached</i>clear all</p>
-                </button>
-              </nav>
-            </div>
+        <div class="row no-wrap">
+          <div class="col max">
+            <p class="white-text">PLAYER DEBUG</p>
           </div>
+          <div class="col min">
+            <nav>
+              <button class="responsive transparent space nav-btn">
+                <p class="right-align bold upper small-text"><i class="material-icons">file_download</i>download</p>
+              </button>
+              <button class="responsive transparent space nav-btn" @click="flush">
+                <p class="right-align bold upper small-text"><i class="material-icons">cached</i>clear all</p>
+              </button>
+            </nav>
+          </div>
+        </div>
+        <div class="flex-item scroll">
           <div class="responsive row no-margin" v-for="item in items" :key="item">
-            <a class="chip upper info small-chip">{{item.type}}</a>
+            <a :class="[item.type === 'info' ? 'info' : 'error']" class="chip upper small-chip">{{item.type}}</a>
             <a class="chip small-chip timestamp">{{item.timestamp}}</a>
             <div class="log">
               <details class="card transparent flat">
@@ -30,10 +30,10 @@
                   <div class="row no-wrap middle-align">
                     <div class="col">
                       <a class="chip responsive left-align small-padding">
-                        <i class="material-icons info">arrow_right_alt</i><p class="message">{{item.message}}</p>
+                        <i :class="[item.type === 'info' ? 'info' : 'error']" class="material-icons">arrow_right_alt</i><p class="message">{{item.message}}</p>
                       </a>
                     </div>
-                    <div class="col min">
+                    <div class="col min" v-if="item.data">
                       <i class="material-icons">more_vert</i>
                     </div>
                   </div>
@@ -52,8 +52,6 @@
   </details>
 </template>
 <script>
-/* eslint-disable */
-
 import { mapState, mapActions } from 'vuex';
 
 import StreamInfo from '../StreamInfo.vue';
@@ -63,9 +61,14 @@ export default {
   components: {
     StreamInfo,
   },
-  computed: mapState({
-    items: (state) => state.logs.history,
-  }),
+  computed: {
+    ...mapState({
+      items: (state) => state.logs.history,
+    }),
+  },
+  methods: {
+    ...mapActions('logs', ['flush']),
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -177,5 +180,14 @@ export default {
     margin: 0;
     font-size: 18px;
     color: #a9a9a9;
+  }
+  details, summary {
+    color: #ffffff;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
   }
 </style>

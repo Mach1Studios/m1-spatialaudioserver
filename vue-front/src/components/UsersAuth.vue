@@ -1,7 +1,7 @@
 <template>
   <Modal v-if="!user" title="Log In" titleClasses="large-width add-user">
     <template #button>
-      <button>Log in</button>
+      <button class="login">Log in</button>
     </template>
 
     <template #default="parrent">
@@ -88,8 +88,6 @@ export default {
 <style lang="scss" scoped>
   button {
     background-color: transparent;
-    border-radius: 0;
-    // border: 1px solid #626161;
     color: #626161;
 
     padding: 0 20px;
@@ -102,7 +100,6 @@ export default {
     &:focus, &:hover {
       color: #fefefe;
       background: transparent;
-      // border: 1px solid #fefefe;
       &::after {
         background: transparent;
       }
@@ -122,5 +119,12 @@ export default {
   }
   .logout .button>:not(.dropdown,.badge) {
     margin-left: 0;
+  }
+  .login {
+    border: 1px solid #626161;
+    border-radius: 0;
+    &:focus, &:hover {
+      border: 1px solid #fefefe;
+    }
   }
 </style>

@@ -142,13 +142,4 @@ export default {
   .large-btn {
     width: 100%;
   }
-  details, summary {
-    color: #ffffff;
-  }
-  summary {
-    list-style: none;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
 </style>

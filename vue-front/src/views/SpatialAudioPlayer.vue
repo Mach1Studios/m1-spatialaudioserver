@@ -22,8 +22,11 @@
     <div>
       <AudioPlayerTouch/>
     </div>
-    <div class="row absolute bottom dark">
-      <div class="card">
+    <div class="row no-space dark absolute bottom">
+      <div class="card flat" v-if="isAdmin">
+        <AudioPlayerDebug/>
+      </div>
+      <div class="card flat transparent audioplayer">
         <AudioPlayer skin="dark" class="dark-player"/>
       </div>
     </div>
@@ -31,11 +34,13 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
 import { Mach1DecoderProxy } from 'mach1spatial-decode';
 
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
+import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
 import Modal from '../components/Base/Modal.vue';
@@ -52,6 +57,7 @@ const mousemoveListener = (event) => {
 export default {
   components: {
     AudioPlayer,
+    AudioPlayerDebug,
     AudioPlayerPlaylists,
     AudioPlayerTouch,
     Modal,
@@ -63,6 +69,11 @@ export default {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
+    ...mapState('auth', ['profile']),
+
+    isAdmin() {
+      return _.get(this, 'profile.user.role') === 'admin';
+    },
   },
   mounted() {
     window.addEventListener('mousemove', mousemoveListener, false);
@@ -139,5 +150,13 @@ export default {
     background-color: #1c1c1c;
     z-index: 600;
     border-radius: 0;
+  }
+  .audioplayer {
+    z-index: 600;
+    .dark-player {
+      width: 100%;
+    }
+    box-shadow: none;
+    padding-top: 0;
   }
 </style>
