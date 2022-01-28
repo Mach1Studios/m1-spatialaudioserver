@@ -1,7 +1,7 @@
 <template>
   <div class="max-size">
     <div class="container max no-scroll">
-      <div class="row">
+      <div class="row test">
         <div class="col s6">
           <div class="card round">
               <div class="tabs left-align">
@@ -90,11 +90,7 @@ export default {
     max-height: 73vh;
     max-width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-  }
-  // #Playlists {
+    display: flex;  // #Playlists {
   //   height: auto;
   //   max-height: 80vh;
   //   max-width: 100%;
@@ -103,6 +99,9 @@ export default {
   //   flex-direction: column;
   //   align-content: space-between;
   // }
+    flex-direction: column;
+    align-content: space-between;
+  }
   #FileListUploader {
     height: auto;
     max-height: 73vh;
@@ -141,5 +140,15 @@ export default {
   }
   .large-btn {
     width: 100%;
+  }
+  /* SCSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 375px) {
+    /* Write your code here */
+    .container {
+      overflow-x: scroll;
+    }
+    .test {
+      width: 200%;
+    }
   }
 </style>

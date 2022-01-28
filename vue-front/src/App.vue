@@ -36,7 +36,7 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    // color: #2c3e50;
 
     // max-height: 100vh;
     min-height: 100vh;
@@ -94,5 +94,104 @@ export default {
   .slide-left-leave-to {
     transform: translateX(100px);
     opacity: 0;
+  }
+  /* CSS for Extra Large (xl) screen */
+  @media only screen and (max-width: 1440px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Large (xl) screen */
+  @media only screen and (max-width: 1366px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Large (lg) screen */
+  @media only screen and (max-width: 1280px) {
+      /* Write your code here */
+  }
+
+  /* CSS for Large (lg) screen */
+  @media only screen and (max-width: 1152px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Large (lg) screen */
+  @media only screen and (max-width: 1024px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Large (lg) screen */
+  @media only screen and (max-width: 992px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Medium (md) screen */
+  @media only screen and (max-width: 800px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Medium (md) screen */
+  @media only screen and (max-width: 768px) {
+
+  }
+
+  /* CSS for Medium (md) screen */
+  @media only screen and (max-width: 600px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 414px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 394px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 375px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 360px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 320px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Extra Small (md) & Landscap screen */
+  @media only screen and (max-width: 823px) and (min-width:801px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Small (sm) & Landscap screen */
+  @media only screen and (max-width: 667px) and (min-width:601px) {
+      /* Write your code here */
+
+  }
+
+  /* CSS for Small (sm) & Landscap Mobile screen */
+  @media only screen and (max-width: 568px){
+      /* Write your code here */
+
   }
 </style>

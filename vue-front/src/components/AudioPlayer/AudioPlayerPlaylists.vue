@@ -19,16 +19,16 @@
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
           <div class="playlists scroll">
-            <div class="card dark-card">
-              <div class="row no-wrap">
-                <div class="col min">
+            <div class="playlist-header">
+              <div class="row">
+                <div class="col s2 m1 l1">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
-                <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
+                <div class="col s10 m11 l5" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
-                <div class="col min">
+                <div class="col s12 m12 l6">
                   <nav v-if="controls" class="right-align">
                     <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
                       <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <div v-show="show === item.id" class="card list">
+            <div v-show="show === item.id" class="playlist-list">
               <Modal
                 title="Add track(s) in playlist"
                 icon="add"
@@ -130,20 +130,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .dark-card {
-    background-color: #323237;
-  }
+  // .dark-card {
+  //   background-color: #323237;
+  // }
 
   .playlists {
     margin-bottom: 16rem;
     // margin-right: 8rem;
     // margin-left: 8rem;
+    .playlist-header {
+      background-color: #323237;
+      padding: 8rem;
+      margin-bottom: 0;
+    }
     i {
-      font-size: 16px;
+      font-size: 16rem;
       color: #4d4d4d;
     }
     p {
-      font-size: 14px;
+      font-size: 14rem;
       color: #72646f;
 
       &:first-of-type {
@@ -158,7 +163,7 @@ export default {
     }
     button:hover {
       i {
-        font-size: 20px;
+        font-size: 20rem;
         color: #ffffff;
       }
     }
@@ -173,15 +178,14 @@ export default {
   }
 
   .add-new-playlist {
-    padding-bottom: 16px;
+    padding-bottom: 16rem;
   }
 
-  .list {
+  .playlist-list {
     margin-top: 0;
   }
   .playlists-items{
     background-color: #232323;
-    // margin-top: 16rem;
     overflow-x: hidden;
     height: auto;
     max-height: 67vh; // note important for playlist scroll
@@ -208,7 +212,11 @@ export default {
       background-color: #858585;
     }
   }
-  .large-btn {
-    width: 100%;
+  /* SCSS for Extra Small (xs) screen */
+  @media only screen and (max-width: 375px) {
+    /* Write your code here */
+    .playlist-header {
+
+    }
   }
 </style>

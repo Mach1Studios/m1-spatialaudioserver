@@ -1,6 +1,7 @@
 <template>
   <div>
-    <canvas :ref="refLink" class="visualizer" width="400" height="50"></canvas>
+    <canvas :ref="refLink" class="visualizer" height="50"></canvas>
+    <!-- <canvas :ref="refLink" class="visualizer" width="400" height="50"></canvas> -->
   </div>
 </template>
 <script>
@@ -179,6 +180,7 @@ export default {
   canvas .visualizer {
     max-width: 200px;
     max-height: 100px;
+    width: 100%;
 
     background: transparent;
   }

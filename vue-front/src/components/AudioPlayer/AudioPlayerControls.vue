@@ -1,5 +1,5 @@
 <template>
-  <div class="card round controls" v-show="isActiveStream === true">
+  <div class="controls card round" v-show="isActiveStream === true">
     <div class="preview">
       <h4 class="title large-text">AUDIO PREVIEW</h4>
       <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
@@ -134,7 +134,7 @@ export default {
   $track-u: 2em;
   $track-k: 6;
   $track-xtra: 1em;
-  $track-w: $track-k + $track-xtra*2;
+  $track-w: $track-k + $track-xtra*4;
   $track-h: .15em;
 
   $thumb-w: 2em;
@@ -184,7 +184,7 @@ export default {
     align-self: center;
     border: solid $input-bw transparent;
     padding: 0;
-    width: 90%; height: $input-h;
+    width: 100%; height: $input-h;
 
     &::-webkit-slider-runnable-track {
       position: relative;
@@ -228,7 +228,6 @@ export default {
   .preview {
     .title {
       font-style: normal;
-      // font-weight: bold;
       font-size: 18rem;
       color: #ffffff;
 
@@ -244,15 +243,15 @@ export default {
       color: #4d4d4d;
     }
   }
-  .channel-spinner {
-    float: left;
-    left: 45%;
-  }
-  .sub-col {
-    padding: 0;
-  }
-  .channel {
-    padding: 0;
-    margin: 0;
-  }
+  // .channel-spinner {
+  //   float: left;
+  //   left: 45%;
+  // }
+  // .sub-col {
+  //   padding: 0;
+  // }
+  // .channel {
+  //   padding: 0;
+  //   margin: 0;
+  // }
 </style>
