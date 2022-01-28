@@ -21,8 +21,9 @@ const actions = {
 };
 
 const mutations = {
+  // eslint-disable-next-line
   setMessage(store, payload) {
-    store.history = [...store.history, payload];
+    // store.history = [...store.history, payload];
   },
   flushHistory(store) {
     store.history = [];
