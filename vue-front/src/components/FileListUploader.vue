@@ -6,12 +6,12 @@
           <i class="material-icons-outlined">audiotrack</i>
           <span class="small-text">Select Audio Track</span>
       </button>
-      <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="items" :defaultValue="defaultInput" @change="changeInputFormat"/>
+      <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
       <label class="switch">
         <input type="checkbox" @change="switchdefaultInputEnable">
         <span>set this option as default</span>
       </label>
-      <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="items" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+      <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
       <label class="switch">
         <input type="checkbox" @change="switchdefaultOutputEnable">
         <span>set this option as default</span>
@@ -45,7 +45,6 @@
     </div>
   </div>
   <button class="button small responsive round grey-light-3" @click="upload">
-      <!-- <input type="button" name="resume" @change="upload"> -->
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
   </button>
@@ -53,7 +52,9 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import {
+  mapState, mapActions, mapGetters, mapMutations,
+} from 'vuex';
 import _ from 'lodash';
 
 import FormSelect from './Form/Select.vue';
@@ -76,15 +77,15 @@ export default {
   },
   computed: {
     ...mapState({
-      items: (state) => state.formats.items,
       defaultInput: (state) => state.formats.defaultInput,
       defaultOutput: (state) => state.formats.defaultOutput,
     }),
+    ...mapGetters('formats', ['inputFormats', 'outputFormats']),
   },
   methods: {
     ...mapActions('tracks', { request: 'upload' }),
     ...mapActions(['toast']),
-    ...mapActions('formats', ['setOptionAsDefault']),
+    ...mapActions('formats', { setOptionAsDefault: 'setFormatAsDefault' }),
     ...mapMutations(['loader']),
     changeInputFormat(event) {
       this.inputFormat = event.target.value;
@@ -123,7 +124,6 @@ export default {
     },
     async changeFile(event) {
       const { files } = event.target;
-      // this.files = _.unionBy(this.files, files, 'name');
       this.files = _.union(this.files, files);
     },
     async upload() {

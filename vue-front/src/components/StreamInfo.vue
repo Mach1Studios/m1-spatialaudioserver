@@ -1,11 +1,10 @@
 <template>
   <div class="dash">
-    <p>DASH STREAM INFO</p>
+    <div class="dash-header">
+      <h4>DASH STREAM INFO</h4>
+    </div>
     <div class="flex-item scroll">
       <table class="table border center-align">
-        <!-- <thead>
-          <th>DASH STREAM INFO</th>
-        </thead> -->
         <tbody>
           <tr>
             <td>
@@ -80,33 +79,41 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
   .flex-item {
     height: 35vh;
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
-      background-color: #323237;
+      background-color: #1d1d1e;
     }
 
     &::-webkit-scrollbar
     {
       width: 7px;
-      background-color: #323237;
+      background-color: #1d1d1e;
     }
 
     &::-webkit-scrollbar-thumb
     {
       border-radius: 3em;
-      height: 7em;
       background-color: #858585;
     }
+    scrollbar-color: #858585 #1d1d1e;
+  }
+  .dash-header {
+    height: 25rem;
+    margin-bottom: 8rem;
   }
   .table td {
     vertical-align: middle;
     text-align: left;
     cursor: pointer;
     border-color: #252526;
+    padding-left: 0;
+    p {
+      color: #ffffff;
+    }
   }
 
   .table {
@@ -122,5 +129,9 @@ export default {
     margin-bottom: 0;
     padding-bottom: 0;
     max-height: 40vh;
+    h4 {
+      font-size: 18rem;
+      color: #ffffff;
+    }
   }
 </style>

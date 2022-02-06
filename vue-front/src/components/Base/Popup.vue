@@ -58,6 +58,7 @@ export default {
     z-index: 1000;
     padding: 0.5em;
     border-radius: 1em;
+    background-color: #252526;
     p {
       color: #ffffff;
     }
