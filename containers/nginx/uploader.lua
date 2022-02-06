@@ -67,6 +67,16 @@ local formats = {
   CH_16 = "16.0", -- 16 channel Surround 3D layout
 }
 
+local m1_formats = {
+  M1Horizon = "M1Horizon",-- (Mach1 Horizon / Quad) - L R Ls Rs
+  M1HorizonS = "M1Horizon+S", -- (Mach1 Horizon / Quad) - L R Ls Rs StereoL StereoR
+  M1HorizonPairs = "M1HorizonPairs", -- (Mach1 Horizon / Quad-Binaural) - FrontPair, LeftPair, RearPair, RightPair
+  M1Spatial = "M1Spatial", -- (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs
+  M1SpatialS = "M1Spatial+S", -- (Mach1 Spatial) - Upper L R Ls Rs, Lower L R Ls Rs, StereoL StereoR
+  M1SpatialPairs = "M1SpatialPairs", -- (Mach1 Spatial Pairs) - Upper front, left, rear, right, pairs, then lower same
+  M1SpatialFaces = "M1SpatialFaces", -- Fc, Lc, Rc, Bc, Tc, Bc
+}
+
 ------
 -- helper local function to check if a value is in a collection
 -- @param collection the table based variable (the associative array to inspect)
@@ -161,7 +171,7 @@ if tus.resource.state == "created" then
     if not includes(formats, input_format) then
       exeption("Bad payload: invalid type of input format parameter, type '" .. input_format .."' doesn't exist")
     end
-    if not includes(formats, output_format) then
+    if not includes(m1_formats, output_format) then
       exeption("Bad payload: invalid type of output format parameter, type '" .. output_format .."' doesn't exist")
     end
 

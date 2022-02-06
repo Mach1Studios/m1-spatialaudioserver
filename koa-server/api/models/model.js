@@ -10,7 +10,6 @@ function proceed(Basic, value) {
     case 'Boolean':
       return value === 'true';
     default:
-      return new Basic(value);
       return Basic(value);
   }
 }
