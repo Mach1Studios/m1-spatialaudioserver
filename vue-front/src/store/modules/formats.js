@@ -52,12 +52,16 @@ const defaultState = () => ({
     { id: 'ACNSN3DmaxRE7oa', name: 'ACNSN3DmaxRE7oa', type: 'standart' },
     { id: 'CH_16', name: '16.0', type: 'standart' },
   ],
+  item: {
+    input: null,
+    output: null,
+  },
   defaultInput: null,
   defaultOutput: null,
 });
 
 const actions = {
-  async setOptionAsDefault({ commit, state }, data) {
+  setFormatAsDefault({ commit, state }, data) {
     const { input, output } = data;
 
     const isInputExist = (_.isString(input) && _.findIndex(state.items, { id: input })) || _.isNull(input);
@@ -70,7 +74,15 @@ const actions = {
       commit('setDefaultOutput', output);
     }
   },
+};
 
+const getters = {
+  inputFormats(store) {
+    return store.items.filter(({ id }) => id !== store.item.output);
+  },
+  outputFormats(store) {
+    return store.items.filter(({ id, type }) => type === 'mach1' && id !== store.item.input);
+  },
 };
 
 const mutations = {
@@ -82,5 +94,5 @@ const mutations = {
   },
 };
 export default {
-  namespaced: true, state: defaultState, actions, mutations,
+  namespaced: true, state: defaultState, actions, getters, mutations,
 };
