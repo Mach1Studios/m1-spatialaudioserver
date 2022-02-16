@@ -7,15 +7,19 @@
           <span class="small-text">Select Audio Track</span>
       </button>
       <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+<!--
       <label class="switch">
         <input type="checkbox" @change="switchdefaultInputEnable">
         <span>set this option as default</span>
       </label>
+-->
       <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+<!--
       <label class="switch">
         <input type="checkbox" @change="switchdefaultOutputEnable">
         <span>set this option as default</span>
       </label>
+-->
       <div class="flex-item scroll">
         <table class="list-table border flex-item">
           <tbody>
