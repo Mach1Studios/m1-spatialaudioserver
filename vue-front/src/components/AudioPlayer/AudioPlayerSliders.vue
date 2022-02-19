@@ -10,7 +10,6 @@
 </template>
 <script>
 import _ from 'lodash';
-// import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'AudioPlayerSliders',
@@ -20,16 +19,8 @@ export default {
       defaultVolume: 0.5,
     };
   },
-  computed: {
-    // ...mapGetters('audio', { sliders: 'listOfSlidersD', isActiveSliders: 'isActiveSliders' }),
-    // ...mapState('audio', { audio: 'context', source: 'source' }),
-    // ...mapState('dash', ['player', 'isActiveStream']),
-  },
-  methods: {
-    // test(...arg) {
-    //   console.log(arg);
-    // },
-  },
+  computed: {},
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>
