@@ -1,21 +1,23 @@
 <template>
-  <div class="medium-margin medium-padding">
+  <div>
     <div class="card round flat grey-light-5">
       <button class="button small no-margin responsive round grey-light-3">
           <input type="file" name="resume" @change="changeFile" multiple>
           <i class="material-icons-outlined">audiotrack</i>
           <span class="small-text">Select Audio Track</span>
       </button>
-      <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-      <label class="switch">
-        <input type="checkbox" @change="switchdefaultInputEnable">
-        <span>set this option as default</span>
-      </label>
-      <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-      <label class="switch">
-        <input type="checkbox" @change="switchdefaultOutputEnable">
-        <span>set this option as default</span>
-      </label>
+      <div v-show="validated">
+        <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+        <label class="switch">
+          <input type="checkbox" @change="switchdefaultInputEnable">
+          <span>set this option as default</span>
+        </label>
+        <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+        <label class="switch">
+          <input type="checkbox" @change="switchdefaultOutputEnable">
+          <span>set this option as default</span>
+        </label>
+      </div>
       <div class="flex-item scroll">
         <table class="list-table border flex-item">
           <tbody>
@@ -61,9 +63,7 @@ import FormSelect from './Form/Select.vue';
 
 export default {
   name: 'FileListUploader',
-  components: {
-    FormSelect,
-  },
+  components: { FormSelect },
   data() {
     return {
       inputFormat: null,
@@ -79,32 +79,33 @@ export default {
     ...mapState({
       defaultInput: (state) => state.formats.defaultInput,
       defaultOutput: (state) => state.formats.defaultOutput,
+      // validated: (state) => state.formats.item.validated,
     }),
-    ...mapGetters('formats', ['inputFormats', 'outputFormats']),
+    ...mapGetters('formats', ['inputFormats', 'outputFormats', 'validated']),
   },
   methods: {
     ...mapActions('tracks', { request: 'upload' }),
     ...mapActions(['toast']),
-    ...mapActions('formats', { setOptionAsDefault: 'setFormatAsDefault' }),
+    ...mapActions('formats', ['updateDefaultFormats', 'validateAudio']),
     ...mapMutations(['loader']),
     changeInputFormat(event) {
       this.inputFormat = event.target.value;
 
       if (this.defaultInputEnable) {
-        this.setOptionAsDefault({ input: this.inputFormat });
+        this.updateDefaultFormats({ input: this.inputFormat });
       }
     },
     changeOutputFormat(event) {
       this.outputFormat = event.target.value;
 
       if (this.defaultOutputEnable) {
-        this.setOptionAsDefault({ output: this.outputFormat });
+        this.updateDefaultFormats({ output: this.outputFormat });
       }
     },
     switchdefaultInputEnable() {
       this.defaultInputEnable = !this.defaultInputEnable;
 
-      this.setOptionAsDefault({
+      this.updateDefaultFormats({
         input: this.defaultInputEnable
           ? _.get(this, 'inputFormat', null)
           : null,
@@ -113,7 +114,7 @@ export default {
     switchdefaultOutputEnable() {
       this.defaultOutputEnable = !this.defaultOutputEnable;
 
-      this.setOptionAsDefault({
+      this.updateDefaultFormats({
         output: this.defaultOutputEnable
           ? _.get(this, 'outputFormat', null)
           : null,
@@ -125,6 +126,10 @@ export default {
     async changeFile(event) {
       const { files } = event.target;
       this.files = _.union(this.files, files);
+
+      _.each(this.files, (file) => {
+        this.validateAudio(file);
+      });
     },
     async upload() {
       if (this.files.length === 0) {

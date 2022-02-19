@@ -83,9 +83,7 @@ export default {
       return this.isPlaylist ? _.filter(this.tracks, (track) => this.playlist.tracks.indexOf(track.id) !== -1) : this.tracks;
     },
   },
-  methods: {
-    ...mapActions('tracks', ['reload', 'remove', 'select', 'update']),
-  },
+  methods: { ...mapActions('tracks', ['reload', 'remove', 'select', 'update']) },
 };
 </script>
 
@@ -93,14 +91,15 @@ export default {
   .flex-item {
     &::-webkit-scrollbar-track
     {
-      border-radius: 3em;
-      background-color: #252526;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar
     {
-      width: 7px;
-      background-color: #252526;
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar-thumb
@@ -108,7 +107,7 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #232324;
+    scrollbar-color: #858585 #323237;
   }
   i {
     cursor: pointer;
@@ -125,8 +124,9 @@ export default {
     width: inherit;
   }
   tr.on-play {
-    background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
-
+    // background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
+    background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+    // background: #0000000d;
     p {
       color: #72646f;
       font-weight: bold;
@@ -164,7 +164,8 @@ export default {
       vertical-align: middle;
     }
     tr:hover {
-      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
+      // background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
+      background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
     }
     button {
       &:hover {
@@ -179,8 +180,7 @@ export default {
     }
   }
 
-  /* SCSS for Large (lg) screen */
-  @media only screen and (max-width: 992px) {
+  @media screen and (orientation: portrait) {
     #FileList {
       table.border td {
         border: none;
@@ -199,223 +199,258 @@ export default {
       }
     }
   }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 800px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 768px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 600px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 414px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 394px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 375px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 360px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 320px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (md) & Landscap screen */
-  @media only screen and (max-width: 823px) and (min-width:801px) {
-    #FileList {
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: table-cell;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap screen */
-  @media only screen and (max-width: 667px) and (min-width:601px) {
-    #FileList {
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: table-cell;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap Mobile screen */
-  @media only screen and (max-width: 568px){
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
+  // /* SCSS for Large (lg) screen */
+  // @media only screen and (max-width: 992px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 800px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 768px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 600px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 414px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 394px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 375px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 360px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 320px) {
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 1080px) and (min-width:823px) {
+  //   #FileList {
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: table-cell;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 823px) and (min-width:801px) {
+  //   #FileList {
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: table-cell;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap screen */
+  // @media only screen and (max-width: 667px) and (min-width:601px) {
+  //   #FileList {
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: table-cell;
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap Mobile screen */
+  // @media only screen and (max-width: 568px){
+  //   #FileList {
+  //     table.border td {
+  //       border: none;
+  //     }
+  //     .list-table {
+  //       .audio-name {
+  //         width: 85%;
+  //         word-break: keep-all;
+  //       }
+  //       td:not(:nth-child(3)){
+  //         display: inline-table;
+  //       }
+  //       td{
+  //         display: grid;
+  //       }
+  //     }
+  //   }
+  // }
 </style>
