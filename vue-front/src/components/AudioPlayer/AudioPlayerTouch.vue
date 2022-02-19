@@ -1,8 +1,8 @@
 <template>
   <div id="main">
-    <div id="touchstats" style="margin:0;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:50vw;height:auto;">
+    <div id="touchstats" style="">
       <div class="background">
-        <img id="touchstats:back" src="https://demo.mach1.tech/img/touch-compass.svg"/>
+        <img id="touchstats:back" src="../../assets/touch-compass.svg"/>
       </div>
       <div class="cardBottom">
         <div id="touchstats:card" class="card touch">
@@ -32,31 +32,45 @@ export default {
     max-height: 90vh;
   }
 
+  #touchstats {
+    position:fixed;
+
+    left:50%;
+    top:50%;
+    height:auto;
+    width:50vw;
+
+    margin:0;
+    transform:translate(-50%,-50%);
+  }
+
   .background img {
-    width: 40vw;
     height: auto;
+    width: 40vw;
 
     opacity: 0.6;
   }
 
   .cardBottom {
-    width: 480px;
-    height: 320px;
     position: absolute;
 
-    top: 50%;
     left: 50%;
+    top: 50%;
+    height: 320px;
+    width: 480px;
+
     transform: translate(-50%, -50%);
 
     transition: 0.4s;
     perspective: 1000px;
     .card {
-      width: 100%;
-      height: 100%;
       position: absolute;
 
-      top: 50%;
       left: 50%;
+      top: 50%;
+      height: 100%;
+      width: 100%;
+
       margin: 0 auto;
       transform-origin: center center;
       transform: translate(-50%, -50%);
@@ -69,8 +83,9 @@ export default {
     }
     .card .txt {
       position: absolute;
-      top: 50%;
+
       left: 50%;
+      top: 50%;
 
       transform: translate(-50%, -50%);
       padding: 10px;
