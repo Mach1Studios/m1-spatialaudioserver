@@ -56,9 +56,7 @@ import FormButton from './Form/Button.vue';
 
 export default {
   name: 'UsersAuth',
-  components: {
-    Modal, FormInput, FormButton,
-  },
+  components: { Modal, FormInput, FormButton },
   data() {
     return {
       credentials: {
@@ -67,9 +65,7 @@ export default {
       },
     };
   },
-  computed: mapState({
-    user: (state) => state.auth.profile.user,
-  }),
+  computed: mapState({ user: (state) => state.auth.profile.user }),
   methods: {
     ...mapActions('auth', ['login', 'logout']),
     async handler(callback) {

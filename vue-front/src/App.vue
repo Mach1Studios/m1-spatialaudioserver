@@ -21,12 +21,8 @@ import Notifications from './components/Base/Notifications.vue';
 import Preloader from './components/Base/Preloader.vue';
 
 export default {
-  components: {
-    Header, Preloader, Notifications,
-  },
-  computed: mapState({
-    loader: (state) => state.loader,
-  }),
+  components: { Header, Preloader, Notifications },
+  computed: mapState({ loader: (state) => state.loader }),
 };
 </script>
 
@@ -61,6 +57,7 @@ export default {
 
   :root {
     --default-font-size: 14px;
+    --height: 10vh;
   }
 
   * {

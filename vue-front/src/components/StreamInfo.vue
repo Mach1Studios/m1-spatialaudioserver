@@ -81,17 +81,19 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    height: 35vh;
+    max-height: 35vh;
+    height: auto;
     &::-webkit-scrollbar-track
     {
-      border-radius: 3em;
-      background-color: #1d1d1e;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar
     {
-      width: 7px;
-      background-color: #1d1d1e;
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar-thumb
@@ -99,7 +101,9 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #1d1d1e;
+
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: thin;
   }
   .dash-header {
     height: 25rem;
@@ -134,4 +138,43 @@ export default {
       color: #ffffff;
     }
   }
+  @media screen and (orientation: portrait) {
+    .flex-item {
+      height: auto;
+    }
+  }
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 375px) {
+  //   .flex-item {
+  //     height: 30vh;
+  //   }
+  //   .dash {
+  //     padding-bottom: 5rem;
+  //   }
+  //   .dash-header {
+  //     padding-bottom: 10rem;
+  //     padding-top: 10rem;
+  //   }
+  // }
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 823px) and (min-width:801px) {
+  //   .flex-item {
+  //     height: 17vh;
+  //   }
+  //   .dash-header {
+  //     padding-top: 10rem;
+  //   }
+  // }
+  // /* SCSS for Small (sm) & Landscap Mobile screen */
+  // @media only screen and (max-width: 568px) and (min-width: 414px){
+  //   .flex-item {
+  //     height: 35vh;
+  //   }
+  // }
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 1080px) and (min-width:823px) {
+  //   .flex-item {
+  //     height: 34vh;
+  //   }
+  // }
 </style>
