@@ -2,7 +2,7 @@
   <div class="max-size">
     <div class="container max">
       <div class="row">
-        <div class="col s3">
+        <div class="col s12 m3 l3">
           <div class="card transparent playlist">
             <Modal
               title="Playlists"
@@ -23,7 +23,7 @@
       <AudioPlayerTouch/>
     </div>
     <div class="row no-space dark absolute bottom">
-      <div class="card flat" v-if="isAdmin">
+      <div class="card flat audioplayer-debug" v-if="isAdmin">
         <AudioPlayerDebug/>
       </div>
       <div class="card flat transparent audioplayer">
@@ -114,9 +114,7 @@ export default {
       const decoded = this.decoder.decode({ yaw, pitch, roll });
       this.log({
         message: `Mach1DecoderProxy decoded values: ${decoded}`,
-        data: {
-          decoded, pitch, roll, yaw,
-        },
+        data: { decoded, pitch, roll, yaw },
       });
 
       if (decoded && decoded.length > 0) {
@@ -136,6 +134,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .audioplayer-debug {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
   .max-size {
     height: 100vh;
   }
@@ -148,7 +150,6 @@ export default {
   }
   .dark .card{
     background-color: #1c1c1c;
-    z-index: 600;
     border-radius: 0;
   }
   .audioplayer {
