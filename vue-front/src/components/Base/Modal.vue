@@ -49,9 +49,7 @@ export default {
     titleClasses: String,
   },
   computed: {
-    ...mapState({
-      active: (state) => state.modalVisibility,
-    }),
+    ...mapState({ active: (state) => state.modalVisibility }),
     currentPosition() {
       const { active, position } = this;
       return {
@@ -61,9 +59,7 @@ export default {
     },
     paddingSize() {
       const { padding = 'no-padding' } = this;
-      return {
-        [padding]: true,
-      };
+      return { [padding]: true };
     },
   },
   methods: {
@@ -134,8 +130,14 @@ export default {
     }
   }
   .modal.left {
-    height: calc( 100% - 90rem - 57px);
-    margin-top: 64rem;
+    height: calc(100vh - 2 * var(--height) - 50px - 6em);
+    // top: 0;
+    // * {
+    //   height: calc(100vh - var(--height));
+    // }
+    // height: calc( 100% - 90rem - 57px);
+    margin-top: 6em;
+    background-color: #252526;
   }
   .modal {
     background-color: #252526;

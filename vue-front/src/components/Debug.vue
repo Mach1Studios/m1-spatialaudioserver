@@ -1,6 +1,6 @@
 <template>
   <div class="player-debug">
-    <div class="row no-wrap header-debug">
+    <div class="row no-wrap header-debug responsive">
       <div class="col max">
         <h4>PLAYER DEBUG</h4>
       </div>
@@ -20,15 +20,15 @@
         <a :class="[item.type === 'info' ? 'info' : 'error']" class="chip upper small-chip">{{item.type}}</a>
         <a class="chip small-chip timestamp">{{item.timestamp}}</a>
         <div class="log">
-          <details class="card transparent flat">
+          <details class="card transparent flat" @click.prevent :open="details === item.id">
             <summary class="none">
-              <div class="row no-wrap middle-align responsive">
-                <div class="col">
+              <div class="row no-wrap middle-align">
+                <div class="col max">
                   <a class="chip responsive left-align small-padding">
                     <i :class="[item.type === 'info' ? 'info' : 'error']" class="material-icons">arrow_right_alt</i><p class="message">{{item.message}}</p>
                   </a>
                 </div>
-                <div class="col min" v-if="item.data">
+                <div class="col min" v-if="item.data" @click="open(item.id)">
                   <i class="material-icons">more_vert</i>
                 </div>
               </div>
@@ -45,13 +45,15 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'AudioPlayerDebug',
-  computed: {
-    ...mapState({
-      items: (state) => state.logs.history,
-    }),
+  data() {
+    return { details: null };
   },
+  computed: { ...mapState({ items: (state) => state.logs.history }) },
   methods: {
     ...mapActions('logs', ['flush']),
+    open(id) {
+      this.details = this.details ? null : id;
+    },
   },
 };
 </script>
@@ -60,17 +62,19 @@ export default {
   .flex-item {
     margin-top: 0;
     padding-top: 0;
-    height: 35vh;
+    max-height: 35vh;
+    height: auto;
     &::-webkit-scrollbar-track
     {
-      border-radius: 3em;
-      background-color: #1d1d1e;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar
     {
-      width: 7px;
-      background-color: #1d1d1e;
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar-thumb
@@ -78,7 +82,8 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #1d1d1e;
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: thin;
   }
   .player-debug {
     margin-bottom: 0;
@@ -89,7 +94,6 @@ export default {
       color: #ffffff;
     }
   }
-
   .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -99,9 +103,10 @@ export default {
   }
   .header-debug{
     height: 25rem;
-    margin-bottom: 8rem;
+    margin: 0 0 8rem 0;
     .col {
       height: inherit;
+      padding-left: 0;
 
       nav {
         height: inherit;
@@ -115,12 +120,12 @@ export default {
   .chip {
     height: 100%;
     min-height: inherit;
-    background: transparent;
   }
   .small-chip {
-    margin: 0 6rem 6rem 0;
+    margin: 1rem 6rem 6rem 6rem;
     height: 20rem;
-    background: #00000029;
+    box-shadow: var(--shadow-1);
+    background: transparent;
   }
   .timestamp {
     color: #625B71;
@@ -134,8 +139,8 @@ export default {
   }
   .message {
     font-family: 'Courier Prime', monospace;
-    color: #a9a9a9;
-    width: 95%;
+    color: #eaeaea;
+    width: 100%;
     word-break: break-all;
   }
   .info {
@@ -147,16 +152,15 @@ export default {
   .nav-btn {
     margin-top: 0;
     span {
-      color: #a9a9a9;
+      color: #ffffff;
       vertical-align: top;
       font-size: 14rem;
     }
     i {
       vertical-align: baseline;
       margin-right: 4rem;
-      color: #a9a9a9;
-      // font-size: 16px;
-      font-size: 14rem;
+      color: #ffffff;
+      font-size: 18rem;
     }
   }
   button{
@@ -166,8 +170,12 @@ export default {
   }
   .log {
     background-color: #252526;
+
     border-radius: 6rem;
     margin: 0 8rem 6rem 0;
+    .chip {
+      background: transparent;
+    }
   }
   details {
     .card {
@@ -180,13 +188,7 @@ export default {
   .data {
     font-family: 'Courier Prime', monospace;
     color: #eaeaea;
-    margin-left: 8rem;
-    padding-bottom: 8rem;
-  }
-  .download {
-    margin: 0;
-    font-size: 18px;
-    color: #a9a9a9;
+    padding: 0 0 8rem 35rem;
   }
   details, summary {
     color: #ffffff;
@@ -198,116 +200,174 @@ export default {
   summary::-webkit-details-marker {
     display: none;
   }
-
-  /* SCSS for Large (lg) screen */
-  @media only screen and (max-width: 992px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 800px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 768px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 600px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 414px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 394px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 375px) {
+  @media screen and (orientation: portrait) {
     .nav-btn {
       margin-left: 0;
       margin-right: 0;
       padding-left: 0;
-      padding-right: 0;
-      // vertical-align: middle;
       span {
         display: none;
       }
       i {
         vertical-align: baseline;
+        color: #ffffff;
+        font-size: 18rem;
       }
     }
-    .row > .col{
-      padding-left: 2rem;
-      padding-right: 2rem;
+    .flex-item {
+      height: auto;
     }
   }
 
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 360px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 320px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Extra Small (md) & Landscap screen */
-  @media only screen and (max-width: 823px) and (min-width:801px) {
-    .nav-btn {
-      margin-left: 0;
-      margin-right: 0;
-      padding-left: 0;
-      padding-right: 0;
-      // vertical-align: middle;
-      span {
-        display: none;
-      }
-      i {
-        vertical-align: baseline;
-      }
-    }
-    .row > .col{
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap screen */
-  @media only screen and (max-width: 667px) and (min-width:601px) {
-    body {
-      overflow-y: scroll;
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap Mobile screen */
-  @media only screen and (max-width: 568px){
-    body {
-      overflow-y: scroll;
-    }
-  }
+  // /* SCSS for Large (lg) screen */
+  // @media only screen and (max-width: 992px) {
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 800px) {
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 768px) {
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 600px) {
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 414px) {
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 394px) {
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 375px) {
+  //   .nav-btn {
+  //     margin-left: 0;
+  //     margin-right: 0;
+  //     padding-left: 0;
+  //     span {
+  //       display: none;
+  //     }
+  //     i {
+  //       vertical-align: baseline;
+  //       color: #ffffff;
+  //       font-size: 18rem;
+  //     }
+  //   }
+  //   .row > .col{
+  //     padding-left: 2rem;
+  //     padding-right: 2rem;
+  //   }
+  //   .flex-item {
+  //     height: 30vh;
+  //   }
+  //   .player-debug {
+  //     padding-top: 10rem;
+  //   }
+  //   .header-debug {
+  //     padding-bottom: 10rem;
+  //     padding-top: 10rem;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 360px) {
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 320px) {
+  // }
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 1080px) and (min-width:823px) {
+  //   .nav-btn {
+  //     margin-left: 0;
+  //     margin-right: 0;
+  //     padding-left: 0;
+  //     span {
+  //       display: none;
+  //     }
+  //     i {
+  //       vertical-align: baseline;
+  //       color: #ffffff;
+  //       font-size: 18rem;
+  //     }
+  //   }
+  //   .row > .col{
+  //     padding-left: 2rem;
+  //     padding-right: 2rem;
+  //   }
+  //   .flex-item {
+  //     height: 34vh;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 823px) and (min-width:801px) {
+  //   .nav-btn {
+  //     margin-left: 0;
+  //     margin-right: 0;
+  //     padding-left: 0;
+  //     span {
+  //       display: none;
+  //     }
+  //     i {
+  //       vertical-align: baseline;
+  //       color: #ffffff;
+  //       font-size: 18rem;
+  //     }
+  //   }
+  //   .row > .col{
+  //     padding-left: 2rem;
+  //     padding-right: 2rem;
+  //   }
+  //   .flex-item {
+  //     height: 17vh;
+  //   }
+  //   .player-debug {
+  //     padding-top: 10rem;
+  //   }
+  //   .header-debug {
+  //     // padding-top: 10rem;
+  //   }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap screen */
+  // @media only screen and (max-width: 667px) and (min-width:601px) {
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap Mobile screen */
+  // @media only screen and (max-width: 568px) and (min-width: 414px){
+  //   .nav-btn {
+  //     margin-left: 0;
+  //     margin-right: 0;
+  //     padding-left: 0;
+  //     span {
+  //       display: none;
+  //     }
+  //     i {
+  //       vertical-align: baseline;
+  //       color: #ffffff;
+  //       font-size: 18rem;
+  //     }
+  //   }
+  //   .row > .col{
+  //     padding-left: 2rem;
+  //     padding-right: 2rem;
+  //   }
+  //   .flex-item {
+  //     height: 35vh;
+  //   }
+  //   .player-debug {
+  //     // padding-top: 10rem;
+  //   }
+  //   .header-debug {
+  //     // padding-bottom: 10rem;
+  //     // padding-top: 10rem;
+  //   }
+  // }
 </style>

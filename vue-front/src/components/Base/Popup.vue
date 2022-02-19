@@ -27,9 +27,7 @@ export default {
     },
   },
   data() {
-    return {
-      left: 0, top: 0, show: false,
-    };
+    return { left: 0, top: 0, show: false };
   },
   computed: {
     position() {
