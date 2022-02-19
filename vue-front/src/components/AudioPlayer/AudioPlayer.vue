@@ -252,5 +252,9 @@ export default {
     color: #adadaf;
     margin-left: 10px;
   }
-
+  @media screen and (orientation: portrait) {
+    span .name {
+      display: none;
+    }
+  }
 </style>

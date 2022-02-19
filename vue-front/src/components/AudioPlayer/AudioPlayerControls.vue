@@ -1,36 +1,80 @@
 <template>
-  <div class="controls card round" v-show="isActiveStream === true">
+  <div class="card round" v-show="isActiveStream === true" id="Controls">
     <div class="preview">
       <h4 class="title large-text">AUDIO PREVIEW</h4>
-      <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
-        <div class="col min">
-          <p class="small-text upper white-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
-        </div>
-        <div class="col">
-          <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
-        </div>
-        <div class="col min">
-          <i class="material-icons small" @click="mute(channel)">
-            {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
-          </i>
-        </div>
-        <div class="col channel">
-          <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
-        </div>
-        <div class="col min"></div>
-        <div class="col min">
-          <p>L</p>
-        </div>
-        <div class="col channel">
-          <input step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
-        </div>
-        <div class="col min">
-          <p>R</p>
+      <div class="controls flex-item scroll">
+        <div class="row middle-align responsive" v-for="channel in channels" :key="channel">
+          <div class="first">
+            <p class="small-text upper white-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
+          </div>
+          <div class="second">
+            <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
+          </div>
+          <div class="third">
+            <div class="third-1 middle-align">
+              <div>
+                <i class="material-icons small" @click="mute(channel)">
+                  {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
+                </i>
+              </div>
+              <div class="channel">
+                <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
+              </div>
+            </div>
+            <div class="third-2 middle-align">
+              <div>
+                <p>L</p>
+              </div>
+              <div class="channel">
+                <input step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
+              </div>
+              <div>
+                <p>R</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<!-- <template>
+  <div class="controls card round" v-show="isActiveStream === true">
+    <div class="preview">
+      <h4 class="title large-text">AUDIO PREVIEW</h4>
+      <div class="row no-wrap middle-align" v-for="channel in channels" :key="channel">
+        <div class="mb">
+          <p class="small-text upper white-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
+        </div>
+        <div class="mb">
+          <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
+        </div>
+        <div class="mb">
+          <nav>
+            <div class="">
+              <i class="material-icons small" @click="mute(channel)">
+                {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
+              </i>
+            </div>
+            <div class="channel">
+              <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
+            </div>
+            <div class=""></div>
+            <div class="">
+              <p>L</p>
+            </div>
+            <div class="channel">
+              <input step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
+            </div>
+            <div class="">
+              <p>R</p>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</template> -->
 
 <script>
 import _ from 'lodash';
@@ -132,9 +176,9 @@ export default {
   $ruler-fs: .75;
 
   $track-u: 2em;
-  $track-k: 6;
-  $track-xtra: 1em;
-  $track-w: $track-k + $track-xtra*4;
+  $track-k: 8em;
+  $track-xtra: 0.5em;
+  $track-w: $track-k + $track-xtra*3;
   $track-h: .15em;
 
   $thumb-w: 2em;
@@ -180,11 +224,11 @@ export default {
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
     }
-
-    align-self: center;
-    border: solid $input-bw transparent;
-    padding: 0;
-    width: 100%; height: $input-h;
+    // align-self: flex-end;
+    // border: solid $input-bw transparent;
+    // width: 100%;
+    width: $input-bw*20;
+    height: $input-h;
 
     &::-webkit-slider-runnable-track {
       position: relative;
@@ -225,16 +269,107 @@ export default {
       }
     }
   }
+
+  .flex-item {
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: auto;
+  }
+
+  .controls {
+    overflow-x: hidden;
+    height: auto;
+    max-height: 64vh; // note important for playlist scroll
+    max-width: 100%;
+    padding-bottom: 6rem;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+
+    .row {
+      display: flex;
+      justify-content: flex-start;
+      .first {
+        order: 1;
+      }
+      .second {
+        order: 2;
+        margin-left: 40rem;
+      }
+      .third {
+        order: 4;
+        margin-left: 40rem;
+
+        display: flex;
+        flex-direction: row;
+
+        .third-1 {
+          i {
+            margin: 0 4rem 0 0;
+          }
+        }
+        .third-2 {
+          margin-left: 30rem;
+          p {
+            margin: 0 4rem 0 4rem;
+          }
+        }
+      }
+      .empty-col{
+        order: 3;
+      }
+    }
+
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+    scrollbar-color: #858585 #323237;
+  }
   .preview {
     .title {
       font-style: normal;
       font-size: 18rem;
       color: #ffffff;
+      margin-top: 8rem;
+      margin-bottom: 8rem;
+      padding-bottom: 8rem;
 
       line-height: 1.17;
       letter-spacing: -0.5px;
     }
-
     i {
       cursor: pointer;
       color: #4d4d4d;
@@ -243,15 +378,232 @@ export default {
       color: #4d4d4d;
     }
   }
-  // .channel-spinner {
-  //   float: left;
-  //   left: 45%;
+  @media screen and (orientation: portrait) {
+    #Controls {
+      max-height: calc(100vh - var(--height) - 50px - 6em);
+
+      .controls .row {
+        flex-direction: row;
+        flex-flow: row wrap;
+        .third {
+          flex-basis: 100%;
+          margin-left: 0;
+          .third-2 {
+            margin-left: 5rem;
+          }
+          .third-2 p {
+           margin: 0;
+          }
+          .third-1 i {
+            margin: 0;
+          }
+        }
+        .second {
+          margin-left: 0;
+          flex-basis: 100%;
+        }
+      }
+    }
+  }
+
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 375px) {
+  //   .controls .row {
+  //     justify-content: center;
+  //     flex-direction: column;
+  //     flex-flow: row wrap;
+  //     .third {
+  //       margin-left: 0;
+  //       .third-2 {
+  //         margin-left: 5rem;
+  //       }
+  //       .third-2 p {
+  //        margin: 0;
+  //       }
+  //       .third-1 i {
+  //         margin: 0;
+  //       }
+  //     }
+  //     .second {
+  //       margin-left: 0;
+  //     }
+  //   }
   // }
-  // .sub-col {
-  //   padding: 0;
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 823px) and (min-width:801px) {
+  //   // .controls {
+  //   //   height: auto;
+  //   //   max-height: 31vh;
+  //   // }
+  //   .controls .row .second, .controls .row .third {
+  //     margin-left: 20rem;
+  //   }
+  //   .controls .row .third .third-2 {
+  //     margin-left: 10rem;
+  //   }
+  //   .controls .row .third .third-2 p {
+  //     margin: 0 1rem 0 1rem;
+  //   }
+  //   .controls .row .third .third-1 i {
+  //     margin: 0 1rem 0 0;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
   // }
-  // .channel {
-  //   padding: 0;
-  //   margin: 0;
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 414px) {
+  //   // .row{
+  //   //   flex-flow: row wrap;
+  //   // }
+  //   // .third {
+  //   //   margin-right: 40rem;
+  //   //   flex-grow: 0;
+  //   //   flex-basis: 100%;
+  //   // }
+  //   // // .controls {
+  //   // //   height: auto;
+  //   // //   max-height: 60vh;
+  //   // // }
+  //   // .controls .row .second, .controls .row .third {
+  //   //   margin-left: 0;
+  //   // }
+  //   // .controls .row .third .third-2 {
+  //   //   margin-left: 1rem;
+  //   // }
+  //   // .controls .row .third .third-2 p {
+  //   //   margin: 0 1rem 0 1rem;
+  //   // }
+  //   // .controls .row .third .third-1 i {
+  //   //   margin: 0 1rem 0 0;
+  //   // }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 800px) {
+  //   .row{
+  //     flex-flow: row wrap;
+  //     // justify-content: flex-start;
+  //     // align-items: flex-start;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 768px) {
+  //   // .controls {
+  //   //   height: auto;
+  //   //   max-height: 68vh;
+  //   // }
+  //   // .controls .row .second, .controls .row .third {
+  //   //   margin-left: 20rem;
+  //   // }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 600px) {
+  //   .row{
+  //     flex-flow: row wrap;
+  //     // justify-content: flex-start;
+  //     // align-items: flex-start;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 394px) {
+  //   .row{
+  //     flex-flow: row wrap;
+  //     // justify-content: flex-start;
+  //     // align-items: flex-start;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 360px) {
+  //   .row{
+  //     flex-flow: row wrap;
+  //     // justify-content: flex-start;
+  //     // align-items: flex-start;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 320px) {
+  //   .row{
+  //     flex-flow: row wrap;
+  //     // justify-content: flex-start;
+  //     // align-items: flex-start;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 1080px) and (min-width:823px) {
+  //   // .controls {
+  //   //   height: auto;
+  //   //   max-height: 43vh;
+  //   // }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap screen */
+  // @media only screen and (max-width: 667px) and (min-width:601px) {
+  //   .row{
+  //     flex-flow: row wrap;
+  //     // justify-content: flex-start;
+  //     // align-items: flex-start;
+  //   }
+  //   .third {
+  //     flex-grow: 0;
+  //     flex-basis: 100%;
+  //   }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap Mobile screen */
+  // @media only screen and (max-width: 568px) and (min-width: 414px) {
+  //   // .row{
+  //   //   flex-flow: row wrap;
+  //   // }
+  //   // .third {
+  //   //   margin-right: 40rem;
+  //   //   flex-grow: 0;
+  //   //   flex-basis: 100%;
+  //   // }
+  //   // // .controls {
+  //   // //   height: auto;
+  //   // //   max-height: 68vh;
+  //   // // }
+  //   // .controls .row .second, .controls .row .third {
+  //   //   margin-left: 0;
+  //   // }
+  //   // .controls .row .third .third-2 {
+  //   //   margin-left: 20rem;
+  //   // }
+  //   // .controls .row .third .third-2 p {
+  //   //   margin: 0 1rem 0 1rem;
+  //   // }
+  //   // .controls .row .third .third-1 i {
+  //   //   margin: 0 1rem 0 0;
+  //   // }
   // }
 </style>

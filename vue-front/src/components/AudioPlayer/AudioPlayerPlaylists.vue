@@ -15,20 +15,20 @@
         />
       </Modal>
     </div>
-    <div class="playlists-items">
+    <div class="playlists-items flex-item scroll">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
-          <div class="playlists scroll">
+          <div class="playlists">
             <div class="playlist-header">
               <div class="row">
-                <div class="col s2 m1 l1">
+                <div class="col">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
-                <div class="col s10 m11 l5" @click="show = (show === item.id) ? show = false : show = item.id">
+                <div class="col s7 m6" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
-                <div class="col s12 m12 l6">
+                <div class="col">
                   <nav v-if="controls" class="right-align">
                     <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
                       <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
@@ -68,7 +68,7 @@
               <Modal
                 title="Add track(s) in playlist"
                 icon="add"
-                buttonClasses="small medium-margin grey-light-3 small-space large-btn"
+                buttonClasses="small responsive round grey-light-3 small-margin"
                 position="center"
                 v-if="controls"
                 :key="item.id"
@@ -103,13 +103,9 @@ export default {
     PlaylistForm,
     PlaylistInviteForm,
   },
-  props: {
-    controls: Boolean,
-  },
+  props: { controls: Boolean },
   data() {
-    return {
-      show: false,
-    };
+    return { show: false };
   },
   computed: mapState({
     tracks: (state) => state.tracks.items,
@@ -130,17 +126,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // .dark-card {
-  //   background-color: #323237;
-  // }
-
-  .playlists {
-    margin-bottom: 16rem;
-    // margin-right: 8rem;
-    // margin-left: 8rem;
-    .playlist-header {
+  .flex-item {
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3rem;
       background-color: #323237;
-      padding: 8rem;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: auto;
+  }
+  .playlists {
+    padding: 0 8rem 8rem 8rem;
+    margin: 0 8rem 8rem 8rem;
+    // margin-bottom: 16rem;
+
+    .playlist-header {
+      padding: 16rem 0 0 16rem;
+      background-color: #323237;
       margin-bottom: 0;
     }
     i {
@@ -152,7 +167,7 @@ export default {
       color: #72646f;
 
       &:first-of-type {
-        margin-top: 2px;
+        margin-top: 1rem;
       }
     }
     .card {
@@ -183,40 +198,275 @@ export default {
 
   .playlist-list {
     margin-top: 0;
-  }
-  .playlists-items{
     background-color: #232323;
+  }
+  .playlists-items {
     overflow-x: hidden;
     height: auto;
-    max-height: 67vh; // note important for playlist scroll
+    max-height: 57vh; // note important for playlist scroll
     max-width: 100%;
 
     display: flex;
     flex-direction: column;
     align-content: space-between;
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3em;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 7px;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
-      background-color: #858585;
-    }
   }
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 375px) {
-    /* Write your code here */
+
+  @media screen and (orientation: portrait) {
+    #Playlist {
+      max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
+      * {
+        max-height: calc(100vh - 2 * var(--height) - 50px - 6em - 10vh);
+      }
+    }
     .playlist-header {
-
+      col{
+        display: inline-grid;
+      }
+      h6 {
+        width: 100%;
+        word-break: break-all;
+      }
+      p {
+        width: 100%;
+        word-break: keep-all;
+      }
     }
   }
+
+  // /* SCSS for Large (lg) screen */
+  // @media only screen and (max-width: 992px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 800px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 768px) {
+  //   .playlists-items{
+  //     // height: auto;
+  //     // max-height: 60vh;
+  //     &::-webkit-scrollbar-track
+  //     {
+  //       background-color: transparent;
+  //     }
+  //
+  //     &::-webkit-scrollbar
+  //     {
+  //       width: 4px;
+  //       background-color: transparent;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Medium (md) screen */
+  // @media only screen and (max-width: 600px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 414px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 394px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 375px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  //   .playlists-items{
+  //     // height: auto;
+  //     // max-height: 50vh;
+  //     &::-webkit-scrollbar-track
+  //     {
+  //       background-color: transparent;
+  //     }
+  //
+  //     &::-webkit-scrollbar
+  //     {
+  //       width: 4px;
+  //       background-color: transparent;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 360px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (xs) screen */
+  // @media only screen and (max-width: 320px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 1080px) and (min-width:823px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  //   .playlists-items{
+  //     // height: auto;
+  //     // max-height: 25vh;
+  //   }
+  // }
+  //
+  // /* SCSS for Extra Small (md) & Landscap screen */
+  // @media only screen and (max-width: 823px) and (min-width:801px) {
+  //   .playlists-items{
+  //     // height: auto;
+  //     // max-height: 15vh;
+  //   }
+  //   .add-new-playlist {
+  //     padding-bottom: 0rem;
+  //   }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap screen */
+  // @media only screen and (max-width: 667px) and (min-width:601px) {
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  // }
+  //
+  // /* SCSS for Small (sm) & Landscap Mobile screen */
+  // @media only screen and (max-width: 568px) and (min-width: 414px){
+  //   .playlist-header {
+  //     col{
+  //       display: inline-grid;
+  //     }
+  //     h6 {
+  //       width: 100%;
+  //       word-break: break-all;
+  //     }
+  //     p {
+  //       width: 100%;
+  //       word-break: keep-all;
+  //     }
+  //   }
+  //   .playlists-items{
+  //     // height: auto;
+  //     // max-height: 60vh;
+  //   }
+  // }
 </style>
