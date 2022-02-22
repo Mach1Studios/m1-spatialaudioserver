@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <div id="touchstats" style="">
+    <div id="touchstats">
       <div class="background">
         <img id="touchstats:back" src="../../assets/touch-compass.svg"/>
       </div>
@@ -33,20 +33,21 @@ export default {
   }
 
   #touchstats {
-    position:fixed;
+    position: fixed;
 
-    left:50%;
-    top:50%;
-    height:auto;
-    width:50vw;
+    left: 50%;
+    top: 50%;
+    max-height: calc(100vh - var(--height) - 3em);
+    height: auto;
 
-    margin:0;
-    transform:translate(-50%,-50%);
+    margin: 0;
+
+    transform: translate(-50%,-50%);
   }
 
   .background img {
+    max-height: calc(100vh - 2 * var(--height) - 3em);
     height: auto;
-    width: 40vw;
 
     opacity: 0.6;
   }
@@ -56,8 +57,8 @@ export default {
 
     left: 50%;
     top: 50%;
-    height: 320px;
-    width: 480px;
+    height: 22.857em;
+    width: 34.286em;
 
     transform: translate(-50%, -50%);
 
@@ -95,6 +96,27 @@ export default {
 
       font-size: 40px;
       text-align: center;
+    }
+  }
+  @media screen and (orientation: portrait) {
+    #touchstats {
+      height: auto;
+      width: 95vw;
+    }
+    .background img {
+      height: auto;
+      width: 95vw;
+    }
+    .cardBottom {
+      height: calc(((100vh - 2 * var(--height) - 3em) * 2 ) / 3);
+      width: calc(100vh - 2 * var(--height) - 3em);
+      .card {
+        height: 45%;
+        width: 45%;
+      }
+      .card .txt {
+        font-size: 20px;
+      }
     }
   }
 </style>

@@ -28,7 +28,6 @@ export default {
 
 <style lang="scss" scoped>
 .button {
-  // width: 100%;
   padding: 0;
   margin: 16rem 0 16rem 0;
 

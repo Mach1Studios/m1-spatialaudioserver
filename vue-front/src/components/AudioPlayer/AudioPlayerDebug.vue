@@ -1,5 +1,5 @@
 <template>
-  <details class="debug">
+  <details class="audio-player-debug">
     <div class="row no-margin">
       <div class="col s12 m6 l6">
         <StreamInfo/>
@@ -30,7 +30,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .debug {
+  .audio-player-debug {
     margin-bottom: 0;
     padding-bottom: 0;
   }
@@ -42,46 +42,29 @@ export default {
     margin-bottom: 0;
     p {
       font-size: var(--default-font-size);
+      padding: 4rem 0 0 0;
     }
   }
   summary::-webkit-details-marker {
     display: none;
   }
+
   @media screen and (orientation: portrait) {
     .row {
-      max-height: calc(100vh - 2 * var(--height) + 50px + 12em );
+      max-height: calc(100vh - 2 * var(--height) + 50px + 6em );
       height: auto;
     }
-    .debug {
+    .audio-player-debug {
       .row>.col {
         padding: 0;
       }
     }
   }
-  // @media only screen and (max-width: 375px) {
-  //   .debug {
-  //     .row>.col {
-  //       padding: 0;
-  //     }
+
+  // @media screen and (orientation: landscape) {
+  //   .row {
+  //     height: calc(100vh - var(--height) - 50px - 6em );
   //   }
-  // }
-  // @media only screen and (max-width: 823px) and (min-width:801px) {
-  //   .debug {
-  //     .row>.col {
-  //       padding: 0;
-  //     }
-  //   }
-  // }
-  // /* SCSS for Small (sm) & Landscap Mobile screen */
-  // @media only screen and (max-width: 568px){
-  //   .debug {
-  //     .row>.col {
-  //       padding: 0;
-  //     }
-  //   }
-  // }
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 1080px) and (min-width:823px) {
   //   .debug {
   //     .row>.col {
   //       padding: 0;

@@ -1,6 +1,6 @@
 <template>
   <div class="user-list">
-    <table class="table user-list-table border large center-align">
+    <table class="table-user-list border large center-align">
       <thead>
         <tr>
           <th><abbr title="#">#</abbr></th>
@@ -80,7 +80,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .table {
+  .table-user-list {
+    button {
+     i {
+       font-size: 16px;
+     }
+     &:hover {
+       i {
+         font-size: 20px;
+         color: #ffffff;
+       }
+     }
+    }
     abbr {
       color: #ffffff;
     }
@@ -108,29 +119,16 @@ export default {
     }
   }
 
-  .user-list-table button {
-    i {
-      font-size: 16px;
-    }
-    &:hover {
-      i {
-        font-size: 20px;
-        color: #ffffff;
-      }
-    }
-  }
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
     background: none;
   }
 
-    @media screen and (orientation: portrait) {
-      .user-list {
-        overflow-x: scroll;
-      }
-      .user-list-table {
-        width: 200vw;
-      }
-      table th {
-      }
+  @media screen and (orientation: portrait) {
+    .user-list {
+      overflow-x: scroll;
     }
+    .user-list-table {
+      width: 200vw;
+    }
+  }
 </style>

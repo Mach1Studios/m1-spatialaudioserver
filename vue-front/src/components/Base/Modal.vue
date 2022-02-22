@@ -2,7 +2,7 @@
   <div class="no-margin" :class="paddingSize">
     <div @click="open">
       <slot name="button">
-        <button class="round border transparent-border default-modal-btn" :class="buttonClasses">
+        <button class="round border transparent-border default-mdl-btn" :class="buttonClasses">
           <i v-if="icon" class="material-icons">{{icon}}</i>
           <span class="small-text">{{button || title}}</span>
         </button>
@@ -85,7 +85,7 @@ export default {
     text-transform: uppercase;
   }
 
-  .default-modal-btn {
+  .default-mdl-btn {
     max-width: fill-available;
 
     i {
@@ -131,11 +131,7 @@ export default {
   }
   .modal.left {
     height: calc(100vh - 2 * var(--height) - 50px - 6em);
-    // top: 0;
-    // * {
-    //   height: calc(100vh - var(--height));
-    // }
-    // height: calc( 100% - 90rem - 57px);
+
     margin-top: 6em;
     background-color: #252526;
   }

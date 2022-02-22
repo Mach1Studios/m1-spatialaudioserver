@@ -24,7 +24,7 @@
                 <div class="col">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
-                <div class="col s7 m6" @click="show = (show === item.id) ? show = false : show = item.id">
+                <div class="col s7 m5" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
@@ -151,7 +151,6 @@ export default {
   .playlists {
     padding: 0 8rem 8rem 8rem;
     margin: 0 8rem 8rem 8rem;
-    // margin-bottom: 16rem;
 
     .playlist-header {
       padding: 16rem 0 0 16rem;
@@ -213,10 +212,10 @@ export default {
 
   @media screen and (orientation: portrait) {
     #Playlist {
-      max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
-      * {
+      .playlists-items {
         max-height: calc(100vh - 2 * var(--height) - 50px - 6em - 10vh);
       }
+      max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
     }
     .playlist-header {
       col{
@@ -232,241 +231,14 @@ export default {
       }
     }
   }
-
-  // /* SCSS for Large (lg) screen */
-  // @media only screen and (max-width: 992px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
+  // @media screen and (orientation: landscape) {
+  //   #Playlist {
+  //     .playlists-items {
+  //       max-height: calc((100vh - 2 * var(--height) - 50px - 10em - 10vh) / 1.4);
   //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
+  //     .add-new-playlist {
+  //       padding: 0 0 0 8rem;
   //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Medium (md) screen */
-  // @media only screen and (max-width: 800px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Medium (md) screen */
-  // @media only screen and (max-width: 768px) {
-  //   .playlists-items{
-  //     // height: auto;
-  //     // max-height: 60vh;
-  //     &::-webkit-scrollbar-track
-  //     {
-  //       background-color: transparent;
-  //     }
-  //
-  //     &::-webkit-scrollbar
-  //     {
-  //       width: 4px;
-  //       background-color: transparent;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Medium (md) screen */
-  // @media only screen and (max-width: 600px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 414px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 394px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 375px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  //   .playlists-items{
-  //     // height: auto;
-  //     // max-height: 50vh;
-  //     &::-webkit-scrollbar-track
-  //     {
-  //       background-color: transparent;
-  //     }
-  //
-  //     &::-webkit-scrollbar
-  //     {
-  //       width: 4px;
-  //       background-color: transparent;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 360px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 320px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 1080px) and (min-width:823px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  //   .playlists-items{
-  //     // height: auto;
-  //     // max-height: 25vh;
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 823px) and (min-width:801px) {
-  //   .playlists-items{
-  //     // height: auto;
-  //     // max-height: 15vh;
-  //   }
-  //   .add-new-playlist {
-  //     padding-bottom: 0rem;
-  //   }
-  // }
-  //
-  // /* SCSS for Small (sm) & Landscap screen */
-  // @media only screen and (max-width: 667px) and (min-width:601px) {
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  // }
-  //
-  // /* SCSS for Small (sm) & Landscap Mobile screen */
-  // @media only screen and (max-width: 568px) and (min-width: 414px){
-  //   .playlist-header {
-  //     col{
-  //       display: inline-grid;
-  //     }
-  //     h6 {
-  //       width: 100%;
-  //       word-break: break-all;
-  //     }
-  //     p {
-  //       width: 100%;
-  //       word-break: keep-all;
-  //     }
-  //   }
-  //   .playlists-items{
-  //     // height: auto;
-  //     // max-height: 60vh;
   //   }
   // }
 </style>

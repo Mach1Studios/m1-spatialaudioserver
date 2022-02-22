@@ -19,7 +19,7 @@
         </label>
       </div>
       <div class="flex-item scroll">
-        <table class="list-table border flex-item">
+        <table class="table-uploader border flex-item">
           <tbody>
             <tr v-for="(item, index) in files" :key="item">
               <td>
@@ -153,7 +153,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .list-table {
+  .table-uploader {
     margin-top: 16rem;
     overflow-y: scroll;
     height: auto;

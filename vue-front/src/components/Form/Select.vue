@@ -62,6 +62,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .field>select {
+    color: #ffffff;
+  }
   .field {
     select {
       &::-webkit-scrollbar-track
@@ -85,6 +88,12 @@ export default {
         border-color: #1c1c1c;
         border-bottom: none;
       }
+      &:focus-within {
+        // color: #1c1c1c;
+      }
     }
+  }
+  option {
+    color: black;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="player-debug">
-    <div class="row no-wrap header-debug responsive">
+  <div class="debug">
+    <div class="row no-wrap debug-header responsive">
       <div class="col max">
         <h4>PLAYER DEBUG</h4>
       </div>
@@ -64,28 +64,28 @@ export default {
     padding-top: 0;
     max-height: 35vh;
     height: auto;
+
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: thin;
+
     &::-webkit-scrollbar-track
     {
       border-radius: 3rem;
       background-color: #323237;
     }
-
     &::-webkit-scrollbar
     {
       width: 5rem;
       border-radius: 3rem;
       background-color: #323237;
     }
-
     &::-webkit-scrollbar-thumb
     {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #323237;
-    scrollbar-width: thin;
   }
-  .player-debug {
+  .debug {
     margin-bottom: 0;
     padding-bottom: 0;
     max-height: 40vh;
@@ -101,7 +101,7 @@ export default {
   p {
     color: white;
   }
-  .header-debug{
+  .debug-header {
     height: 25rem;
     margin: 0 0 8rem 0;
     .col {
@@ -151,6 +151,7 @@ export default {
   }
   .nav-btn {
     margin-top: 0;
+
     span {
       color: #ffffff;
       vertical-align: top;
@@ -173,6 +174,7 @@ export default {
 
     border-radius: 6rem;
     margin: 0 8rem 6rem 0;
+
     .chip {
       background: transparent;
     }
@@ -214,76 +216,18 @@ export default {
         font-size: 18rem;
       }
     }
+    .debug-header {
+      padding: 10rem 0 10rem 0;
+    }
     .flex-item {
+      max-height: calc((100vh - 2 * var(--height) + 50px - 12em - 20rem) / 2 );
       height: auto;
     }
   }
-
-  // /* SCSS for Large (lg) screen */
-  // @media only screen and (max-width: 992px) {
-  // }
-  //
-  // /* SCSS for Medium (md) screen */
-  // @media only screen and (max-width: 800px) {
-  // }
-  //
-  // /* SCSS for Medium (md) screen */
-  // @media only screen and (max-width: 768px) {
-  // }
-  //
-  // /* SCSS for Medium (md) screen */
-  // @media only screen and (max-width: 600px) {
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 414px) {
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 394px) {
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 375px) {
-  //   .nav-btn {
-  //     margin-left: 0;
-  //     margin-right: 0;
-  //     padding-left: 0;
-  //     span {
-  //       display: none;
-  //     }
-  //     i {
-  //       vertical-align: baseline;
-  //       color: #ffffff;
-  //       font-size: 18rem;
-  //     }
-  //   }
-  //   .row > .col{
-  //     padding-left: 2rem;
-  //     padding-right: 2rem;
-  //   }
-  //   .flex-item {
-  //     height: 30vh;
-  //   }
+  // @media screen and (orientation: landscape) {
   //   .player-debug {
-  //     padding-top: 10rem;
-  //   }
-  //   .header-debug {
   //     padding-bottom: 10rem;
-  //     padding-top: 10rem;
   //   }
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 360px) {
-  // }
-  //
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 320px) {
-  // }
-  //
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 1080px) and (min-width:823px) {
   //   .nav-btn {
   //     margin-left: 0;
   //     margin-right: 0;
@@ -296,78 +240,13 @@ export default {
   //       color: #ffffff;
   //       font-size: 18rem;
   //     }
-  //   }
-  //   .row > .col{
-  //     padding-left: 2rem;
-  //     padding-right: 2rem;
-  //   }
-  //   .flex-item {
-  //     height: 34vh;
-  //   }
-  // }
-  //
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 823px) and (min-width:801px) {
-  //   .nav-btn {
-  //     margin-left: 0;
-  //     margin-right: 0;
-  //     padding-left: 0;
-  //     span {
-  //       display: none;
-  //     }
-  //     i {
-  //       vertical-align: baseline;
-  //       color: #ffffff;
-  //       font-size: 18rem;
-  //     }
-  //   }
-  //   .row > .col{
-  //     padding-left: 2rem;
-  //     padding-right: 2rem;
-  //   }
-  //   .flex-item {
-  //     height: 17vh;
-  //   }
-  //   .player-debug {
-  //     padding-top: 10rem;
   //   }
   //   .header-debug {
-  //     // padding-top: 10rem;
-  //   }
-  // }
-  //
-  // /* SCSS for Small (sm) & Landscap screen */
-  // @media only screen and (max-width: 667px) and (min-width:601px) {
-  // }
-  //
-  // /* SCSS for Small (sm) & Landscap Mobile screen */
-  // @media only screen and (max-width: 568px) and (min-width: 414px){
-  //   .nav-btn {
-  //     margin-left: 0;
-  //     margin-right: 0;
-  //     padding-left: 0;
-  //     span {
-  //       display: none;
-  //     }
-  //     i {
-  //       vertical-align: baseline;
-  //       color: #ffffff;
-  //       font-size: 18rem;
-  //     }
-  //   }
-  //   .row > .col{
-  //     padding-left: 2rem;
-  //     padding-right: 2rem;
+  //     padding: 0 0 10rem 0;
   //   }
   //   .flex-item {
-  //     height: 35vh;
-  //   }
-  //   .player-debug {
-  //     // padding-top: 10rem;
-  //   }
-  //   .header-debug {
-  //     // padding-bottom: 10rem;
-  //     // padding-top: 10rem;
+  //     max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
+  //     height: auto;
   //   }
   // }
 </style>

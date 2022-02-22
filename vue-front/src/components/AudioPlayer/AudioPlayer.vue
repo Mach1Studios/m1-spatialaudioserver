@@ -1,7 +1,7 @@
 <template>
   <div class="player">
-    <div class="progress top-align">
-      <progress name="progress" class="progress top" min="0" max="100" :value="playback" @click.prevent="playbackUpdate"></progress>
+    <div class="top-align">
+      <progress name="progress" class="top" min="0" max="100" :value="playback" @click.prevent="playbackUpdate"></progress>
     </div>
     <div class="music-box">
       <audio ref="player"></audio>
@@ -114,13 +114,18 @@ export default {
     user-select: none;
     width: 100%;
 
+    .music-box {
+      position: absolute;
+      left: 50%;
+      top: 5px;
+      transform: translateX(-50%);
+    }
     .btn-box {
       position: absolute;
       top: 20px;
       width: 100%;
       display: flex;
       justify-content: center;
-
       i {
         font-size: 24px;
         color: #72646f;
@@ -141,13 +146,28 @@ export default {
         margin-right: 10px;
       }
     }
+  }
+  progress {
+    width: 100%;
+    cursor: pointer;
 
-    .music-box {
-      // width: 90%;
-      position: absolute;
-      left: 50%;
-      top: 5px;
-      transform: translateX(-50%);
+    &[value] {
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #323237;
+      color: #72646f;
+      height: 5px;
+      cursor: pointer;
+    }
+    &[value]::-webkit-progress-bar {
+      background-color: #323237;
+      color: #72646f;
+    }
+    &::-webkit-progress-value {
+      background-color: #72646f;
+    }
+    &[value]::-moz-progress-bar {
+      background-color: #72646f;
     }
   }
 
@@ -223,29 +243,6 @@ export default {
     &:after {
       background: #72646f;
       color: #f5e6d7;
-    }
-  }
-  progress {
-    width: 100%;
-    cursor: pointer;
-
-    &[value] {
-      -webkit-appearance: none;
-      appearance: none;
-      background-color: #323237;
-      color: #72646f;
-      height: 5px;
-      cursor: pointer;
-    }
-    &[value]::-webkit-progress-bar {
-      background-color: #323237;
-      color: #72646f;
-    }
-    &::-webkit-progress-value {
-      background-color: #72646f;
-    }
-    &[value]::-moz-progress-bar {
-      background-color: #72646f;
     }
   }
   .name {
