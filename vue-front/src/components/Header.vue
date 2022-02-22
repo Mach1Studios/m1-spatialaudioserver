@@ -5,11 +5,6 @@
       <router-link v-if="isAdmin" class="link" to="/dashboard">Dashboard</router-link>
       <router-link class="link" to="/">Spatial Audio Player</router-link>
       <router-link v-if="isAdmin" class="link" to="/users">Users</router-link>
-      <!-- <div style="flex-grow: 1;"></div> -->
-      <!-- <router-link v-if="isAuthorized" class="profile link" to="/settings">
-        {{user ? user.nickname : 'Profile'}}
-      </router-link>
-      <UsersAuth/> -->
     </div>
     <div style="flex-grow: 1;"></div>
     <router-link v-if="isAuthorized" class="profile link" to="/settings">
@@ -104,9 +99,6 @@ export default {
     right: 0;
     button {
       border: none;
-      // background-color: transparent;
-      // border-radius: 0;
-      // color: #fefefe;
       &:focus, &:hover, &.router-link-active {
         color: #fefefe;
         border: none;
@@ -117,28 +109,16 @@ export default {
       }
     }
   }
-  // .logo-mobile {
-  //   height: 70%;
-  //   padding: 0 12rem;
-  // }
-  // .dropdown-mobile {
-  //   background-color: #1a1a1a;
-  //   justify-content: flex-start;
-  //   a {
-  //     color: #626161;
-  //     font-weight: 500;
-  //     width: fit-content;
-  //     &:focus, &:focus-within, &:hover, &.router-link-active {
-  //       color: #fefefe;
-  //     }
-  //   }
-  // }
   @media screen and (orientation: portrait) {
     .home {
+      z-index: 700;
       padding: 0 8rem;
       button, img {
         padding: 0;
       }
+    }
+    .logo {
+      z-index: 800;
     }
     .navigation {
       visibility: hidden;
@@ -147,13 +127,11 @@ export default {
       flex-direction: column;
 
       position: fixed;
-      top: 10vh;
+      bottom: 0;
       height: 100vh;
       width: 100vw;
 
       background-color: #1c1c1c;
-
-      z-index: 50;
 
       a {
         width: auto;
@@ -162,6 +140,10 @@ export default {
 
         font-size: 2em;
         text-align: left;
+        padding: 0 10rem 0 10rem;
+      }
+      a:first-child {
+        margin-top: 10vh;
       }
     }
     .navigation.active {

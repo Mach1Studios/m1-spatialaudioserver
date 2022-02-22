@@ -2,7 +2,7 @@
   <div class="max-size">
     <div class="container max">
       <div class="row">
-        <div class="col s12 m3 l3">
+        <div class="col s12 m6 l4">
           <div class="card transparent playlist">
             <Modal
               title="Playlists"
@@ -159,5 +159,13 @@ export default {
     }
     box-shadow: none;
     padding-top: 0;
+  }
+  @media screen and (orientation: portrait) {
+    .container {
+      padding-top: auto;
+      padding-left: 8rem;
+      padding-right: 8rem;
+      padding-bottom: calc(10vh - 50px - 3em);
+    }
   }
 </style>

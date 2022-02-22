@@ -1,7 +1,7 @@
 <template>
   <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
   <div class="invite flex-item scroll">
-    <table class="list-table border flex-item">
+    <table class="table-invite border flex-item">
       <tbody>
         <tr v-for="(item, index) in bindedItems" :key="item">
           <td>
@@ -136,7 +136,7 @@ export default {
     .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
       background: none;
     }
-    .list-table {
+    .table-invite {
       padding-right: 16rem;
     }
   }

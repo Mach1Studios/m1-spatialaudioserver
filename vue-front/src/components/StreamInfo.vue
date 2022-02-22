@@ -4,7 +4,7 @@
       <h4>DASH STREAM INFO</h4>
     </div>
     <div class="flex-item scroll">
-      <table class="table border center-align">
+      <table class="table-dash border center-align">
         <tbody>
           <tr>
             <td>
@@ -80,6 +80,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .dash {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    max-height: 40vh;
+    h4 {
+      font-size: 18rem;
+      color: #ffffff;
+    }
+  }
+  .dash-header {
+    height: 25rem;
+    margin-bottom: 8rem;
+  }
   .flex-item {
     max-height: 35vh;
     height: auto;
@@ -105,76 +118,41 @@ export default {
     scrollbar-color: #858585 #323237;
     scrollbar-width: thin;
   }
-  .dash-header {
-    height: 25rem;
-    margin-bottom: 8rem;
-  }
-  .table td {
-    vertical-align: middle;
-    text-align: left;
-    cursor: pointer;
-    border-color: #252526;
-    padding-left: 0;
-    p {
-      color: #ffffff;
-    }
-  }
-
-  .table {
+  .table-dash {
     border-radius: 0.3rem;
-  }
-
-  .table-button {
-    background: transparent;
-
-    border: none;
-  }
-  .dash {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    max-height: 40vh;
-    h4 {
-      font-size: 18rem;
-      color: #ffffff;
+    td {
+      vertical-align: middle;
+      text-align: left;
+      cursor: pointer;
+      border-color: #252526;
+      padding-left: 0;
+      p {
+        color: #ffffff;
+      }
     }
   }
   @media screen and (orientation: portrait) {
+    .dash {
+      padding-bottom: 5rem;
+    }
+    .dash-header {
+      padding: 10rem 0 0 0;
+    }
     .flex-item {
+      max-height: calc((100vh - 2 * var(--height) + 50px - 12em - 30rem) / 2 );
       height: auto;
     }
   }
-  // /* SCSS for Extra Small (xs) screen */
-  // @media only screen and (max-width: 375px) {
-  //   .flex-item {
-  //     height: 30vh;
-  //   }
+  // @media screen and (orientation: landscape) {
   //   .dash {
-  //     padding-bottom: 5rem;
-  //   }
-  //   .dash-header {
   //     padding-bottom: 10rem;
-  //     padding-top: 10rem;
-  //   }
-  // }
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 823px) and (min-width:801px) {
-  //   .flex-item {
-  //     height: 17vh;
   //   }
   //   .dash-header {
-  //     padding-top: 10rem;
+  //     padding: 0 0 10rem 0;
   //   }
-  // }
-  // /* SCSS for Small (sm) & Landscap Mobile screen */
-  // @media only screen and (max-width: 568px) and (min-width: 414px){
   //   .flex-item {
-  //     height: 35vh;
-  //   }
-  // }
-  // /* SCSS for Extra Small (md) & Landscap screen */
-  // @media only screen and (max-width: 1080px) and (min-width:823px) {
-  //   .flex-item {
-  //     height: 34vh;
+  //     max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
+  //     height: auto;
   //   }
   // }
 </style>

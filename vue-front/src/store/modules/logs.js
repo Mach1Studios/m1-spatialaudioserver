@@ -21,12 +21,13 @@ const actions = {
 };
 
 const mutations = {
+  // eslint-disable-next-line
   setMessage(store, payload) {
-    store.history.push(payload);
+    // store.history.push(payload);
   },
-  // flushHistory(store) {
-  //   store.history = [];
-  // },
+  flushHistory(store) {
+    store.history = [];
+  },
 };
 
 export default { namespaced: true, state: defaultState, actions, mutations };
