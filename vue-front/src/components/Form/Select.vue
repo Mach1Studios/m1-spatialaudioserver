@@ -7,6 +7,8 @@
       @blur="select"
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
+
+      :class="{ defaultClass }"
     >
       <option class="decorated" v-for="option in options" :key="option.id" :value="option.id" :selected="defaultValue === option.id"><label>{{ option.name }}</label></option>
     </select>
@@ -39,6 +41,12 @@ export default {
         return null;
       },
     },
+    defaultClass: {
+      type: String,
+      default() {
+        return 'defaultClass';
+      },
+    },
   },
   emits: ['update:modelValue'],
   data() {
@@ -62,8 +70,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .defaultClass {
+    color: #1c1c1c;
+  }
   .field>select {
-    color: #ffffff;
+    color: #1c1c1c;
   }
   .field {
     select {

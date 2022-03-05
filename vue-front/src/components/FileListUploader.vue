@@ -1,4 +1,89 @@
 <template>
+  <div class="file-uploader">
+    <div class="card round flat grey-light-5">
+      <button class="button small no-margin responsive round grey-light-3">
+          <input type="file" name="resume" @change="changeFile" multiple>
+          <i class="material-icons-outlined">audiotrack</i>
+          <span class="small-text">Select Audio Track</span>
+      </button>
+      <div v-show="validated">
+        <details>
+          <summary class="card flat transparent">
+            <div class="row no-wrap middle-align">
+              <div class="col min">
+                <i class="material-icons-outlined">settings_suggest</i>
+              </div>
+              <div class="col">
+                <div>Settings</div>
+                <div class="small-text">set default input and output formats options</div>
+              </div>
+            </div>
+          </summary>
+          <div class="card flat transparent">
+            <FormSelect name="" placeholder="SELECT INPUT FORMAT" style="color: #1c1c1c;" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+            <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+            <button class="button small responsive round grey-light-3" @change="switchdefaultInputEnable, switchdefaultOutputEnable">
+              <i class="material-icons-outlined">save</i>
+              <span class="small-text">save</span>
+            </button>
+          </div>
+        </details>
+        <!-- <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+        <label class="switch">
+          <input type="checkbox" @change="switchdefaultInputEnable">
+          <span>set this option as default</span>
+        </label>
+        <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+        <label class="switch">
+          <input type="checkbox" @change="switchdefaultOutputEnable">
+          <span>set this option as default</span>
+        </label> -->
+      </div>
+      <div class="flex-item scroll">
+        <table class="table-uploader border flex-item">
+          <thead>
+            <th>#</th>
+            <th>NAME</th>
+            <th>INPUT</th>
+            <th>OUTPUT</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in files" :key="item">
+              <td>
+                <p class="medium-text">{{ index + 1 }}</p>
+              </td>
+              <td class="audioname">
+                <p class="medium-text">{{item.name}}</p>
+              </td>
+              <td>
+                <FormSelect name="" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+                <!-- <p class="medium-text">{{inputFormat}}</p> -->
+              </td>
+              <td>
+                <FormSelect name="" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+                <!-- <p class="medium-text">{{outputFormat}}</p> -->
+              </td>
+              <td>
+                <nav class="right-align">
+                  <button class="button border round transparent-border" @click="remove(item)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                </nav>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  <button class="button small responsive round grey-light-3" @click="upload">
+      <i class="material-icons-outlined">file_upload</i>
+      <span class="small-text">UPLOAD</span>
+  </button>
+</div>
+</template>
+
+<!-- <template>
   <div>
     <div class="card round flat grey-light-5">
       <button class="button small no-margin responsive round grey-light-3">
@@ -51,7 +136,7 @@
       <span class="small-text">UPLOAD</span>
   </button>
 </div>
-</template>
+</template> -->
 
 <script>
 import {
@@ -204,6 +289,19 @@ export default {
       color: #1c1c1c;
     }
   }
+  details {
+    margin: 16rem 0 16rem 0;
+  }
+  .field>select {
+    background-color: #1c1c1c;
+  }
+  .button button {
+    color: #1c1c1c;
+  }
+  label {
+    font-size: 12rem;
+    color: #5e5e5e;
+  }
   .flex-item {
     &::-webkit-scrollbar-track
     {
@@ -223,17 +321,17 @@ export default {
       background-color: #858585;
     }
   }
-  .switch {
-    filter: grayscale(100%) !important;
-    text-transform: uppercase;
-
-    span {
-      font-size: 12rem;
-    }
-  }
-  .switch input:focus, .switch input:active, .switch input:hover {
-    background: none;
-  }
+  // .switch {
+  //   filter: grayscale(100%) !important;
+  //   text-transform: uppercase;
+  //
+  //   span {
+  //     font-size: 12rem;
+  //   }
+  // }
+  // .switch input:focus, .switch input:active, .switch input:hover {
+  //   background: none;
+  // }
 
   // @keyframes quiet {
   //   25%{

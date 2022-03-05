@@ -10,6 +10,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
 
       :autocomplete="autocomplete"
+      :required="required"
     >
     <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
   </div>
@@ -37,6 +38,11 @@ export default {
     autocomplete: {
       type: String,
       default: 'off',
+      required: false,
+    },
+    required: {
+      type: Boolean,
+      default: true,
       required: false,
     },
   },
