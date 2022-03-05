@@ -15,6 +15,7 @@
                     icon=" "
                     buttonClasses="small responsive round bold grey-light-3"
                     padding="uploader"
+                    currentPosition="left"
                   >
                     <div id="FileListUploader">
                       <FileListUploader/>
@@ -113,15 +114,15 @@ export default {
     flex-direction: column;
     align-content: space-between;
   }
-  // #FileListUploader {
-  //   height: auto;
-  //   max-height: 73vh;
-  //   max-width: 100%;
-  //
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-content: space-between;
-  // }
+  #FileListUploader {
+    height: auto;
+    max-height: 73vh;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+  }
   #AudioPlayerControls {
     height: auto;
     max-height: 68vh;

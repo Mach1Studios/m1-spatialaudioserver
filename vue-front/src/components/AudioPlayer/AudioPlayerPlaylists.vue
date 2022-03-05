@@ -1,6 +1,6 @@
 <template>
   <div id="Playlist">
-    <div v-if="controls" class="add-new-playlist">
+    <div v-if="controls" class="playlist-mdl-btn">
       <Modal
         title="Add new playlist"
         icon="add"
@@ -18,13 +18,13 @@
     <div class="playlists-items flex-item scroll">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
-          <div class="playlists">
+          <div class="playlist">
             <div class="playlist-header">
               <div class="row">
                 <div class="col">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
-                <div class="col s7 m5" @click="show = (show === item.id) ? show = false : show = item.id">
+                <div class="col s7 m5 l7" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
@@ -148,7 +148,7 @@ export default {
     scrollbar-color: #858585 #323237;
     scrollbar-width: auto;
   }
-  .playlists {
+  .playlist {
     padding: 0 8rem 8rem 8rem;
     margin: 0 8rem 8rem 8rem;
 
@@ -191,7 +191,7 @@ export default {
     opacity: 0;
   }
 
-  .add-new-playlist {
+  .playlist-mdl-btn {
     padding-bottom: 16rem;
   }
 
@@ -236,7 +236,7 @@ export default {
   //     .playlists-items {
   //       max-height: calc((100vh - 2 * var(--height) - 50px - 10em - 10vh) / 1.4);
   //     }
-  //     .add-new-playlist {
+  //     .playlist-mdl-btn {
   //       padding: 0 0 0 8rem;
   //     }
   //   }
