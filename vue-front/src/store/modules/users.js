@@ -19,12 +19,25 @@ const api = new FetchHelper('users');
 const actions = {
   async getAll({ commit }) {
     const users = await api.get();
-    commit('setUsers', _.map(users, (user, index) => ({ number: index + 1, ...user })));
+    commit('setUsers', _.map(users, (user) => ({ ...user })));
+    // commit('setUsers', _.map(users, (user, index) => ({ number: index + 1, ...user })));
   },
   async create({ commit }, data) {
     const user = await api.post(data);
     commit('createUser', user);
   },
+
+  // async update({ commit }, data) {
+  //   if (!_.has(data, 'id')) return;
+  //
+  //   // const { nickname, email, role } = data;
+  //
+  //   // NOTE: update user nickname
+  //   // if (_.get(data, 'nickname')) {
+  //   //   await api.put(data);
+  //   //   commit('updateUserNickname', data);
+  //   // }
+  // },
   async remove({ commit }, data) {
     const id = !isUuid(data) ? _.get(data, 'id') : data;
     await api.del(id);
@@ -44,6 +57,12 @@ const mutations = {
   },
   createUser(store, user) {
     store.items = [...store.items, user];
+  },
+  updateUserNickname(store, { id, name }) {
+    const index = _.findIndex(store.items, (item) => item.id === id);
+    const item = store.items[index];
+
+    store.items[index] = { ...item, name };
   },
   removeUser(store, id) {
     store.items = _.remove(store.items, (item) => item.id !== id);

@@ -3,11 +3,6 @@ import { PlaylistModel } from './models';
 
 export default {
   /**
-   * List of methods that will be called only if `authenticator` method success
-   * @type {Array}
-   */
-  protectored: ['create', 'update', 'del'],
-  /**
    * @param  {Object}  ctx  the default koa context whose encapsulates
    *                          node's request and response objects into a single object
    */

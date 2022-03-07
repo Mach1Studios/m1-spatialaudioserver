@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { Store } from '../store';
+import Store from '../store';
 import SpatialAudioPlayer from '../views/SpatialAudioPlayer.vue';
 
 const routes = [
@@ -8,6 +8,7 @@ const routes = [
     path: '/',
     name: 'SpatialAudioPlayer',
     component: SpatialAudioPlayer,
+    meta: { transition: 'slide-left' },
   },
   {
     path: '/dashboard',
@@ -15,6 +16,7 @@ const routes = [
     component: () => import('../views/Dashboard.vue'),
     meta: {
       requiresAdmin: true,
+      transition: 'slide-left',
     },
   },
   {
@@ -23,7 +25,14 @@ const routes = [
     component: () => import('../views/Users.vue'),
     meta: {
       requiresAdmin: true,
+      transition: 'slide-left',
     },
+  },
+  {
+    path: '/settings',
+    name: 'ProfileSettings',
+    component: () => import('../views/ProfileSettings.vue'),
+    meta: { transition: 'slide-left' },
   },
 ];
 

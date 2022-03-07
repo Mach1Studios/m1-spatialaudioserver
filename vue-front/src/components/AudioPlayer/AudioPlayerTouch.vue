@@ -5,7 +5,7 @@
         <img id="touchstats:back" src="https://demo.mach1.tech/img/touch-compass.svg"/>
       </div>
       <div class="cardBottom">
-        <div id="touchstats:card" class="card">
+        <div id="touchstats:card" class="card touch">
           <div class="txt">FRONT</div>
         </div>
       </div>
@@ -50,35 +50,36 @@ export default {
 
     transition: 0.4s;
     perspective: 1000px;
-  }
+    .card {
+      width: 100%;
+      height: 100%;
+      position: absolute;
 
-  .cardBottom .card {
-    width: 100%;
-    height: 100%;
-    position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: 0 auto;
+      transform-origin: center center;
+      transform: translate(-50%, -50%);
 
-    top: 50%;
-    left: 50%;
-    margin: 0 auto;
-    transform-origin: center center;
-    transform: translate(-50%, -50%);
+      transition: 0.2s;
+      border: 10px solid #000;
+    }
+    .touch {
+      background-color: white;
+    }
+    .card .txt {
+      position: absolute;
+      top: 50%;
+      left: 50%;
 
-    transition: 0.2s;
-    border: 10px solid #000;
-  }
+      transform: translate(-50%, -50%);
+      padding: 10px;
 
-  .cardBottom .card .txt {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+      color: #000;
+      border: 3px solid;
 
-    transform: translate(-50%, -50%);
-    padding: 10px;
-
-    color: #000;
-    border: 3px solid;
-
-    font-size: 40px;
-    text-align: center;
+      font-size: 40px;
+      text-align: center;
+    }
   }
 </style>

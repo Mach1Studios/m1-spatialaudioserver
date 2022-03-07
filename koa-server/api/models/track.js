@@ -17,11 +17,13 @@ export default class TrackModel extends Model {
 
     // NOTE: boolean value for checking cashed dash files on Nginx
     this.setModelKey(item, 'prepared', false);
+    this.setModelKey(item, 'listened', 0);
   }
 
   redisStoreKey = 'tracks:all'
 
   shape = {
+    listened: Number,
     playlists: Array,
     prepared: Boolean,
   }

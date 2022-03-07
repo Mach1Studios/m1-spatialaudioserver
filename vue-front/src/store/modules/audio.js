@@ -11,7 +11,7 @@ const defaultState = () => ({
 
 const actions = {
   createGainNodes({ commit, state, getters }, volume = 0) {
-    commit('setGain');
+    commit('setAudioContext');
 
     const { channels, context, source } = state;
     const splitter = context.createChannelSplitter(channels);
@@ -26,10 +26,6 @@ const actions = {
       const gain = context.createGain();
       const panner = context.createPanner();
 
-      // FIXME: analyser broken spatial sound
-      // gain.connect(analyser);
-      // analyser.connect(context.destination);
-
       gain.gain.value = volume;
 
       panner.setPosition(position, 0, 0);
@@ -37,7 +33,9 @@ const actions = {
       panner.connect(gain);
 
       splitter.connect(gain, channel);
+
       gain.connect(merger, 0, position === -1 ? 0 : 1);
+      gain.connect(analyser);
 
       commit('setGain', gain);
       commit('setGainAnalyser', analyser);
@@ -48,8 +46,6 @@ const actions = {
 
     _.each(getters.listOfChannels, processing);
     merger.connect(context.destination);
-
-    // commit('loader', { enable: false }, { root: true });
   },
   updateSource({ commit }, source) {
     commit('setSource', source);
@@ -65,9 +61,6 @@ const actions = {
 };
 
 const getters = {
-  listOfDecodeChannels(state) {
-    return _.range(state.channels * 2);
-  },
   listOfChannels(state) {
     return _.range(state.channels);
   },
@@ -80,11 +73,12 @@ const getters = {
 };
 
 const mutations = {
+  setAudioContext(state) {
+    state.gainNodes = [];
+  },
   setGain(state, gain) {
     if (gain) {
       state.gainNodes.push(gain);
-    } else {
-      state.gainNodes = [];
     }
   },
   setGainVolume(state, { channel, volume }) {
@@ -102,7 +96,7 @@ const mutations = {
   },
   setSource(state, source) {
     state.view = source;
-    state.source = state.context.createMediaElementSource(source);
+    state.source = state.context ? state.context.createMediaElementSource(source) : null;
   },
 };
 

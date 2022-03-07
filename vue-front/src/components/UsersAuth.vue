@@ -1,29 +1,32 @@
 <template>
   <Modal v-if="!user" title="Log In" titleClasses="large-width add-user">
     <template #button>
-      <button>Log in</button>
+      <button class="login">Log in</button>
     </template>
 
     <template #default="parrent">
-      <FormInput
-        name="login"
-        placeholder="Email"
-        type="text"
-        v-model="credentials.login"
-        @keyup.enter="handler(parrent.close)"
-      />
-      <FormInput
-        name="password"
-        placeholder="Password"
-        type="password"
-        v-model="credentials.password"
-        @keyup.enter="handler(parrent.close)"
-      />
-      <FormButton title="Enter" icon="login" @click="handler(parrent.close)"/>
+      <form @submit.prevent="handler(parrent.close)">
+        <FormInput
+          autocomplete="username"
+          name="login"
+          placeholder="Email"
+          type="text"
+
+          v-model="credentials.login"
+        />
+        <FormInput
+          autocomplete="current-password"
+          name="password"
+          placeholder="Password"
+          type="password"
+
+          v-model="credentials.password"
+        />
+        <FormButton title="Enter" icon="login" @click="handler(parrent.close)"/>
+      </form>
     </template>
   </Modal>
-  <div class="profile" v-else>
-    <p>{{user ? user.nickname : 'Profile'}}</p>
+  <div v-else class="profile">
     <Modal title="Are you sure?" titleClasses="large-width add-user">
       <template #button>
         <button class="transparent-border"><i class="material-icons">logout</i></button>
@@ -46,7 +49,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import Modal from './Modal.vue';
+import Modal from './Base/Modal.vue';
 
 import FormInput from './Form/Input.vue';
 import FormButton from './Form/Button.vue';
@@ -76,6 +79,7 @@ export default {
     },
     async ok() {
       await this.logout();
+      await this.$router.push('/');
     },
   },
 };
@@ -84,8 +88,6 @@ export default {
 <style lang="scss" scoped>
   button {
     background-color: transparent;
-    border-radius: 0;
-    border: 1px solid #626161;
     color: #626161;
 
     padding: 0 20px;
@@ -94,10 +96,10 @@ export default {
     font-size: 16px;
 
     z-index: 1;
+
     &:focus, &:hover {
       color: #fefefe;
       background: transparent;
-      border: 1px solid #fefefe;
       &::after {
         background: transparent;
       }
@@ -108,6 +110,7 @@ export default {
   }
   .profile {
     display: flex;
+
     p {
       z-index: 1;
       color: white;
@@ -116,5 +119,12 @@ export default {
   }
   .logout .button>:not(.dropdown,.badge) {
     margin-left: 0;
+  }
+  .login {
+    border: 1px solid #626161;
+    border-radius: 0;
+    &:focus, &:hover {
+      border: 1px solid #fefefe;
+    }
   }
 </style>

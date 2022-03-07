@@ -1,18 +1,18 @@
 <template>
-  <div class="invite">
-    <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
-    <table class="list-table border">
+  <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
+  <div class="invite flex-item scroll">
+    <table class="list-table border flex-item">
       <tbody>
-        <tr v-for="item in bindedItems" :key="item">
+        <tr v-for="(item, index) in bindedItems" :key="item">
           <td>
-            <p class="medium-text">{{item.number}}</p>
+            <p class="medium-text">{{ index + 1 }}</p>
           </td>
           <td class="small-width">
             <p class="medium-text">{{item.name}}</p>
           </td>
           <td>
             <nav class="right-align">
-              <button class="border round transparent-border"  @click="del(item.id)">
+              <button class="border transparent-border"  @click="del(item.id)">
                 <i class="material-icons">delete</i>
               </button>
             </nav>
@@ -73,6 +73,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .flex-item {
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3em;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 7px;
+      background-color: #ffffff;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+  }
   .invite {
     .title {
       font-style: normal;
@@ -82,9 +103,8 @@ export default {
       letter-spacing: -0.5px;
       text-transform: uppercase;
     }
-    i {
-      font-size: 16px;
-      color: #4d4d4d;
+    p {
+      color: #ffffff;
     }
     input {
       &:focus {
@@ -107,6 +127,17 @@ export default {
       width: 100%;
       padding: 0;
       margin: 16rem 0 16rem 0;
+      &:hover {
+        i {
+          color: #ffffff;
+        }
+      }
+    }
+    .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+      background: none;
+    }
+    .list-table {
+      padding-right: 16rem;
     }
   }
 </style>

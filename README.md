@@ -21,6 +21,8 @@ make local
 
 More information and command examples you can check in docker containers [documentation](./containers/README.md)
 
+- After launch run `docker network inspect m1-network` to identify the IP address and edit the container ip address found in `./container/nginx/uploader.lua`: `line ~33 redis:connect()`
+
 ### Usage
 
 Quickly build and deploy hosted spatial audio experiences & streams designed around Mach1 Spatial and leveraging the Mach1Decode API & Mach1Transcode API to unify playback of all multichannel and spatial audio formats.

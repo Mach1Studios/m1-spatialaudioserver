@@ -9,7 +9,7 @@
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
 
-      autocomplete="off"
+      :autocomplete="autocomplete"
     >
     <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
   </div>
@@ -34,6 +34,11 @@ export default {
     placeholder: {
       type: String,
     },
+    autocomplete: {
+      type: String,
+      default: 'off',
+      required: false,
+    },
   },
   emits: ['update:modelValue'],
   data() {
@@ -57,6 +62,7 @@ export default {
 <style lang="scss" scoped>
   .field {
     input {
+      color: #ffffff;
       &:focus {
         border-color: #1c1c1c;
       }

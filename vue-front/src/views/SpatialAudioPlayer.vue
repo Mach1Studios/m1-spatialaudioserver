@@ -1,55 +1,49 @@
 <template>
-  <div class="container max">
-    <div class="row">
-      <div class="col s3">
-        <!-- <div class="card round">
-          <AudioPlayerRadioControls/>
-        </div> -->
-        <div class="card round transparent playlist">
-          <Modal
-            title="Playlist(s)"
-            icon="play_arrow"
-            position="left "
-            buttonClasses="small grey-light-3 large-width small-space no-padding no-margin"
-            padding="no-margin"
-          >
-            <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
-            <template #footer>
-              <AudioPlayer skin="light" class="light-player"/>
-            </template>
-          </Modal>
+  <div class="max-size">
+    <div class="container max">
+      <div class="row">
+        <div class="col s3">
+          <div class="card transparent playlist">
+            <Modal
+              title="Playlists"
+              icon="play_arrow"
+              position="left"
+              buttonClasses="small responsive round grey-light-3"
+              padding="no-margin"
+            >
+              <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
+            </Modal>
+          </div>
         </div>
-      </div>
-      <div class="col s6"></div>
-      <div class="col s3">
-        <div class="card round">
-          <AudioPlayerSliders/>
-        </div>
+        <div class="col s6"></div>
+        <div class="col s3"></div>
       </div>
     </div>
-  </div>
-  <div class="">
-    <AudioPlayerTouch/>
+    <div>
+      <AudioPlayerTouch/>
+    </div>
+    <div class="row no-space dark absolute bottom">
+      <div class="card flat" v-if="isAdmin">
+        <AudioPlayerDebug/>
+      </div>
+      <div class="card flat transparent audioplayer">
+        <AudioPlayer skin="dark" class="dark-player"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-/* eslint-disable */
-// import _ from 'lodash';
+import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 
-import {
-  // Mach1SoundPlayer,
-  Mach1DecoderProxy,
-} from 'mach1spatial-decode';
+import { Mach1DecoderProxy } from 'mach1spatial-decode';
 
-// import AudioPlayerRadioControls from '../components/AudioPlayer/AudioPlayerRadioControls.vue';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
-import AudioPlayerSliders from '../components/AudioPlayer/AudioPlayerSliders.vue';
-import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
-import Modal from '../components/Modal.vue';
+import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
-// import FileList from '../components/FileList.vue';
+import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
+import Modal from '../components/Base/Modal.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -62,13 +56,11 @@ const mousemoveListener = (event) => {
 
 export default {
   components: {
-    // AudioPlayerRadioControls,
     AudioPlayer,
-    AudioPlayerSliders,
+    AudioPlayerDebug,
+    AudioPlayerPlaylists,
     AudioPlayerTouch,
     Modal,
-    AudioPlayerPlaylists,
-    // FileList,
   },
   data() {
     return { isMount: false };
@@ -77,6 +69,11 @@ export default {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('dash', ['player', 'isActiveStream']),
+    ...mapState('auth', ['profile']),
+
+    isAdmin() {
+      return _.get(this, 'profile.user.role') === 'admin';
+    },
   },
   mounted() {
     window.addEventListener('mousemove', mousemoveListener, false);
@@ -94,6 +91,7 @@ export default {
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
+    ...mapActions('logs', { log: 'createMessage' }),
     changeVolume(channel, volume) {
       this.updateVolume({ channel, volume });
     },
@@ -114,10 +112,12 @@ export default {
       document.getElementById('touchstats:card').style.transform = transform;
 
       const decoded = this.decoder.decode({ yaw, pitch, roll });
-
-      // 0.7521489971346705 90.77363896848141 0.48739495798319327 1.1344537815126046
-      // 0.7511938872970392 90.4297994269341 0.4715219421101774 2.563025210084035
-      // console.log(window.mouseX, yaw, window.mouseY, pitch);
+      this.log({
+        message: `Mach1DecoderProxy decoded values: ${decoded}`,
+        data: {
+          decoded, pitch, roll, yaw,
+        },
+      });
 
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {
@@ -136,16 +136,27 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .max-size {
+    height: 100vh;
+  }
   .playlist {
     box-shadow: none;
     padding-top: 0;
-    .light-player {
-      padding-left: 13rem;
-      padding-right: 13rem;
-      padding-bottom: 30rem;
-    }
   }
   .modal-playlist {
     margin-top: 32px;
+  }
+  .dark .card{
+    background-color: #1c1c1c;
+    z-index: 600;
+    border-radius: 0;
+  }
+  .audioplayer {
+    z-index: 600;
+    .dark-player {
+      width: 100%;
+    }
+    box-shadow: none;
+    padding-top: 0;
   }
 </style>

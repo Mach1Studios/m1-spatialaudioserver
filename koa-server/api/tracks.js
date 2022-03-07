@@ -1,18 +1,11 @@
-// eslint-disable-next-line
-import { readdir, rm } from 'fs/promises';
+import { rm } from 'fs/promises';
 
 import _ from 'lodash';
-import got from 'got';
 import { DateTime } from 'luxon';
 
 import { PlaylistModel, TrackModel } from './models';
 
 export default {
-  /**
-   * List of methods that will be called only if `authenticator` method success
-   * @type {Array}
-   */
-  protectored: ['update', 'del'],
   /**
    * Starting play sound file by id; send a request to the transcoded Nginx server
    *  supported dynamic and static mpeg-dash behavior
@@ -23,8 +16,9 @@ export default {
     const { id } = ctx.params;
     const { user } = ctx.session;
 
-    const track = await ctx.redis.hgetall(`track:${id}`);
-    if (_.isEmpty(track)) ctx.throw(404);
+    const { part } = ctx.request.query;
+    const item = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isEmpty(item)) ctx.throw(404);
 
     const Playlist = new PlaylistModel();
 
@@ -36,9 +30,13 @@ export default {
     // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
     // and should be added the status of live broadcast
 
-    // FIXME: all this setting need to move to env var
-    await got.get(`http://m1-transcode/play?sound=${track.originalname}&id=${track.id}`).json();
-    await ctx.redis.hset(`track:${id}`, { prepared: true });
+    if (part === 'manifest.mpd') {
+      const { track } = new TrackModel(item);
+      await ctx.redis.hset(`track:${id}`, {
+        listened: track.listened + 1,
+        prepared: true,
+      });
+    }
     ctx.status = 204;
   },
   /**
@@ -121,8 +119,8 @@ export default {
 
     const options = { force: true, recursive: true };
     await Promise.all([
-      rm(new URL(`../public/preload/${id}`, import.meta.url), options),
-      rm(new URL(`../public/${track}`, import.meta.url), options),
+      rm(`/public/preload/${id}`, options),
+      rm(`/public/${track.originalname}`, options),
       transaction,
     ]);
 

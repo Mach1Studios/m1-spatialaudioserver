@@ -1,94 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="89.412003"
-   height="89.412003"
-   viewBox="0 0 89.412001 89.411999"
-   version="1.1"
-   id="svg34"
-   sodipodi:docname="playlist.svg"
-   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview36"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     showgrid="false"
-     inkscape:zoom="4.9266579"
-     inkscape:cx="46.481815"
-     inkscape:cy="26.8945"
-     inkscape:window-width="1920"
-     inkscape:window-height="1047"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="g18" />
-  <defs
-     id="defs4">
-    <style
-       id="style2">
-      .a {
-        fill: #FAFAFAFA;
-      }
-    </style>
-  </defs>
-  <g
-     transform="translate(-255.199,-886.151)"
-     id="g32">
-    <g
-       transform="rotate(90,-270.77,615.381)"
-       id="g18"
-       style="fill:#4d4d4d">
-      <g
-         transform="translate(8.082,29.763)"
-         id="g16"
-         style="fill:#4d4d4d">
-        <rect
-           class="a"
-           width="29.804001"
-           height="5.961"
-           transform="rotate(-90,14.902,14.902)"
-           id="rect8"
-           x="0"
-           y="0"
-           style="fill:#4d4d4d" />
-        <rect
-           class="a"
-           width="29.804001"
-           height="5.961"
-           transform="rotate(-90,20.863,8.941)"
-           id="rect10"
-           x="0"
-           y="0"
-           style="fill:#4d4d4d" />
-        <rect
-           class="a"
-           width="29.804001"
-           height="5.961"
-           transform="rotate(-90,26.8235,2.9805)"
-           id="rect12"
-           x="0"
-           y="0"
-           style="fill:#4d4d4d" />
-        <rect
-           class="a"
-           width="29.804001"
-           height="5.961"
-           transform="rotate(-90,38.745,-8.941)"
-           id="rect14"
-           x="0"
-           y="0"
-           style="fill:#4d4d4d" />
-      </g>
+    width="89.412003"
+    height="89.412003"
+    viewBox="0 0 89.412001 89.411999"
+    version="1.1"
+    id="svg34"
+    sodipodi:docname="playlist.svg"
+    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg">
+    <sodipodi:namedview
+        id="namedview36"
+        pagecolor="#ffffff"
+        bordercolor="#666666"
+        borderopacity="1.0"
+        inkscape:pageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        showgrid="false"
+        inkscape:zoom="4.9266579"
+        inkscape:cx="46.481815"
+        inkscape:cy="26.8945"
+        inkscape:window-width="1920"
+        inkscape:window-height="1047"
+        inkscape:window-x="0"
+        inkscape:window-y="0"
+        inkscape:window-maximized="1"
+        inkscape:current-layer="g18"/>
+    <defs id="defs4">
+        <style id="style2">
+            .a {
+                fill: #FAFAFAFA;
+            }
+        </style>
+    </defs>
+    <g transform="translate(-255.199,-886.151)" id="g32">
+        <g transform="rotate(90,-270.77,615.381)" id="g18" style="fill:#4d4d4d">
+            <g transform="translate(8.082,29.763)" id="g16" style="fill:#4d4d4d">
+                <rect class="a" width="29.804001" height="5.961" transform="rotate(-90,14.902,14.902)" id="rect8" x="0" y="0" style="fill:#4d4d4d"/>
+                <rect class="a" width="29.804001" height="5.961" transform="rotate(-90,20.863,8.941)" id="rect10" x="0" y="0" style="fill:#4d4d4d"/>
+                <rect class="a" width="29.804001" height="5.961" transform="rotate(-90,26.8235,2.9805)" id="rect12" x="0" y="0" style="fill:#4d4d4d"/>
+                <rect class="a" width="29.804001" height="5.961" transform="rotate(-90,38.745,-8.941)" id="rect14" x="0" y="0" style="fill:#4d4d4d"/>
+            </g>
+        </g>
+        <g transform="translate(360.953,915.955)" id="g30"/>
     </g>
-    <g
-       transform="translate(360.953,915.955)"
-       id="g30" />
-  </g>
 </svg>

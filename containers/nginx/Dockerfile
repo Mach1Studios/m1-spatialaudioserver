@@ -1,20 +1,28 @@
-# Global Enviroment Variable
-ARG FFMPEG=4.4
-ARG LUA_JIT=2.0.5
-ARG LUA_NGINX_MODULE=0.10.19
-ARG NGINX_DEV=0.3.1
-ARG NGINX=1.20.0
-ARG RTMP_MODULE=1.2.1
-ARG VOD_MODULE=1.28
+# Main package versions
+# ARG FFMPEG=4.4
+# ARG LUA_JIT=2.1-20210510
+# ARG LUA_NGINX_MODULE=0.10.19
+# ARG NGINX_DEV=0.3.1
+# ARG NGINX=1.20.0
+# ARG RTMP_MODULE=1.2.1
+# ARG VOD_MODULE=1.28
 
-# NGINX build with RTMP module from source code
+#################################################
+# NGINX build with RTMP module from source code #
+#################################################
 FROM ubuntu:focal as nginx-build
+
 ARG LUA_JIT=2.1-20210510
-ARG LUA_NGINX_MODULE=0.10.19
-ARG LUA_RESTY_CORE=0.1.21
+ARG LUA_CJSON=2.1.0.8
 ARG LUA_RESTY_CACHE=0.10
+ARG LUA_RESTY_CORE=0.1.21
+ARG LUA_RESTY_REDIS=0.29
+ARG LUA_RESTY_STRING=0.15
+ARG LUA_RESTY_UUID=0.0.7
+
 ARG NGINX_DEV=0.3.1
 ARG NGINX=1.20.0
+ARG LUA_NGINX_MODULE=0.10.19
 ARG RTMP_MODULE=1.2.1
 ARG VOD_MODULE=1.28
 
@@ -46,15 +54,28 @@ RUN cd /tmp && \
 # Download and extract LuaJIT (all staff for it)
 RUN cd /tmp && \
   wget https://github.com/openresty/luajit2/archive/refs/tags/v${LUA_JIT}.tar.gz && \
-  wget https://github.com/openresty/lua-nginx-module/archive/refs/tags/v${LUA_NGINX_MODULE}.tar.gz && \
-  wget https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGINX_DEV}.tar.gz && \
+  wget https://github.com/openresty/lua-cjson/archive/refs/tags/${LUA_CJSON}.tar.gz && \
   wget https://github.com/openresty/lua-resty-core/archive/refs/tags/v${LUA_RESTY_CORE}.tar.gz && \
   wget https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_CACHE}.tar.gz && \
+  wget https://github.com/openresty/lua-resty-redis/archive/refs/tags/v${LUA_RESTY_REDIS}.tar.gz && \
+  wget https://github.com/openresty/lua-resty-string/archive/refs/tags/v${LUA_RESTY_STRING}.tar.gz && \
+  wget https://github.com/thibaultcha/lua-resty-jit-uuid/archive/refs/tags/${LUA_RESTY_UUID}.tar.gz && \
+  wget https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGINX_DEV}.tar.gz && \
+  wget https://github.com/openresty/lua-nginx-module/archive/refs/tags/v${LUA_NGINX_MODULE}.tar.gz && \
   tar zxf v${LUA_JIT}.tar.gz && rm v${LUA_JIT}.tar.gz && \
-  tar zxf v${LUA_NGINX_MODULE}.tar.gz && rm v${LUA_NGINX_MODULE}.tar.gz && \
-  tar zxf v${LUA_RESTY_CORE}.tar.gz && rm v${LUA_RESTY_CORE}.tar.gz && \
+  tar zxf ${LUA_CJSON}.tar.gz && rm ${LUA_CJSON}.tar.gz && \
+  tar zxf ${LUA_RESTY_UUID}.tar.gz && rm ${LUA_RESTY_UUID}.tar.gz && \
   tar zxf v${LUA_RESTY_CACHE}.tar.gz && rm v${LUA_RESTY_CACHE}.tar.gz && \
-  tar zxf v${NGINX_DEV}.tar.gz && rm v${NGINX_DEV}.tar.gz && ls
+  tar zxf v${LUA_RESTY_CORE}.tar.gz && rm v${LUA_RESTY_CORE}.tar.gz && \
+  tar zxf v${LUA_RESTY_REDIS}.tar.gz && rm v${LUA_RESTY_REDIS}.tar.gz && \
+  tar zxf v${LUA_RESTY_STRING}.tar.gz && rm v${LUA_RESTY_STRING}.tar.gz && \
+  tar zxf v${NGINX_DEV}.tar.gz && rm v${NGINX_DEV}.tar.gz && \
+  tar zxf v${LUA_NGINX_MODULE}.tar.gz && rm v${LUA_NGINX_MODULE}.tar.gz
+
+# Download and extract Lua TUS server
+RUN cd /tmp && \
+  wget https://github.com/mmatuska/lua-tus-server/archive/refs/heads/master.tar.gz && \
+  tar zxf master.tar.gz && rm master.tar.gz
 
 RUN cd /tmp && ls
 
@@ -68,8 +89,23 @@ RUN cd /tmp/lua-resty-core-${LUA_RESTY_CORE} && \
 RUN cd /tmp/lua-resty-lrucache-${LUA_RESTY_CACHE} && \
   make PREFIX=/usr/local/luajit && make install PREFIX=/usr/local/luajit
 
-RUN cd /usr/local/luajit && \
-  ls
+RUN cd /tmp/lua-resty-string-${LUA_RESTY_STRING} && \
+  make PREFIX=/usr/local/luajit && make install PREFIX=/usr/local/luajit
+
+RUN cd /tmp/lua-resty-redis-${LUA_RESTY_REDIS} && \
+  make PREFIX=/usr/local/luajit && make install PREFIX=/usr/local/luajit
+
+RUN cd /tmp/lua-resty-jit-uuid-${LUA_RESTY_UUID}/lib/resty && \
+  cp -Rp . /usr/local/luajit/lib/lua/resty
+
+RUN cd /tmp/lua-cjson-${LUA_CJSON} && \
+  sed -i 's!/usr/local!/usr/local/luajit!' Makefile && \
+  sed -i 's!$(PREFIX)/include!$(PREFIX)/include/luajit-2.1!' Makefile && \
+  make PREFIX=/usr/local/luajit && make install PREFIX=/usr/local/luajit
+
+RUN cd /tmp/lua-tus-server-master/lib/tus && \
+  cp -Rp . /usr/local/luajit/lib/lua/tus
+
 
 # Build NGINX with RTMP module
 RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/luajit/lib LUAJIT_INC=/usr/local/luajit/include/luajit-2.1 \
@@ -83,12 +119,16 @@ RUN cd /tmp/nginx-${NGINX} && LUAJIT_LIB=/usr/local/luajit/lib LUAJIT_INC=/usr/l
     --with-threads \
     --with-file-aio \
     --with-http_ssl_module \
+    --with-http_auth_request_module \
     --with-debug \
     --with-cc-opt="-Wimplicit-fallthrough=0" && \
   cd /tmp/nginx-${NGINX} && make && make install
 
-# FFpeg build from source code
+################################
+# FFpeg build from source code #
+################################
 FROM ubuntu:focal as ffmpeg-build
+
 ARG FFMPEG=4.4
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -142,7 +182,9 @@ RUN cd /tmp/ffmpeg-${FFMPEG} && \
     --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
-# Frontend Build
+##################
+# Frontend Build #
+##################
 FROM node:14.16 as vue-build
 
 WORKDIR /tmp/build
@@ -153,8 +195,9 @@ RUN npm install
 COPY ./vue-front .
 RUN npm run build
 
-
-# Core Builds image with NGINX, RTMP and FFmpeg
+#################################################
+# Core Builds image with NGINX, RTMP and FFmpeg #
+#################################################
 FROM ubuntu:focal
 
 LABEL MAINTAINER MACH1 <whatsup@mach1.tech>
@@ -190,19 +233,19 @@ VOLUME ["/share/sound"]
 
 # Updating NGINX enviroment
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
-# Updating Lua enviroment
-# ENV LD_LIBRARY_PATH "/usr/local/luajit:$LD_LIBRARY_PATH"
 
 # Adding NGINX configs
+COPY ./containers/nginx/uploader.lua /etc/nginx/uploader.lua
 COPY ./containers/nginx/nginx.conf /etc/nginx/nginx.conf.template
-RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
+COPY ./containers/nginx/switcher.sh /etc/nginx/switcher.sh
+COPY ./containers/nginx/m1-transcode /etc/nginx/m1-transcode
+
+# RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 
 EXPOSE 1935
 EXPOSE 80
 
-CMD chown nginx /opt/data/dash && \
- chmod 777 /opt/data/dash && chmod -R 777 /share/sound && \
- envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
+CMD chmod -R 777 /share/sound && envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
  /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
  export LD_LIBRARY_PATH=/usr/local/luajit/lib:$LD_LIBRARY_PATH && \
  nginx

@@ -23,6 +23,8 @@ export default (options) => {
         _.set(err, 'headers.Access-Control-Allow-Origin', origin);
         _.set(err, 'headers.Access-Control-Allow-Credentials', 'true');
 
+        _.set(err, 'Access-Control-Allow-Methods', defaultOptions.allowMethods.join(','));
+        _.set(err, 'Access-Control-Allow-Headers', defaultOptions.allowHeaders.join(','));
         throw err;
       });
     }

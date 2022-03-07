@@ -30,6 +30,6 @@ export default {
 
 <style lang="scss" scoped>
   .notification {
-    z-index: 100;
+    z-index: 601;
   }
 </style>

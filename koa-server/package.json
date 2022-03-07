@@ -12,9 +12,7 @@
   "author": "Mach1 <whatsup@mach1.tech>",
   "license": "MIT",
   "dependencies": {
-    "@koa/multer": "^3.0.0",
     "@koa/router": "^10.0.0",
-    "got": "^11.8.2",
     "ioredis": "^4.27.6",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
@@ -24,11 +22,9 @@
     "koa-static": "^5.0.0",
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
-    "multer": "^1.4.2",
     "node-input-validator": "^4.4.1",
     "pm2": "^5.1.0",
-    "uuid": "^8.3.2",
-    "validator": "^13.6.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

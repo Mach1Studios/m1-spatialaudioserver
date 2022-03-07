@@ -1,6 +1,3 @@
-// import _ from 'lodash';
-// import { validate as isUuid } from 'uuid';
-// eslint-disable-next-line
 import FetchHelper from '../utils';
 
 const defaultState = () => ({

@@ -1,19 +1,22 @@
 import _ from 'lodash';
+import * as tus from 'tus-js-client';
 
 import FetchHelper from '../utils';
 
+const defaultTrackState = {
+  id: undefined,
+  name: undefined,
+  originalname: undefined,
+  prepared: false,
+  size: 0,
+  mimetype: undefined,
+  // NOTE: Additional stored params for playble track
+  playing: false,
+  dash: {},
+};
+
 const defaultState = () => ({
-  track: {
-    id: undefined,
-    name: undefined,
-    originalname: undefined,
-    prepared: false,
-    size: 0,
-    mimetype: undefined,
-    // NOTE: Additional stored params for playble track
-    playing: false,
-    dash: {},
-  },
+  track: defaultTrackState,
   items: [],
 });
 
@@ -33,14 +36,12 @@ const actions = {
     })));
   },
   async select({ commit, state, dispatch }, id) {
-    if (id === state.track.id) return;
-
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
-    await api.get(id);
-    await commit('getAll');
+    // await api.get(id);
+    await dispatch('getAll');
     const track = _.find(state.items, { id });
 
-    commit('setPlay', { ...track, prepared: true });
+    commit('setPlayingTrack', { ...track, prepared: true, playing: true });
     dispatch('dash/start', id, { root: true });
   },
   /**
@@ -48,11 +49,76 @@ const actions = {
    * @param  {Function} dispatch Dispatch an action. options can have `root: true` that allows to dispatch root actions in namespaced modules
    * @param  {Object}   data     File from new FormData()
    */
-  async upload({ dispatch }, data) {
-    await new FetchHelper('upload').post(data);
+  async upload({ commit, dispatch }, data) {
+    const endpoint = _.get(new FetchHelper('upload'), 'url.href');
+    const options = {
+      endpoint,
+      retryDelays: [0, 1000, 3000, 5000, 10000, 20000],
+      chunkSize: 8 * 1000000,
+      metadata: {
+        filename: data.file.name,
+        filetype: data.file.type,
+      },
+    };
+
+    const inputFormat = _.get(data, 'inputFormat');
+    if (inputFormat) {
+      _.set(options, 'metadata.input_format', inputFormat);
+    }
+
+    const outputFormat = _.get(data, 'outputFormat');
+    if (outputFormat) {
+      _.set(options, 'metadata.output_format', outputFormat);
+    }
+
+    await new Promise((resolve, reject) => {
+      const upload = new tus.Upload(data.file, {
+        ...options,
+        // NOTE: tus-js using xhr :( and this hook is used for enabling credentials in preflight requests
+        onBeforeRequest(req) {
+          const xhr = req.getUnderlyingObject();
+          xhr.withCredentials = true;
+        },
+        onError(err) {
+          try {
+            const response = err.originalResponse.getBody();
+            const error = JSON.parse(response);
+
+            dispatch('toast', { error }, { root: true });
+            resolve();
+          } catch (e) {
+            console.error(e);
+            dispatch('toast', { error: { ...e } }, { root: true });
+            reject(err);
+          }
+        },
+        onProgress(bytesUploaded, bytesTotal) {
+          const percentage = (bytesUploaded / bytesTotal) * 100;
+          commit('loader', { enable: true, description: `Uploading Progress: ${percentage.toFixed(2)}%` }, { root: true });
+
+          if (percentage === 100) {
+            commit('loader', { enable: true, description: 'Creating Dash.js manifest' }, { root: true });
+          }
+        },
+        onSuccess() {
+          dispatch('toast', { event: { message: 'File upload successfully!' } }, { root: true });
+          resolve();
+        },
+      });
+
+      upload.start();
+    });
 
     // NOTE: flush local state after upload event; should be removed in the feature when we start to have a lot of sound files (more than 50 or maybe 100)
     await dispatch('getAll');
+  },
+  async reload({ commit, dispatch }, { id, name }) {
+    commit('loader', { enable: true, description: 'Trying to flush the sound cache and corrupted dash files' }, { root: true });
+    const endpoint = new FetchHelper();
+    endpoint.path = `reload?${new URLSearchParams({ id, name }).toString()}`;
+
+    await endpoint.get();
+    dispatch('toast', { event: { message: 'Dash manifest reloaded' } }, { root: true });
   },
   async update({ commit }, data) {
     // NOTE: update track name
@@ -81,8 +147,8 @@ const mutations = {
   removeTrack(store, id) {
     store.items = _.filter(store.items, (item) => item.id !== id);
   },
-  setPlay(store, track) {
-    store.track = { ...track, playing: true };
+  setPlayingTrack(store, track = defaultTrackState) {
+    store.track = { ...track };
   },
   updateTrackName(store, { id, name }) {
     const index = _.findIndex(store.items, (item) => item.id === id);

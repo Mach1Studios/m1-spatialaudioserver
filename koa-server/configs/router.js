@@ -4,7 +4,7 @@ import auth from '../api/auth';
 import playlists from '../api/playlists';
 import profile from '../api/profile';
 import tracks from '../api/tracks';
-import upload from '../api/upload';
+// import upload from '../api/upload';
 import users from '../api/users';
 
 const router = new Router({ prefix: '/v1' });
@@ -12,7 +12,8 @@ const router = new Router({ prefix: '/v1' });
 // Authorization route
 router
   .post('/auth', auth.login)
-  .del('/auth/logout', auth.validate, auth.logout);
+  .del('/auth/logout', auth.validate, auth.logout)
+  .get('/auth/validate', auth.validate);
 
 // User profile route
 router
@@ -28,13 +29,10 @@ router
 
 // Tracks route
 router
-  .get('/tracks/:id', tracks.get)
   .get('/tracks', tracks.list)
+  .get('/tracks/:id', tracks.get)
   .put('/tracks/:id', auth.validate, tracks.update)
   .del('/tracks/:id', auth.validate, tracks.remove);
-
-// Uploader
-router.post('/upload', auth.validate, upload.save);
 
 // User route
 router

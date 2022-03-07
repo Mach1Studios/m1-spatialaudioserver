@@ -4,9 +4,13 @@ import { createStore } from 'vuex';
 import audio from './modules/audio';
 import auth from './modules/auth';
 import dash from './modules/dash';
+import formats from './modules/formats';
+import logs from './modules/logs';
 import playlists from './modules/playlists';
 import tracks from './modules/tracks';
 import users from './modules/users';
+
+const delay = (sec) => new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
 const Store = createStore({
   strict: process.env.NODE_ENV !== 'production',
@@ -21,9 +25,15 @@ const Store = createStore({
     },
   },
   actions: {
-    async toast({ commit }, payload) {
+    async toast({ commit, state }, payload) {
+      if (state.loader.isLoading) {
+        await delay(1.5);
+        commit('loader', { enable: false });
+        await delay(0.5);
+      }
       commit('setToast', payload);
-      setTimeout(() => commit('setToast'), 5 * 1000);
+      await delay(5);
+      commit('setToast');
     },
   },
   mutations: {
@@ -70,13 +80,18 @@ const Store = createStore({
     audio,
     auth,
     dash,
+    formats,
+    logs,
     playlists,
     tracks,
     users,
   },
 });
 
-export { Store };
-export default () => {
-  throw new Error('Missing store instance');
-};
+Store.subscribeAction({
+  error: (_action, _state, error) => {
+    Store.dispatch('toast', { error });
+  },
+});
+
+export default Store;
