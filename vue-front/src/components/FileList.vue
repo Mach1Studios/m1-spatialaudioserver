@@ -1,7 +1,7 @@
 <template>
   <div class="flex-item scroll">
     <!-- <div v-if="admin"></div> -->
-    <table class="table-list border flex-item">
+    <table class="table-list flex-item">
       <tbody>
         <tr v-for="(item, index) in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
@@ -151,6 +151,7 @@ export default {
       text-align: justify;
     }
     td {
+      border-bottom: 1px #212121 solid;
       .disabled ~ i, p {
         cursor: pointer;
       }

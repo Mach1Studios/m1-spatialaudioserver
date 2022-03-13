@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <div id="touchstats">
-      <div class="background">
+      <div class="background-img">
         <img id="touchstats:back" src="../../assets/touch-compass.svg"/>
       </div>
       <div class="cardBottom">
@@ -45,7 +45,7 @@ export default {
     transform: translate(-50%,-50%);
   }
 
-  .background img {
+  .background-img img {
     max-height: calc(100vh - 2 * var(--height) - 3em);
     height: auto;
 
@@ -103,7 +103,7 @@ export default {
       height: auto;
       width: 95vw;
     }
-    .background img {
+    .background-img img {
       height: auto;
       width: 95vw;
     }

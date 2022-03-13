@@ -5,7 +5,7 @@
         title="Add new playlist"
         icon="add"
         position="center"
-        buttonClasses="small responsive round grey-light-3"
+        buttonClasses="small responsive upper round grey3"
         padding="medium-margin"
       >
         <PlaylistForm
@@ -24,7 +24,7 @@
                 <div class="col">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
-                <div class="col s7 m5 l7" @click="show = (show === item.id) ? show = false : show = item.id">
+                <div class="col s7 m5 l6" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
@@ -68,7 +68,7 @@
               <Modal
                 title="Add track(s) in playlist"
                 icon="add"
-                buttonClasses="small responsive round grey-light-3 small-margin"
+                buttonClasses="small responsive round upper grey3 small-margin"
                 position="center"
                 v-if="controls"
                 :key="item.id"
@@ -77,7 +77,7 @@
                 <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
               </div>
               </Modal>
-              <FileList :user="true" :playlist="item" class="no-scroll"/>
+              <FileList :user="true" :playlist="item" class="no-scroll small-padding"/>
             </div>
           </div>
         </transition>
@@ -149,7 +149,7 @@ export default {
     scrollbar-width: auto;
   }
   .playlist {
-    padding: 0 8rem 8rem 8rem;
+    // padding: 0 8rem 8rem 8rem;
     margin: 0 8rem 8rem 8rem;
 
     .playlist-header {
@@ -168,9 +168,6 @@ export default {
       &:first-of-type {
         margin-top: 1rem;
       }
-    }
-    .card {
-      border-radius: 0;
     }
     button.border::after {
       background-image: none;
@@ -202,7 +199,8 @@ export default {
   .playlists-items {
     overflow-x: hidden;
     height: auto;
-    max-height: 57vh; // note important for playlist scroll
+    // max-height: 57vh; // note important for playlist scroll
+    max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
     max-width: 100%;
 
     display: flex;
@@ -213,12 +211,13 @@ export default {
   @media screen and (orientation: portrait) {
     #Playlist {
       .playlists-items {
-        max-height: calc(100vh - 2 * var(--height) - 50px - 6em - 10vh);
+        max-height: calc(100vh - 2 * var(--height) - 50px - 8em);
+
       }
-      max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
+      // max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
     }
     .playlist-header {
-      col{
+      col {
         display: inline-grid;
       }
       h6 {

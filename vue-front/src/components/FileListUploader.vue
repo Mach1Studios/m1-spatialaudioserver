@@ -1,10 +1,10 @@
 <template>
   <div class="file-uploader">
-    <div class="card round flat grey-light-5">
-      <button class="button small no-margin responsive round grey-light-3">
+    <div class="card round flat grey4">
+      <button class="button small no-margin responsive round grey3">
           <input type="file" name="resume" @change="changeFile" multiple>
           <i class="material-icons-outlined">audiotrack</i>
-          <span class="small-text">Select Audio Track</span>
+          <span class="small-text upper">Select Audio Track</span>
       </button>
       <div v-show="validated">
         <details>
@@ -22,12 +22,48 @@
           <div class="card flat transparent">
             <FormSelect name="" placeholder="SELECT INPUT FORMAT" style="color: #1c1c1c;" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
             <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-            <button class="button small responsive round grey-light-3" @change="switchdefaultInputEnable, switchdefaultOutputEnable">
+            <button class="button small responsive round grey3" @change="switchdefaultInputEnable, switchdefaultOutputEnable">
               <i class="material-icons-outlined">save</i>
-              <span class="small-text">save</span>
+              <span class="small-text upper">save</span>
             </button>
           </div>
         </details>
+        <div class="flex-item scroll">
+          <table class="table-uploader flex-item space">
+            <thead>
+              <th>#</th>
+              <th>NAME</th>
+              <th>INPUT</th>
+              <th>OUTPUT</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in files" :key="item">
+                <td>
+                  <p class="medium-text">{{ index + 1 }}</p>
+                </td>
+                <td class="audioname">
+                  <p class="medium-text">{{item.name}}</p>
+                </td>
+                <td>
+                  <FormSelect name="" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+                  <!-- <p class="medium-text">{{inputFormat}}</p> -->
+                </td>
+                <td>
+                  <FormSelect name="" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+                  <!-- <p class="medium-text">{{outputFormat}}</p> -->
+                </td>
+                <td>
+                  <nav class="right-align">
+                    <button class="button border round transparent-border" @click="remove(item)">
+                      <i class="material-icons">delete</i>
+                    </button>
+                  </nav>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
         <!-- <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
         <label class="switch">
           <input type="checkbox" @change="switchdefaultInputEnable">
@@ -39,44 +75,8 @@
           <span>set this option as default</span>
         </label> -->
       </div>
-      <div class="flex-item scroll">
-        <table class="table-uploader border flex-item">
-          <thead>
-            <th>#</th>
-            <th>NAME</th>
-            <th>INPUT</th>
-            <th>OUTPUT</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in files" :key="item">
-              <td>
-                <p class="medium-text">{{ index + 1 }}</p>
-              </td>
-              <td class="audioname">
-                <p class="medium-text">{{item.name}}</p>
-              </td>
-              <td>
-                <FormSelect name="" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-                <!-- <p class="medium-text">{{inputFormat}}</p> -->
-              </td>
-              <td>
-                <FormSelect name="" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-                <!-- <p class="medium-text">{{outputFormat}}</p> -->
-              </td>
-              <td>
-                <nav class="right-align">
-                  <button class="button border round transparent-border" @click="remove(item)">
-                    <i class="material-icons">delete</i>
-                  </button>
-                </nav>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
   </div>
-  <button class="button small responsive round grey-light-3" @click="upload">
+  <button class="button small responsive round grey3" @click="upload">
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
   </button>
@@ -242,7 +242,7 @@ export default {
     margin-top: 16rem;
     overflow-y: scroll;
     height: auto;
-    max-height: 45vh; // note important for playlist scroll
+    max-height: 15vh; // note important for playlist scroll
     max-width: 100%;
 
     display: flex;
@@ -267,10 +267,14 @@ export default {
       background-image: none;
     }
     td {
-      padding: 0;
+      padding: 0 8rem 0 0;
+      border-bottom: 1px #212121 solid;
+      &:nth-child(3){
+        width: 50%;
+      }
+      &:nth-child(4) {
+        width: 50%;
 
-      &:last-child {
-        padding-right: 13px;
       }
       p {
         color: #1c1c1c;
@@ -306,7 +310,7 @@ export default {
     &::-webkit-scrollbar-track
     {
       border-radius: 3em;
-      background-color: #fafafa;
+      background-color: #e0e0e0;
     }
 
     &::-webkit-scrollbar
@@ -321,17 +325,6 @@ export default {
       background-color: #858585;
     }
   }
-  // .switch {
-  //   filter: grayscale(100%) !important;
-  //   text-transform: uppercase;
-  //
-  //   span {
-  //     font-size: 12rem;
-  //   }
-  // }
-  // .switch input:focus, .switch input:active, .switch input:hover {
-  //   background: none;
-  // }
 
   // @keyframes quiet {
   //   25%{

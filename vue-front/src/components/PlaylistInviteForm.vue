@@ -1,7 +1,7 @@
 <template>
   <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
   <div class="invite flex-item scroll">
-    <table class="table-invite border flex-item">
+    <table class="table-invite flex-item">
       <tbody>
         <tr v-for="(item, index) in bindedItems" :key="item">
           <td>
@@ -138,6 +138,9 @@ export default {
     }
     .table-invite {
       padding-right: 16rem;
+      td {
+        border-bottom: 1px #212121 solid;
+      }
     }
   }
 </style>

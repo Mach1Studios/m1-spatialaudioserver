@@ -1,6 +1,6 @@
 <template>
   <div class="user-list">
-    <table class="table-user-list border large center-align">
+    <table class="table-user-list large center-align">
       <thead>
         <tr>
           <th><abbr title="#">#</abbr></th>
@@ -111,6 +111,7 @@ export default {
       letter-spacing: -0.5px;
     }
     td {
+      border-bottom: 1px #212121 solid;
       vertical-align: middle;
       cursor: pointer;
     }

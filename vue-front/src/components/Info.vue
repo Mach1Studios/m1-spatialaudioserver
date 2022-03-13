@@ -97,4 +97,7 @@ export default {
  .paragraph {
    padding-top: 21.5rem;
  }
+ .large-divider {
+    border-bottom: 1rem solid #55555c;
+  }
 </style>
