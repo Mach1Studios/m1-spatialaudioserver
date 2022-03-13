@@ -5,7 +5,17 @@
       <div class="ball ball-2"></div>
       <div class="ball ball-3"></div>
     </div>
-    <h4 class="load-title">{{title}}...</h4>
+    <!-- <div class="preloader">
+
+      <div class="waveContainer">
+         <div class="wave wave1"></div>
+         <div class="wave wave2"></div>
+         <div class="wave wave3"></div>
+         <div class="wave wave4"></div>
+         <div class="wave wave5"></div>
+      </div>
+    </div> -->
+    <p class="load-title">{{title}}...</p>
     <p class="load-description small-text">{{description}}</p>
   </div>
 </template>
@@ -31,6 +41,7 @@ export default {
     background: #1c1c1cb5;
     z-index: 500;
     filter: blur(10px) contrast(5);
+    // filter: blur(2px) contrast(5);
   }
 
   .load-title {
@@ -143,4 +154,97 @@ export default {
   .ball-3 {
     margin-left: 120px;
   }
+
+  // @keyframes quiet {
+  //   25%{
+  //     transform: scaleY(.6);
+  //   }
+  //   50%{
+  //     transform: scaleY(.4);
+  //   }
+  //   75%{
+  //     transform: scaleY(.8);
+  //   }
+  // }
+  //
+  // @keyframes normal {
+  //   25%{
+  //     transform: scaleY(1);
+  //   }
+  //   50%{
+  //     transform: scaleY(.4);
+  //   }
+  //   75%{
+  //     transform: scaleY(.6);
+  //   }
+  // }
+  //
+  // @keyframes loud {
+  //   25%{
+  //     transform: scaleY(1);
+  //   }
+  //   50%{
+  //     transform: scaleY(.4);
+  //   }
+  //   75%{
+  //     transform: scaleY(1.2);
+  //   }
+  // }
+  //
+  // .waveContainer {
+  //   display: flex;
+  //   position: absolute;
+  //   width: 10%;
+  //
+  //   top: 35%;
+  //   left: 45%;
+  //   right: 45%;
+  //
+  //   z-index: 500;
+  //
+  //   // width: calc((var(--boxSize) + var(--gutter)) * 5);
+  //   height: 25vh;
+  //
+  //   justify-content: space-between;
+  //   // --boxSize: 2px;
+  //   // --gutter: 2px;
+  // }
+  //
+  // .wave {
+  //   height: 100%;
+  //   width: 20rem;
+  //
+  //   transform: scaleY(.4);
+  //
+  //   background: #fff7eb;
+  //   border-radius: 8px;
+  // }
+  //
+  // .wave {
+  //   transform: scaleY(.4);
+  //   animation-duration: 1.2s;
+  //   animation-timing-function: ease-in-out;
+  //   animation-iteration-count: infinite;
+  // }
+  //
+  // .wave1 {
+  //   animation-name: quiet;
+  // }
+  //
+  // .wave2 {
+  //   animation-name: normal;
+  // }
+  //
+  // .wave3 {
+  //   animation-name: quiet;
+  // }
+  //
+  // .wave4 {
+  //   animation-name: loud;
+  //   background: transparent;
+  // }
+  //
+  // .wave5 {
+  //   animation-name: quiet;
+  // }
 </style>

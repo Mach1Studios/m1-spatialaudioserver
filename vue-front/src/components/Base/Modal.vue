@@ -130,8 +130,8 @@ export default {
     }
   }
   .modal.left {
-    height: calc(100vh - 2 * var(--height) - 50px - 6em);
-
+    // height: calc(100vh - 2 * var(--height) - 50px - 6em);
+    max-height: calc(100vh - var(--height) - 50px - 3em);
     margin-top: 6em;
     background-color: #252526;
   }
@@ -140,5 +140,10 @@ export default {
   }
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
     background: none;
+  }
+  @media screen and (orientation: portrait) {
+    .modal.left {
+      max-height: calc(100vh - var(--height) - 50px - 6em);
+    }
   }
 </style>
