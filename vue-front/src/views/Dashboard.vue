@@ -13,7 +13,7 @@
                   <Modal
                     title="CHOOSE A FILE..."
                     icon=" "
-                    buttonClasses="small responsive round bold grey-light-3"
+                    buttonClasses="small responsive round bold grey3"
                     padding="uploader"
                     currentPosition="left"
                   >
@@ -116,7 +116,7 @@ export default {
   }
   #FileListUploader {
     height: auto;
-    max-height: 73vh;
+    max-height: 68vh;
     max-width: 100%;
 
     display: flex;

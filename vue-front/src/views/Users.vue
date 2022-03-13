@@ -5,7 +5,7 @@
         <div class="card round">
           <UsersList/>
           <Modal
-            buttonClasses="small responsive round grey-light-3"
+            buttonClasses="small responsive round grey3"
             icon="add"
             padding="small-padding large-margin"
             position="center"

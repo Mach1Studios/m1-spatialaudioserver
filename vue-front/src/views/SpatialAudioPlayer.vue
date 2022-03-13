@@ -8,7 +8,7 @@
               title="Playlists"
               icon="play_arrow"
               position="left"
-              buttonClasses="small responsive round grey-light-3"
+              buttonClasses="small responsive upper round grey3"
               padding="no-margin"
             >
               <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
@@ -146,9 +146,9 @@ export default {
     padding-top: 0;
   }
   .modal-playlist {
-    margin-top: 32px;
+    margin: 32rem 0 0 0;
   }
-  .dark .card{
+  .dark .card {
     background-color: #1c1c1c;
     border-radius: 0;
   }
@@ -166,6 +166,9 @@ export default {
       padding-left: 8rem;
       padding-right: 8rem;
       padding-bottom: calc(10vh - 50px - 3em);
+    }
+    .modal-playlist {
+      padding: 8rem 0 0 0;
     }
   }
 </style>
