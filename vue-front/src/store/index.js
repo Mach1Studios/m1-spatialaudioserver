@@ -4,10 +4,10 @@ import { createStore } from 'vuex';
 import audio from './modules/audio';
 import auth from './modules/auth';
 import dash from './modules/dash';
-import formats from './modules/formats';
 import logs from './modules/logs';
 import playlists from './modules/playlists';
 import tracks from './modules/tracks';
+import uploads from './modules/uploads';
 import users from './modules/users';
 
 const delay = (sec) => new Promise((resolve) => setTimeout(resolve, sec * 1000));
@@ -80,10 +80,10 @@ const Store = createStore({
     audio,
     auth,
     dash,
-    formats,
     logs,
     playlists,
     tracks,
+    uploads,
     users,
   },
 });

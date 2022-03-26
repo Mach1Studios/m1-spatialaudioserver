@@ -15,7 +15,7 @@
                     icon=" "
                     buttonClasses="small responsive round bold grey3"
                     padding="uploader"
-                    currentPosition="left"
+                    position="center medium"
                   >
                     <div id="FileListUploader">
                       <FileListUploader/>
@@ -136,6 +136,8 @@ export default {
     }
   }
   .audioplayer {
+    padding-left: 55rem;
+    padding-right: 55rem;
     z-index: 600;
     .dark-player {
       width: 100%;
@@ -162,8 +164,11 @@ export default {
     border-radius: 0;
   }
   .audioplayer-debug {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0 55rem 0 55rem;
+  }
+  .container {
+    padding-left: 55rem;
+    padding-right: 55rem;
   }
 
   @media screen and (orientation: portrait) {
@@ -185,8 +190,8 @@ export default {
     .container {
       overflow-x: scroll;
       padding-top: auto;
-      padding-left: 8rem;
-      padding-right: 8rem;
+      // padding-left: 8rem;
+      // padding-right: 8rem;
       padding-bottom: calc(10vh - 50px - 3em);
     }
     .mobile {

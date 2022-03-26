@@ -42,6 +42,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .container {
+    padding-left: 55rem;
+    padding-right: 55rem;
+  }
   .card {
     background-color: #252526;
   }

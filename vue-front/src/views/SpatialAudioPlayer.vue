@@ -7,7 +7,7 @@
             <Modal
               title="Playlists"
               icon="play_arrow"
-              position="left"
+              position="left medium"
               buttonClasses="small responsive upper round grey3"
               padding="no-margin"
             >
@@ -134,9 +134,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .container {
+    padding-left: 55rem;
+    padding-right: 55rem;
+  }
   .audioplayer-debug {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0 55rem 0 55rem;
   }
   .max-size {
     height: 100vh;
@@ -152,7 +155,12 @@ export default {
     background-color: #1c1c1c;
     border-radius: 0;
   }
+  .playlist {
+    padding-left: 0;
+  }
   .audioplayer {
+    padding-left: 55rem;
+    padding-right: 55rem;
     z-index: 600;
     .dark-player {
       width: 100%;
