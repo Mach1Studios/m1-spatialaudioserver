@@ -11,7 +11,7 @@
 
     <div v-show="currentPosition.active" class="active dark overlay" @click="close"></div>
 
-    <div v-show="currentPosition.active" class="modal round large-width no-scroll" :class="currentPosition">
+    <div v-show="currentPosition.active" class="modal round no-scroll" :class="currentPosition">
       <nav>
         <button class="transparent round absolute right close" @click="close">
           <i class="material-icons">highlight_off</i>
@@ -90,7 +90,7 @@ export default {
 
     i {
       font-size: 16px;
-      color: #4d4d4d;
+      color: #626161;
     }
     span {
       color: #1c1c1c;
@@ -130,8 +130,7 @@ export default {
     }
   }
   .modal.left {
-    // height: calc(100vh - 2 * var(--height) - 50px - 6em);
-    max-height: calc(100vh - var(--height) - 50px - 3em);
+    max-height: calc(100vh - var(--height) - 50px - 10em);
     margin-top: 6em;
     background-color: #252526;
   }
@@ -145,5 +144,9 @@ export default {
     .modal.left {
       max-height: calc(100vh - var(--height) - 50px - 6em);
     }
+  }
+
+  .modal.medium {
+    height: auto;
   }
 </style>

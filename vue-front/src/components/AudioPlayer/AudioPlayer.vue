@@ -222,6 +222,8 @@ export default {
       transform: translateY(0) rotateX(0);
       border: 1px solid #D36646;
       box-shadow: 0 0 5px #D36646, 0 0 5px #D36646 inset;
+      // border: 1px solid #FCCC0A;
+      // box-shadow: 0 0 5px #FCCC0A, 0 0 5px #FCCC0A inset;
     }
   }
 

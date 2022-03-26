@@ -1,5 +1,8 @@
 <template>
-  <details class="audio-player-debug">
+  <div class="overlay dark" :class="{ active: isActive }">
+    <div class="audio-player-overlay"></div>
+  </div>
+  <details class="audio-player-debug" @toggle="open">
     <div class="row no-margin">
       <div class="col s12 m6 l6">
         <StreamInfo/>
@@ -25,14 +28,23 @@ export default {
     StreamInfo,
     Debug,
   },
+  data() {
+    return { isActive: false };
+  },
   computed: { ...mapState({ items: (state) => state.logs.history }) },
-  methods: { ...mapActions('logs', ['flush']) },
+  methods: {
+    ...mapActions('logs', ['flush']),
+    open() {
+      this.isActive = !this.isActive;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
   .audio-player-debug {
     margin-bottom: 0;
     padding-bottom: 0;
+    z-index: 101;
   }
   details, summary {
     color: #ffffff;
@@ -48,7 +60,16 @@ export default {
   summary::-webkit-details-marker {
     display: none;
   }
+  .audio-player-overlay {
+    background: #1c1c1cb5;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
 
+    top: 0;
+    left: 0;
+    filter: contrast(5) blur(10px);
+  }
   @media screen and (orientation: portrait) {
     .row {
       max-height: calc(100vh - 2 * var(--height) + 50px + 6em );
@@ -60,15 +81,4 @@ export default {
       }
     }
   }
-
-  // @media screen and (orientation: landscape) {
-  //   .row {
-  //     height: calc(100vh - var(--height) - 50px - 6em );
-  //   }
-  //   .debug {
-  //     .row>.col {
-  //       padding: 0;
-  //     }
-  //   }
-  // }
 </style>

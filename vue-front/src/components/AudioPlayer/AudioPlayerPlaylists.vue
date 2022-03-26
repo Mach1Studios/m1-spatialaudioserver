@@ -51,7 +51,7 @@
                     <Modal
                       title="Invite user(s) in playlist"
                       icon="share"
-                      position="center"
+                      position="medium"
                       padding="no-padding"
                       button=" "
                     >
@@ -159,7 +159,7 @@ export default {
     }
     i {
       font-size: 16rem;
-      color: #4d4d4d;
+      color: #626161;
     }
     p {
       font-size: 14rem;
@@ -200,7 +200,7 @@ export default {
     overflow-x: hidden;
     height: auto;
     // max-height: 57vh; // note important for playlist scroll
-    max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
+    max-height: calc(100vh - 2 * var(--height) - 50px - 12em);
     max-width: 100%;
 
     display: flex;

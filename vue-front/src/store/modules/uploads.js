@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const defaultState = () => ({
-  items: [
+  formats: [
     { id: 'Stereo', name: 'Stereo', type: 'standart', numberOfChannels: 2 },
     { id: 'Stereo_Cinema', name: 'Stereo_Cinema', type: 'standart', numberOfChannels: 2 },
     { id: 'LCR', name: 'LCR', type: 'standart', numberOfChannels: 3 },
@@ -57,6 +57,7 @@ const defaultState = () => ({
     output: null,
     numberOfChannels: null,
   },
+  files: [],
   defaultInput: null,
   defaultOutput: null,
 });
@@ -65,8 +66,8 @@ const actions = {
   updateDefaultFormats({ commit, state }, data) {
     const { input, output } = data;
 
-    const isInputExist = (_.isString(input) && _.findIndex(state.items, { id: input })) || _.isNull(input);
-    const isOutputExist = (_.isString(output) && _.findIndex(state.items, { id: output })) || _.isNull(output);
+    const isInputExist = (_.isString(input) && _.findIndex(state.formats, { id: input })) || _.isNull(input);
+    const isOutputExist = (_.isString(output) && _.findIndex(state.formats, { id: output })) || _.isNull(output);
 
     if (isInputExist) {
       commit('setDefaultInput', input);
@@ -75,8 +76,9 @@ const actions = {
       commit('setDefaultOutput', output);
     }
   },
+  // eslint-disable-next-line
   validateAudio({ commit, dispatch, state }, track) {
-    commit('loader', { description: 'Checking number of channels' }, { root: true });
+    commit('loader', { enable: true, description: 'Checking number of channels' }, { root: true });
 
     const context = new (window.AudioContext || window.webkitAudioContext)();
     const reader = new FileReader();
@@ -89,13 +91,7 @@ const actions = {
         source.connect(context.destination);
         source.buffer = buffer;
 
-        console.log(!_.isNull(state.item.numberOfChannels) && e.item.numberOfChannels !== buffer.numberOfChannels);
-        if (!_.isNull(state.item.numberOfChannels) && e.item.numberOfChannels !== buffer.numberOfChannels) {
-          dispatch('toast', { event: { message: 'The selected tracks have a different number of channels and cannot be uploaded together' } }, { root: true });
-        } else {
-          commit('setNumberOfChannels', buffer.numberOfChannels);
-        }
-
+        commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
         commit('loader', { enable: false }, { root: true });
       });
     };
@@ -105,15 +101,10 @@ const actions = {
 
 const getters = {
   inputFormats(store) {
-    console.log(store.item.numberOfChannels);
-    // return store.items.filter(({ id }) => id !== store.item.output);
-    return store.items.filter(({ numberOfChannels }) => {
-      console.log(numberOfChannels, store.item.numberOfChannels);
-      return numberOfChannels === store.item.numberOfChannels;
-    });
+    return store.formats.filter(({ type }) => type !== 'mach1');
   },
   outputFormats(store) {
-    return store.items.filter(({ id, type }) => type === 'mach1' && id !== store.item.input);
+    return store.formats.filter(({ id, type }) => type === 'mach1' && id !== store.item.input);
   },
   validated(store) {
     return !_.isNull(store.item.numberOfChannels);
@@ -132,6 +123,9 @@ const mutations = {
   },
   setNumberOfChannels(store, value) {
     store.item.numberOfChannels = value;
+  },
+  setFile(store, file) {
+    store.files = [...store.files, file];
   },
 };
 export default {
