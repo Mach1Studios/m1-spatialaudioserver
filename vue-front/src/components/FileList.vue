@@ -107,12 +107,12 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #323237;
+    scrollbar-color: #858585;
   }
   i {
     cursor: pointer;
 
-    color: #4d4d4d;
+    color: #626161;
     font-size: 16px;
   }
   .disabled {
@@ -148,6 +148,7 @@ export default {
     }
     p {
       color: #ffffff;
+      // color: #626161;
       text-align: justify;
     }
     td {
@@ -177,7 +178,6 @@ export default {
       background-image: none;
     }
   }
-
   @media screen and (orientation: portrait) {
     #FileList {
       table.border td {

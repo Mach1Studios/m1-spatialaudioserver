@@ -6,35 +6,47 @@
           <i class="material-icons-outlined">audiotrack</i>
           <span class="small-text upper">Select Audio Track</span>
       </button>
-      <div v-show="validated">
-        <details>
-          <summary class="card flat transparent">
-            <div class="row no-wrap middle-align">
-              <div class="col min">
-                <i class="material-icons-outlined">settings_suggest</i>
-              </div>
-              <div class="col">
-                <div>Settings</div>
-                <div class="small-text">set default input and output formats options</div>
-              </div>
+      <details>
+        <summary class="card flat transparent">
+          <div class="row no-wrap middle-align">
+            <div class="col min">
+              <i class="material-icons-outlined">settings_suggest</i>
             </div>
-          </summary>
-          <div class="card flat transparent">
-            <FormSelect name="" placeholder="SELECT INPUT FORMAT" style="color: #1c1c1c;" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-            <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-            <button class="button small responsive round grey3" @change="switchdefaultInputEnable, switchdefaultOutputEnable">
-              <i class="material-icons-outlined">save</i>
-              <span class="small-text upper">save</span>
-            </button>
+            <div class="col">
+              <div>Settings</div>
+              <div class="small-text">set default input and output formats options</div>
+            </div>
           </div>
-        </details>
+        </summary>
+        <div class="card flat transparent">
+          <FormSelect name="" placeholder="SELECT INPUT FORMAT" selectSkin="light" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+          <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" selectSkin="light" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+          <div class="row">
+            <div class="col s6">
+              <button class="button small responsive round grey3" @change="switchDefaultInputEnable, switchDefaultOutputEnable">
+                <i class="material-icons-outlined">save</i>
+                <span class="small-text upper">save as default</span>
+              </button>
+            </div>
+            <div class="col s6">
+              <button class="button small responsive round grey3" @change="switchDefaultInputEnable, switchDefaultOutputEnable">
+                <i class="material-icons-outlined">double_arrow</i>
+                <span class="small-text upper">apply to selected tracks</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </details>
+      <div>
+      <!-- <div v-show="validated"> -->
         <div class="flex-item scroll">
           <table class="table-uploader flex-item space">
             <thead>
-              <th>#</th>
-              <th>NAME</th>
-              <th>INPUT</th>
-              <th>OUTPUT</th>
+              <th><abbr title="#">#</abbr></th>
+              <th><abbr title="NAME">NAME</abbr></th>
+              <th><abbr title="CHANNELS">CHANNELS</abbr></th>
+              <th><abbr title="INPUT">INPUT</abbr></th>
+              <th><abbr title="OUTPUT">OUTPUT</abbr></th>
               <th></th>
             </thead>
             <tbody>
@@ -46,12 +58,13 @@
                   <p class="medium-text">{{item.name}}</p>
                 </td>
                 <td>
-                  <FormSelect name="" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-                  <!-- <p class="medium-text">{{inputFormat}}</p> -->
+                  <p class="medium-text">{{item.numberOfChannels}}</p>
                 </td>
                 <td>
-                  <FormSelect name="" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-                  <!-- <p class="medium-text">{{outputFormat}}</p> -->
+                  <FormSelect name="" :options="inputFormats" selectSkin="light" :defaultValue="defaultInput" @change="changeInputFormat"/>
+                </td>
+                <td>
+                  <FormSelect name="" :options="outputFormats" selectSkin="light" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
                 </td>
                 <td>
                   <nav class="right-align">
@@ -64,17 +77,7 @@
             </tbody>
           </table>
       </div>
-        <!-- <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultInputEnable">
-          <span>set this option as default</span>
-        </label>
-        <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultOutputEnable">
-          <span>set this option as default</span>
-        </label> -->
-      </div>
+    </div>
   </div>
   <button class="button small responsive round grey3" @click="upload">
       <i class="material-icons-outlined">file_upload</i>
@@ -82,61 +85,6 @@
   </button>
 </div>
 </template>
-
-<!-- <template>
-  <div>
-    <div class="card round flat grey-light-5">
-      <button class="button small no-margin responsive round grey-light-3">
-          <input type="file" name="resume" @change="changeFile" multiple>
-          <i class="material-icons-outlined">audiotrack</i>
-          <span class="small-text">Select Audio Track</span>
-      </button>
-      <div v-show="validated">
-        <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultInputEnable">
-          <span>set this option as default</span>
-        </label>
-        <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultOutputEnable">
-          <span>set this option as default</span>
-        </label>
-      </div>
-      <div class="flex-item scroll">
-        <table class="table-uploader border flex-item">
-          <tbody>
-            <tr v-for="(item, index) in files" :key="item">
-              <td>
-                <p class="medium-text">{{ index + 1 }}</p>
-              </td>
-              <td class="audioname">
-                <p class="medium-text">{{item.name}}</p>
-              </td>
-              <td>
-                <p class="medium-text">{{inputFormat}}</p>
-              </td>
-              <td>
-                <p class="medium-text">{{outputFormat}}</p>
-              </td>
-              <td>
-                <nav class="right-align">
-                  <button class="button border round transparent-border" @click="remove(item)">
-                    <i class="material-icons">delete</i>
-                  </button>
-                </nav>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
-  </div>
-  <button class="button small responsive round grey-light-3" @click="upload">
-      <i class="material-icons-outlined">file_upload</i>
-      <span class="small-text">UPLOAD</span>
-  </button>
-</div>
-</template> -->
 
 <script>
 import {
@@ -157,21 +105,22 @@ export default {
       defaultInputEnable: false,
       defaultOutputEnable: false,
 
-      files: [],
+      // files: [],
     };
   },
   computed: {
     ...mapState({
-      defaultInput: (state) => state.formats.defaultInput,
-      defaultOutput: (state) => state.formats.defaultOutput,
+      defaultInput: (state) => state.uploads.defaultInput,
+      defaultOutput: (state) => state.uploads.defaultOutput,
+      files: (state) => state.uploads.files,
       // validated: (state) => state.formats.item.validated,
     }),
-    ...mapGetters('formats', ['inputFormats', 'outputFormats', 'validated']),
+    ...mapGetters('uploads', ['inputFormats', 'outputFormats', 'validated']),
   },
   methods: {
     ...mapActions('tracks', { request: 'upload' }),
+    ...mapActions('uploads', ['updateDefaultFormats', 'validateAudio']),
     ...mapActions(['toast']),
-    ...mapActions('formats', ['updateDefaultFormats', 'validateAudio']),
     ...mapMutations(['loader']),
     changeInputFormat(event) {
       this.inputFormat = event.target.value;
@@ -187,7 +136,7 @@ export default {
         this.updateDefaultFormats({ output: this.outputFormat });
       }
     },
-    switchdefaultInputEnable() {
+    switchDefaultInputEnable() {
       this.defaultInputEnable = !this.defaultInputEnable;
 
       this.updateDefaultFormats({
@@ -196,7 +145,7 @@ export default {
           : null,
       });
     },
-    switchdefaultOutputEnable() {
+    switchDefaultOutputEnable() {
       this.defaultOutputEnable = !this.defaultOutputEnable;
 
       this.updateDefaultFormats({
@@ -210,9 +159,8 @@ export default {
     },
     async changeFile(event) {
       const { files } = event.target;
-      this.files = _.union(this.files, files);
-
-      _.each(this.files, (file) => {
+      // this.files = _.union(this.files, files);
+      _.each(_.union(this.files, files), (file) => {
         this.validateAudio(file);
       });
     },
@@ -247,39 +195,44 @@ export default {
 
     display: flex;
     flex-direction: column;
-    align-content: space-between;
     display: block;
     overflow-x: hidden;
 
-    .audio-name {
-      width: 30%;
-      word-break: break-all;
+    width: 100%;
+    .audioname {
+    }
+    tbody{
+        width: 100%;
+        display: table;
     }
     button {
       &:hover {
         i {
           font-size: 20px;
-          color: #1c1c1c;
+          color: #252526;
         }
       }
     }
     button.border::after {
       background-image: none;
     }
+
     td {
       padding: 0 8rem 0 0;
-      border-bottom: 1px #212121 solid;
-      &:nth-child(3){
-        width: 50%;
-      }
-      &:nth-child(4) {
-        width: 50%;
-
-      }
+      border-bottom: 1px #eeeeee solid;
       p {
-        color: #1c1c1c;
-        text-align: justify;
+        color: #252526;
+        text-align: center;
+        &:nth-child(1){
+          text-align: left;
+        }
+        &:nth-child(2) {
+          text-align: left;
+        }
       }
+    }
+    abbr {
+      text-align: center;
     }
   }
   .button {
@@ -287,20 +240,20 @@ export default {
 
     i {
       font-size: 16px;
-      color: #4d4d4d;
+      color: #626161;
     }
     span {
-      color: #1c1c1c;
+      color: #252526;
     }
   }
   details {
     margin: 16rem 0 16rem 0;
   }
   .field>select {
-    background-color: #1c1c1c;
+    background-color: #252526;
   }
   .button button {
-    color: #1c1c1c;
+    color: #252526;
   }
   label {
     font-size: 12rem;
@@ -316,7 +269,7 @@ export default {
     &::-webkit-scrollbar
     {
       width: 7px;
-      background-color: #fafafa;
+      // background-color: #fafafa;
     }
 
     &::-webkit-scrollbar-thumb
@@ -325,88 +278,4 @@ export default {
       background-color: #858585;
     }
   }
-
-  // @keyframes quiet {
-  //   25%{
-  //     transform: scaleY(.6);
-  //   }
-  //   50%{
-  //     transform: scaleY(.4);
-  //   }
-  //   75%{
-  //     transform: scaleY(.8);
-  //   }
-  // }
-  //
-  // @keyframes normal {
-  //   25%{
-  //     transform: scaleY(1);
-  //   }
-  //   50%{
-  //     transform: scaleY(.4);
-  //   }
-  //   75%{
-  //     transform: scaleY(.6);
-  //   }
-  // }
-  //
-  // @keyframes loud {
-  //   25%{
-  //     transform: scaleY(1);
-  //   }
-  //   50%{
-  //     transform: scaleY(.4);
-  //   }
-  //   75%{
-  //     transform: scaleY(1.2);
-  //   }
-  // }
-  //
-  // .waveContainer {
-  //   display: flex;
-  //   width: calc((var(--boxSize) + var(--gutter)) * 5);
-  //   height: 35px;
-  //
-  //   justify-content: space-between;
-  //   --boxSize: 2px;
-  //   --gutter: 2px;
-  // }
-  //
-  // .wave {
-  //   height: 100%;
-  //   width: var(--boxSize);
-  //
-  //   transform: scaleY(.4);
-  //
-  //   background: #1c1c1c;
-  //   border-radius: 8px;
-  // }
-  //
-  // button:hover .wave {
-  //   transform: scaleY(.4);
-  //   animation-duration: 1.2s;
-  //   animation-timing-function: ease-in-out;
-  //   animation-iteration-count: infinite;
-  // }
-  //
-  // .wave1 {
-  //   animation-name: quiet;
-  // }
-  //
-  // .wave2 {
-  //   animation-name: normal;
-  // }
-  //
-  // .wave3 {
-  //   animation-name: quiet;
-  // }
-  //
-  // .wave4 {
-  //   animation-name: loud;
-  //   background: transparent;
-  // }
-  //
-  // .wave5 {
-  //   animation-name: quiet;
-  // }
 </style>

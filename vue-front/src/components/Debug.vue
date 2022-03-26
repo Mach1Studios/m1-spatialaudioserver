@@ -17,7 +17,7 @@
     </div>
     <div class="flex-item scroll">
       <div class="responsive" v-for="item in items" :key="item">
-        <a :class="[item.type === 'info' ? 'info' : 'error']" class="chip upper small-chip">{{item.type}}</a>
+        <a :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="chip upper small-chip">{{item.type}}</a>
         <a class="chip small-chip timestamp">{{item.timestamp}}</a>
         <div class="log">
           <details class="card transparent flat" @click.prevent :open="details === item.id">
@@ -25,7 +25,7 @@
               <div class="row no-wrap middle-align">
                 <div class="col max">
                   <a class="chip responsive left-align small-padding">
-                    <i :class="[item.type === 'info' ? 'info' : 'error']" class="material-icons">arrow_right_alt</i><p class="message">{{item.message}}</p>
+                    <i :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="material-icons">arrow_right_alt</i><p class="message">{{item.message}}</p>
                   </a>
                 </div>
                 <div class="col min" v-if="item.data" @click="open(item.id)">
@@ -124,7 +124,7 @@ export default {
   .small-chip {
     margin: 1rem 6rem 6rem 6rem;
     height: 20rem;
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-2);
     background: transparent;
   }
   .timestamp {
@@ -143,24 +143,24 @@ export default {
     width: 100%;
     word-break: break-all;
   }
-  .info {
-    color: #cddc39;
+  .info-chip {
+    color: #ffff00;
   }
-  .error {
-    color: red;
+  .error-chip {
+    color: #ff0000;
   }
   .nav-btn {
     margin-top: 0;
 
     span {
-      color: #ffffff;
+      color: #fff7eb;
       vertical-align: top;
       font-size: 14rem;
     }
     i {
       vertical-align: baseline;
       margin-right: 4rem;
-      color: #ffffff;
+      color: #fff7eb;
       font-size: 18rem;
     }
   }
@@ -170,7 +170,7 @@ export default {
     }
   }
   .log {
-    background-color: #252526;
+    background-color: #19191a;
 
     border-radius: 6rem;
     margin: 0 8rem 6rem 0;
@@ -212,7 +212,7 @@ export default {
       }
       i {
         vertical-align: baseline;
-        color: #ffffff;
+        color: #fff7eb;
         font-size: 18rem;
       }
     }
@@ -224,29 +224,5 @@ export default {
       height: auto;
     }
   }
-  // @media screen and (orientation: landscape) {
-  //   .player-debug {
-  //     padding-bottom: 10rem;
-  //   }
-  //   .nav-btn {
-  //     margin-left: 0;
-  //     margin-right: 0;
-  //     padding-left: 0;
-  //     span {
-  //       display: none;
-  //     }
-  //     i {
-  //       vertical-align: baseline;
-  //       color: #ffffff;
-  //       font-size: 18rem;
-  //     }
-  //   }
-  //   .header-debug {
-  //     padding: 0 0 10rem 0;
-  //   }
-  //   .flex-item {
-  //     max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
-  //     height: auto;
-  //   }
-  // }
+
 </style>

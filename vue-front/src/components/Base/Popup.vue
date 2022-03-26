@@ -66,7 +66,7 @@ export default {
     }
   }
   i {
-    color: #4d4d4d;
+    color: #626161;
     cursor: pointer;
     font-size: 16px;
   }
@@ -80,7 +80,7 @@ export default {
   }
 
   .info {
-    border-bottom: 1px #4d4d4d dotted;
+    border-bottom: 1px #626161 dotted;
   }
   p {
     text-align: justify;
