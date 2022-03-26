@@ -68,7 +68,6 @@ export default {
 <style lang="scss" scoped>
   .field {
     input {
-      // clip-path: polygon(0% 0%, 12rem 0%, 12rem 8rem, 80rem 8rem, 80rem 0%, 100% 0%, 100% 100%, 0% 100%);
       border: 1rem #323237 solid;
       color: #ffffff;
       -webkit-text-fill-color: #ffffff !important;

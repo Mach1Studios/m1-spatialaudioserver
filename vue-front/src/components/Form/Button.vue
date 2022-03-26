@@ -33,7 +33,7 @@ export default {
 
   i {
     font-size: 16px;
-    color: #4d4d4d;
+    color: #626161;
   }
   span {
     color: #1c1c1c;
