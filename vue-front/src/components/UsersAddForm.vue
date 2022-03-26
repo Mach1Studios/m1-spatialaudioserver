@@ -11,7 +11,7 @@
       placeholder="Password"
       type="password"
     />
-    <FormSelect name="users" placeholder="Role" defaultClass="role" :options="roles" v-model="user.role"/>
+    <FormSelect name="users" placeholder="Role" selectSkin="dark" :options="roles" v-model="user.role"/>
     <FormButton :icon="icon" :title="title" @click="click"/>
   </form>
 </template>
@@ -80,7 +80,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .role {
-    color: #ffffff;
-  }
 </style>

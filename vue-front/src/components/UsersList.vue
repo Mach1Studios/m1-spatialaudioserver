@@ -99,7 +99,7 @@ export default {
       color: #ffffff;
     }
     i {
-      color: #4d4d4d;
+      color: #626161;
     }
     abbr {
       width: 100%;

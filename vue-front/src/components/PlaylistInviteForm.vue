@@ -1,5 +1,5 @@
 <template>
-  <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
+  <FormSelect name="" placeholder="" selectSkin="dark" :options="unbindedItems" @change="addItem"/>
   <div class="invite flex-item scroll">
     <table class="table-invite flex-item">
       <tbody>
@@ -111,17 +111,12 @@ export default {
         border-color: #1c1c1c;
       }
     }
-    select{
-      &:focus {
-        border-bottom: 2rem solid #1c1c1c;
-      }
-    }
     span {
       color: #1c1c1c;
     }
     i {
       font-size: 16px;
-      color: #4d4d4d;
+      color: #626161;
     }
     button {
       width: 100%;

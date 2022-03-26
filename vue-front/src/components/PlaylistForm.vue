@@ -69,7 +69,7 @@ export default {
     }
     i {
       font-size: 16px;
-      color: #4d4d4d;
+      color: #626161;
     }
     input {
       &:focus {
@@ -86,7 +86,7 @@ export default {
     }
     i {
       font-size: 16px;
-      color: #4d4d4d;
+      color: #626161;
     }
     button {
       width: 100%;
