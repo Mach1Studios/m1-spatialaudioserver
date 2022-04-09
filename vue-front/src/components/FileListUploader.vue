@@ -219,7 +219,7 @@ export default {
 
     td {
       padding: 0 8rem 0 0;
-      border-bottom: 1px #eeeeee solid;
+      border-bottom: 1px #b1b1b1 solid;
       p {
         color: #252526;
         text-align: center;

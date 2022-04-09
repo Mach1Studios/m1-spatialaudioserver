@@ -34,4 +34,10 @@ export default {
     padding-left: 55rem;
     padding-right: 55rem;
   }
+  @media screen and (orientation: portrait) {
+    .container {
+      padding-left: 8rem;
+      padding-right: 8rem;
+    }
+  }
 </style>

@@ -178,5 +178,9 @@ export default {
     .modal-playlist {
       padding: 8rem 0 0 0;
     }
+    .audioplayer {
+      padding-left: 8rem;
+      padding-right: 8rem;
+    }
   }
 </style>

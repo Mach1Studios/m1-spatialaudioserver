@@ -187,11 +187,15 @@ export default {
         max-height: calc(100vh - 2 * var(--height) - 50px - 3em);
       }
     }
+    .audioplayer {
+      padding-left: 8rem;
+      padding-right: 8rem;
+    }
     .container {
       overflow-x: scroll;
       padding-top: auto;
-      // padding-left: 8rem;
-      // padding-right: 8rem;
+      padding-left: 8rem;
+      padding-right: 8rem;
       padding-bottom: calc(10vh - 50px - 3em);
     }
     .mobile {

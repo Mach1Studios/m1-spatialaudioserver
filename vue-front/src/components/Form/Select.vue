@@ -74,7 +74,7 @@ export default {
   }
   .field.light {
     select {
-      border: 1rem #eeeeee solid;
+      border: 1rem #b1b1b1 solid;
       color: #eaeaea;
       -webkit-text-fill-color: #252526 !important;
       &:focus {

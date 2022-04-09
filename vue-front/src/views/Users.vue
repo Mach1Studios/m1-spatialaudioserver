@@ -50,5 +50,9 @@ export default {
     background-color: #252526;
   }
   @media screen and (orientation: portrait) {
+    .container {
+      padding-left: 8rem;
+      padding-right: 8rem;
+    }
   }
 </style>
