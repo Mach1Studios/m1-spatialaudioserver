@@ -2,18 +2,24 @@
   <div class="menu top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
     <div class="navigation" :class="{ active: isActive }">
-      <router-link v-if="isAdmin" class="link" to="/dashboard">Dashboard</router-link>
-      <router-link class="link" to="/">Spatial Audio Player</router-link>
-      <router-link v-if="isAdmin" class="link" to="/users">Users</router-link>
+      <router-link v-if="isAdmin" class="link" to="/dashboard">
+        Dashboard
+      </router-link>
+      <router-link class="link" to="/">
+        Spatial Audio Player
+      </router-link>
+      <router-link v-if="isAdmin" class="link" to="/users">
+        Users
+      </router-link>
     </div>
-    <div style="flex-grow: 1;"></div>
+    <div style="flex-grow: 1;" />
     <router-link v-if="isAuthorized" class="profile link" to="/settings">
-      {{user ? user.nickname : 'Profile'}}
+      {{ user ? user.nickname : 'Profile' }}
     </router-link>
-    <UsersAuth/>
+    <UsersAuth />
     <div class="mobile">
       <button @click="menu">
-        <i class="material-icons-outlined">{{ isActive ? 'close' : 'menu'}}</i>
+        <i class="material-icons-outlined">{{ isActive ? 'close' : 'menu' }}</i>
       </button>
     </div>
   </div>

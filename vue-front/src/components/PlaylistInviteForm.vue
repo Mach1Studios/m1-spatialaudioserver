@@ -1,5 +1,5 @@
 <template>
-  <FormSelect name="" placeholder="" selectSkin="dark" :options="unbindedItems" @change="addItem"/>
+  <FormSelect name="" placeholder="" select-skin="dark" :options="unbindedItems" @change="addItem" />
   <div class="invite flex-item scroll">
     <table class="table-invite flex-item">
       <tbody>
@@ -8,11 +8,11 @@
             <p class="medium-text">{{ index + 1 }}</p>
           </td>
           <td class="small-width">
-            <p class="medium-text">{{item.name}}</p>
+            <p class="medium-text">{{ item.name }}</p>
           </td>
           <td>
             <nav class="right-align">
-              <button class="border transparent-border"  @click="del(item.id)">
+              <button class="border transparent-border" @click="del(item.id)">
                 <i class="material-icons">delete</i>
               </button>
             </nav>
@@ -41,6 +41,9 @@ export default {
       type: Array,
     },
   },
+  data() {
+    return {};
+  },
   computed: {
     bindedItems() {
       return _
@@ -56,9 +59,6 @@ export default {
         .map(({ id, name, email }) => ({ id, name: name || email }))
         .value();
     },
-  },
-  data() {
-    return {};
   },
   methods: {
     ...mapActions('playlists', ['addItemToPlaylist', 'removeItemFromPlaylist']),

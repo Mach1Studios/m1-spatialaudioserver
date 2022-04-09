@@ -2,9 +2,9 @@
   <div class="file-uploader">
     <div class="card round flat grey4">
       <button class="button small no-margin responsive round grey3">
-          <input type="file" name="resume" @change="changeFile" multiple>
-          <i class="material-icons-outlined">audiotrack</i>
-          <span class="small-text upper">Select Audio Track</span>
+        <input type="file" name="resume" multiple @change="changeFile">
+        <i class="material-icons-outlined">audiotrack</i>
+        <span class="small-text upper">Select Audio Track</span>
       </button>
       <details>
         <summary class="card flat transparent">
@@ -14,13 +14,31 @@
             </div>
             <div class="col">
               <div>Settings</div>
-              <div class="small-text">set default input and output formats options</div>
+              <div class="small-text">
+                set default input and output formats options
+              </div>
             </div>
           </div>
         </summary>
         <div class="card flat transparent">
-          <FormSelect name="" placeholder="SELECT INPUT FORMAT" selectSkin="light" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-          <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" selectSkin="light" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+          <FormSelect
+            name=""
+            placeholder="SELECT INPUT FORMAT"
+            select-skin="light"
+
+            :options="inputFormats"
+            :default-value="defaultInput"
+            @change="changeInputFormat"
+          />
+          <FormSelect
+            name=""
+            placeholder="SELECT OUTPUT FORMAT"
+            select-skin="light"
+
+            :options="outputFormats"
+            :default-value="defaultOutput"
+            @change="changeOutputFormat"
+          />
           <div class="row">
             <div class="col s6">
               <button class="button small responsive round grey3" @change="switchDefaultInputEnable, switchDefaultOutputEnable">
@@ -38,7 +56,7 @@
         </div>
       </details>
       <div>
-      <!-- <div v-show="validated"> -->
+        <!-- <div v-show="validated"> -->
         <div class="flex-item scroll">
           <table class="table-uploader flex-item space">
             <thead>
@@ -47,7 +65,7 @@
               <th><abbr title="CHANNELS">CHANNELS</abbr></th>
               <th><abbr title="INPUT">INPUT</abbr></th>
               <th><abbr title="OUTPUT">OUTPUT</abbr></th>
-              <th></th>
+              <th />
             </thead>
             <tbody>
               <tr v-for="(item, index) in files" :key="item">
@@ -55,16 +73,16 @@
                   <p class="medium-text">{{ index + 1 }}</p>
                 </td>
                 <td class="audioname">
-                  <p class="medium-text">{{item.name}}</p>
+                  <p class="medium-text">{{ item.name }}</p>
                 </td>
                 <td>
-                  <p class="medium-text">{{item.numberOfChannels}}</p>
+                  <p class="medium-text">{{ item.numberOfChannels }}</p>
                 </td>
                 <td>
-                  <FormSelect name="" :options="inputFormats" selectSkin="light" :defaultValue="defaultInput" @change="changeInputFormat"/>
+                  <FormSelect name="" :options="inputFormats" select-skin="light" :default-value="defaultInput" @change="changeInputFormat" />
                 </td>
                 <td>
-                  <FormSelect name="" :options="outputFormats" selectSkin="light" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
+                  <FormSelect name="" :options="outputFormats" select-skin="light" :default-value="defaultOutput" @change="changeOutputFormat" />
                 </td>
                 <td>
                   <nav class="right-align">
@@ -76,14 +94,14 @@
               </tr>
             </tbody>
           </table>
+        </div>
       </div>
     </div>
-  </div>
-  <button class="button small responsive round grey3" @click="upload">
+    <button class="button small responsive round grey3" @click="upload">
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
-  </button>
-</div>
+    </button>
+  </div>
 </template>
 
 <script>

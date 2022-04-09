@@ -1,18 +1,18 @@
 <template>
-  <div class="overlay active dark preloader" v-show="isLoading">
+  <div v-show="isLoading" class="overlay active dark preloader">
     <div class="load">
       <div class="load-animation">
         <div class="animation-line">
-          <div class="line line-1"></div>
-          <div class="line line-2"></div>
-          <div class="line line-3"></div>
-          <div class="line line-4"></div>
-          <div class="line line-5"></div>
+          <div class="line line-1" />
+          <div class="line line-2" />
+          <div class="line line-3" />
+          <div class="line line-4" />
+          <div class="line line-5" />
         </div>
-        <div class="animation-circle"></div>
+        <div class="animation-circle" />
       </div>
-      <p class="load-title">{{title}}...</p>
-      <p class="load-description">{{description}}</p>
+      <p class="load-title">{{ title }}...</p>
+      <p class="load-description">{{ description }}</p>
     </div>
   </div>
 </template>

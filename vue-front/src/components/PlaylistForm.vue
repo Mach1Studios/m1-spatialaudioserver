@@ -1,8 +1,8 @@
 <template>
   <div class="playlist-form large-width">
-    <FormInput name="name" placeholder="Name" type="text" v-model="item.name" @keyup.enter="click"/>
+    <FormInput v-model="item.name" name="name" placeholder="Name" type="text" @keyup.enter="click" />
     <div>
-      <FormButton :icon="icon" :title="title" @click="click"/>
+      <FormButton :icon="icon" :title="title" @click="click" />
     </div>
   </div>
 </template>
@@ -13,6 +13,10 @@ import FormInput from './Form/Input.vue';
 
 export default {
   name: 'PlaylistForm',
+  components: {
+    FormButton,
+    FormInput,
+  },
   props: {
     id: String,
     name: String,
@@ -20,10 +24,6 @@ export default {
     icon: String,
 
     action: Function,
-  },
-  components: {
-    FormButton,
-    FormInput,
   },
   data() {
     return {

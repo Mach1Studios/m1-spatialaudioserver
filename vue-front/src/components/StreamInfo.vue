@@ -11,7 +11,7 @@
               <p class="medium-text bold">Stream:</p>
             </td>
             <td>
-              <p class="medium-text info">{{info.url}}</p>
+              <p class="medium-text info">{{ info.url }}</p>
             </td>
           </tr>
           <tr>
@@ -19,7 +19,7 @@
               <p class="medium-text bold">Number of audio channels:</p>
             </td>
             <td>
-              <p class="medium-text info">{{channels}}</p>
+              <p class="medium-text info">{{ channels }}</p>
             </td>
           </tr>
           <tr>
@@ -27,7 +27,7 @@
               <p class="medium-text bold">Audio Bitrate:</p>
             </td>
             <td>
-              <p class="medium-text info">{{info.audioBitRate}} Kbps</p>
+              <p class="medium-text info">{{ info.audioBitRate }} Kbps</p>
             </td>
           </tr>
           <tr>
@@ -35,7 +35,7 @@
               <p class="medium-text bold">Buffer Level:</p>
             </td>
             <td>
-              <p class="medium-text info">{{info.audioBufferLevel}} secs</p>
+              <p class="medium-text info">{{ info.audioBufferLevel }} secs</p>
             </td>
           </tr>
           <tr>
@@ -43,7 +43,7 @@
               <p class="medium-text bold">Update Period:</p>
             </td>
             <td>
-              <p class="medium-text info">{{info.minimumUpdatePeriod}} sec</p>
+              <p class="medium-text info">{{ info.minimumUpdatePeriod }} sec</p>
             </td>
           </tr>
           <tr>
@@ -51,7 +51,7 @@
               <p class="medium-text bold">Suggestion Delay:</p>
             </td>
             <td>
-              <p class="medium-text info">{{info.suggestedPresentationDelay}} sec</p>
+              <p class="medium-text info">{{ info.suggestedPresentationDelay }} sec</p>
             </td>
           </tr>
           <tr>
@@ -59,7 +59,7 @@
               <p class="medium-text bold">Profiles:</p>
             </td>
             <td>
-              <p class="medium-text info">{{info.profiles}}</p>
+              <p class="medium-text info">{{ info.profiles }}</p>
             </td>
           </tr>
         </tbody>

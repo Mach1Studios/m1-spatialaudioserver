@@ -1,14 +1,14 @@
 <template>
   <div class="overlay dark" :class="{ active: isActive }">
-    <div class="audio-player-overlay"></div>
+    <div class="audio-player-overlay" />
   </div>
   <details class="audio-player-debug" @toggle="open">
     <div class="row no-margin">
       <div class="col s12 m6 l6">
-        <StreamInfo/>
+        <StreamInfo />
       </div>
       <div class="col s12 m6 l6">
-        <Debug/>
+        <Debug />
       </div>
     </div>
     <summary>

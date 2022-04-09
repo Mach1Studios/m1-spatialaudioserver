@@ -3,7 +3,7 @@
     <i class="material-icons-outlined">info</i>
     <div class="popup card" :style="position">
       <p v-for="(value, key) in items" :key="value" class="info small-margin">
-        <b class="upper">{{key}}:</b> {{value}}
+        <b class="upper">{{ key }}:</b> {{ value }}
       </p>
     </div>
   </button>

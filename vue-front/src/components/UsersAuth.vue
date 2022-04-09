@@ -1,46 +1,50 @@
 <template>
-  <Modal v-if="!user" title="Sign In" titleClasses="large-width add-user">
+  <Modal v-if="!user" title="Sign In" title-classes="large-width add-user">
     <template #button>
-      <button class="login">Sign in</button>
+      <button class="login">
+        Sign in
+      </button>
     </template>
 
     <template #default="parrent">
       <form @submit.prevent="handler(parrent.close)">
         <FormInput
+          v-model="credentials.login"
+
           autocomplete="username"
           name="login"
           placeholder="Login"
           type="text"
-
-          v-model="credentials.login"
           required
         />
         <FormInput
+          v-model="credentials.password"
+
           autocomplete="current-password"
           name="password"
           placeholder="Password"
           type="password"
-
-          v-model="credentials.password"
           required
         />
-        <FormButton title="Enter" icon="login" type="submit" @click="handler(parrent.close)"/>
+        <FormButton title="Enter" icon="login" type="submit" @click="handler(parrent.close)" />
       </form>
     </template>
   </Modal>
   <div v-else class="profile">
-    <Modal title="Are you sure?" titleClasses="large-width add-user">
+    <Modal title="Are you sure?" title-classes="large-width add-user">
       <template #button>
-        <button class="transparent-border"><i class="material-icons">logout</i></button>
+        <button class="transparent-border">
+          <i class="material-icons">logout</i>
+        </button>
       </template>
 
       <template #default="parrent">
         <div class="row no-wrap logout">
           <div class="col">
-            <FormButton title="Yes" @click="ok(parrent.close)"/>
+            <FormButton title="Yes" @click="ok(parrent.close)" />
           </div>
           <div class="col">
-            <FormButton title="No" @click="parrent.close"/>
+            <FormButton title="No" @click="parrent.close" />
           </div>
         </div>
       </template>

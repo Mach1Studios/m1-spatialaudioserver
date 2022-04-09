@@ -1,23 +1,30 @@
 <template>
   <div class="player">
     <div class="top-align">
-      <progress name="progress" class="top" min="0" max="100" :value="playback" @click.prevent="playbackUpdate"></progress>
+      <progress
+        name="progress"
+        class="top"
+        min="0"
+        max="100"
+        :value="playback"
+        @click.prevent="playbackUpdate"
+      />
     </div>
     <div class="music-box">
-      <audio ref="player"></audio>
+      <audio ref="player" />
     </div>
     <div class="btn-box">
       <span class="absolute left">
-        <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
-        <span class="name">{{track.name}}</span>
+        <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{ icon }}</i>
+        <span class="name">{{ track.name }}</span>
       </span>
       <span class="absolute right">
-        <span class="duration">{{currentTime}}</span>
+        <span class="duration">{{ currentTime }}</span>
         <span class="duration">/</span>
-        <span class="duration">{{duration}}</span>
+        <span class="duration">{{ duration }}</span>
         <i class="material-icons repeat" :class="{ 'on-repeat': isRepeat }" @click="repeat">repeat</i>
-        <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="Local" data-front="Live"></span>
-        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="Live" data-front="Local"></span>
+        <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="Local" data-front="Live" />
+        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="Live" data-front="Local" />
       </span>
     </div>
   </div>

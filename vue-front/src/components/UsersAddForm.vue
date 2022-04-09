@@ -1,7 +1,7 @@
 <template>
   <form class="add-user" @submit.prevent="click">
-    <FormInput name="nickname" placeholder="Nickname" type="text" v-model="user.nickname"/>
-    <FormInput name="email" placeholder="E-mail" type="text" v-model="user.email"/>
+    <FormInput v-model="user.nickname" name="nickname" placeholder="Nickname" type="text" />
+    <FormInput v-model="user.email" name="email" placeholder="E-mail" type="text" />
     <FormInput
       v-if="!user.id"
       v-model="user.password"
@@ -11,8 +11,8 @@
       placeholder="Password"
       type="password"
     />
-    <FormSelect name="users" placeholder="Role" selectSkin="dark" :options="roles" v-model="user.role"/>
-    <FormButton :icon="icon" :title="title" @click="click"/>
+    <FormSelect v-model="user.role" name="users" placeholder="Role" select-skin="dark" :options="roles" />
+    <FormButton :icon="icon" :title="title" @click="click" />
   </form>
 </template>
 

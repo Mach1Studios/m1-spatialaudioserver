@@ -7,9 +7,11 @@
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
     >
-      <option class="decorated" v-for="option in options" :key="option.id" :value="option.id" :selected="defaultValue === option.id"><label>{{ option.name }}</label></option>
+      <option v-for="option in options" :key="option.id" class="decorated" :value="option.id" :selected="defaultValue === option.id">
+        <label>{{ option.name }}</label>
+      </option>
     </select>
-    <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
+    <label v-show="placeholder" :class="{ active: focused }">{{ placeholder }}</label>
     <i class="material-icons">arrow_drop_down</i>
   </div>
 </template>

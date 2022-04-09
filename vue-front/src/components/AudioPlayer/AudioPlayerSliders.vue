@@ -1,10 +1,18 @@
 <template>
-  <div class="row no-wrap middle-align" v-for="name in names" :key="name">
+  <div v-for="name in names" :key="name" class="row no-wrap middle-align">
     <div class="col">
       <p class="bold" style="white-space:nowrap" :name="names">{{ name }}</p>
     </div>
     <div class="col">
-      <input class="slider" step="0.01" min="0" max="1" value="0.5" type="range" @change="test(name, $event.target.value)">
+      <input
+        class="slider"
+        step="0.01"
+        min="0"
+        max="1"
+        value="0.5"
+        type="range"
+        @change="test(name, $event.target.value)"
+      >
     </div>
   </div>
 </template>

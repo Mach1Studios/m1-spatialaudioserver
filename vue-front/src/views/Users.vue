@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col s12 m12 l12">
         <div class="card round">
-          <UsersList/>
+          <UsersList />
           <Modal
-            buttonClasses="small responsive round grey3"
+            button-classes="small responsive round grey3"
             icon="add"
             padding="small-padding large-margin"
             position="center"
             title="Add user"
-            titleClasses="large-width add-user"
+            title-classes="large-width add-user"
           >
             <UsersAddForm
               title="Add user"

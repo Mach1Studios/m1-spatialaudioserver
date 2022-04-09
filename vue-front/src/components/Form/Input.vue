@@ -5,14 +5,14 @@
       :type="type"
       :value="modelValue"
 
-      @blur="select"
-      @focus="select"
-      @input="$emit('update:modelValue', $event.target.value)"
-
       :autocomplete="autocomplete"
       :required="required"
+      @blur="select"
+
+      @focus="select"
+      @input="$emit('update:modelValue', $event.target.value)"
     >
-    <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
+    <label v-show="placeholder" :class="{ active: focused }">{{ placeholder }}</label>
   </div>
 </template>
 

@@ -1,24 +1,33 @@
 <template>
-  <div class="card round" v-show="isActiveStream === true" id="Controls">
+  <div v-show="isActiveStream === true" id="Controls" class="card round">
     <div class="preview">
-      <h4 class="title large-text">AUDIO PREVIEW</h4>
+      <h4 class="title large-text">
+        AUDIO PREVIEW
+      </h4>
       <div class="channel-controls flex-item scroll">
-        <div class="row middle-align responsive" v-for="channel in channels" :key="channel">
+        <div v-for="channel in channels" :key="channel" class="row middle-align responsive">
           <div class="channel-name">
-            <p class="small-text upper white-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
+            <p class="small-text upper white-text" style="white-space:nowrap">Channel {{ channel + 1 }}</p>
           </div>
           <div class="channel-wave">
-            <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
+            <AudioPlayerSineWave :channel="channel" :line-color="lineColors[channel]" />
           </div>
           <div class="controls">
             <div class="volume-control middle-align">
               <div>
                 <i class="material-icons small" @click="mute(channel)">
-                  {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
+                  {{ channelsMuted[channel] ? 'volume_off' : 'volume_up' }}
                 </i>
               </div>
               <div class="channel">
-                <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
+                <input
+                  v-model="channelsVolume[channel]"
+                  step="0.01"
+                  min="0"
+                  max="1"
+                  type="range"
+                  @change="changeVolume(channel, $event.target.value)"
+                >
               </div>
             </div>
             <div class="position-control middle-align">
@@ -26,7 +35,14 @@
                 <p>L</p>
               </div>
               <div class="channel">
-                <input step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
+                <input
+                  step="1"
+                  min="-1"
+                  max="1"
+                  type="range"
+                  value="0"
+                  @change="changePosition(channel, $event.target.value)"
+                >
               </div>
               <div>
                 <p>R</p>

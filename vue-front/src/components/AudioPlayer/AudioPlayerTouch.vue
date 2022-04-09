@@ -2,11 +2,13 @@
   <div id="main">
     <div id="touchstats">
       <div class="background-img">
-        <img id="touchstats:back" src="../../assets/touch-compass.svg"/>
+        <img id="touchstats:back" src="../../assets/touch-compass.svg">
       </div>
       <div class="cardBottom">
         <div id="touchstats:card" class="card touch">
-          <div class="txt">FRONT</div>
+          <div class="txt">
+            FRONT
+          </div>
         </div>
       </div>
     </div>

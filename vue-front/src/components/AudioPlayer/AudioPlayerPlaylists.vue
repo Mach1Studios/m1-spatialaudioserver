@@ -5,7 +5,7 @@
         title="Add new playlist"
         icon="add"
         position="center"
-        buttonClasses="small responsive upper round grey3"
+        button-classes="small responsive upper round grey3"
         padding="medium-margin"
       >
         <PlaylistForm
@@ -90,8 +90,12 @@
                   <img src="../../assets/playlist.svg" class="circle medium">
                 </div>
                 <div class="col" @click="show = (show === item.id) ? show = false : show = item.id">
-                  <h6 class="bold no-margin white-text top-align">{{item.name}}</h6>
-                  <div class="small-text">Last upload: music.wav</div>
+                  <h6 class="bold no-margin white-text top-align">
+                    {{ item.name }}
+                  </h6>
+                  <div class="small-text">
+                    Last upload: music.wav
+                  </div>
                 </div>
                 <!-- <div class="col s7 m5 l6" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
@@ -101,7 +105,7 @@
                   <div class="col min">
                     <nav v-if="controls" class="right-align">
                       <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
-                        <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
+                        <i class="material-icons">{{ item.visibility ? 'visibility' : 'visibility_off' }}</i>
                       </button>
                       <Modal
                         title="Rename playlist"
@@ -125,7 +129,7 @@
                         padding="no-padding"
                         button=" "
                       >
-                        <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
+                        <PlaylistInviteForm path="permissions" :playlist="item" :items="users" />
                       </Modal>
                       <button class="border round transparent-border" @click="remove(item)">
                         <i class="material-icons">delete</i>
@@ -135,21 +139,21 @@
                 </div>
               </div>
             </div>
-              <div v-show="show === item.id" class="playlist-list card table-card">
-                <Modal
-                  title="Add track(s) in playlist"
-                  icon="add"
-                  buttonClasses="small responsive upper grey3 small-margin"
-                  position="center"
-                  v-if="controls"
-                  :key="item.id"
-                >
+            <div v-show="show === item.id" class="playlist-list card table-card">
+              <Modal
+                v-if="controls"
+                :key="item.id"
+                title="Add track(s) in playlist"
+                icon="add"
+                button-classes="small responsive upper grey3 small-margin"
+                position="center"
+              >
                 <div id="Add-tracks">
-                  <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+                  <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks" />
                 </div>
-                </Modal>
-                <FileList :user="true" :playlist="item" class="no-scroll small-padding"/>
-              </div>
+              </Modal>
+              <FileList :user="true" :playlist="item" class="no-scroll small-padding" />
+            </div>
           </div>
         </transition>
       </div>
@@ -166,8 +170,8 @@ import PlaylistForm from '../PlaylistForm.vue';
 import PlaylistInviteForm from '../PlaylistInviteForm.vue';
 
 export default {
-  name: 'AudioPlayerPlaylists',
   el: '#Playlist',
+  name: 'AudioPlayerPlaylists',
   components: {
     FileList,
     Modal,

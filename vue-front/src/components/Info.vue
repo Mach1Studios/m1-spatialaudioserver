@@ -1,6 +1,8 @@
 <template>
   <div class="info">
-    <h4 class="title upper white-text">About</h4>
+    <h4 class="title upper white-text">
+      About
+    </h4>
     <p class="white-text">
       Mach1 preserves traditional audio engineering best practices enabling the artist to be in full creative control.
       We are not just looking to the masters of the past,
@@ -18,10 +20,12 @@
       Mach1 Spatial achieves a perfect 1:1 with what the audio producer or engineer created. Mach1 Spatial is transparent there is no processing or filtering effects
       to simulate directionality at the expense of quality. With Mach1 your creative mix is the technical mix. We want to help build the world that values, artists, sound and craftsmanship.
     </p>
-    <div class="large-divider"></div>
+    <div class="large-divider" />
     <div class="row">
       <div class="col s12">
-        <h2 class="title upper white-text">Follow us:</h2>
+        <h2 class="title upper white-text">
+          Follow us:
+        </h2>
         <a href="https://www.instagram.com/poweredbymach1/">
           <img class="social-icon top" src="../assets/icons8-instagram.svg">
         </a>

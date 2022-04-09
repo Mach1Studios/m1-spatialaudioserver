@@ -1,8 +1,8 @@
 <template>
-  <div class="field" v-for="name in names" :key="name">
-    <input class="state" type="radio" name="app" id="a" value="a">
+  <div v-for="name in names" :key="name" class="field">
+    <input id="a" class="state" type="radio" name="app" value="a">
     <label class="label black-text" for="a">
-      <div class="indicator"></div>
+      <div class="indicator" />
       <span class="text bold" :name="names">{{ name }}</span>
     </label>
   </div>

@@ -3,13 +3,13 @@
     <div @click="open">
       <slot name="button">
         <button class="round border transparent-border default-mdl-btn" :class="buttonClasses">
-          <i v-if="icon" class="material-icons">{{icon}}</i>
-          <span class="small-text">{{button || title}}</span>
+          <i v-if="icon" class="material-icons">{{ icon }}</i>
+          <span class="small-text">{{ button || title }}</span>
         </button>
       </slot>
     </div>
 
-    <div v-show="currentPosition.active" class="active dark overlay" @click="close"></div>
+    <div v-show="currentPosition.active" class="active dark overlay" @click="close" />
 
     <div v-show="currentPosition.active" class="modal round no-scroll" :class="currentPosition">
       <nav>
@@ -20,13 +20,15 @@
 
       <div :class="titleClasses">
         <slot name="header">
-          <h4 class="title center-align large-text">{{title}}</h4>
+          <h4 class="title center-align large-text">
+            {{ title }}
+          </h4>
         </slot>
-        <slot :close="close"></slot>
+        <slot :close="close" />
       </div>
 
       <div class="large-width absolute center bottom">
-        <slot name="footer"></slot>
+        <slot name="footer" />
       </div>
     </div>
   </div>

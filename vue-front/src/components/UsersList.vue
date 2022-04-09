@@ -18,16 +18,16 @@
             <p class="medium-text">{{ index + 1 }}</p>
           </td>
           <td>
-            <p class="medium-text">{{item.nickname}}</p>
+            <p class="medium-text">{{ item.nickname }}</p>
           </td>
           <td>
-            <p class="medium-text mobile">{{item.email}}</p>
+            <p class="medium-text mobile">{{ item.email }}</p>
           </td>
           <td>
-            <p class="medium-text">{{item.role}}</p>
+            <p class="medium-text">{{ item.role }}</p>
           </td>
           <td>
-            <p class="medium-text">{{item.lastSeen}}</p>
+            <p class="medium-text">{{ item.lastSeen }}</p>
           </td>
           <td>
             <Modal
@@ -36,8 +36,8 @@
               icon="edit"
               position="center"
               padding="no-padding"
-              buttonClasses="small responsive"
-              titleClasses="large-width"
+              button-classes="small responsive"
+              title-classes="large-width"
             >
               <UsersAddForm
                 icon="save"
@@ -66,11 +66,11 @@ import UsersAddForm from './UsersAddForm.vue';
 
 export default {
   name: 'UsersList',
-  props: { admin: Boolean },
   components: {
     Modal,
     UsersAddForm,
   },
+  props: { admin: Boolean },
   computed: mapState({ users: (state) => state.users.items }),
   methods: { ...mapActions('users', ['update', 'remove']) },
   created() {

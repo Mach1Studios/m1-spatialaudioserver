@@ -8,26 +8,26 @@
               title="Playlists"
               icon="play_arrow"
               position="left medium"
-              buttonClasses="small responsive upper round grey3"
+              button-classes="small responsive upper round grey3"
               padding="no-margin"
             >
-              <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
+              <AudioPlayerPlaylists class="modal-playlist" :admin="true" />
             </Modal>
           </div>
         </div>
-        <div class="col s6"></div>
-        <div class="col s3"></div>
+        <div class="col s6" />
+        <div class="col s3" />
       </div>
     </div>
     <div>
-      <AudioPlayerTouch/>
+      <AudioPlayerTouch />
     </div>
     <div class="row no-space dark absolute bottom">
-      <div class="card flat audioplayer-debug" v-if="isAdmin">
-        <AudioPlayerDebug/>
+      <div v-if="isAdmin" class="card flat audioplayer-debug">
+        <AudioPlayerDebug />
       </div>
       <div class="card flat transparent audioplayer">
-        <AudioPlayer skin="dark" class="dark-player"/>
+        <AudioPlayer skin="dark" class="dark-player" />
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
-    ...mapActions('logs', { log: 'createMessage' }),
+    // ...mapActions('logs', { log: 'createMessage' }),
     changeVolume(channel, volume) {
       this.updateVolume({ channel, volume });
     },
@@ -112,10 +112,10 @@ export default {
       document.getElementById('touchstats:card').style.transform = transform;
 
       const decoded = this.decoder.decode({ yaw, pitch, roll });
-      this.log({
-        message: `Mach1DecoderProxy decoded values: ${decoded}`,
-        data: { decoded, pitch, roll, yaw },
-      });
+      // this.log({
+      //   message: `Mach1DecoderProxy decoded values: ${decoded}`,
+      //   data: { decoded, pitch, roll, yaw },
+      // });
 
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {

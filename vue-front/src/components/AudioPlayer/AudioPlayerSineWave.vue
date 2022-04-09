@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas :ref="refLink" class="visualizer" height="50"></canvas>
+    <canvas :ref="refLink" class="visualizer" height="50" />
     <!-- <canvas :ref="refLink" class="visualizer" width="400" height="50"></canvas> -->
   </div>
 </template>
@@ -56,28 +56,6 @@ export default {
     refLink() {
       return `sinewave-${this.channel}`;
     },
-  },
-
-  mounted() {
-    const id = this.refLink;
-
-    this.provider.ctx = this.$refs[id].getContext('2d');
-
-    // this.$refs[id].width = this.container.width;
-    // this.$refs[id].height = this.container.height;
-    //
-    this.container.height = this.$refs[id].height;
-    this.container.width = this.$refs[id].width;
-
-    this.frame.sliceHeight = this.container.height / 256;
-    this.frame.sliceWidth = (this.container.width * 9) / (this.bufferSize * 10);
-
-    // console.log('slice=', this.frame.sliceHeight);
-
-    this.startWaveAnimation();
-  },
-  unmounted() {
-    cancelAnimationFrame(this.animationFrame);
   },
 
   methods: {
@@ -165,6 +143,28 @@ export default {
       await wait(100);
       return this.startWaveAnimation();
     },
+  },
+
+  mounted() {
+    const id = this.refLink;
+
+    this.provider.ctx = this.$refs[id].getContext('2d');
+
+    // this.$refs[id].width = this.container.width;
+    // this.$refs[id].height = this.container.height;
+    //
+    this.container.height = this.$refs[id].height;
+    this.container.width = this.$refs[id].width;
+
+    this.frame.sliceHeight = this.container.height / 256;
+    this.frame.sliceWidth = (this.container.width * 9) / (this.bufferSize * 10);
+
+    // console.log('slice=', this.frame.sliceHeight);
+
+    this.startWaveAnimation();
+  },
+  unmounted() {
+    cancelAnimationFrame(this.animationFrame);
   },
 };
 </script>

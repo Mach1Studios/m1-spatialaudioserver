@@ -3,34 +3,34 @@
     <div class="container max no-scroll">
       <div class="row mobile">
         <div class="col s6 m6 l6">
-          <div class="card round"  id="app-body-first">
-              <div class="tabs left-align">
-                <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
-                <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
-              </div>
-              <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
-                  <FileList :admin="true"/>
-                  <Modal
-                    title="CHOOSE A FILE..."
-                    icon=" "
-                    buttonClasses="small responsive round bold grey3"
-                    padding="uploader"
-                    position="center medium"
-                  >
-                    <div id="FileListUploader">
-                      <FileListUploader/>
-                    </div>
-                  </Modal>
-              </div>
-              <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
-                <AudioPlayerPlaylists :admin="true" :controls="true"/>
-              </div>
+          <div id="app-body-first" class="card round">
+            <div class="tabs left-align">
+              <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
+              <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
+            </div>
+            <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
+              <FileList :admin="true" />
+              <Modal
+                title="CHOOSE A FILE..."
+                icon=" "
+                button-classes="small responsive round bold grey3"
+                padding="uploader"
+                position="center medium"
+              >
+                <div id="FileListUploader">
+                  <FileListUploader />
+                </div>
+              </Modal>
+            </div>
+            <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
+              <AudioPlayerPlaylists :admin="true" :controls="true" />
+            </div>
           </div>
         </div>
         <div class="col s6 m6 l6">
           <div id="app-body-second">
             <div id="AudioPlayerControls">
-              <AudioPlayerControls/>
+              <AudioPlayerControls />
             </div>
           </div>
         </div>
@@ -38,10 +38,10 @@
     </div>
     <div class="row no-space dark absolute bottom">
       <div class="card flat audioplayer-debug">
-        <AudioPlayerDebug/>
+        <AudioPlayerDebug />
       </div>
       <div class="card flat transparent audioplayer">
-        <AudioPlayer skin="dark" class="dark-player"/>
+        <AudioPlayer skin="dark" class="dark-player" />
       </div>
     </div>
   </div>

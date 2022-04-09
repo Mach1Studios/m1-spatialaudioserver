@@ -16,24 +16,24 @@
       </div>
     </div>
     <div class="flex-item scroll">
-      <div class="responsive" v-for="item in items" :key="item">
-        <a :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="chip upper small-chip">{{item.type}}</a>
-        <a class="chip small-chip timestamp">{{item.timestamp}}</a>
+      <div v-for="item in items" :key="item" class="responsive">
+        <a :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="chip upper small-chip">{{ item.type }}</a>
+        <a class="chip small-chip timestamp">{{ item.timestamp }}</a>
         <div class="log">
-          <details class="card transparent flat" @click.prevent :open="details === item.id">
+          <details class="card transparent flat" :open="details === item.id" @click.prevent>
             <summary class="none">
               <div class="row no-wrap middle-align">
                 <div class="col max">
                   <a class="chip responsive left-align small-padding">
-                    <i :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="material-icons">arrow_right_alt</i><p class="message">{{item.message}}</p>
+                    <i :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="material-icons">arrow_right_alt</i><p class="message">{{ item.message }}</p>
                   </a>
                 </div>
-                <div class="col min" v-if="item.data" @click="open(item.id)">
+                <div v-if="item.data" class="col min" @click="open(item.id)">
                   <i class="material-icons">more_vert</i>
                 </div>
               </div>
             </summary>
-            <p class="data">{{item.data}}</p>
+            <p class="data">{{ item.data }}</p>
           </details>
         </div>
       </div>
