@@ -126,6 +126,10 @@ export default {
       width: 100%;
       display: flex;
       justify-content: center;
+
+      span {
+        vertical-align: middle;
+      }
       i {
         font-size: 24px;
         color: #72646f;

@@ -110,13 +110,14 @@ export default {
       this.changeVolume(channel, this.channelsMuted[channel] ? this.defaultVolume : 0);
     },
     async init() {
+      // console.log(this.isActiveStream, this.isActiveChannels);
       if (this.isActiveStream && this.isActiveChannels) {
         _.each(this.channels, (channel, index) => {
           this.channelsVolume[index] = this.defaultVolume;
         });
         return this.createGainNodes(this.defaultVolume);
       }
-      await wait(2);
+      await wait(0.5);
       return this.init();
     },
   },
