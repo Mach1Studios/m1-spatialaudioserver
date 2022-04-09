@@ -1,5 +1,7 @@
 import _ from 'lodash';
+
 import { createStore } from 'vuex';
+import VuexPersistence from 'vuex-persist';
 
 import audio from './modules/audio';
 import auth from './modules/auth';
@@ -12,8 +14,23 @@ import users from './modules/users';
 
 const delay = (sec) => new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
+// eslint-disable-next-line
+const persistSettings = new VuexPersistence({
+  key: 'm1::store::settings',
+  storage: window.localStorage,
+  modules: ['auth', 'uploads'],
+});
+
+// const persistLogs = new VuexPersistence({
+//   key: 'm1::store::logs',
+//   storage: window.localStorage,
+//   modules: ['logs'],
+// });
+
 const Store = createStore({
   strict: process.env.NODE_ENV !== 'production',
+
+  plugins: [persistSettings.plugin],
 
   state: {
     modalVisibility: null,
@@ -24,6 +41,7 @@ const Store = createStore({
       isError: false, isSuccess: false, message: '',
     },
   },
+
   actions: {
     async toast({ commit, state }, payload) {
       if (state.loader.isLoading) {
@@ -36,6 +54,7 @@ const Store = createStore({
       commit('setToast');
     },
   },
+
   mutations: {
     loader(state, payload) {
       const { description, enable, title } = payload;

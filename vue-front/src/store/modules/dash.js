@@ -39,7 +39,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
   player.updateSettings(settings);
   _.each(requestTypeSettings, (type) => player.setXHRWithCredentialsForType(type, true));
 
-  player.initialize(ctx.rootState.audio.view, ctx.state.info.url, true);
+  player.initialize(ctx.rootState.audio.view, ctx.state.info.url, false);
 
   ctx.commit('setPlayer', player);
 
@@ -67,8 +67,6 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
   player.on(dashjs.MediaPlayer.events.CAN_PLAY, () => {
     ctx.commit('setActiveStream', true);
-    ctx.commit('loader', { enable: false }, { root: true });
-
     ctx.dispatch('logs/createMessage', { message: 'Dash stream cached. Track is playable' }, { root: true });
   });
 
