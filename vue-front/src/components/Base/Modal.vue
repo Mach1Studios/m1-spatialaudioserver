@@ -2,7 +2,7 @@
   <div class="no-margin" :class="paddingSize">
     <div @click="open">
       <slot name="button">
-        <button class="round border transparent-border default-modal-btn" :class="buttonClasses">
+        <button class="round border transparent-border default-mdl-btn" :class="buttonClasses">
           <i v-if="icon" class="material-icons">{{icon}}</i>
           <span class="small-text">{{button || title}}</span>
         </button>
@@ -49,9 +49,7 @@ export default {
     titleClasses: String,
   },
   computed: {
-    ...mapState({
-      active: (state) => state.modalVisibility,
-    }),
+    ...mapState({ active: (state) => state.modalVisibility }),
     currentPosition() {
       const { active, position } = this;
       return {
@@ -61,9 +59,7 @@ export default {
     },
     paddingSize() {
       const { padding = 'no-padding' } = this;
-      return {
-        [padding]: true,
-      };
+      return { [padding]: true };
     },
   },
   methods: {
@@ -89,7 +85,7 @@ export default {
     text-transform: uppercase;
   }
 
-  .default-modal-btn {
+  .default-mdl-btn {
     max-width: fill-available;
 
     i {
@@ -134,13 +130,20 @@ export default {
     }
   }
   .modal.left {
-    height: calc( 100% - 90rem - 57px);
-    margin-top: 64rem;
+    // height: calc(100vh - 2 * var(--height) - 50px - 6em);
+    max-height: calc(100vh - var(--height) - 50px - 3em);
+    margin-top: 6em;
+    background-color: #252526;
   }
   .modal {
     background-color: #252526;
   }
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
     background: none;
+  }
+  @media screen and (orientation: portrait) {
+    .modal.left {
+      max-height: calc(100vh - var(--height) - 50px - 6em);
+    }
   }
 </style>

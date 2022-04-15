@@ -8,12 +8,8 @@ const settings = {
     lowLatencyEnabled: false,
     stableBufferTime: 30,
     bufferTimeAtTopQualityLongForm: 30,
-    retryIntervals: {
-      MPD: 10 * 1000, // NOTE: guys from earshot set this value to 50sec, cos sometimes it make nginx crazy, we tested on 10sec now
-    },
-    retryAttempts: {
-      MPD: 10,
-    },
+    retryIntervals: { MPD: 10 * 1000 }, // NOTE: guys from earshot set this value to 50sec, cos sometimes it make nginx crazy, we tested on 10sec now
+    retryAttempts: { MPD: 10 },
   },
 };
 
@@ -66,9 +62,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
       ctx.commit('setStreamInformation', { processing: false });
     }
 
-    ctx.dispatch('updateInfo', {
-      profiles, minimumUpdatePeriod, suggestedPresentationDelay, type,
-    });
+    ctx.dispatch('updateInfo', { profiles, minimumUpdatePeriod, suggestedPresentationDelay, type });
   });
 
   player.on(dashjs.MediaPlayer.events.CAN_PLAY, () => {
@@ -177,6 +171,4 @@ const mutations = {
   },
 };
 
-export default {
-  namespaced: true, state: defaultState, actions, mutations,
-};
+export default { namespaced: true, state: defaultState, actions, mutations };

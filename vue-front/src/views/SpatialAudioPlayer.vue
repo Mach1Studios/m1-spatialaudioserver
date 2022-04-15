@@ -2,13 +2,13 @@
   <div class="max-size">
     <div class="container max">
       <div class="row">
-        <div class="col s3">
+        <div class="col s12 m6 l4">
           <div class="card transparent playlist">
             <Modal
               title="Playlists"
               icon="play_arrow"
               position="left"
-              buttonClasses="small responsive round grey-light-3"
+              buttonClasses="small responsive upper round grey3"
               padding="no-margin"
             >
               <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
@@ -23,7 +23,7 @@
       <AudioPlayerTouch/>
     </div>
     <div class="row no-space dark absolute bottom">
-      <div class="card flat" v-if="isAdmin">
+      <div class="card flat audioplayer-debug" v-if="isAdmin">
         <AudioPlayerDebug/>
       </div>
       <div class="card flat transparent audioplayer">
@@ -114,9 +114,7 @@ export default {
       const decoded = this.decoder.decode({ yaw, pitch, roll });
       this.log({
         message: `Mach1DecoderProxy decoded values: ${decoded}`,
-        data: {
-          decoded, pitch, roll, yaw,
-        },
+        data: { decoded, pitch, roll, yaw },
       });
 
       if (decoded && decoded.length > 0) {
@@ -136,6 +134,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .audioplayer-debug {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
   .max-size {
     height: 100vh;
   }
@@ -144,11 +146,10 @@ export default {
     padding-top: 0;
   }
   .modal-playlist {
-    margin-top: 32px;
+    margin: 32rem 0 0 0;
   }
-  .dark .card{
+  .dark .card {
     background-color: #1c1c1c;
-    z-index: 600;
     border-radius: 0;
   }
   .audioplayer {
@@ -158,5 +159,16 @@ export default {
     }
     box-shadow: none;
     padding-top: 0;
+  }
+  @media screen and (orientation: portrait) {
+    .container {
+      padding-top: auto;
+      padding-left: 8rem;
+      padding-right: 8rem;
+      padding-bottom: calc(10vh - 50px - 3em);
+    }
+    .modal-playlist {
+      padding: 8rem 0 0 0;
+    }
   }
 </style>

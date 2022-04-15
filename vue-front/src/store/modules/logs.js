@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { DateTime } from 'luxon';
+import { v4 as uuid } from 'uuid';
 
-const defaultState = {
-  history: [],
-};
+const defaultState = { history: [] };
 
 const actions = {
   createMessage({ commit }, data) {
     const payload = {
+      id: uuid(),
       timestamp: DateTime.now(),
       message: _.get(data, 'message', ''),
       data: _.get(data, 'data'),
@@ -23,13 +23,11 @@ const actions = {
 const mutations = {
   // eslint-disable-next-line
   setMessage(store, payload) {
-    store.history = [...store.history, payload];
+    // store.history.push(payload);
   },
   flushHistory(store) {
     store.history = [];
   },
 };
 
-export default {
-  namespaced: true, state: defaultState, actions, mutations,
-};
+export default { namespaced: true, state: defaultState, actions, mutations };

@@ -1,11 +1,11 @@
 <template>
   <div id="Playlist">
-    <div v-if="controls" class="add-new-playlist">
+    <div v-if="controls" class="playlist-mdl-btn">
       <Modal
         title="Add new playlist"
         icon="add"
         position="center"
-        buttonClasses="small responsive round grey-light-3"
+        buttonClasses="small responsive upper round grey3"
         padding="medium-margin"
       >
         <PlaylistForm
@@ -15,20 +15,20 @@
         />
       </Modal>
     </div>
-    <div class="playlists-items">
+    <div class="playlists-items flex-item scroll">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
-          <div class="playlists scroll">
+          <div class="playlist">
             <div class="playlist-header">
               <div class="row">
-                <div class="col s2 m1 l1">
+                <div class="col">
                   <img src="../../assets/playlist.svg" class="circle large">
                 </div>
-                <div class="col s10 m11 l5" @click="show = (show === item.id) ? show = false : show = item.id">
+                <div class="col s7 m5 l6" @click="show = (show === item.id) ? show = false : show = item.id">
                   <h6 class="bold no-margin white-text">{{item.name}}</h6>
                   <p>Last upload: music.wav</p>
                 </div>
-                <div class="col s12 m12 l6">
+                <div class="col">
                   <nav v-if="controls" class="right-align">
                     <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
                       <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
@@ -68,7 +68,7 @@
               <Modal
                 title="Add track(s) in playlist"
                 icon="add"
-                buttonClasses="small medium-margin grey-light-3 small-space large-btn"
+                buttonClasses="small responsive round upper grey3 small-margin"
                 position="center"
                 v-if="controls"
                 :key="item.id"
@@ -77,7 +77,7 @@
                 <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
               </div>
               </Modal>
-              <FileList :user="true" :playlist="item" class="no-scroll"/>
+              <FileList :user="true" :playlist="item" class="no-scroll small-padding"/>
             </div>
           </div>
         </transition>
@@ -103,13 +103,9 @@ export default {
     PlaylistForm,
     PlaylistInviteForm,
   },
-  props: {
-    controls: Boolean,
-  },
+  props: { controls: Boolean },
   data() {
-    return {
-      show: false,
-    };
+    return { show: false };
   },
   computed: mapState({
     tracks: (state) => state.tracks.items,
@@ -130,17 +126,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // .dark-card {
-  //   background-color: #323237;
-  // }
-
-  .playlists {
-    margin-bottom: 16rem;
-    // margin-right: 8rem;
-    // margin-left: 8rem;
-    .playlist-header {
+  .flex-item {
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3rem;
       background-color: #323237;
-      padding: 8rem;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: auto;
+  }
+  .playlist {
+    // padding: 0 8rem 8rem 8rem;
+    margin: 0 8rem 8rem 8rem;
+
+    .playlist-header {
+      padding: 16rem 0 0 16rem;
+      background-color: #323237;
       margin-bottom: 0;
     }
     i {
@@ -152,11 +166,8 @@ export default {
       color: #72646f;
 
       &:first-of-type {
-        margin-top: 2px;
+        margin-top: 1rem;
       }
-    }
-    .card {
-      border-radius: 0;
     }
     button.border::after {
       background-image: none;
@@ -177,46 +188,56 @@ export default {
     opacity: 0;
   }
 
-  .add-new-playlist {
+  .playlist-mdl-btn {
     padding-bottom: 16rem;
   }
 
   .playlist-list {
     margin-top: 0;
-  }
-  .playlists-items{
     background-color: #232323;
+  }
+  .playlists-items {
     overflow-x: hidden;
     height: auto;
-    max-height: 67vh; // note important for playlist scroll
+    // max-height: 57vh; // note important for playlist scroll
+    max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
     max-width: 100%;
 
     display: flex;
     flex-direction: column;
     align-content: space-between;
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3em;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 7px;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
-      background-color: #858585;
-    }
   }
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 375px) {
-    /* Write your code here */
+
+  @media screen and (orientation: portrait) {
+    #Playlist {
+      .playlists-items {
+        max-height: calc(100vh - 2 * var(--height) - 50px - 8em);
+
+      }
+      // max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
+    }
     .playlist-header {
-
+      col {
+        display: inline-grid;
+      }
+      h6 {
+        width: 100%;
+        word-break: break-all;
+      }
+      p {
+        width: 100%;
+        word-break: keep-all;
+      }
     }
   }
+  // @media screen and (orientation: landscape) {
+  //   #Playlist {
+  //     .playlists-items {
+  //       max-height: calc((100vh - 2 * var(--height) - 50px - 10em - 10vh) / 1.4);
+  //     }
+  //     .playlist-mdl-btn {
+  //       padding: 0 0 0 8rem;
+  //     }
+  //   }
+  // }
 </style>

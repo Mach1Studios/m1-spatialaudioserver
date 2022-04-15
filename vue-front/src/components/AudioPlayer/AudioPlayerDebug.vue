@@ -1,15 +1,15 @@
 <template>
-  <details class="debug">
+  <details class="audio-player-debug">
     <div class="row no-margin">
-      <div class="col s12 l6">
+      <div class="col s12 m6 l6">
         <StreamInfo/>
       </div>
-      <div class="col s12 l6">
+      <div class="col s12 m6 l6">
         <Debug/>
       </div>
     </div>
     <summary>
-      <p class="medium-text bold">DEBUG PLAYER<i class="material-icons-outlined white-text">expand_more</i></p>
+      <p class="bold">DEBUG PLAYER<i class="material-icons-outlined white-text">expand_more</i></p>
     </summary>
   </details>
 </template>
@@ -25,18 +25,12 @@ export default {
     StreamInfo,
     Debug,
   },
-  computed: {
-    ...mapState({
-      items: (state) => state.logs.history,
-    }),
-  },
-  methods: {
-    ...mapActions('logs', ['flush']),
-  },
+  computed: { ...mapState({ items: (state) => state.logs.history }) },
+  methods: { ...mapActions('logs', ['flush']) },
 };
 </script>
 <style lang="scss" scoped>
-  .debug {
+  .audio-player-debug {
     margin-bottom: 0;
     padding-bottom: 0;
   }
@@ -46,8 +40,35 @@ export default {
   summary {
     list-style: none;
     margin-bottom: 0;
+    p {
+      font-size: var(--default-font-size);
+      padding: 4rem 0 0 0;
+    }
   }
   summary::-webkit-details-marker {
     display: none;
   }
+
+  @media screen and (orientation: portrait) {
+    .row {
+      max-height: calc(100vh - 2 * var(--height) + 50px + 6em );
+      height: auto;
+    }
+    .audio-player-debug {
+      .row>.col {
+        padding: 0;
+      }
+    }
+  }
+
+  // @media screen and (orientation: landscape) {
+  //   .row {
+  //     height: calc(100vh - var(--height) - 50px - 6em );
+  //   }
+  //   .debug {
+  //     .row>.col {
+  //       padding: 0;
+  //     }
+  //   }
+  // }
 </style>

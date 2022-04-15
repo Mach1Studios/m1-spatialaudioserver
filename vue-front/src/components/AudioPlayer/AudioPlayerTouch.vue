@@ -1,8 +1,8 @@
 <template>
   <div id="main">
-    <div id="touchstats" style="margin:0;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:50vw;height:auto;">
-      <div class="background">
-        <img id="touchstats:back" src="https://demo.mach1.tech/img/touch-compass.svg"/>
+    <div id="touchstats">
+      <div class="background-img">
+        <img id="touchstats:back" src="../../assets/touch-compass.svg"/>
       </div>
       <div class="cardBottom">
         <div id="touchstats:card" class="card touch">
@@ -32,31 +32,46 @@ export default {
     max-height: 90vh;
   }
 
-  .background img {
-    width: 40vw;
+  #touchstats {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+    max-height: calc(100vh - var(--height) - 3em);
+    height: auto;
+
+    margin: 0;
+
+    transform: translate(-50%,-50%);
+  }
+
+  .background-img img {
+    max-height: calc(100vh - 2 * var(--height) - 3em);
     height: auto;
 
     opacity: 0.6;
   }
 
   .cardBottom {
-    width: 480px;
-    height: 320px;
     position: absolute;
 
-    top: 50%;
     left: 50%;
+    top: 50%;
+    height: 22.857em;
+    width: 34.286em;
+
     transform: translate(-50%, -50%);
 
     transition: 0.4s;
     perspective: 1000px;
     .card {
-      width: 100%;
-      height: 100%;
       position: absolute;
 
-      top: 50%;
       left: 50%;
+      top: 50%;
+      height: 100%;
+      width: 100%;
+
       margin: 0 auto;
       transform-origin: center center;
       transform: translate(-50%, -50%);
@@ -69,8 +84,9 @@ export default {
     }
     .card .txt {
       position: absolute;
-      top: 50%;
+
       left: 50%;
+      top: 50%;
 
       transform: translate(-50%, -50%);
       padding: 10px;
@@ -80,6 +96,27 @@ export default {
 
       font-size: 40px;
       text-align: center;
+    }
+  }
+  @media screen and (orientation: portrait) {
+    #touchstats {
+      height: auto;
+      width: 95vw;
+    }
+    .background-img img {
+      height: auto;
+      width: 95vw;
+    }
+    .cardBottom {
+      height: calc(((100vh - 2 * var(--height) - 3em) * 2 ) / 3);
+      width: calc(100vh - 2 * var(--height) - 3em);
+      .card {
+        height: 45%;
+        width: 45%;
+      }
+      .card .txt {
+        font-size: 20px;
+      }
     }
   }
 </style>

@@ -82,29 +82,12 @@ export default class FetchHelper {
       this.options.body = body;
     }
 
-    // TODO: For next iteration need to create full response method with error handler
-    try {
-      const response = await fetch(this.url, this.options);
-      if (response.status === 204) return null;
-      try {
-        if (response.ok) return await response.json();
+    const response = await fetch(this.url, this.options);
+    if (response.status === 204) return null;
 
-        // FIXME: need review
-        const error = await response.json();
-        // Store.dispatch('toast', { error });
-        throw error;
-      } catch (e) {
-        if (response.ok) throw new Error('Wrong JSON response');
-        throw e;
-      }
-    } catch (e) {
-      if (e.message === 'Wrong JSON response') {
-        // NOTE: just skip for this
-      }
+    const payload = await response.json();
+    if (response.ok) return payload;
 
-      // Store.dispatch('toast', { error: { ...e } });
-
-      throw new Error('API error response');
-    }
+    throw payload;
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="flex-item scroll">
     <!-- <div v-if="admin"></div> -->
-    <table class="list-table border flex-item">
+    <table class="table-list flex-item">
       <tbody>
         <tr v-for="(item, index) in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
@@ -10,7 +10,7 @@
           <td @click="select(item.id)" class="audio-name">
             <p class="medium-text">{{item.name}}</p>
           </td>
-          <td class="mobile-btn">
+          <td>
             <nav class="right-align">
               <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id"/>
               <button class="border round transparent-border" @click="reload(item)">
@@ -83,9 +83,7 @@ export default {
       return this.isPlaylist ? _.filter(this.tracks, (track) => this.playlist.tracks.indexOf(track.id) !== -1) : this.tracks;
     },
   },
-  methods: {
-    ...mapActions('tracks', ['reload', 'remove', 'select', 'update']),
-  },
+  methods: { ...mapActions('tracks', ['reload', 'remove', 'select', 'update']) },
 };
 </script>
 
@@ -93,14 +91,15 @@ export default {
   .flex-item {
     &::-webkit-scrollbar-track
     {
-      border-radius: 3em;
-      background-color: #252526;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar
     {
-      width: 7px;
-      background-color: #252526;
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
     }
 
     &::-webkit-scrollbar-thumb
@@ -108,7 +107,7 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #232324;
+    scrollbar-color: #858585 #323237;
   }
   i {
     cursor: pointer;
@@ -125,8 +124,7 @@ export default {
     width: inherit;
   }
   tr.on-play {
-    background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
-
+    background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
     p {
       color: #72646f;
       font-weight: bold;
@@ -135,7 +133,7 @@ export default {
       color: #72646f;
     }
   }
-  .list-table {
+  .table-list {
     display: block;
     overflow: hidden;
     width: 100%;
@@ -153,6 +151,7 @@ export default {
       text-align: justify;
     }
     td {
+      border-bottom: 1px #212121 solid;
       .disabled ~ i, p {
         cursor: pointer;
       }
@@ -164,7 +163,7 @@ export default {
       vertical-align: middle;
     }
     tr:hover {
-      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#323237);
+      background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
     }
     button {
       &:hover {
@@ -179,232 +178,12 @@ export default {
     }
   }
 
-  /* SCSS for Large (lg) screen */
-  @media only screen and (max-width: 992px) {
+  @media screen and (orientation: portrait) {
     #FileList {
       table.border td {
         border: none;
       }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 800px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 768px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 600px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 414px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 394px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 375px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 360px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 320px) {
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: inline-table;
-        }
-        td{
-          display: grid;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Extra Small (md) & Landscap screen */
-  @media only screen and (max-width: 823px) and (min-width:801px) {
-    #FileList {
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: table-cell;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap screen */
-  @media only screen and (max-width: 667px) and (min-width:601px) {
-    #FileList {
-      .list-table {
-        .audio-name {
-          width: 85%;
-          word-break: keep-all;
-        }
-        td:not(:nth-child(3)){
-          display: table-cell;
-        }
-      }
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap Mobile screen */
-  @media only screen and (max-width: 568px){
-    #FileList {
-      table.border td {
-        border: none;
-      }
-      .list-table {
+      .table-list {
         .audio-name {
           width: 85%;
           word-break: keep-all;

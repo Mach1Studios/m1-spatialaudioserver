@@ -1,5 +1,5 @@
 <template>
-  <div class="field label sufix">
+  <div class="field label suffix border">
     <select
       :name="name"
       :value="modelValue"
@@ -7,6 +7,8 @@
       @blur="select"
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
+
+      :class="{ defaultClass }"
     >
       <option class="decorated" v-for="option in options" :key="option.id" :value="option.id" :selected="defaultValue === option.id"><label>{{ option.name }}</label></option>
     </select>
@@ -39,6 +41,12 @@ export default {
         return null;
       },
     },
+    defaultClass: {
+      type: String,
+      default() {
+        return 'defaultClass';
+      },
+    },
   },
   emits: ['update:modelValue'],
   data() {
@@ -62,6 +70,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .defaultClass {
+    color: #1c1c1c;
+  }
+  .field>select {
+    color: #1c1c1c;
+  }
   .field {
     select {
       &::-webkit-scrollbar-track
@@ -82,9 +96,21 @@ export default {
         background-color: #858585;
       }
       &:focus {
-        border-color: #1c1c1c;
-        border-bottom: none;
+        border: 1rem #55555c solid;
+      }
+      &:focus-within {
+        border: 1rem #55555c solid;
       }
     }
+  }
+  label {
+    padding: 0 4rem 0 4rem;
+    background-color: #e0e0e0;
+  }
+  option {
+    color: #252526;
+  }
+  .field.label.border:not(.fill)>label.active {
+    color: #55555c;
   }
 </style>

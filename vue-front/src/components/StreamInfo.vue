@@ -4,7 +4,7 @@
       <h4>DASH STREAM INFO</h4>
     </div>
     <div class="flex-item scroll">
-      <table class="table border center-align">
+      <table class="table-dash border center-align">
         <tbody>
           <tr>
             <td>
@@ -80,51 +80,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .flex-item {
-    height: 35vh;
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3em;
-      background-color: #1d1d1e;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 7px;
-      background-color: #1d1d1e;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
-      background-color: #858585;
-    }
-    scrollbar-color: #858585 #1d1d1e;
-  }
-  .dash-header {
-    height: 25rem;
-    margin-bottom: 8rem;
-  }
-  .table td {
-    vertical-align: middle;
-    text-align: left;
-    cursor: pointer;
-    border-color: #252526;
-    padding-left: 0;
-    p {
-      color: #ffffff;
-    }
-  }
-
-  .table {
-    border-radius: 0.3rem;
-  }
-
-  .table-button {
-    background: transparent;
-
-    border: none;
-  }
   .dash {
     margin-bottom: 0;
     padding-bottom: 0;
@@ -134,4 +89,70 @@ export default {
       color: #ffffff;
     }
   }
+  .dash-header {
+    height: 25rem;
+    margin-bottom: 8rem;
+  }
+  .flex-item {
+    max-height: 35vh;
+    height: auto;
+    &::-webkit-scrollbar-track
+    {
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 5rem;
+      border-radius: 3rem;
+      background-color: #323237;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      border-radius: 3em;
+      background-color: #858585;
+    }
+
+    scrollbar-color: #858585 #323237;
+    scrollbar-width: thin;
+  }
+  .table-dash {
+    border-radius: 0.3rem;
+    td {
+      vertical-align: middle;
+      text-align: left;
+      cursor: pointer;
+      border-color: #252526;
+      padding-left: 0;
+      p {
+        color: #ffffff;
+      }
+    }
+  }
+  @media screen and (orientation: portrait) {
+    .dash {
+      padding-bottom: 5rem;
+    }
+    .dash-header {
+      padding: 10rem 0 0 0;
+    }
+    .flex-item {
+      max-height: calc((100vh - 2 * var(--height) + 50px - 12em - 30rem) / 2 );
+      height: auto;
+    }
+  }
+  // @media screen and (orientation: landscape) {
+  //   .dash {
+  //     padding-bottom: 10rem;
+  //   }
+  //   .dash-header {
+  //     padding: 0 0 10rem 0;
+  //   }
+  //   .flex-item {
+  //     max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
+  //     height: auto;
+  //   }
+  // }
 </style>

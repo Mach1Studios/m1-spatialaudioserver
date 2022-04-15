@@ -1,11 +1,11 @@
 <template>
   <div class="container max">
     <div class="row">
-      <div class="col s12">
+      <div class="col s12 m12 l12">
         <div class="card round">
           <UsersList/>
           <Modal
-            buttonClasses="small responsive round grey-light-3"
+            buttonClasses="small responsive round grey3"
             icon="add"
             padding="small-padding large-margin"
             position="center"
@@ -38,13 +38,13 @@ export default {
     Modal,
     UsersAddForm,
   },
-  methods: {
-    ...mapActions('users', ['create']),
-  },
+  methods: { ...mapActions('users', ['create']) },
 };
 </script>
 <style lang="scss" scoped>
   .card {
     background-color: #252526;
+  }
+  @media screen and (orientation: portrait) {
   }
 </style>

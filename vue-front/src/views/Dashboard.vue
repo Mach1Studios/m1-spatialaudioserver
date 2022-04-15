@@ -3,7 +3,7 @@
     <div class="container max no-scroll">
       <div class="row mobile">
         <div class="col s6 m6 l6">
-          <div class="card round">
+          <div class="card round"  id="app-body-first">
               <div class="tabs left-align">
                 <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
                 <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
@@ -13,8 +13,9 @@
                   <Modal
                     title="CHOOSE A FILE..."
                     icon=" "
-                    buttonClasses="small responsive round bold grey-light-3"
+                    buttonClasses="small responsive round bold grey3"
                     padding="uploader"
+                    currentPosition="left"
                   >
                     <div id="FileListUploader">
                       <FileListUploader/>
@@ -26,8 +27,12 @@
               </div>
           </div>
         </div>
-        <div id="AudioPlayerControls" class="col s6 m6 l6">
-          <AudioPlayerControls/>
+        <div class="col s6 m6 l6">
+          <div id="app-body-second">
+            <div id="AudioPlayerControls">
+              <AudioPlayerControls/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -87,6 +92,10 @@ export default {
     background-color: #252526;
     padding: 8rem 0 8rem 0;
   }
+  // #AudioPlayerDebug {
+  //   max-height: calc((100vh - 99vh) - 50px);
+  //   height: auto;
+  // }
   #Playlists {
     height: auto;
     max-height: 68vh;
@@ -107,7 +116,7 @@ export default {
   }
   #FileListUploader {
     height: auto;
-    max-height: 73vh;
+    max-height: 68vh;
     max-width: 100%;
 
     display: flex;
@@ -122,6 +131,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: space-between;
+    .card {
+      box-shadow: var(--shadow-2);
+    }
   }
   .audioplayer {
     z-index: 600;
@@ -149,276 +161,69 @@ export default {
     background-color: #1c1c1c;
     border-radius: 0;
   }
-  .large-btn {
-    width: 100%;
-  }
   .audioplayer-debug {
     padding-top: 0;
     padding-bottom: 0;
   }
 
-  /* SCSS for Large (lg) screen */
-  @media only screen and (max-width: 992px) {
+  @media screen and (orientation: portrait) {
+    #app-header {
+      max-height: 10vh;
+    }
+    #app-body-first {
+      max-height: calc(100vh - var(--height) - 50px - 6em);
+      * {
+        max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
+      }
+    }
+    #app-body-second {
+      max-height: calc(100vh - var(--height) - 50px - 6em);
+      * {
+        max-height: calc(100vh - 2 * var(--height) - 50px - 3em);
+      }
+    }
     .container {
       overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 800px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 768px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Medium (md) screen */
-  @media only screen and (max-width: 600px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 414px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 394px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 375px) {
-    .container {
-      overflow-x: scroll;
+      padding-top: auto;
       padding-left: 8rem;
-      padding-top: 10vh;
-      padding-bottom: 0;
-    }
-    #FileList {
-      height: auto;
-      max-height: 63vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
+      padding-right: 8rem;
+      padding-bottom: calc(10vh - 50px - 3em);
     }
     .mobile {
       width: 200vw;
     }
     .audioplayer-debug {
-      z-index: 599;
+      z-index: 99;
     }
   }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 360px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Extra Small (xs) screen */
-  @media only screen and (max-width: 320px) {
-    .container {
-      overflow-x: scroll;
-    }
-    #FileList {
-      height: auto;
-      max-height: 55vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Extra Small (md) & Landscap screen */
-  @media only screen and (max-width: 823px) and (min-width:801px) {
-    .container {
-      overflow-x: scroll;
-      padding-left: 8rem;
-      padding-top: 10vh;
-      padding-bottom: 0;
-    }
-    #FileList {
-      height: auto;
-      max-height: 31vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 31vh;
-      max-height: 55vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap screen */
-  @media only screen and (max-width: 667px) and (min-width:601px) {
-    .container {
-      overflow-x: scroll;
-      padding-left: 8rem;
-      padding-top: 10vh;
-      padding-bottom: 0;
-    }
-    #FileList {
-      height: auto;
-      max-height: 31vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 31vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
-
-  /* SCSS for Small (sm) & Landscap Mobile screen */
-  @media only screen and (max-width: 568px){
-    .container {
-      overflow-x: scroll;
-      padding-left: 8rem;
-      padding-top: 10vh;
-      padding-bottom: 0;
-    }
-    #FileList {
-      height: auto;
-      max-height: 60vh;
-    }
-    #AudioPlayerControls {
-      height: auto;
-      max-height: 60vh;
-    }
-    .mobile {
-      width: 200vw;
-    }
-    .audioplayer-debug {
-      z-index: 599;
-    }
-  }
+  // @media screen and (orientation: landscape) {
+  //   #app-header {
+  //     max-height: 10vh;
+  //   }
+  //   #app-body-first {
+  //     max-height: calc((100vh - var(--height) - 50px - 6em) / 1.4);
+  //     * {
+  //       max-height: calc((100vh - 2 * var(--height) - 50px - 6em) / 1.4);
+  //     }
+  //   }
+  //   #app-body-second {
+  //     max-height: calc((100vh - var(--height) - 50px - 6em) / 1.4);
+  //     * {
+  //       max-height: calc((100vh - 2 * var(--height) - 50px - 3em) / 1.4);
+  //     }
+  //   }
+  //   .container {
+  //     overflow-x: scroll;
+  //     padding-top: auto;
+  //     padding-left: 8rem;
+  //     padding-right: 8rem;
+  //     padding-bottom: calc(10vh - 50px - 3em);
+  //   }
+  //   .mobile {
+  //     width: 200vw;
+  //   }
+  //   .audioplayer-debug {
+  //     z-index: 99;
+  //   }
+  // }
 </style>

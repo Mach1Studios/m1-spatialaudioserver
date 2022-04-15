@@ -1,7 +1,7 @@
 <template>
-  <Modal v-if="!user" title="Log In" titleClasses="large-width add-user">
+  <Modal v-if="!user" title="Sign In" titleClasses="large-width add-user">
     <template #button>
-      <button class="login">Log in</button>
+      <button class="login">Sign in</button>
     </template>
 
     <template #default="parrent">
@@ -9,10 +9,11 @@
         <FormInput
           autocomplete="username"
           name="login"
-          placeholder="Email"
+          placeholder="Login"
           type="text"
 
           v-model="credentials.login"
+          required
         />
         <FormInput
           autocomplete="current-password"
@@ -21,8 +22,9 @@
           type="password"
 
           v-model="credentials.password"
+          required
         />
-        <FormButton title="Enter" icon="login" @click="handler(parrent.close)"/>
+        <FormButton title="Enter" icon="login" type="submit" @click="handler(parrent.close)"/>
       </form>
     </template>
   </Modal>
@@ -56,9 +58,7 @@ import FormButton from './Form/Button.vue';
 
 export default {
   name: 'UsersAuth',
-  components: {
-    Modal, FormInput, FormButton,
-  },
+  components: { Modal, FormInput, FormButton },
   data() {
     return {
       credentials: {
@@ -67,15 +67,16 @@ export default {
       },
     };
   },
-  computed: mapState({
-    user: (state) => state.auth.profile.user,
-  }),
+  computed: mapState({ user: (state) => state.auth.profile.user }),
   methods: {
     ...mapActions('auth', ['login', 'logout']),
     async handler(callback) {
       const { credentials } = this;
-      const isAuth = await this.login(credentials);
-      if (isAuth) callback();
+
+      if (credentials.login !== '' && credentials.password !== '') {
+        const isAuth = await this.login(credentials);
+        if (isAuth) callback();
+      }
     },
     async ok() {
       await this.logout();

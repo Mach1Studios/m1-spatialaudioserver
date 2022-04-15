@@ -32,9 +32,7 @@ export default {
         height: 50,
         width: 128,
       },
-      provider: {
-        ctx: null,
-      },
+      provider: { ctx: null },
       channelsBuffer: {
         left: null,
         right: null,
@@ -174,7 +172,7 @@ export default {
   canvas {
     background: transparent;
 
-    border: 1px solid white;
+    // border: 1px solid white;
   }
 
   canvas .visualizer {
