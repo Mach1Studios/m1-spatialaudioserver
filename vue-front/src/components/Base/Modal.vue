@@ -108,11 +108,6 @@ export default {
       color: #ffffff;
     }
   }
-
-  td>nav>div>button {
-    min-height: 24rem;
-    max-height: 24rem;
-  }
   button.border::after {
     background-image: none;
   }
@@ -132,9 +127,8 @@ export default {
     }
   }
   .modal.left {
-    max-height: calc(100vh - var(--height) - 50px - 10em);
+    max-height: calc(100vh - var(--height) - 50px - 6em);
     margin-top: 6em;
-    background-color: #252526;
   }
   .modal {
     background-color: #252526;
@@ -146,6 +140,9 @@ export default {
     .modal.left {
       max-height: calc(100vh - var(--height) - 50px - 6em);
     }
+    // .modal {
+    //   width: 95%;
+    // }
   }
 
   .modal.medium {

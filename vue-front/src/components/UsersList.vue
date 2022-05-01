@@ -81,6 +81,9 @@ export default {
 
 <style lang="scss" scoped>
   .table-user-list {
+    i {
+      color: #626161;
+    }
     button {
      i {
        font-size: 16px;
@@ -93,15 +96,6 @@ export default {
      }
     }
     abbr {
-      color: #ffffff;
-    }
-    p {
-      color: #ffffff;
-    }
-    i {
-      color: #626161;
-    }
-    abbr {
       width: 100%;
 
       font-style: normal;
@@ -109,6 +103,10 @@ export default {
 
       line-height: 1.17;
       letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+    p {
+      color: #ffffff;
     }
     td {
       border-bottom: 1px #212121 solid;
@@ -120,7 +118,7 @@ export default {
     }
   }
 
-  .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+  button:focus::after, button:hover::after {
     background: none;
   }
 
@@ -128,7 +126,7 @@ export default {
     .user-list {
       overflow-x: scroll;
     }
-    .user-list-table {
+    .table-user-list {
       width: 200vw;
     }
   }

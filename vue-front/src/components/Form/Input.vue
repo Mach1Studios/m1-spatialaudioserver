@@ -71,6 +71,9 @@ export default {
       border: 1rem #323237 solid;
       color: #ffffff;
       -webkit-text-fill-color: #ffffff !important;
+      &:-webkit-autofill {
+        transition: background-color 5000s ease-in-out 0s;
+      }
       &:focus {
         border: 1rem #55555c solid;
       }
@@ -84,7 +87,6 @@ export default {
     color: #55555c;
     background-color: #252526;
   }
-  input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {

@@ -1,15 +1,15 @@
 <template>
-  <Header id="app-header"/>
+  <Header id="app-header" />
   <router-view id="app-router" v-slot="{ Component, route }">
     <transition :name="route.meta.transition || 'slide-left'">
-      <component :is="Component"/>
+      <component :is="Component" />
     </transition>
   </router-view>
-  <Notifications/>
+  <Notifications />
   <Preloader
     :title="loader.title"
     :description="loader.description"
-    :isLoading="loader.isLoading"
+    :is-loading="loader.isLoading"
   />
 </template>
 

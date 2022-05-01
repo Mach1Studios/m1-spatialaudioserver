@@ -29,10 +29,6 @@ export default {
     box-sizing: inherit;
   }
 
-  .wrapper {
-    margin: 8px 0;
-  }
-
   .state {
     position: absolute;
     top: 0;
@@ -90,6 +86,10 @@ export default {
     transition: opacity .25s ease-in-out, transform .25s ease-in-out;
   }
 
+  .label:hover .text {
+    opacity: 1;
+  }
+
   .state:checked ~ .label .indicator::after {
     transform: scale3d(.975, .975, 1) translate3d(0, 10%, 0);
     opacity: 0;
@@ -100,7 +100,4 @@ export default {
     opacity: 1;
   }
 
-  .label:hover .text {
-    opacity: 1;
-  }
 </style>

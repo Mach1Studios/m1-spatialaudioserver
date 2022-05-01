@@ -115,12 +115,6 @@ export default {
   }
   .profile {
     display: flex;
-
-    p {
-      z-index: 1;
-      color: white;
-      margin: auto;
-    }
   }
   .logout .button>:not(.dropdown,.badge) {
     margin-left: 0;

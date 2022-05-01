@@ -65,9 +65,13 @@ const defaultState = () => ({
 const actions = {
   updateDefaultFormats({ commit, state }, data) {
     const { input, output } = data;
+    console.log(data);
 
-    const isInputExist = (_.isString(input) && _.findIndex(state.formats, { id: input })) || _.isNull(input);
-    const isOutputExist = (_.isString(output) && _.findIndex(state.formats, { id: output })) || _.isNull(output);
+    const isInputExist = (_.isString(input) && _.findIndex(state.formats, { id: input }) !== -1) || _.isNull(input);
+    const isOutputExist = (_.isString(output) && _.findIndex(state.formats, { id: output }) !== -1) || _.isNull(output);
+
+    console.log(isInputExist, isOutputExist);
+    console.log(_.isString(input), _.findIndex(state.formats, { id: input }));
 
     if (isInputExist) {
       commit('setDefaultInput', input);
@@ -78,6 +82,7 @@ const actions = {
   },
   // eslint-disable-next-line
   validateAudio({ commit, dispatch, state }, track) {
+    if (_.has(track, 'numberOfChannels')) return;
     commit('loader', { enable: true, description: 'Checking number of channels' }, { root: true });
 
     const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -113,7 +118,9 @@ const getters = {
 
 const mutations = {
   setDefaultInput(store, id) {
+    console.log(id, store.defaultInput);
     store.defaultInput = id;
+    console.log(id, store.defaultInput);
   },
   setDefaultOutput(store, id) {
     store.defaultOutput = id;
@@ -126,6 +133,9 @@ const mutations = {
   },
   setFile(store, file) {
     store.files = [...store.files, file];
+  },
+  removeFile(store, item) {
+    store.files = _.filter(store.files, (file) => file.name !== item.name);
   },
 };
 export default {

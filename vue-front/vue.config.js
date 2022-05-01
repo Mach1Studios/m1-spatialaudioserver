@@ -1,29 +1,29 @@
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+// const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
   transpileDependencies: ['mach1spatial-decode'],
-  configureWebpack: {
-    plugins: [
-      new BrowserSyncPlugin(
-        // BrowserSync options
-        {
-          // browse to http://localhost:3000/ during development
-          host: 'localhost',
-          port: 3000,
-          // proxy the Webpack Dev Server endpoint
-          // (which should be serving on http://localhost:3100/)
-          // through BrowserSync
-          proxy: 'http://localhost:8081/',
-        },
-        // plugin options
-        {
-          // prevent BrowserSync from reloading the page
-          // and let Webpack Dev Server take care of this
-          reload: false,
-        },
-      ),
-    ],
-  },
+  // configureWebpack: {
+  //   plugins: [
+  //     new BrowserSyncPlugin(
+  //       // BrowserSync options
+  //       {
+  //         // browse to http://localhost:3000/ during development
+  //         host: 'localhost',
+  //         port: 3000,
+  //         // proxy the Webpack Dev Server endpoint
+  //         // (which should be serving on http://localhost:3100/)
+  //         // through BrowserSync
+  //         proxy: 'http://localhost:8081/',
+  //       },
+  //       // plugin options
+  //       {
+  //         // prevent BrowserSync from reloading the page
+  //         // and let Webpack Dev Server take care of this
+  //         reload: false,
+  //       },
+  //     ),
+  //   ],
+  // },
   chainWebpack: (config) => {
     /**
      * Rewriting default path for .wasm module for the 'mach1spatial-decode'

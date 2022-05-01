@@ -116,12 +116,20 @@ export default {
   }
   #FileListUploader {
     height: auto;
-    max-height: 68vh;
+    // max-height: 68vh;
     max-width: 100%;
 
     display: flex;
     flex-direction: column;
     align-content: space-between;
+  }
+  .card {
+    max-height: 80vh;
+    background-color: #252526;
+  }
+  .dark, .dark .card{
+    background-color: #1c1c1c;
+    border-radius: 0;
   }
   #AudioPlayerControls {
     height: auto;
@@ -131,9 +139,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-content: space-between;
-    .card {
-      box-shadow: var(--shadow-2);
-    }
   }
   .audioplayer {
     padding-left: 55rem;
@@ -154,14 +159,6 @@ export default {
   }
   .tabs>a.active {
     border-bottom: 2rem solid #ffffff;
-  }
-  .card {
-    max-height: 80vh;
-    background-color: #252526;
-  }
-  .dark, .dark .card{
-    background-color: #1c1c1c;
-    border-radius: 0;
   }
   .audioplayer-debug {
     padding: 0 55rem 0 55rem;
@@ -203,6 +200,7 @@ export default {
     }
     .audioplayer-debug {
       z-index: 99;
+      padding: 0 8rem 0 8rem;
     }
   }
   // @media screen and (orientation: landscape) {

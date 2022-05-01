@@ -312,7 +312,7 @@ export default {
     &::-ms-thumb {
       @include thumb();
     }
-    &::-webkit-slider-runnable-track, /deep/ #track {
+    &::-webkit-slider-runnable-track, ::v-deep(#track) {
       &:before, &:after {
         position: relative;
       }
@@ -352,11 +352,11 @@ export default {
   @media screen and (orientation: portrait) {
     #Controls {
       .channel-controls {
-        max-height: calc(100vh - var(--height) - 50px - 12em);
+        max-height: calc(100vh - var(--height) - 50px - 14em);
       }
       .channel-controls .row {
-        flex-direction: row;
         flex-flow: row wrap;
+        flex-direction: row;
 
         .controls {
           flex-basis: 100%;

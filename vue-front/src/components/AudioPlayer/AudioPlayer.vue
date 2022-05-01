@@ -52,6 +52,14 @@ export default {
       playback: 0,
     };
   },
+  computed: mapState({
+    track: (state) => state.tracks.track,
+    type: (state) => state.dash.type,
+    isActiveStream: (state) => state.dash.isActiveStream,
+    icon() {
+      return this.isPlay ? 'pause_arrow' : 'play_arrow';
+    },
+  }),
   watch: {
     isActiveStream(value) {
       this.isPlay = value;
@@ -61,14 +69,6 @@ export default {
       }
     },
   },
-  computed: mapState({
-    track: (state) => state.tracks.track,
-    type: (state) => state.dash.type,
-    isActiveStream: (state) => state.dash.isActiveStream,
-    icon() {
-      return this.isPlay ? 'pause_arrow' : 'play_arrow';
-    },
-  }),
   methods: {
     ...mapActions('audio', ['updateSource']),
     ...mapActions('dash', ['stop']),
@@ -191,23 +191,9 @@ export default {
     letter-spacing: 1px;
     display: inline-block;
     text-decoration: none;
-    font-family: 'Open Sans';
     text-transform: uppercase;
 
     cursor: pointer;
-
-    &:hover {
-      &:after {
-        opacity: 1;
-        transform: translateY(0) rotateX(0);
-      }
-
-      &:before {
-        opacity: 0;
-        transform: translateY(-50%) rotateX(-90deg);
-      }
-    }
-
     &:after {
       top: 0;
       left: 0;
@@ -235,6 +221,17 @@ export default {
       box-shadow: 0 0 5px #D36646, 0 0 5px #D36646 inset;
       // border: 1px solid #FCCC0A;
       // box-shadow: 0 0 5px #FCCC0A, 0 0 5px #FCCC0A inset;
+    }
+    &:hover {
+      &:after {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
+
+      &:before {
+        opacity: 0;
+        transform: translateY(-50%) rotateX(-90deg);
+      }
     }
   }
 

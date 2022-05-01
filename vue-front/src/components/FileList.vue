@@ -7,12 +7,12 @@
           <td>
             <p class="medium-text">{{ index + 1 }}</p>
           </td>
-          <td @click="select(item.id)" class="audio-name">
-            <p class="medium-text">{{item.name}}</p>
+          <td class="audio-name" @click="select(item.id)">
+            <p class="medium-text">{{ item.name }}</p>
           </td>
           <td>
-            <nav class="right-align">
-              <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id"/>
+            <nav class="">
+              <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id" />
               <button class="border round transparent-border" @click="reload(item)">
                 <i class="material-icons">cached</i>
               </button>
@@ -21,12 +21,12 @@
                 <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
               <Modal
+                v-if="admin"
                 title="Rename track"
                 button=" "
                 icon="edit"
                 position="center"
                 padding="no-padding"
-                v-if="admin"
               >
                 <PlaylistForm
                   :id="item.id"
@@ -63,13 +63,13 @@ export default {
     PlaylistForm,
     Popup,
   },
-  data() {
-    return { active: '' };
-  },
   props: {
     admin: Boolean,
     user: Boolean,
     playlist: Object,
+  },
+  data() {
+    return { active: '' };
   },
   computed: {
     ...mapState({
@@ -115,23 +115,8 @@ export default {
     color: #626161;
     font-size: 16px;
   }
-  .disabled {
-    i {
-      cursor: default;
-    }
-  }
   tr {
     width: inherit;
-  }
-  tr.on-play {
-    background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
-    p {
-      color: #72646f;
-      font-weight: bold;
-    }
-    i {
-      color: #72646f;
-    }
   }
   .table-list {
     display: block;
@@ -153,9 +138,6 @@ export default {
     }
     td {
       border-bottom: 1px #212121 solid;
-      .disabled ~ i, p {
-        cursor: pointer;
-      }
       &:last-child {
         padding-right: 13px;
       }
@@ -164,7 +146,17 @@ export default {
       vertical-align: middle;
     }
     tr:hover {
-      background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+    }
+    tr.on-play {
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+      p {
+        color: #72646f;
+        font-weight: bold;
+      }
+      i {
+        color: #72646f;
+      }
     }
     button {
       &:hover {
@@ -180,21 +172,22 @@ export default {
   }
   @media screen and (orientation: portrait) {
     #FileList {
-      table.border td {
-        border: none;
-      }
       .table-list {
         .audio-name {
           width: 85%;
           word-break: keep-all;
         }
+        td{
+          display: grid;
+          border: none;
+        }
         td:not(:nth-child(3)){
           display: inline-table;
         }
-        td{
-          display: grid;
-        }
       }
+    }
+    nav>:not(.dropdown,.badge) {
+      padding-right: 8rem;
     }
   }
 </style>

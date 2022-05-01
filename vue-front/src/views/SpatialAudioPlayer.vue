@@ -11,7 +11,7 @@
               button-classes="small responsive upper round grey3"
               padding="no-margin"
             >
-              <AudioPlayerPlaylists class="modal-playlist" :admin="true" />
+              <AudioPlayerPlaylists :admin="true" />
             </Modal>
           </div>
         </div>
@@ -75,20 +75,6 @@ export default {
       return _.get(this, 'profile.user.role') === 'admin';
     },
   },
-  mounted() {
-    window.addEventListener('mousemove', mousemoveListener, false);
-    this.decoder = new Mach1DecoderProxy(null, { debug: false });
-    this.isMount = true;
-
-    this.loop();
-    this.init();
-  },
-  beforeUnmount() {
-    window.removeEventListener('mousemove', mousemoveListener, false);
-
-    this.isMount = false;
-    this.decoder = null;
-  },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
     // ...mapActions('logs', { log: 'createMessage' }),
@@ -131,6 +117,20 @@ export default {
       return this.init();
     },
   },
+  mounted() {
+    window.addEventListener('mousemove', mousemoveListener, false);
+    this.decoder = new Mach1DecoderProxy(null, { debug: false });
+    this.isMount = true;
+
+    this.loop();
+    this.init();
+  },
+  beforeUnmount() {
+    window.removeEventListener('mousemove', mousemoveListener, false);
+
+    this.isMount = false;
+    this.decoder = null;
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -147,16 +147,11 @@ export default {
   .playlist {
     box-shadow: none;
     padding-top: 0;
-  }
-  .modal-playlist {
-    margin: 32rem 0 0 0;
+    padding-left: 0;
   }
   .dark .card {
     background-color: #1c1c1c;
     border-radius: 0;
-  }
-  .playlist {
-    padding-left: 0;
   }
   .audioplayer {
     padding-left: 55rem;
@@ -174,9 +169,6 @@ export default {
       padding-left: 8rem;
       padding-right: 8rem;
       padding-bottom: calc(10vh - 50px - 3em);
-    }
-    .modal-playlist {
-      padding: 8rem 0 0 0;
     }
     .audioplayer {
       padding-left: 8rem;

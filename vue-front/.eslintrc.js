@@ -6,6 +6,7 @@ module.exports = {
   env: { node: true },
   extends: [
     'plugin:vue/vue3-recommended',
+    'plugin:vue-scoped-css/vue3-recommended',
     '@vue/airbnb',
   ],
   parser: 'vue-eslint-parser',

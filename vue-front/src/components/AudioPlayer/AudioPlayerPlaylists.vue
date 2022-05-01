@@ -1,21 +1,6 @@
 <template>
-  <div id="Playlist">
-    <div v-if="controls" class="playlist-mdl-btn">
-      <Modal
-        title="Add new playlist"
-        icon="add"
-        position="center"
-        button-classes="small responsive upper round grey3"
-        padding="medium-margin"
-      >
-        <PlaylistForm
-          title="Create new playlist"
-          icon="add"
-          :action="create"
-        />
-      </Modal>
-    </div>
-    <div class="playlists-items flex-item scroll">
+  <div id="Playlist" class="flex-item scroll">
+    <div class="playlists-items">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
           <!-- <details class="playlist">
@@ -83,7 +68,7 @@
             </div>
           </details> -->
 
-          <div class="playlist">
+          <div class="playlist flex-item">
             <div class="card playlist-header">
               <div class="row no-wrap">
                 <div class="col min">
@@ -93,8 +78,8 @@
                   <h6 class="bold no-margin white-text top-align">
                     {{ item.name }}
                   </h6>
-                  <div class="small-text">
-                    Last upload: music.wav
+                  <div>
+                    <p class="small-text">Last upload: music.wav</p>
                   </div>
                 </div>
                 <!-- <div class="col s7 m5 l6" @click="show = (show === item.id) ? show = false : show = item.id">
@@ -159,6 +144,21 @@
       </div>
     </div>
   </div>
+  <div v-if="controls" class="add-btn">
+    <Modal
+      title="Add new playlist"
+      icon="add"
+      position="center medium"
+      button-classes="small responsive upper round grey3"
+      padding="newplaylist"
+    >
+      <PlaylistForm
+        title="Create new playlist"
+        icon="add"
+        :action="create"
+      />
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -201,6 +201,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  #Playlist {
+    max-height: calc(100vh - var(--height) - 50px - 12em);
+  }
+  .add-btn {
+    height: auto;
+    background-color: #252526;
+    padding: 8rem 0 8rem 0;
+  }
   .flex-item {
     &::-webkit-scrollbar-track
     {
@@ -220,16 +228,17 @@ export default {
       border-radius: 3em;
       background-color: #858585;
     }
-    scrollbar-color: #858585 #323237;
-    scrollbar-width: auto;
+    scrollbar-color: #858585;
   }
   .playlist {
+    overflow: hidden;
     // padding: 0 8rem 8rem 8rem;
-    margin: 0 8rem 8rem 8rem;
+    margin: 0 0 8rem 0;
 
     .playlist-header {
       // padding: 16rem 0 0 16rem;
-      background-color: #323237;
+      // background-color: #323237;
+      background-color: #2a2a2d;
       margin-bottom: 0;
     }
     i {
@@ -237,7 +246,6 @@ export default {
       color: #626161;
     }
     p {
-      font-size: 14rem;
       color: #72646f;
 
       &:first-of-type {
@@ -263,10 +271,6 @@ export default {
     opacity: 0;
   }
 
-  .playlist-mdl-btn {
-    padding-bottom: 16rem;
-  }
-
   .playlist-list {
     margin-top: 0;
     background-color: #232323;
@@ -279,24 +283,27 @@ export default {
     border-top-left-radius: none;
   }
   .playlists-items {
-    overflow-x: hidden;
     height: auto;
-    // max-height: 57vh; // note important for playlist scroll
-    max-height: calc(100vh - 2 * var(--height) - 50px - 12em);
-    max-width: 100%;
+    // max-height: calc(68vh - var(--height)); // note important for playlist scroll
+    // max-height: calc(100vh - var(--height) - 50px - 12em);
+    width: 100%;
 
     display: flex;
     flex-direction: column;
     align-content: space-between;
   }
+  // .newplaylist {
+  //   background-color: #252526;
+  //   padding: 8rem 0 8rem 0;
+  // }
 
   @media screen and (orientation: portrait) {
     #Playlist {
-      .playlists-items {
-        max-height: calc(100vh - 2 * var(--height) - 50px - 8em);
-
-      }
-      // max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
+      // .playlists-items {
+      //   max-height: calc(100vh - 2 * var(--height) - 50px - 12em);
+      //
+      // }
+      max-height: calc(100vh - var(--height) - 50px - 12em);
     }
     .row {
       flex-flow: wrap;
@@ -305,7 +312,7 @@ export default {
       position: relative;
     }
     .playlist-header {
-      col {
+      .col {
         display: inline-grid;
       }
       h6 {
@@ -322,9 +329,6 @@ export default {
   //   #Playlist {
   //     .playlists-items {
   //       max-height: calc((100vh - 2 * var(--height) - 50px - 10em - 10vh) / 1.4);
-  //     }
-  //     .playlist-mdl-btn {
-  //       padding: 0 0 0 8rem;
   //     }
   //   }
   // }

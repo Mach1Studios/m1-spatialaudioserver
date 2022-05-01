@@ -90,7 +90,6 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     filter: blur(1px);
-    width: 100%;
     justify-content: space-between;
     height: 165rem;
     --boxSize: 10rem;
@@ -122,14 +121,14 @@ export default {
      }
   }
 
-  @-webkit-keyframes rotate {
-     from {
-         -webkit-transform: rotate(0deg);
-     }
-     to {
-         -webkit-transform: rotate(360deg);
-     }
-  }
+  // @-webkit-keyframes rotate {
+  //    from {
+  //        -webkit-transform: rotate(0deg);
+  //    }
+  //    to {
+  //        -webkit-transform: rotate(360deg);
+  //    }
+  // }
 
   .animation-circle {
     display: flex;

@@ -101,6 +101,11 @@ export default {
   p {
     color: white;
   }
+  button{
+    &:after {
+      background-image: none;
+    }
+  }
   .debug-header {
     height: 25rem;
     margin: 0 0 8rem 0;
@@ -134,9 +139,6 @@ export default {
   .chip::after{
     background-image: none;
   }
-  .scroll {
-    overflow-x: hidden;
-  }
   .message {
     font-family: 'Courier Prime', monospace;
     color: #eaeaea;
@@ -162,11 +164,6 @@ export default {
       margin-right: 4rem;
       color: #fff7eb;
       font-size: 18rem;
-    }
-  }
-  button{
-    &:after {
-      background-image: none;
     }
   }
   .log {

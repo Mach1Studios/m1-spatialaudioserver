@@ -22,26 +22,26 @@
         </summary>
         <div class="card flat transparent">
           <FormSelect
-            name=""
+            v-model="inputFormat"
+            name="defaultInput"
             placeholder="SELECT INPUT FORMAT"
-            select-skin="light"
 
+            select-skin="light"
             :options="inputFormats"
-            :default-value="defaultInput"
             @change="changeInputFormat"
           />
           <FormSelect
-            name=""
+            v-model="outputFormat"
+            name="defaultOutput"
             placeholder="SELECT OUTPUT FORMAT"
-            select-skin="light"
 
+            select-skin="light"
             :options="outputFormats"
-            :default-value="defaultOutput"
             @change="changeOutputFormat"
           />
           <div class="row">
             <div class="col s6">
-              <button class="button small responsive round grey3" @change="switchDefaultInputEnable, switchDefaultOutputEnable">
+              <button class="button small responsive round grey3" @click="updateDefaultFormats({ input: inputFormat, output: outputFormat })">
                 <i class="material-icons-outlined">save</i>
                 <span class="small-text upper">save as default</span>
               </button>
@@ -58,7 +58,7 @@
       <div>
         <!-- <div v-show="validated"> -->
         <div class="flex-item scroll">
-          <table class="table-uploader flex-item space">
+          <table class="table-uploader flex-item">
             <thead>
               <th><abbr title="#">#</abbr></th>
               <th><abbr title="NAME">NAME</abbr></th>
@@ -79,10 +79,10 @@
                   <p class="medium-text">{{ item.numberOfChannels }}</p>
                 </td>
                 <td>
-                  <FormSelect name="" :options="inputFormats" select-skin="light" :default-value="defaultInput" @change="changeInputFormat" />
+                  <FormSelect name="" :options="filteredInputFormats(item.numberOfChannels)" select-skin="light" @change="changeInputFormat" />
                 </td>
                 <td>
-                  <FormSelect name="" :options="outputFormats" select-skin="light" :default-value="defaultOutput" @change="changeOutputFormat" />
+                  <FormSelect name="" :options="outputFormats" select-skin="light" @change="changeOutputFormat" />
                 </td>
                 <td>
                   <nav class="right-align">
@@ -119,11 +119,6 @@ export default {
     return {
       inputFormat: null,
       outputFormat: null,
-
-      defaultInputEnable: false,
-      defaultOutputEnable: false,
-
-      // files: [],
     };
   },
   computed: {
@@ -140,44 +135,38 @@ export default {
     ...mapActions('uploads', ['updateDefaultFormats', 'validateAudio']),
     ...mapActions(['toast']),
     ...mapMutations(['loader']),
+    ...mapMutations('uploads', { remove: 'removeFile' }),
     changeInputFormat(event) {
       this.inputFormat = event.target.value;
-
-      if (this.defaultInputEnable) {
-        this.updateDefaultFormats({ input: this.inputFormat });
-      }
     },
     changeOutputFormat(event) {
       this.outputFormat = event.target.value;
-
-      if (this.defaultOutputEnable) {
-        this.updateDefaultFormats({ output: this.outputFormat });
-      }
     },
-    switchDefaultInputEnable() {
-      this.defaultInputEnable = !this.defaultInputEnable;
-
-      this.updateDefaultFormats({
-        input: this.defaultInputEnable
-          ? _.get(this, 'inputFormat', null)
-          : null,
-      });
-    },
-    switchDefaultOutputEnable() {
-      this.defaultOutputEnable = !this.defaultOutputEnable;
-
-      this.updateDefaultFormats({
-        output: this.defaultOutputEnable
-          ? _.get(this, 'outputFormat', null)
-          : null,
-      });
-    },
-    remove(item) {
-      this.files = _.filter(this.files, (file) => file.name !== item.name);
-    },
+    // update
+    // switchDefaultInputEnable() {
+    //   // this.defaultInputEnable = !this.defaultInputEnable;
+    //
+    //   this.updateDefaultFormats({
+    //     input: this.defaultInputEnable
+    //       ? _.get(this, 'inputFormat', null)
+    //       : null,
+    //   });
+    // },
+    // switchDefaultOutputEnable() {
+    //   // this.defaultOutputEnable = !this.defaultOutputEnable;
+    //
+    //   this.updateDefaultFormats({
+    //     output: this.defaultOutputEnable
+    //       ? _.get(this, 'outputFormat', null)
+    //       : null,
+    //   });
+    // },
+    // remove(item) {
+    //   this.files = _.filter(this.files, (file) => file.name !== item.name);
+    // },
     async changeFile(event) {
       const { files } = event.target;
-      // this.files = _.union(this.files, files);
+
       _.each(_.union(this.files, files), (file) => {
         this.validateAudio(file);
       });
@@ -199,29 +188,47 @@ export default {
       }
       this.loader({ enable: false });
     },
+    filteredInputFormats(numberOfChannels) {
+      return _.filter(this.inputFormats, (format) => format.numberOfChannels === numberOfChannels);
+    },
+    // save() {
+    //   this.updateDefaultFormats(this.inputFormat);
+    //   this.updateDefaultFormats(this.outputFormat);
+    //
+    // },
+  },
+  mounted() {
+    this.inputFormat = this.defaultInput;
+    this.outputFormat = this.defaultOutput;
   },
 };
 </script>
 
 <style lang="scss" scoped>
+  .button {
+    margin: 16rem 0 16rem 0;
+
+    i {
+      font-size: 16px;
+      color: #626161;
+    }
+    span {
+      color: #252526;
+    }
+  }
+  .button button {
+    color: #252526;
+  }
   .table-uploader {
     margin-top: 16rem;
-    overflow-y: scroll;
+    overflow: hidden;
+
+    width: 100%;
     height: auto;
     max-height: 15vh; // note important for playlist scroll
     max-width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    display: block;
-    overflow-x: hidden;
-
-    width: 100%;
-    .audioname {
-    }
     tbody{
-        width: 100%;
-        display: table;
+      width: 100%;
     }
     button {
       &:hover {
@@ -240,42 +247,15 @@ export default {
       border-bottom: 1px #b1b1b1 solid;
       p {
         color: #252526;
-        text-align: center;
-        &:nth-child(1){
-          text-align: left;
-        }
-        &:nth-child(2) {
-          text-align: left;
-        }
+        text-align: left;
       }
     }
     abbr {
       text-align: center;
     }
   }
-  .button {
-    margin: 16rem 0 16rem 0;
-
-    i {
-      font-size: 16px;
-      color: #626161;
-    }
-    span {
-      color: #252526;
-    }
-  }
   details {
     margin: 16rem 0 16rem 0;
-  }
-  .field>select {
-    background-color: #252526;
-  }
-  .button button {
-    color: #252526;
-  }
-  label {
-    font-size: 12rem;
-    color: #5e5e5e;
   }
   .flex-item {
     &::-webkit-scrollbar-track
@@ -284,16 +264,19 @@ export default {
       background-color: #e0e0e0;
     }
 
-    &::-webkit-scrollbar
-    {
-      width: 7px;
-      // background-color: #fafafa;
-    }
-
     &::-webkit-scrollbar-thumb
     {
       border-radius: 3em;
       background-color: #858585;
+    }
+  }
+  @media screen and (orientation: portrait) {
+    .col .s6 {
+      width: 100%;
+    }
+    .file-uploader {
+      overflow-y: scroll;
+      padding: 0 8rem 0 8rem;
     }
   }
 </style>

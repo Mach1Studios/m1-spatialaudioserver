@@ -7,7 +7,7 @@
       @focus="select"
       @input="$emit('update:modelValue', $event.target.value)"
     >
-      <option v-for="option in options" :key="option.id" class="decorated" :value="option.id" :selected="defaultValue === option.id">
+      <option v-for="option in options" :key="option.id" class="decorated" :value="option.id">
         <label>{{ option.name }}</label>
       </option>
     </select>
@@ -27,6 +27,9 @@ export default {
     },
     modelValue: {
       type: String,
+      default() {
+        return null;
+      },
     },
     placeholder: {
       type: String,
@@ -34,12 +37,12 @@ export default {
     options: {
       type: Array,
     },
-    defaultValue: {
-      type: String,
-      default() {
-        return null;
-      },
-    },
+    // defaultValue: {
+    //   type: String,
+    //   default() {
+    //     return null;
+    //   },
+    // },
     selectSkin: {
       type: String,
       default: 'light',
@@ -71,26 +74,43 @@ export default {
   option {
     color: #252526;
   }
+
   .field.light.label.border:not(.fill)>label.active {
     color: #55555c;
   }
+
+  .field.light > select {
+    color: #eaeaea;
+  }
+
+  .field.dark > select {
+    color: #eaeaea;
+  }
+
   .field.light {
     select {
       border: 1rem #b1b1b1 solid;
       color: #eaeaea;
       -webkit-text-fill-color: #252526 !important;
-      &:focus {
-        border: 1rem #ffffff solid;
-      }
     }
     label {
       background-color: #e0e0e0;
       padding: 0 4rem 0 4rem;
     }
   }
-  .field.light > select {
-    color: #eaeaea;
+
+  .field.dark {
+    select {
+      border: 1rem #323237 solid;
+      color: #ffffff;
+      -webkit-text-fill-color: #ffffff !important;
+    }
+    label {
+      background-color: #252526;
+      padding: 0 4rem 0 4rem;
+    }
   }
+
   .field.light.label>:focus~label {
     color: #252526;
     background-color: #e0e0e0;
@@ -99,22 +119,12 @@ export default {
   .field.dark.label.border:not(.fill)>label.active {
     color: #55555c;
   }
-  .field.dark {
-    select {
-      border: 1rem #323237 solid;
-      color: #ffffff;
-      -webkit-text-fill-color: #ffffff !important;
-      &:focus {
-        border: 1rem #55555c solid;
-      }
-    }
-    label {
-      background-color: #252526;
-      padding: 0 4rem 0 4rem;
-    }
+
+  .field.light select:focus {
+    border: 1rem #b1b1b1 solid;
   }
-  .field.dark > select {
-    color: #eaeaea;
+  .field.dark select:focus {
+      border: 1rem #55555c solid;
   }
   .field.dark.label>:focus~label {
     color: #55555c;

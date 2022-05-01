@@ -95,24 +95,8 @@ export default {
     }
   }
   .invite {
-    .title {
-      font-style: normal;
-      font-weight: bold;
-
-      line-height: 1.17;
-      letter-spacing: -0.5px;
-      text-transform: uppercase;
-    }
     p {
       color: #ffffff;
-    }
-    input {
-      &:focus {
-        border-color: #1c1c1c;
-      }
-    }
-    span {
-      color: #1c1c1c;
     }
     i {
       font-size: 16px;
@@ -128,7 +112,7 @@ export default {
         }
       }
     }
-    .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+    button:focus::after, button:hover::after {
       background: none;
     }
     .table-invite {

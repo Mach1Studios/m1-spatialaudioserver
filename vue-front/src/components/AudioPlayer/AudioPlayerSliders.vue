@@ -128,7 +128,7 @@ export default {
       @include thumb();
     }
 
-    &::-webkit-slider-runnable-track, /deep/ #track {
+    &::-webkit-slider-runnable-track, ::v-deep(#track) {
       &:before, &:after {
         position: relative;
       }
@@ -142,12 +142,5 @@ export default {
         word-spacing: 1em;
       }
     }
-  }
-  .sliders .title {
-    font-style: normal;
-    font-weight: bold;
-
-    line-height: 1.17;
-    letter-spacing: -0.5px;
   }
 </style>

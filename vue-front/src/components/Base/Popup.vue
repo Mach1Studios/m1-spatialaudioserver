@@ -59,6 +59,7 @@ export default {
     background-color: #252526;
     p {
       color: #ffffff;
+      text-align: justify;
     }
     b {
       color: #72646f;
@@ -81,8 +82,5 @@ export default {
 
   .info {
     border-bottom: 1px #626161 dotted;
-  }
-  p {
-    text-align: justify;
   }
 </style>

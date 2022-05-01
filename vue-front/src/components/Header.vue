@@ -75,18 +75,38 @@ export default {
         font-size: var(--default-font-size);
       }
     }
+    // button {
+    //   background-color: transparent;
+    //   border-radius: 0;
+    //   border: 1px solid #626161;
+    //   color: #626161;
+    //   &:focus, &:hover, &.router-link-active {
+    //     color: #fefefe;
+    //     background: transparent;
+    //     border: 1px solid #fefefe;
+    //     &::after {
+    //       background: transparent;
+    //     }
+    //   }
+    // }
     button {
       background-color: transparent;
       border-radius: 0;
       border: 1px solid #626161;
       color: #626161;
-      &:focus, &:hover, &.router-link-active {
+      &:focus, &:hover {
         color: #fefefe;
         background: transparent;
         border: 1px solid #fefefe;
         &::after {
           background: transparent;
         }
+      }
+    }
+    .mobile button {
+      border: none;
+      &:focus, &:hover {
+        border: none;
       }
     }
   }
@@ -103,17 +123,17 @@ export default {
     margin: 0;
     z-index: 98;
     right: 0;
-    button {
-      border: none;
-      &:focus, &:hover, &.router-link-active {
-        color: #fefefe;
-        border: none;
-        background: transparent;
-        &::after {
-          background: transparent;
-        }
-      }
-    }
+    // button {
+    //   border: none;
+    //   &:focus, &:hover, &.router-link-active {
+    //     color: #fefefe;
+    //     border: none;
+    //     background: transparent;
+    //     &::after {
+    //       background: transparent;
+    //     }
+    //   }
+    // }
   }
   @media screen and (orientation: portrait) {
     .home {
