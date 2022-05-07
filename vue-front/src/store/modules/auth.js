@@ -20,10 +20,15 @@ const actions = {
     }
     return false;
   },
-  async restore({ commit }) {
+  async restore({ commit, dispatch, state }) {
     const profile = await new FetchHelper('profile').get();
 
-    if (profile) commit('setProfile', profile);
+    if (profile) {
+      commit('setProfile', profile);
+    } else if (state.profile) {
+      dispatch('toast', { event: { message: `${state?.user?.nickname ?? 'Oops'}, your session has expired, please provide your credentials` } }, { root: true });
+      commit('setProfile', { session: false });
+    }
   },
   async logout({ commit, dispatch }) {
     await api.del('logout');
@@ -42,6 +47,7 @@ const mutations = {
   setProfile(store, profile) {
     store.profile = profile;
   },
+
 };
 
 export default {
