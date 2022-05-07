@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { v4 as uuid } from 'uuid';
 
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
@@ -37,9 +38,7 @@ const Store = createStore({
     loader: {
       isLoading: false, title: 'Processing', description: 'Audiofile is loading',
     },
-    notification: {
-      isError: false, isSuccess: false, message: '',
-    },
+    notifications: [],
   },
 
   actions: {
@@ -49,9 +48,10 @@ const Store = createStore({
         commit('loader', { enable: false });
         await delay(0.5);
       }
-      commit('setToast', payload);
-      await delay(5);
-      commit('setToast');
+      const id = uuid();
+      commit('setToast', { id, ...payload });
+      await delay(payload.delay ?? 5);
+      commit('unsetToast', id);
     },
   },
 
@@ -69,9 +69,8 @@ const Store = createStore({
       }
     },
     setToast(state, payload = {}) {
-      const { error, event } = payload;
-      state.notification = { isError: false, isSuccess: false, message: '' };
-
+      const { id, error, event } = payload;
+      const notification = { id, isError: false, isSuccess: false, message: '' };
       if (error) {
         let message = error.message ?? 'Something went wrong';
         if (_.isObject(error.errors)) {
@@ -85,14 +84,18 @@ const Store = createStore({
             });
           }
         }
-        state.notification = { ...state.notification, isError: true, message };
+        state.notifications.push({ ...notification, isError: true, message });
       }
       if (event) {
-        state.notification = { ...state.notification, isSuccess: true, message: event.message ?? 'Complete!' };
+        state.notifications.push({ ...notification, isSuccess: true, message: event.message ?? 'Complete!' });
       }
+      if (state.notifications.length > 3) state.notifications.shift();
     },
     setModalVisibility(state, title = null) {
       state.modalVisibility = title;
+    },
+    unsetToast(state, id) {
+      _.remove(state.notifications, { id });
     },
   },
   modules: {

@@ -26,7 +26,7 @@
           type="password"
           required
         />
-        <FormButton title="Enter" icon="login" type="submit" @click="handler(parrent.close)" />
+        <FormButton title="Enter" icon="login" type="submit" />
       </form>
     </template>
   </Modal>
