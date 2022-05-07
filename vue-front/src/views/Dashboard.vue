@@ -23,7 +23,7 @@
               </Modal>
             </div>
             <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
-              <AudioPlayerPlaylists :admin="true" :controls="true" />
+              <AudioPlayerPlaylists :controls="true" />
             </div>
           </div>
         </div>

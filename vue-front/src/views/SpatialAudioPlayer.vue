@@ -11,7 +11,7 @@
               button-classes="small responsive upper round grey3"
               padding="no-margin"
             >
-              <AudioPlayerPlaylists :admin="true" />
+              <AudioPlayerPlaylists />
             </Modal>
           </div>
         </div>
