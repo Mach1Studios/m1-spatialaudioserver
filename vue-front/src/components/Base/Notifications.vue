@@ -4,13 +4,17 @@
       v-for="(notification, index) in notifications"
       :key="notification.id"
 
-      class="toast white-text notification"
-      :class="{ pink: notification.isError, green: notification.isSuccess, active: notification.isError || notification.isSuccess }"
+      class="toast white-text notification active"
+      :class="{
+        pink: notification.icon === 'error',
+        green: notification.icon === 'done',
+        orange: notification.icon === 'info'
+      }"
 
       :style="{ opacity: 1 - (multiplier - index) * 0.08 }"
     >
-      <i class="material-icons">{{ icon(index) }}</i>
-      <span style="white-space: pre-line">{{ notification.message }} {{ index }}</span>
+      <i class="material-icons">{{ notification.icon }}</i>
+      <span style="white-space: pre-line">{{ notification.message }}</span>
     </div>
   </div>
 </template>
@@ -25,14 +29,6 @@ export default {
       notifications: (state) => state.notifications,
       multiplier: (state) => Object.keys(state.notifications).length - 1,
     }),
-  },
-  methods: {
-    icon(id) {
-      if (this.notifications[id].isError) return 'error';
-      if (this.notifications[id].isSuccess) return 'done';
-
-      return 'info';
-    },
   },
 };
 </script>

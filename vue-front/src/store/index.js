@@ -44,7 +44,6 @@ const Store = createStore({
   actions: {
     async toast({ commit, state }, payload) {
       if (state.loader.isLoading) {
-        await delay(1.5);
         commit('loader', { enable: false });
         await delay(0.5);
       }
@@ -70,7 +69,7 @@ const Store = createStore({
     },
     setToast(state, payload = {}) {
       const { id, error, event } = payload;
-      const notification = { id, isError: false, isSuccess: false, message: '' };
+      const notification = { id, icon: 'done', message: 'Complete!' };
       if (error) {
         let message = error.message ?? 'Something went wrong';
         if (_.isObject(error.errors)) {
@@ -84,10 +83,10 @@ const Store = createStore({
             });
           }
         }
-        state.notifications.push({ ...notification, isError: true, message });
+        state.notifications.push({ ...notification, icon: 'error', message });
       }
       if (event) {
-        state.notifications.push({ ...notification, isSuccess: true, message: event.message ?? 'Complete!' });
+        state.notifications.push({ ...notification, ...event });
       }
       if (state.notifications.length > 3) state.notifications.shift();
     },

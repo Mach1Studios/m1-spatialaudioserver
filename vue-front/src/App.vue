@@ -58,6 +58,8 @@ export default {
   :root {
     --default-font-size: 14px;
     --height: 10vh;
+    --primary: #e0e0e0;
+    // --primary: #9CA2C2;
   }
 
   * {
