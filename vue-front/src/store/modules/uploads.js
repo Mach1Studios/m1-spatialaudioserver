@@ -52,26 +52,35 @@ const defaultState = () => ({
     { id: 'ACNSN3DmaxRE7oa', name: 'ACNSN3DmaxRE7oa', type: 'ambisonic', numberOfChannels: 64 },
     { id: 'CH_16', name: '16.0', type: 'standart', numberOfChannels: 16 },
   ],
-  item: {
-    input: null,
-    output: null,
-    numberOfChannels: null,
-  },
   files: [],
+  defaultApply: false,
   defaultInput: null,
   defaultOutput: null,
 });
 
 const actions = {
+  // eslint-disable-next-line
+  applyDefaultFormatsForTracks({ commit, dispatch, state }, { inputFormat, outputFormat }) {
+    const { defaultInput, defaultOutput } = state;
+    const { numberOfChannels } = _.find(state.formats, { id: inputFormat || defaultInput });
+
+    _.each(state.files, (file) => {
+      const item = { name: file.name };
+      if (file.numberOfChannels !== numberOfChannels) {
+        dispatch('toast', { event: { message: `Cannot apply default input format for track ${item.name} because it has a different number of channels`, icon: 'info' } }, { root: true });
+      } else {
+        item.inputFormat = inputFormat || defaultInput;
+      }
+      item.outputFormat = outputFormat || defaultOutput;
+
+      commit('updateFile', item);
+    });
+  },
   updateDefaultFormats({ commit, state }, data) {
     const { input, output } = data;
-    console.log(data);
 
     const isInputExist = (_.isString(input) && _.findIndex(state.formats, { id: input }) !== -1) || _.isNull(input);
     const isOutputExist = (_.isString(output) && _.findIndex(state.formats, { id: output }) !== -1) || _.isNull(output);
-
-    console.log(isInputExist, isOutputExist);
-    console.log(_.isString(input), _.findIndex(state.formats, { id: input }));
 
     if (isInputExist) {
       commit('setDefaultInput', input);
@@ -80,7 +89,6 @@ const actions = {
       commit('setDefaultOutput', output);
     }
   },
-  // eslint-disable-next-line
   validateAudio({ commit, dispatch, state }, track) {
     if (_.has(track, 'numberOfChannels')) return;
     commit('loader', { enable: true, description: 'Checking number of channels' }, { root: true });
@@ -96,7 +104,11 @@ const actions = {
         source.connect(context.destination);
         source.buffer = buffer;
 
-        commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
+        if (_.find(state.files, { name: track.name })) {
+          dispatch('toast', { error: { message: `You have already chosen a track called "${track.name}"` } }, { root: true });
+        } else {
+          commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
+        }
         commit('loader', { enable: false }, { root: true });
       });
     };
@@ -109,30 +121,31 @@ const getters = {
     return store.formats.filter(({ type }) => type !== 'mach1');
   },
   outputFormats(store) {
-    return store.formats.filter(({ id, type }) => type === 'mach1' && id !== store.item.input);
+    return store.formats.filter(({ type }) => type === 'mach1');
   },
-  validated(store) {
-    return !_.isNull(store.item.numberOfChannels);
-  },
+  // validated(store) {
+  //   return !_.isNull(store.item.numberOfChannels);
+  // },
 };
 
 const mutations = {
   setDefaultInput(store, id) {
-    console.log(id, store.defaultInput);
     store.defaultInput = id;
-    console.log(id, store.defaultInput);
   },
   setDefaultOutput(store, id) {
     store.defaultOutput = id;
   },
-  setItemValidation(store, value) {
-    store.item.validated = value;
-  },
-  setNumberOfChannels(store, value) {
-    store.item.numberOfChannels = value;
+  setDefaultApply(store, value) {
+    store.defaultApply = _.isBoolean(value) ? value : false;
   },
   setFile(store, file) {
     store.files = [...store.files, file];
+  },
+  updateFile(store, { name, inputFormat = null, outputFormat = null }) {
+    const index = _.findIndex(store.files, { name });
+
+    store.files[index].inputFormat = inputFormat;
+    store.files[index].outputFormat = outputFormat;
   },
   removeFile(store, item) {
     store.files = _.filter(store.files, (file) => file.name !== item.name);

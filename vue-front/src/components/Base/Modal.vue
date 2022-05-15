@@ -140,9 +140,9 @@ export default {
     .modal.left {
       max-height: calc(100vh - var(--height) - 50px - 6em);
     }
-    // .modal {
-    //   width: 95%;
-    // }
+    .modal {
+      box-sizing: content-box;
+    }
   }
 
   .modal.medium {

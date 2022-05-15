@@ -1,102 +1,144 @@
 <template>
   <div class="file-uploader">
-    <div class="card round flat grey4">
-      <button class="button small no-margin responsive round grey3">
-        <input type="file" name="resume" multiple @change="changeFile">
-        <i class="material-icons-outlined">audiotrack</i>
-        <span class="small-text upper">Select Audio Track</span>
-      </button>
-      <details>
-        <summary class="card flat transparent">
-          <div class="row no-wrap middle-align">
-            <div class="col min">
-              <i class="material-icons-outlined">settings_suggest</i>
-            </div>
-            <div class="col">
-              <div>Settings</div>
-              <div class="small-text">
-                set default input and output formats options
-              </div>
-            </div>
-          </div>
-        </summary>
-        <div class="card flat transparent">
-          <FormSelect
-            v-model="inputFormat"
-            name="defaultInput"
-            placeholder="SELECT INPUT FORMAT"
-
-            select-skin="light"
-            :options="inputFormats"
-            @change="changeInputFormat"
-          />
-          <FormSelect
-            v-model="outputFormat"
-            name="defaultOutput"
-            placeholder="SELECT OUTPUT FORMAT"
-
-            select-skin="light"
-            :options="outputFormats"
-            @change="changeOutputFormat"
-          />
-          <div class="row">
-            <div class="col s6">
-              <button class="button small responsive round grey3" @click="updateDefaultFormats({ input: inputFormat, output: outputFormat })">
-                <i class="material-icons-outlined">save</i>
-                <span class="small-text upper">save as default</span>
-              </button>
-            </div>
-            <div class="col s6">
-              <button class="button small responsive round grey3" @change="switchDefaultInputEnable, switchDefaultOutputEnable">
-                <i class="material-icons-outlined">double_arrow</i>
-                <span class="small-text upper">apply to selected tracks</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </details>
-      <div>
-        <!-- <div v-show="validated"> -->
-        <div class="flex-item scroll">
-          <table class="table-uploader flex-item">
-            <thead>
-              <th><abbr title="#">#</abbr></th>
-              <th><abbr title="NAME">NAME</abbr></th>
-              <th><abbr title="CHANNELS">CHANNELS</abbr></th>
-              <th><abbr title="INPUT">INPUT</abbr></th>
-              <th><abbr title="OUTPUT">OUTPUT</abbr></th>
-              <th />
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in files" :key="item">
-                <td>
-                  <p class="medium-text">{{ index + 1 }}</p>
-                </td>
-                <td class="audioname">
-                  <p class="medium-text">{{ item.name }}</p>
-                </td>
-                <td>
-                  <p class="medium-text">{{ item.numberOfChannels }}</p>
-                </td>
-                <td>
-                  <FormSelect name="" :options="filteredInputFormats(item.numberOfChannels)" select-skin="light" @change="changeInputFormat" />
-                </td>
-                <td>
-                  <FormSelect name="" :options="outputFormats" select-skin="light" @change="changeOutputFormat" />
-                </td>
-                <td>
-                  <nav class="right-align">
-                    <button class="button border round transparent-border" @click="remove(item)">
-                      <i class="material-icons">delete</i>
-                    </button>
-                  </nav>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="row no-wrap btn-group">
+      <div class="col">
+        <button class="button small no-margin responsive round grey3">
+          <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standart'">
+          <i class="material-icons-outlined">audiotrack</i>
+          <span class="small-text upper">Select Audio Track</span>
+        </button>
+      </div>
+      <div class="col min">
+        <p class="bold upper white-text center-align">or</p>
+      </div>
+      <div class="col">
+        <button class="button small no-margin responsive round grey3">
+          <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'mach1'">
+          <img class="btn-img" src="../assets/logo-btn.svg">
+          <span class="small-text upper">Select MACH1 Formats audio track</span>
+        </button>
       </div>
     </div>
+    <details v-if="typeOfFiles === 'standart'">
+      <summary class="card flat transparent no-padding">
+        <div class="row no-wrap middle-align settings">
+          <div class="col min">
+            <i class="material-icons-outlined large">settings_suggest</i>
+          </div>
+          <div class="col">
+            <h4 class="bold">
+              Settings
+            </h4>
+            <div class="small-text">
+              <span>set default input and output formats options</span>
+            </div>
+          </div>
+        </div>
+      </summary>
+      <div class="card flat transparent no-padding">
+        <FormSelect
+          v-model="inputFormat"
+          name="defaultInput"
+          placeholder="SELECT INPUT FORMAT"
+
+          select-skin="dark"
+          :options="inputFormats"
+          @change="changeInputFormat"
+        />
+        <FormSelect
+          v-model="outputFormat"
+          name="defaultOutput"
+          placeholder="SELECT OUTPUT FORMAT"
+
+          select-skin="dark"
+          :options="outputFormats"
+          @change="changeOutputFormat"
+        />
+        <div class="row">
+          <div class="col s12">
+            <label class="checkbox">
+              <input type="checkbox">
+              <span class="upper">Apply automatically to selected tracks</span>
+            </label>
+          </div>
+          <div class="col s6">
+            <button class="button small responsive round grey3" @click="updateDefaultFormats({ input: inputFormat, output: outputFormat })">
+              <i class="material-icons-outlined">save</i>
+              <span class="small-text upper">save as default</span>
+            </button>
+          </div>
+          <div class="col s6">
+            <button class="button small responsive round grey3" @click="applyDefaultFormatsForTracks({ inputFormat, outputFormat })">
+              <i class="material-icons-outlined">double_arrow</i>
+              <span class="small-text upper">apply to selected tracks</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </details>
+    <div>
+      <!-- <div v-show="validated"> -->
+      <div class="flex-item scroll">
+        <table class="table-uploader flex-item">
+          <thead>
+            <th><abbr title="#">#</abbr></th>
+            <th><abbr title="NAME">NAME</abbr></th>
+            <th><abbr title="CHANNELS">CHANNELS</abbr></th>
+            <th v-if="typeOfFiles === 'standart'">
+              <abbr title="INPUT">INPUT</abbr>
+            </th>
+            <th v-if="typeOfFiles === 'standart'">
+              <abbr title="OUTPUT">OUTPUT</abbr>
+            </th>
+            <th />
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in files" :key="item">
+              <td>
+                <p class="medium-text">{{ index + 1 }}</p>
+              </td>
+              <td class="audioname">
+                <p class="medium-text">{{ item.name }}</p>
+              </td>
+              <td>
+                <p class="medium-text">{{ item.numberOfChannels }}</p>
+              </td>
+              <td>
+                <FormSelect
+                  v-if="typeOfFiles === 'standart'"
+                  v-model="item.inputFormat"
+
+                  name="inputFormat"
+                  :options="filteredInputFormats(item.numberOfChannels)"
+                  select-skin="dark"
+                  @change="changeInputFormat"
+                />
+              </td>
+              <td>
+                <FormSelect
+                  v-if="typeOfFiles === 'standart'"
+                  v-model="item.outputFormat"
+
+                  name="outputFormat"
+                  :options="outputFormats"
+                  select-skin="dark"
+                  @change="changeOutputFormat"
+                />
+              </td>
+
+              <td>
+                <nav class="right-align">
+                  <button class="button border round transparent-border" @click="remove(item)">
+                    <i class="material-icons">delete</i>
+                  </button>
+                </nav>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- </div> -->
     <button class="button small responsive round grey3" @click="upload">
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
@@ -119,20 +161,23 @@ export default {
     return {
       inputFormat: null,
       outputFormat: null,
+
+      typeOfFiles: 'standart',
     };
   },
   computed: {
     ...mapState({
       defaultInput: (state) => state.uploads.defaultInput,
       defaultOutput: (state) => state.uploads.defaultOutput,
+      defaultApply: (state) => state.uploads.defaultApply,
       files: (state) => state.uploads.files,
       // validated: (state) => state.formats.item.validated,
     }),
-    ...mapGetters('uploads', ['inputFormats', 'outputFormats', 'validated']),
+    ...mapGetters('uploads', ['inputFormats', 'outputFormats']),
   },
   methods: {
     ...mapActions('tracks', { request: 'upload' }),
-    ...mapActions('uploads', ['updateDefaultFormats', 'validateAudio']),
+    ...mapActions('uploads', ['applyDefaultFormatsForTracks', 'updateDefaultFormats', 'validateAudio']),
     ...mapActions(['toast']),
     ...mapMutations(['loader']),
     ...mapMutations('uploads', { remove: 'removeFile' }),
@@ -142,28 +187,6 @@ export default {
     changeOutputFormat(event) {
       this.outputFormat = event.target.value;
     },
-    // update
-    // switchDefaultInputEnable() {
-    //   // this.defaultInputEnable = !this.defaultInputEnable;
-    //
-    //   this.updateDefaultFormats({
-    //     input: this.defaultInputEnable
-    //       ? _.get(this, 'inputFormat', null)
-    //       : null,
-    //   });
-    // },
-    // switchDefaultOutputEnable() {
-    //   // this.defaultOutputEnable = !this.defaultOutputEnable;
-    //
-    //   this.updateDefaultFormats({
-    //     output: this.defaultOutputEnable
-    //       ? _.get(this, 'outputFormat', null)
-    //       : null,
-    //   });
-    // },
-    // remove(item) {
-    //   this.files = _.filter(this.files, (file) => file.name !== item.name);
-    // },
     async changeFile(event) {
       const { files } = event.target;
 
@@ -191,11 +214,6 @@ export default {
     filteredInputFormats(numberOfChannels) {
       return _.filter(this.inputFormats, (format) => format.numberOfChannels === numberOfChannels);
     },
-    // save() {
-    //   this.updateDefaultFormats(this.inputFormat);
-    //   this.updateDefaultFormats(this.outputFormat);
-    //
-    // },
   },
   mounted() {
     this.inputFormat = this.defaultInput;
@@ -205,6 +223,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .settings {
+    padding-bottom: 16rem;
+    padding-top: 16rem;
+    h4 {
+      font-size: 21rem;
+      margin: 0;
+    }
+    color: #e0e0e0;
+    i {
+      color: #e0e0e0;
+      font-size: 30rem;
+    }
+    span {
+      color: #55555c;
+      font-weight: bold;
+    }
+  }
   .button {
     margin: 16rem 0 16rem 0;
 
@@ -227,6 +262,21 @@ export default {
     height: auto;
     max-height: 15vh; // note important for playlist scroll
     max-width: 100%;
+    th:nth-of-type(1) {
+      width: 2%;
+    }
+    th {
+      padding: 8rem 0 8rem 0;
+      width: 10%;
+    }
+    th:nth-of-type(1n+4) {
+      text-align: center;
+      padding: 8rem 8rem 8rem 8rem;
+      width: 40%;
+    }
+    abbr {
+      color: #ffffff;
+    }
     tbody{
       width: 100%;
     }
@@ -244,18 +294,18 @@ export default {
 
     td {
       padding: 0 8rem 0 0;
-      border-bottom: 1px #b1b1b1 solid;
+      border-bottom: 1px #55555c solid;
       p {
-        color: #252526;
+        color: #ffffff;
         text-align: left;
       }
     }
-    abbr {
-      text-align: center;
-    }
+  }
+  table td {
+    width: fit-content;
   }
   details {
-    margin: 16rem 0 16rem 0;
+    margin: 16rem 0 0 0;
   }
   .flex-item {
     &::-webkit-scrollbar-track
@@ -270,13 +320,33 @@ export default {
       background-color: #858585;
     }
   }
+  .checkbox {
+    span {
+      color: #e0e0e0;
+      font-weight: bold;
+    }
+  }
+  .btn-img {
+    margin-right: 4rem;
+  }
   @media screen and (orientation: portrait) {
-    .col .s6 {
+    .btn-group {
+      flex-flow: column;
+    }
+
+    .row.no-wrap.btn-group>.col {
       width: 100%;
     }
     .file-uploader {
       overflow-y: scroll;
       padding: 0 8rem 0 8rem;
+    }
+    .checkbox {
+      white-space: break-spaces;
+    }
+    .table-uploader {
+      width: 250%;
+      max-width: 250%;
     }
   }
 </style>

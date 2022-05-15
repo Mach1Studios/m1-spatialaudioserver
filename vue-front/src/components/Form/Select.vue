@@ -100,6 +100,9 @@ export default {
   }
 
   .field.dark {
+    i {
+      color: #55555c;
+    }
     select {
       border: 1rem #323237 solid;
       color: #ffffff;
@@ -124,7 +127,7 @@ export default {
     border: 1rem #b1b1b1 solid;
   }
   .field.dark select:focus {
-      border: 1rem #55555c solid;
+    border: 1rem #55555c solid;
   }
   .field.dark.label>:focus~label {
     color: #55555c;
