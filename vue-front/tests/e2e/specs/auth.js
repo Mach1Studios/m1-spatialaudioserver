@@ -1,4 +1,7 @@
-describe('Auth', () => {
+describe('User Auth', () => {
+  const username = 'm1';
+  const password = 'goodpassbro';
+
   it('Visits the app root url', () => {
     cy.visit('/');
 
@@ -8,14 +11,29 @@ describe('Auth', () => {
       .should('be.exist')
       .click();
 
+    cy.get('.menu')
+      .should('be.exist')
+      .contains('Spatial Audio Player');
+
     cy.get('.modal')
       .should('be.visible')
       .contains('Sign In');
-    cy.get('input[name=login]').type('m1');
-    cy.get('input[name=password]').type('goodpassbro');
+
+    cy.get('input[name=login]').type(username);
+    cy.get('input[name=password]').type(password);
+
     cy.get('form').submit();
+
+    cy.get('a.link')
+      .click({ multiple: true, execTimeout: 100000000 })
+      .should('contain', 'Dashboard')
+      .should('contain', 'Spatial Audio Player')
+      .should('contain', 'Users')
+      .should('contain', 'm1');
+
+    cy.url().should('eq', `${Cypress.config().baseUrl}settings`);
   });
-  it('displays errors on login', () => {
+  it('Displays errors on login', () => {
     cy.visit('/');
 
     cy.get('.modal').should('not.be.visible');
@@ -29,41 +47,64 @@ describe('Auth', () => {
 
     cy.get('.notification')
       .should('be.visible')
+      .should('have.class', 'pink')
       .and('contain', 'User with such credentials was not found');
   });
-  it('redirects to " / " on success', () => {
-    cy.visit('/');
 
-    cy.get('.modal').should('not.be.visible');
+  context('Checking on Sign in and Log out', () => {
+    it('Displays errors on password', () => {
+      cy.visit('/');
 
-    cy.get('button.login')
-      .should('be.exist')
-      .click();
+      cy.get('.modal').should('not.be.visible');
 
-    cy.get('input[name=login]').type('m1');
-    cy.get('input[name=password]').type('goodpassbro');
-    cy.get('form').submit();
+      cy.get('button.login')
+        .should('be.exist')
+        .click();
 
-    cy.url().should('include', '/');
+      cy.get('input[name=login]').type('m1');
+      cy.get('input[name=password]').type('password123{enter}');
 
-    cy.get('.notification')
-      .should('be.visible')
-      .and('contain', 'Success! Welcome back, m1');
-  });
-  it('displays errors on password', () => {
-    cy.visit('/');
+      cy.get('.notification')
+        .should('be.visible')
+        .should('have.class', 'pink')
+        .and('contain', 'Incorrect login or password');
+    });
+    it('Redirects to "/" on success Sign in', () => {
+      cy.visit('/');
 
-    cy.get('.modal').should('not.be.visible');
+      cy.get('.modal').should('not.be.visible');
 
-    cy.get('button.login')
-      .should('be.exist')
-      .click();
+      cy.get('button.login')
+        .should('be.exist')
+        .click();
 
-    cy.get('input[name=login]').type('m1');
-    cy.get('input[name=password]').type('password123{enter}');
+      cy.get('input[name=login]').type('m1');
+      cy.get('input[name=password]').type('goodpassbro');
+      cy.get('form').submit();
 
-    cy.get('.notification')
-      .should('be.visible')
-      .and('contain', 'Incorrect login or password');
+      cy.url().should('include', '/');
+
+      cy.get('.notification')
+        .should('be.visible')
+        .should('have.class', 'green')
+        .and('contain', 'Success! Welcome back, m1');
+    });
+    it('Log out', () => {
+      cy.login(username, password);
+      cy.get('button').contains('logout').click({ force: true });
+      cy.get('.modal')
+        .should('be.visible')
+        .contains('Are you sure?');
+
+      cy.get('.modal')
+        .find('button[type=button]')
+        .first()
+        .click({ force: true });
+
+      cy.get('.notification')
+        .should('be.visible')
+        .should('have.class', 'green')
+        .and('contain', 'Log out success! See you later ;)');
+    });
   });
 });
