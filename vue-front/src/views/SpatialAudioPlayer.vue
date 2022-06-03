@@ -3,7 +3,7 @@
     <div class="container max">
       <div class="row">
         <div class="col s12 m6 l4">
-          <div class="card transparent playlist">
+          <div id="Playlists-list" class="card transparent playlist">
             <Modal
               title="Playlists"
               icon="play_arrow"

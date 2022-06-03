@@ -1,6 +1,6 @@
 <template>
   <div class="file-uploader">
-    <div class="row no-wrap btn-group">
+    <!-- <div class="row no-wrap">
       <div class="col">
         <button class="button small no-margin responsive round grey3">
           <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standart'">
@@ -18,7 +18,12 @@
           <span class="small-text upper">Select MACH1 Formats audio track</span>
         </button>
       </div>
-    </div>
+    </div> -->
+    <button class="button small no-margin responsive round grey3 btn-uploader">
+      <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standart'">
+      <i class="material-icons-outlined">audiotrack</i>
+      <span class="small-text upper">Select Audio Track</span>
+    </button>
     <details v-if="typeOfFiles === 'standart'">
       <summary class="card flat transparent no-padding">
         <div class="row no-wrap middle-align settings">
@@ -76,6 +81,16 @@
         </div>
       </div>
     </details>
+    <div class="small-padding">
+      <label class="switch">
+        <input
+          type="checkbox"
+          :checked="forceStandart"
+          @click="forceStandart = !forceStandart"
+        >
+        <span class="small-text upper white-text">for MACH1 Formats audio track</span>
+      </label>
+    </div>
     <div>
       <!-- <div v-show="validated"> -->
       <div class="flex-item scroll">
@@ -84,10 +99,10 @@
             <th><abbr title="#">#</abbr></th>
             <th><abbr title="NAME">NAME</abbr></th>
             <th><abbr title="CHANNELS">CHANNELS</abbr></th>
-            <th v-if="typeOfFiles === 'standart'">
+            <th v-if="typeOfFiles === 'standart' && !forceStandart">
               <abbr title="INPUT">INPUT</abbr>
             </th>
-            <th v-if="typeOfFiles === 'standart'">
+            <th v-if="typeOfFiles === 'standart' && !forceStandart">
               <abbr title="OUTPUT">OUTPUT</abbr>
             </th>
             <th />
@@ -105,7 +120,7 @@
               </td>
               <td>
                 <FormSelect
-                  v-if="typeOfFiles === 'standart'"
+                  v-if="typeOfFiles === 'standart' && !forceStandart"
                   v-model="item.inputFormat"
 
                   name="inputFormat"
@@ -116,7 +131,7 @@
               </td>
               <td>
                 <FormSelect
-                  v-if="typeOfFiles === 'standart'"
+                  v-if="typeOfFiles === 'standart' && !forceStandart"
                   v-model="item.outputFormat"
 
                   name="outputFormat"
@@ -163,6 +178,7 @@ export default {
       outputFormat: null,
 
       typeOfFiles: 'standart',
+      forceStandart: false,
     };
   },
   computed: {

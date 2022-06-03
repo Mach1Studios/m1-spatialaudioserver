@@ -36,7 +36,7 @@
               icon="edit"
               position="center"
               padding="no-padding"
-              button-classes="small responsive"
+              button-classes="small responsive edit-btn"
               title-classes="large-width"
             >
               <UsersAddForm

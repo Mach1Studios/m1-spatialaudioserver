@@ -59,7 +59,6 @@ const defaultState = () => ({
 });
 
 const actions = {
-  // eslint-disable-next-line
   applyDefaultFormatsForTracks({ commit, dispatch, state }, { inputFormat, outputFormat }) {
     const { defaultInput, defaultOutput } = state;
     const { numberOfChannels } = _.find(state.formats, { id: inputFormat || defaultInput });

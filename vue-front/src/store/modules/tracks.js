@@ -71,8 +71,11 @@ const actions = {
       _.set(options, 'metadata.output_format', outputFormat);
     }
 
+    console.log(data.file);
+    console.log(data.file.track);
+
     await new Promise((resolve, reject) => {
-      const upload = new tus.Upload(data.file, {
+      const upload = new tus.Upload(data.file.track, {
         ...options,
         // NOTE: tus-js using xhr :( and this hook is used for enabling credentials in preflight requests
         onBeforeRequest(req) {
@@ -81,6 +84,7 @@ const actions = {
         },
         onError(err) {
           try {
+            console.log(err);
             const response = err.originalResponse.getBody();
             const error = JSON.parse(response);
 

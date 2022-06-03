@@ -2,7 +2,7 @@
   <div class="container max">
     <div class="row">
       <div class="col s12 m12 l12">
-        <div class="card round">
+        <div id="UsersList" class="card round">
           <UsersList />
           <Modal
             button-classes="small responsive round grey3"

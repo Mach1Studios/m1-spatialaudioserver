@@ -151,14 +151,14 @@ export default {
 
   $ruler-line-w: .0625em;
   $ruler-line-h: .425em;
-  $ruler-line-off: ($input-bw - $ruler-line-h)/2;
+  $ruler-line-off: ($input-bw - $ruler-line-h) / 2;
   $ruler-line-c: #c5b9b9;
   $ruler-fs: .75;
 
   $track-u: 2em;
   $track-k: 8em;
   $track-xtra: 0.5em;
-  $track-w: $track-k + $track-xtra*3;
+  $track-w: $track-k + $track-xtra * 3;
   $track-h: .15em;
 
   $thumb-w: 2em;
@@ -266,13 +266,13 @@ export default {
       inset -1px 0 1px #fff;
     background:
       radial-gradient(#{at 100% 50%}, #d0cfcf, #d0cfcf 71%, transparent 71%)
-        no-repeat ($thumb-w - 2*$thumb-r) 50%,
+        no-repeat ($thumb-w - 2 * $thumb-r) 50%,
       linear-gradient(90deg, #d0cfcf, #d0d0d0) no-repeat 100% 50%,
       radial-gradient(#{at 0 50%}, #d0cfcf, #c3c3c3 71%, transparent 71%)
         no-repeat $thumb-r 50%,
       linear-gradient(90deg, #e2e2e2, #d0cfcf) no-repeat 0 50%,
       linear-gradient(#d2d2d2, #f9f9f9, #d0cfcf, #d2d2d2);
-    background-size: 1.1*$thumb-r 100%;
+    background-size: 1.1 * $thumb-r 100%;
   }
 
   .channel input[type='range']{
@@ -284,7 +284,7 @@ export default {
       -webkit-appearance: none;
     }
 
-    width: $input-bw*20;
+    width: $input-bw * 20;
     height: $input-h;
 
     &::-webkit-slider-runnable-track {
@@ -303,7 +303,7 @@ export default {
     &::-ms-fill-lower { display: none; }
 
     &::-webkit-slider-thumb {
-      margin-top: ($track-h - $thumb-h)/2;
+      margin-top: ($track-h - $thumb-h) / 2;
       @include thumb();
     }
     &::-moz-range-thumb {

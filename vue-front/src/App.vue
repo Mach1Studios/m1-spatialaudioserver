@@ -44,7 +44,6 @@ export default {
   #app-header {
     max-height: 10vh;
   }
-  //
   #app-router {
     // max-height: 90vh;
     // position: static;
