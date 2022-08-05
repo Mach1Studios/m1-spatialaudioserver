@@ -22,7 +22,7 @@ log () {
   echo "$log_prefix $1" &>> $log_file
 }
 
-log "transocder starting at $(date) for file=$fileName; id=$fileId; live=$isLoop"
+log "transcoder starting at $(date) for file=$fileName; id=$fileId; live=$isLoop"
 
 # trying to find out how many channels are in a selected file
 channels=`ffprobe -i $filePath -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0`
@@ -63,7 +63,17 @@ else
   if [[ ! -d "/share/sound/preload/$fileId" && ! -L "/share/sound/preload/$fileId" ]] ; then
       mkdir -p -m 777 /share/sound/preload/$fileId
 
+      # Dash part
       ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" \
         -f dash "/share/sound/preload/$fileId/manifest.mpd" &>> "/share/sound/logs/ffmpeg.output"
+      # HLS part
+      ffmpeg -y -i $filePath -strict -2 -c:a aac -b:a 2048k -af "channelmap=channel_layout=octagonal" \
+        -f hls -hls_list_size 0 -hls_segment_filename "/share/sound/preload/$fileId/chank-stream0-%05d.ts" "/share/sound/preload/$fileId/manifest.m3u8" &>> "/share/sound/logs/ffmpeg.output"
   fi
 fi
+
+#ffmpeg -y -i /share/sound/ACNSN3D.wav -strict -2 -c:a aac -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" -f hls -hls_segment_filename "/share/sound/preload/3f33a88c-63da-4871-8436-a14661ff657c/chank%02d.ts" "/share/sound/preload/3f33a88c-63da-4871-8436-a14661ff657c/manifest.m3u8"
+# ffmpeg -y -i /share/sound/ACNSN3D.wav -strict -2 -c:a aac -ac 2 -b:a 2048k -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -master_pl_name "master.m3u8" -hls_segment_filename "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/chank%02d.ts" "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/manifest.m3u8"
+
+# ffmpeg -y -i /share/sound/ACNSN3D.wav -strict -2 -c:a aac -b:a 2048k -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" -hls_segment_filename "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/chank%02d.ts" "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/manifest.m3u8"
+
