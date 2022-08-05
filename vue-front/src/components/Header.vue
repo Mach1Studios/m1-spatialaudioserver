@@ -11,6 +11,9 @@
       <router-link v-if="isAdmin" class="link" to="/users">
         Users
       </router-link>
+      <router-link v-if="isAdmin" class="link" to="/test">
+        Test
+      </router-link>
     </div>
     <div style="flex-grow: 1;" />
     <router-link v-if="isAuthorized" class="profile link" to="/settings">

@@ -7,6 +7,7 @@ import VuexPersistence from 'vuex-persist';
 import audio from './modules/audio';
 import auth from './modules/auth';
 import dash from './modules/dash';
+import hls from './modules/hls';
 import logs from './modules/logs';
 import playlists from './modules/playlists';
 import tracks from './modules/tracks';
@@ -101,6 +102,7 @@ const Store = createStore({
     audio,
     auth,
     dash,
+    hls,
     logs,
     playlists,
     tracks,

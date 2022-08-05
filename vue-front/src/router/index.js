@@ -29,6 +29,15 @@ const routes = [
     },
   },
   {
+    path: '/test',
+    name: 'Test',
+    component: () => import('../views/Test.vue'),
+    meta: {
+      requiresAdmin: true,
+      transition: 'slide-left',
+    },
+  },
+  {
     path: '/settings',
     name: 'ProfileSettings',
     component: () => import('../views/ProfileSettings.vue'),

@@ -11,7 +11,7 @@
       />
     </div>
     <div class="music-box">
-      <audio ref="player" />
+      <audio id="test-player" ref="testplayer" />
     </div>
     <div class="btn-box">
       <span class="absolute left">
@@ -31,11 +31,12 @@
 </template>
 
 <script>
+import HLS from 'hls.js';
 import { Duration } from 'luxon';
-import { mapActions, mapState } from 'vuex';
+// import { mapActions } from 'vuex';
 
 export default {
-  name: 'AudioPlayer',
+  name: 'TestPlayer',
   props: {
     skin: {
       type: String,
@@ -50,72 +51,109 @@ export default {
       duration: '00:00',
       currentTime: '00:00',
       playback: 0,
+
+      // additional test
+      track: 'Test Track',
+      type: 'static',
+      isActiveStream: true,
     };
   },
-  computed: mapState({
-    track: (state) => state.tracks.track,
-    type: (state) => state.dash.type,
-    isActiveStream: (state) => state.dash.isActiveStream,
+  computed: {
     icon() {
       return this.isPlay ? 'pause_arrow' : 'play_arrow';
     },
-  }),
+  },
   watch: {
     isActiveStream(value) {
       this.isPlay = value;
 
-      if (this.$refs.player && this.$refs.player.duration) {
-        this.duration = Duration.fromObject({ seconds: this.$refs.player.duration }).toFormat('mm:ss');
+      if (this.$refs.testplayer && this.$refs.testplayer.duration) {
+        this.duration = Duration.fromObject({ seconds: this.$refs.testplayer.duration }).toFormat('mm:ss');
       }
     },
   },
   methods: {
-    ...mapActions('audio', ['updateSource']),
-    ...mapActions('dash', ['stop']),
+    // ...mapActions('audio', ['updateSource']),
+    // ...mapActions('hls', ['start', 'stop']),
 
     play() {
-      if (!this.isActiveStream) return;
+      // this.start();
+      // if (!this.isActiveStream) return;
 
-      if (this.$refs.player.paused) {
-        this.$refs.player.play();
+      if (this.$refs.testplayer.paused) {
+        this.$refs.testplayer.play();
       } else {
-        this.$refs.player.pause();
+        this.$refs.testplayer.pause();
       }
 
-      this.isPlay = !this.$refs.player.paused;
+      this.isPlay = !this.$refs.testplayer.paused;
     },
-    playbackUpdate(event) {
-      if (event.target && this.$refs.player && this.$refs.player.currentTime) {
-        const offset = event.offsetX / event.target.getBoundingClientRect().width;
-        this.$refs.player.currentTime = (offset * this.$refs.player.duration);
-      }
-    },
-    repeat() {
-      this.isRepeat = !this.isRepeat;
-      this.$refs.player.loop = this.isRepeat;
-    },
-    timeUpdate() {
-      if (this.$refs.player && this.$refs.player.currentTime) {
-        this.currentTime = Duration.fromObject({ seconds: this.$refs.player.currentTime }).toFormat('mm:ss');
-        this.playback = (this.$refs.player.currentTime / this.$refs.player.duration) * 100;
-      }
-    },
+    // playbackUpdate(event) {
+    //   if (event.target && this.$refs.testplayer && this.$refs.testplayer.currentTime) {
+    //     const offset = event.offsetX / event.target.getBoundingClientRect().width;
+    //     this.$refs.testplayer.currentTime = (offset * this.$refs.testplayer.duration);
+    //   }
+    // },
+    // repeat() {
+    //   this.isRepeat = !this.isRepeat;
+    //   this.$refs.testplayer.loop = this.isRepeat;
+    // },
+    // timeUpdate() {
+    //   if (this.$refs.testplayer && this.$refs.testplayer.currentTime) {
+    //     this.currentTime = Duration.fromObject({ seconds: this.$refs.testplayer.currentTime }).toFormat('mm:ss');
+    //     this.playback = (this.$refs.testplayer.currentTime / this.$refs.testplayer.duration) * 100;
+    //   }
+    // },
   },
   mounted() {
-    this.updateSource(this.$refs.player);
+    const Stream = new HLS({ debug: true, defaultAudioCodec: 'mp4a.40.5' });
 
-    this.$refs.player.addEventListener('timeupdate', this.timeUpdate);
-  },
-  beforeUnmount() {
-    this.$refs.player.pause();
-    this.$refs.player.removeEventListener('timeupdate', this.timeUpdate);
+    if (HLS.isSupported()) {
+      console.log('hello hls.js!');
+    }
 
-    this.stop();
+    Stream.attachMedia(this.$refs.testplayer);
+
+    console.log(this.$refs.testplayer);
+
+    Stream.on(HLS.Events.MEDIA_ATTACHED, () => {
+      console.log('video and hls.js are now bound together !');
+
+      Stream.loadSource('http://localhost:8080/hls/static/3f33a88c-63da-4871-8436-a14661ff657c/master.m3u8');
+      Stream.on(HLS.Events.MANIFEST_PARSED, (event, data) => {
+        console.log(
+          `manifest loaded, found ${data.levels.length} quality level`,
+        );
+      });
+    });
+
+    Stream.on(HLS.Events.ERROR, (event, data) => {
+      switch (data.details) {
+        case HLS.ErrorDetails.FRAG_LOAD_ERROR:
+          // ....
+          break;
+        default:
+          break;
+      }
+    });
+
+    // this.updateSource(this.$refs.testplayer);
+    // this.$refs.testplayer.addEventListener('timeupdate', this.timeUpdate);
   },
+  // beforeUnmount() {
+  //   this.$refs.testplayer.pause();
+  //   this.$refs.testplayer.removeEventListener('timeupdate', this.timeUpdate);
+  //
+  //   this.stop();
+  // },
 };
 </script>
 
 <style lang="scss" scoped>
+  video {
+    width: 300px;
+    height: 100px;
+  }
   .player {
     height: 50px;
     user-select: none;
