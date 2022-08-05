@@ -53,10 +53,11 @@ describe('Users', () => {
     cy.get('.modal')
       .should('be.visible')
       .contains('Add user');
-    cy.get('input[name=nickname]').last().type('m11');
-    cy.get('input[name=email]').last().type('m11@gmail.com');
-    cy.get('input[name=password]').last().type('12345678');
-    cy.get('select').last().select('user').should('have.value', 'user');
+    cy.get('input[name=nickname]').last().focus().type('m11');
+    cy.get('input[name=email]').last().focus().type('m11@gmail.com');
+    cy.get('input[name=password]').last().focus().type('12345678');
+    cy.get('select').last().focus().select('user')
+      .should('have.value', 'user');
     // cy.get('button[type=button]').contains('add').click({ force: true });
     cy.get('form.add-user').last().submit();
     cy.get('button').contains('highlight_off').click({ force: true });
@@ -86,13 +87,14 @@ describe('Users', () => {
     cy.get('input[name=nickname]').invoke('val', 'm13');
     cy.get('input[name=email]');
     cy.get('input[name=password]');
-    cy.get('select').first().select('user', { force: true }).should('have.value', 'user');
+    cy.get('select').first().focus().select('user', { force: true })
+      .should('have.value', 'user');
     cy.get('button[type=button]').contains('Save').click({ force: true });
 
     cy.get('form.add-user').first().submit();
     cy.get('button').contains('highlight_off').click({ force: true });
   });
-  it('Users List delete button for m11', () => {
+  it('Users List delete user button', () => {
     cy.login(username, password);
     cy.visit('/users');
     cy.url().should('eq', `${Cypress.config().baseUrl}users`);

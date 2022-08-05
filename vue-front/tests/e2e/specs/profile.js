@@ -14,7 +14,7 @@ describe('Profile', () => {
     cy.url().should('eq', `${Cypress.config().baseUrl}settings`);
 
     cy.get('form').should('be.exist');
-    cy.get('input[name=nickname]').type('m2');
+    cy.get('input[name=nickname]').focus().type('m2');
     cy.get('button[type=button]').contains('change username').click({ force: true });
     cy.get('form').submit();
   });
@@ -24,9 +24,12 @@ describe('Profile', () => {
     cy.url().should('eq', `${Cypress.config().baseUrl}settings`);
 
     cy.get('form').should('be.exist');
-    cy.get('.label').contains('Old password').prev('input[name=password]').type('goodpassbro');
-    cy.get('.label').contains('New password').prev('input[name=password]').type('12345678');
-    cy.get('.label').contains('Repeat new password').prev('input[name=password]').type('12345678');
+    cy.get('.label').contains('Old password').prev('input[name=password]').focus()
+      .type('goodpassbro');
+    cy.get('.label').contains('New password').prev('input[name=password]').focus()
+      .type('12345678');
+    cy.get('.label').contains('Repeat new password').prev('input[name=password]').focus()
+      .type('12345678');
     cy.get('button[type=button]').contains('change password').click({ force: true });
     cy.get('form').submit();
   });

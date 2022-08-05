@@ -19,8 +19,8 @@ describe('User Auth', () => {
       .should('be.visible')
       .contains('Sign In');
 
-    cy.get('input[name=login]').type(username);
-    cy.get('input[name=password]').type(password);
+    cy.get('input[name=login]').focus().type(username);
+    cy.get('input[name=password]').focus().type(password);
 
     cy.get('form').submit();
 
@@ -42,8 +42,8 @@ describe('User Auth', () => {
       .should('be.exist')
       .click();
 
-    cy.get('input[name=login]').type('jane.lae');
-    cy.get('input[name=password]').type('password123{enter}');
+    cy.get('input[name=login]').focus().type('jane.lae');
+    cy.get('input[name=password]').focus().type('password123{enter}');
 
     cy.get('.notification')
       .should('be.visible')
@@ -61,8 +61,8 @@ describe('User Auth', () => {
         .should('be.exist')
         .click();
 
-      cy.get('input[name=login]').type('m1');
-      cy.get('input[name=password]').type('password123{enter}');
+      cy.get('input[name=login]').focus().type('m1');
+      cy.get('input[name=password]').focus().type('password123{enter}');
 
       cy.get('.notification')
         .should('be.visible')
@@ -78,8 +78,8 @@ describe('User Auth', () => {
         .should('be.exist')
         .click();
 
-      cy.get('input[name=login]').type('m1');
-      cy.get('input[name=password]').type('goodpassbro');
+      cy.get('input[name=login]').focus().type('m1');
+      cy.get('input[name=password]').focus().type('goodpassbro');
       cy.get('form').submit();
 
       cy.url().should('include', '/');
