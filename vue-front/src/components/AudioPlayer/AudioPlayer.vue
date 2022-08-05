@@ -54,8 +54,8 @@ export default {
   },
   computed: mapState({
     track: (state) => state.tracks.track,
-    type: (state) => state.dash.type,
-    isActiveStream: (state) => state.dash.isActiveStream,
+    type: (state) => state.stream.type,
+    isActiveStream: (state) => state.stream.isActiveStream,
     icon() {
       return this.isPlay ? 'pause_arrow' : 'play_arrow';
     },
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     ...mapActions('audio', ['updateSource']),
-    ...mapActions('dash', ['stop']),
+    ...mapActions('stream', ['stop']),
 
     play() {
       if (!this.isActiveStream) return;

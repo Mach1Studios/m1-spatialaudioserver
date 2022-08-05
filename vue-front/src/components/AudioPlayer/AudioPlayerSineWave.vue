@@ -46,7 +46,7 @@ export default {
 
   computed: {
     ...mapState('audio', { audio: 'context', source: 'source', analyser: 'gainNodesAnalyser' }),
-    ...mapState('dash', ['isActiveStream']),
+    ...mapState('stream', ['isActiveStream']),
     leftChannel() {
       return this.channel * 2;
     },

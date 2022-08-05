@@ -4,12 +4,13 @@ import { v4 as uuid } from 'uuid';
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
 
+// import dash from './modules/dash';
 import audio from './modules/audio';
 import auth from './modules/auth';
-import dash from './modules/dash';
 import hls from './modules/hls';
 import logs from './modules/logs';
 import playlists from './modules/playlists';
+import stream from './modules/stream';
 import tracks from './modules/tracks';
 import uploads from './modules/uploads';
 import users from './modules/users';
@@ -101,10 +102,10 @@ const Store = createStore({
   modules: {
     audio,
     auth,
-    dash,
     hls,
     logs,
     playlists,
+    stream,
     tracks,
     uploads,
     users,

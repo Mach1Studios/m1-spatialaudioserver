@@ -74,7 +74,7 @@ export default {
   name: 'StreamInfo',
   computed: {
     ...mapState('audio', ['channels']),
-    ...mapState('dash', ['info']),
+    ...mapState('stream', ['info']),
   },
 };
 </script>

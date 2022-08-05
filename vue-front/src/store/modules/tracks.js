@@ -42,7 +42,7 @@ const actions = {
     const track = _.find(state.items, { id });
 
     commit('setPlayingTrack', { ...track, prepared: true, playing: true });
-    dispatch('dash/start', id, { root: true });
+    dispatch('stream/start', id, { root: true });
   },
   /**
    * Uploading .wav files to the server

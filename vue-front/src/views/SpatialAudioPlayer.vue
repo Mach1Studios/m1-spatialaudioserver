@@ -68,7 +68,7 @@ export default {
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
-    ...mapState('dash', ['player', 'isActiveStream']),
+    ...mapState('stream', ['player', 'isActiveStream']),
     ...mapState('auth', ['profile']),
 
     isAdmin() {
