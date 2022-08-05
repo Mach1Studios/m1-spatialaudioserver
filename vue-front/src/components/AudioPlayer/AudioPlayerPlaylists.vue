@@ -3,71 +3,6 @@
     <div class="playlists-items">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
-          <!-- <details class="playlist">
-            <summary class="card playlist-header" @click="show = (show === item.id) ? show = false : show = item.id">
-              <div class="row no-wrap middle-align">
-                <div class="col min">
-                  <img src="../../assets/playlist.svg" class="circle small">
-                </div>
-                <div class="col">
-                  <h6 class="bold no-margin white-text top-align">{{item.name}}</h6>
-                  <div class="small-text">Last upload: music.wav</div>
-                </div>
-                <div class="col min">
-                  <nav v-if="controls" class="right-align">
-                    <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
-                      <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
-                    </button>
-                    <Modal
-                      title="Rename playlist"
-                      button=" "
-                      icon="edit"
-                      position="center"
-                      padding="no-padding"
-                    >
-                      <PlaylistForm
-                        :id="item.id"
-                        :name="item.name"
-                        title="Save"
-                        icon="save"
-                        :action="update"
-                      />
-                    </Modal>
-                    <Modal
-                      title="Invite user(s) in playlist"
-                      icon="share"
-                      position="medium"
-                      padding="no-padding"
-                      button=" "
-                    >
-                      <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
-                    </Modal>
-                    <button class="border round transparent-border" @click="remove(item)">
-                      <i class="material-icons">delete</i>
-                    </button>
-                  </nav>
-                </div>
-              </div>
-            </summary>
-            <div class="card table-card">
-              <div v-show="show === item.id" class="playlist-list">
-                <Modal
-                  title="Add track(s) in playlist"
-                  icon="add"
-                  buttonClasses="small responsive round upper grey3 small-margin"
-                  position="center"
-                  v-if="controls"
-                  :key="item.id"
-                >
-                <div id="Add-tracks">
-                  <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
-                </div>
-                </Modal>
-                <FileList :user="true" :playlist="item" class="no-scroll small-padding"/>
-              </div>
-            </div>
-          </details> -->
-
           <div class="playlist flex-item">
             <div class="card playlist-header">
               <div class="row no-wrap">
@@ -82,10 +17,6 @@
                     <p class="small-text">Last upload: music.wav</p>
                   </div>
                 </div>
-                <!-- <div class="col s7 m5 l6" @click="show = (show === item.id) ? show = false : show = item.id">
-                  <h6 class="bold no-margin white-text">{{item.name}}</h6>
-                  <p>Last upload: music.wav</p>
-                </div> -->
                 <div class="absolute right">
                   <div class="col min">
                     <nav v-if="controls" class="right-align">
@@ -197,6 +128,9 @@ export default {
     this.$store.dispatch('playlists/getAll');
     this.$store.dispatch('tracks/getAll');
   },
+  updated() {
+    this.$store.dispatch('playlists/update');
+  },
 };
 </script>
 
@@ -301,7 +235,6 @@ export default {
     #Playlist {
       // .playlists-items {
       //   max-height: calc(100vh - 2 * var(--height) - 50px - 12em);
-      //
       // }
       max-height: calc(100vh - var(--height) - 50px - 12em);
     }

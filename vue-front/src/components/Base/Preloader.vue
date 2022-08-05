@@ -77,7 +77,7 @@ export default {
 
     z-index: 500;
 
-    color: yellow;
+    color: #ffff00;
     font-size: 12rem;
     font-weight: 400;
     text-transform: uppercase;

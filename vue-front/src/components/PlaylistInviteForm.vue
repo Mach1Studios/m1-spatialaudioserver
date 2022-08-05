@@ -1,5 +1,12 @@
 <template>
-  <FormSelect name="" placeholder="" select-skin="dark" :options="unbindedItems" @change="addItem" />
+  <FormSelect
+    name=""
+    placeholder=""
+    class="playlist-select"
+    select-skin="dark"
+    :options="unbindedItems"
+    @change="addItem"
+  />
   <div class="invite flex-item scroll">
     <table class="table-invite flex-item">
       <tbody>

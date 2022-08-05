@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-form large-width">
+  <div class="playlist-form">
     <FormInput v-model="item.name" name="name" placeholder="Name" type="text" @keyup.enter="click" />
     <div>
       <FormButton :icon="icon" :title="title" @click="click" />
