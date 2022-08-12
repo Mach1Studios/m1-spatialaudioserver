@@ -190,7 +190,7 @@ FROM node:14.16 as vue-build
 WORKDIR /tmp/build
 
 COPY ./vue-front/package*.json ./
-RUN npm ci
+RUN npm ci --no-optional
 
 COPY ./vue-front .
 RUN npm run build
