@@ -74,4 +74,6 @@ const load = (ctx) => new Promise((resolve, reject) => {
   });
 });
 
-export default { load };
+const parse = (id) => `${process.env.VUE_APP_STREAM_URL}/dash/static/${id}/manifest.mpd`;
+
+export default { load, parse };

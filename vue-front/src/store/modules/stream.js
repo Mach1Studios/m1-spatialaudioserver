@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { validate as isUuid } from 'uuid';
 
-import adapter from '../adapters/default';
+import adapter from '../adapters/additional';
 
 // const settings = {
 //   streaming: {
@@ -99,7 +99,7 @@ const mutations = {
     store.type = type || null;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
-      store.info.url = `${process.env.VUE_APP_STREAM_URL}/dash/static/${payload.url}/manifest.mpd`;
+      store.info.url = adapter.parse(payload.url); // `${process.env.VUE_APP_STREAM_URL}/dash/static/${payload.url}/manifest.mpd`;
       store.processing = true;
     }
   },

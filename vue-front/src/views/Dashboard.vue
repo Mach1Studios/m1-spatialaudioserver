@@ -88,81 +88,92 @@ export default {
   .max-size {
     height: 100vh;
   }
+
   .uploader {
     background-color: #252526;
     padding: 8rem 0 8rem 0;
   }
-  // #AudioPlayerDebug {
-  //   max-height: calc((100vh - 99vh) - 50px);
-  //   height: auto;
-  // }
+
   #Playlists {
     height: auto;
     max-height: 68vh;
     max-width: 100%;
 
+    align-content: space-between;
     display: flex;
     flex-direction: column;
-    align-content: space-between;
   }
+
   #FileList {
     height: auto;
     max-height: 68vh;
     max-width: 100%;
 
+    align-content: space-between;
     display: flex;
     flex-direction: column;
-    align-content: space-between;
   }
+
   #FileListUploader {
     height: auto;
-    // max-height: 68vh;
     max-width: 100%;
 
+    align-content: space-between;
     display: flex;
     flex-direction: column;
-    align-content: space-between;
   }
+
   .card {
-    max-height: 80vh;
     background-color: #252526;
+    max-height: 80vh;
   }
-  .dark, .dark .card{
+
+  .dark, .dark .card {
     background-color: #1c1c1c;
     border-radius: 0;
   }
+
   #AudioPlayerControls {
     height: auto;
     max-height: 68vh;
     max-width: 100%;
 
+    align-content: space-between;
     display: flex;
     flex-direction: column;
-    align-content: space-between;
   }
+
   .audioplayer {
+    box-shadow: none;
+
     padding-left: 55rem;
     padding-right: 55rem;
+    padding-top: 0;
+
     z-index: 600;
+
     .dark-player {
       width: 100%;
     }
-    box-shadow: none;
-    padding-top: 0;
   }
+
   .tabs {
     border-bottom: 0;
+
     a {
       color: #ffffff;
       font-size: 18rem;
     }
   }
+
   .tabs>a.active {
     border-bottom: 2rem solid #ffffff;
   }
+
   .audioplayer-debug {
     padding: 0 55rem 0 55rem;
   }
+
   .container {
     padding-left: 55rem;
     padding-right: 55rem;
@@ -172,65 +183,45 @@ export default {
     #app-header {
       max-height: 10vh;
     }
+
     #app-body-first {
       max-height: calc(100vh - var(--height) - 50px - 6em);
+
       * {
         max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
       }
     }
+
     #app-body-second {
       max-height: calc(100vh - var(--height) - 50px - 6em);
+
       * {
         max-height: calc(100vh - 2 * var(--height) - 50px - 3em);
       }
     }
+
     .audioplayer {
       padding-left: 8rem;
       padding-right: 8rem;
     }
+
     .container {
       overflow-x: scroll;
-      padding-top: auto;
+
+      padding-bottom: calc(10vh - 50px - 3em);
       padding-left: 8rem;
       padding-right: 8rem;
-      padding-bottom: calc(10vh - 50px - 3em);
+      padding-top: auto;
     }
+
     .mobile {
       width: 200vw;
     }
+
     .audioplayer-debug {
-      z-index: 99;
       padding: 0 8rem 0 8rem;
+
+      z-index: 99;
     }
   }
-  // @media screen and (orientation: landscape) {
-  //   #app-header {
-  //     max-height: 10vh;
-  //   }
-  //   #app-body-first {
-  //     max-height: calc((100vh - var(--height) - 50px - 6em) / 1.4);
-  //     * {
-  //       max-height: calc((100vh - 2 * var(--height) - 50px - 6em) / 1.4);
-  //     }
-  //   }
-  //   #app-body-second {
-  //     max-height: calc((100vh - var(--height) - 50px - 6em) / 1.4);
-  //     * {
-  //       max-height: calc((100vh - 2 * var(--height) - 50px - 3em) / 1.4);
-  //     }
-  //   }
-  //   .container {
-  //     overflow-x: scroll;
-  //     padding-top: auto;
-  //     padding-left: 8rem;
-  //     padding-right: 8rem;
-  //     padding-bottom: calc(10vh - 50px - 3em);
-  //   }
-  //   .mobile {
-  //     width: 200vw;
-  //   }
-  //   .audioplayer-debug {
-  //     z-index: 99;
-  //   }
-  // }
 </style>

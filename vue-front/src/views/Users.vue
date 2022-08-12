@@ -46,9 +46,11 @@ export default {
     padding-left: 55rem;
     padding-right: 55rem;
   }
+
   .card {
     background-color: #252526;
   }
+
   @media screen and (orientation: portrait) {
     .container {
       padding-left: 8rem;

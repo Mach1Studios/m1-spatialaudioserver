@@ -138,38 +138,49 @@ export default {
     padding-left: 55rem;
     padding-right: 55rem;
   }
+
   .audioplayer-debug {
     padding: 0 55rem 0 55rem;
   }
+
   .max-size {
     height: 100vh;
   }
+
   .playlist {
     box-shadow: none;
-    padding-top: 0;
+
     padding-left: 0;
+    padding-top: 0;
   }
+
   .dark .card {
     background-color: #1c1c1c;
     border-radius: 0;
   }
+
   .audioplayer {
+    box-shadow: none;
+
     padding-left: 55rem;
     padding-right: 55rem;
+    padding-top: 0;
+
     z-index: 600;
+
     .dark-player {
       width: 100%;
     }
-    box-shadow: none;
-    padding-top: 0;
   }
+
   @media screen and (orientation: portrait) {
     .container {
-      padding-top: auto;
+      padding-bottom: calc(10vh - 50px - 3em);
       padding-left: 8rem;
       padding-right: 8rem;
-      padding-bottom: calc(10vh - 50px - 3em);
+      padding-top: auto;
     }
+
     .audioplayer {
       padding-left: 8rem;
       padding-right: 8rem;
