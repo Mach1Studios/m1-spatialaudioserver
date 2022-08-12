@@ -30,50 +30,56 @@ export default {
   .preloader {
     z-index: 601;
   }
+
   .load {
-    display: flex;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-
-    top: 0;
-    left: 0;
-
     background: #1c1c1cb5;
+
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    left: 0;
+    position: fixed;
+    top: 0;
+
     z-index: 500;
+
     filter: contrast(5);
   }
+
   .load-animation {
+    height: 85vh;
+    width: 100vw;
+
     display: flex;
-    top: 0;
     left: 0;
     position: fixed;
-    width: 100vw;
-    height: 85vh;
+    top: 0;
   }
 
   .load-title {
-    position: absolute;
-    width: 100%;
-
-    top: 55%;
-    margin: 0 auto;
-
-    z-index: 500;
-
     color: #fff7eb;
+
     font-size: 16rem;
     font-weight: 600;
     line-height: 1.125;
+
+    margin: 0 auto;
+    position: absolute;
     text-transform: uppercase;
+    top: 55%;
+
+    width: 100%;
+
+    z-index: 500;
   }
 
   .load-description {
-    position: absolute;
     width: 100%;
 
-    top: 58%;
     margin: 0 auto;
+    position: absolute;
+    top: 58%;
 
     z-index: 500;
 
@@ -83,32 +89,38 @@ export default {
     text-transform: uppercase;
   }
 
-  .animation-line{
+  .animation-line {
+    height: 165rem;
+    width: calc((var(--boxSize) + var(--gutter)) * 5);
+
     display: flex;
+    justify-content: space-between;
+    left: 50%;
     position: absolute;
     top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
+
     filter: blur(1px);
-    justify-content: space-between;
-    height: 165rem;
+
     --boxSize: 10rem;
     --gutter: 10rem;
-    width: calc((var(--boxSize) + var(--gutter)) * 5);
   }
 
-  .line{
-    transform: scaleY(.4);
+  .line {
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+
     height: 100%;
     width: var(--boxSize);
+
     background: #fff7eb;
-    animation-duration: 1.2s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
+
     border-radius: none;
+    transform: scaleY(.4);
   }
 
-  .line-4{
+  .line-4 {
     visibility: hidden;
   }
 
@@ -121,21 +133,12 @@ export default {
      }
   }
 
-  // @-webkit-keyframes rotate {
-  //    from {
-  //        -webkit-transform: rotate(0deg);
-  //    }
-  //    to {
-  //        -webkit-transform: rotate(360deg);
-  //    }
-  // }
-
   .animation-circle {
     display: flex;
 
-    width: 165rem;
     height: 165rem;
     margin: auto;
+    width: 165rem;
 
     border: 8rem solid #fff7eb;
     border-radius: 50%;

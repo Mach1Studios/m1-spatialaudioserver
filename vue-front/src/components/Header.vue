@@ -11,9 +11,6 @@
       <router-link v-if="isAdmin" class="link" to="/users">
         Users
       </router-link>
-      <router-link v-if="isAdmin" class="link" to="/test">
-        Test
-      </router-link>
     </div>
     <div style="flex-grow: 1;" />
     <router-link v-if="isAuthorized" class="profile link" to="/settings">
@@ -54,127 +51,93 @@ export default {
 <style lang="scss" scoped>
   .home {
     background-color: #1a1a1a;
+
     justify-content: space-around;
     padding: 0 30px;
+
     z-index: 98;
 
-    a, button, img {
-      padding: 0 20px;
-      margin: 5px;
-      font-weight: 500;
+    button, img {
       font-size: 16px;
-    }
-    a {
-      color: #626161;
       font-weight: 500;
-      width: fit-content;
-      &:focus, &:focus-within, &:hover, &.router-link-active {
-        color: #fefefe;
-      }
 
-      &.profile {
-        margin: auto;
-        padding: 0;
-        font-size: var(--default-font-size);
-      }
+      margin: 5px;
+      padding: 0 20px;
     }
-    // button {
-    //   background-color: transparent;
-    //   border-radius: 0;
-    //   border: 1px solid #626161;
-    //   color: #626161;
-    //   &:focus, &:hover, &.router-link-active {
-    //     color: #fefefe;
-    //     background: transparent;
-    //     border: 1px solid #fefefe;
-    //     &::after {
-    //       background: transparent;
-    //     }
-    //   }
-    // }
+
     button {
       background-color: transparent;
+      color: #626161;
+
       border-radius: 0;
       border: 1px solid #626161;
-      color: #626161;
       &:focus, &:hover {
-        color: #fefefe;
         background: transparent;
+        color: #fefefe;
+
         border: 1px solid #fefefe;
+
         &::after {
           background: transparent;
         }
       }
     }
+
     .mobile button {
       border: none;
+
       &:focus, &:hover {
         border: none;
       }
     }
   }
+
   .logo {
     height: 70%;
   }
+
   .navigation {
     z-index: 98;
   }
+
   .mobile {
     background-color: #1a1a1a;
+
     justify-content: space-around;
-    padding: 0;
     margin: 0;
-    z-index: 98;
+    padding: 0;
     right: 0;
-    // button {
-    //   border: none;
-    //   &:focus, &:hover, &.router-link-active {
-    //     color: #fefefe;
-    //     border: none;
-    //     background: transparent;
-    //     &::after {
-    //       background: transparent;
-    //     }
-    //   }
-    // }
+
+    z-index: 98;
   }
+
   @media screen and (orientation: portrait) {
     .home {
-      z-index: 700;
       padding: 0 8rem;
+
+      z-index: 700;
+
       button, img {
         padding: 0;
       }
     }
+
     .logo {
       z-index: 800;
     }
+
     .navigation {
-      visibility: hidden;
-
-      display: flex;
-      flex-direction: column;
-
-      position: fixed;
-      bottom: 0;
+      background-color: #1c1c1c;
       height: 100vh;
       width: 100vw;
 
-      background-color: #1c1c1c;
-
-      a {
-        width: auto;
-        max-width: 100%;
-        justify-content: flex-end;
-
-        font-size: 2em;
-        text-align: left;
-        padding: 0 10rem 0 10rem;
-      }
-      a:first-child {
-        margin-top: 10vh;
-      }
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      visibility: hidden;
     }
+
     .navigation.active {
       visibility: visible;
     }

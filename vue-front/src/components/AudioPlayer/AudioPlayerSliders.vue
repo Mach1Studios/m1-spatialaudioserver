@@ -54,17 +54,14 @@ export default {
   $thumb-r: .375em;
 
   @mixin track() {
-    width: $track-w; height: $track-h;
-    border-radius: .1875em;
     background-color: yellow;
+    border-radius: .1875em;
+
+    height: $track-h;
+    width: $track-w;
   }
+
   @mixin thumb() {
-    border: none;
-    width: $thumb-w; height: $thumb-h;
-    border-radius: .5em;
-    box-shadow:
-       -.125em 0 .25em #928886,
-      inset -1px 0 1px #fff;
     background:
       radial-gradient(#{at 100% 50%}, #e8e8e8, #eaeaea 71%, transparent 71%)
         no-repeat ($thumb-w - 2*$thumb-r) 50%,
@@ -74,6 +71,15 @@ export default {
       linear-gradient(90deg, #e2e2e2, #d0cfcf) no-repeat 0 50%,
       linear-gradient(#d2d2d2, #f9f9f9, #f9f9f9, #d2d2d2);
     background-size: 1.1*$thumb-r 100%;
+
+    border: none;
+    border-radius: .5em;
+    box-shadow:
+       -.125em 0 .25em #928886,
+      inset -1px 0 1px #fff;
+
+    width: $thumb-w;
+    height: $thumb-h;
   }
 
   input[type='range'] {
@@ -85,8 +91,7 @@ export default {
 
     align-self: center;
     border: solid $input-bw transparent;
-    padding: 0;
-    width: 90%; height: $input-h;
+
     background:
       repeating-linear-gradient(90deg,
           $ruler-line-c, $ruler-line-c $ruler-line-w,
@@ -100,26 +105,35 @@ export default {
       $track-k*$track-u + $ruler-line-w $ruler-line-h,
       $track-k*$track-u + $ruler-line-w $ruler-line-h,
       $input-bw $input-h;
+
+    height: $input-h;
+    padding: 0;
+    width: 90%;
+
     cursor: pointer;
 
     &::-webkit-slider-runnable-track {
-      position: relative;
       @include track();
+      position: relative;
     }
+
     &::-moz-range-track {
       @include track();
     }
+
     &::-ms-track {
-      border: none;
       @include track();
+      border: none;
       color: transparent;
     }
 
-    &::-ms-fill-lower { display: none; }
+    &::-ms-fill-lower {
+      display: none;
+    }
 
     &::-webkit-slider-thumb {
-      margin-top: ($track-h - $thumb-h)/2;
       @include thumb();
+      margin-top: ($track-h - $thumb-h)/2;
     }
     &::-moz-range-thumb {
       @include thumb();
@@ -132,10 +146,13 @@ export default {
       &:before, &:after {
         position: relative;
       }
+
       &:before {
-        top: 50%; right: 100%;
+        right: 100%;
+        top: 50%;
         transform: translate(50%, -50%) rotate(90deg) translate(0, 32%);
       }
+
       &:after {
         left: 50%;
         width: 3em;

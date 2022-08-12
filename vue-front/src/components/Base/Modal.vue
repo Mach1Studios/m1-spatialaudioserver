@@ -78,12 +78,12 @@ export default {
 
 <style lang="scss" scoped>
   .title {
-    font-style: normal;
-    font-weight: bold;
     color: #ffffff;
 
-    line-height: 1.17;
+    font-style: normal;
+    font-weight: bold;
     letter-spacing: -0.5px;
+    line-height: 1.17;
     text-transform: uppercase;
   }
 
@@ -91,9 +91,10 @@ export default {
     max-width: fill-available;
 
     i {
-      font-size: 16px;
       color: #626161;
+      font-size: 16px;
     }
+
     span {
       color: #1c1c1c;
       font-size: 14px;
@@ -101,11 +102,12 @@ export default {
   }
 
   .close {
-    padding-top: 16px;
     padding-right: 0;
+    padding-top: 16px;
+
     i {
-      font-size: 20px;
       color: #ffffff;
+      font-size: 20px;
     }
   }
   button.border::after {
@@ -127,25 +129,29 @@ export default {
     }
   }
   .modal.left {
-    max-height: calc(100vh - var(--height) - 50px - 6em);
     margin-top: 6em;
+    max-height: calc(100vh - var(--height) - 50px - 6em);
   }
+
   .modal {
     background-color: #252526;
   }
+
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
     background: none;
-  }
-  @media screen and (orientation: portrait) {
-    .modal.left {
-      max-height: calc(100vh - var(--height) - 50px - 6em);
-    }
-    .modal {
-      box-sizing: content-box;
-    }
   }
 
   .modal.medium {
     height: auto;
+  }
+
+  @media screen and (orientation: portrait) {
+    .modal.left {
+      max-height: calc(100vh - var(--height) - 50px - 6em);
+    }
+
+    .modal {
+      box-sizing: content-box;
+    }
   }
 </style>

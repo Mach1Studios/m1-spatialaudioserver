@@ -28,13 +28,14 @@ export default {
 
 <style lang="scss" scoped>
 .button {
-  padding: 0;
   margin: 16rem 0 16rem 0;
+  padding: 0;
 
   i {
-    font-size: 16px;
     color: #626161;
+    font-size: 16px;
   }
+
   span {
     color: #1c1c1c;
   }

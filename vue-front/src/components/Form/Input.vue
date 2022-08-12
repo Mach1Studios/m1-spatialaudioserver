@@ -68,25 +68,31 @@ export default {
 <style lang="scss" scoped>
   .field {
     input {
-      border: 1rem #323237 solid;
-      color: #ffffff;
       -webkit-text-fill-color: #ffffff !important;
+      border: 1rem #323237 solid;
+
+      color: #ffffff;
+
       &:-webkit-autofill {
         transition: background-color 5000s ease-in-out 0s;
       }
+
       &:focus {
         border: 1rem #55555c solid;
       }
     }
+
     label {
       background-color: #252526;
       padding: 0 4rem 0 4rem;
     }
   }
+
   .field.label>:focus~label {
-    color: #55555c;
     background-color: #252526;
+    color: #55555c;
   }
+
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {

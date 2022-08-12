@@ -89,10 +89,12 @@ export default {
 
   .field.light {
     select {
-      border: 1rem #b1b1b1 solid;
-      color: #eaeaea;
       -webkit-text-fill-color: #252526 !important;
+      border: 1rem #b1b1b1 solid;
+
+      color: #eaeaea;
     }
+
     label {
       background-color: #e0e0e0;
       padding: 0 4rem 0 4rem;
@@ -103,11 +105,14 @@ export default {
     i {
       color: #55555c;
     }
+
     select {
-      border: 1rem #323237 solid;
-      color: #ffffff;
       -webkit-text-fill-color: #ffffff !important;
+      border: 1rem #323237 solid;
+
+      color: #ffffff;
     }
+
     label {
       background-color: #252526;
       padding: 0 4rem 0 4rem;
@@ -115,8 +120,8 @@ export default {
   }
 
   .field.light.label>:focus~label {
-    color: #252526;
     background-color: #e0e0e0;
+    color: #252526;
   }
 
   .field.dark.label.border:not(.fill)>label.active {
@@ -126,11 +131,13 @@ export default {
   .field.light select:focus {
     border: 1rem #b1b1b1 solid;
   }
+
   .field.dark select:focus {
     border: 1rem #55555c solid;
   }
+
   .field.dark.label>:focus~label {
-    color: #55555c;
     background-color: #252526;
+    color: #55555c;
   }
 </style>

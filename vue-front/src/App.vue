@@ -28,25 +28,23 @@ export default {
 
 <style lang="scss">
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    // color: #2c3e50;
+    -webkit-font-smoothing: antialiased;
 
-    // max-height: 100vh;
-    min-height: 100vh;
     background-color: #1c1c1c;
 
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    text-align: center;
+
+    min-height: 100vh;
     position: static;
   }
 
   #app-header {
     max-height: 10vh;
   }
+
   #app-router {
-    // max-height: 90vh;
-    // position: static;
     overflow: hidden;
   }
 
@@ -58,41 +56,29 @@ export default {
     --default-font-size: 14px;
     --height: 10vh;
     --primary: #e0e0e0;
-    // --primary: #9CA2C2;
   }
 
   * {
     font-size: var(--default-font-size);
-    width: auto;
+
     height: auto;
-    // position: static;
-    // max-height: inherit;
+    width: auto;
   }
-  html, body {
-    // position: static;
-    // height: 100vh;
-    // max-height: 100vh;
-  }
+
   body {
-    // max-height: 100vh;
-    // position: static;
-    // display: grid;
     overflow: hidden;
   }
+
   .slide-left-enter-active {
     transition: all 0.3s ease-out;
   }
 
-  .slide-left-leave-active {
-    // transition: all 0.3s ease;
-    // transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-
   .slide-left-enter-from,
   .slide-left-leave-to {
-    transform: translateX(100px);
     opacity: 0;
+    transform: translateX(100px);
   }
+
   @media screen and (orientation: portrait) {
     body {
       overflow-y: scroll;

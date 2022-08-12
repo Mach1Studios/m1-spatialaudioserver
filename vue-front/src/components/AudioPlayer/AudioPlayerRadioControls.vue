@@ -30,16 +30,18 @@ export default {
   }
 
   .state {
-    position: absolute;
-    top: 0;
-    right: 0;
     opacity: 1e-5;
     pointer-events: none;
+
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
   .label {
-    display: inline-flex;
     align-items: center;
+    display: inline-flex;
+
     cursor: pointer;
   }
 
@@ -50,25 +52,25 @@ export default {
   }
 
   .indicator {
-    position: relative;
     border-radius: 50%;
-    height: 25px;
-    width: 25px;
     box-shadow:
       -8px -4px 8px 0px #ffffff,
       8px 4px 12px 0px #d1d9e6;
+    height: 25px;
     overflow: hidden;
+    position: relative;
+    width: 25px;
   }
 
   .indicator::before,
   .indicator::after {
+    border-radius: 50%;
     content: '';
+    height: 80%;
+    left: 10%;
     position: absolute;
     top: 10%;
-    left: 10%;
-    height: 80%;
     width: 80%;
-    border-radius: 50%;
   }
 
   .indicator::before {
@@ -91,13 +93,12 @@ export default {
   }
 
   .state:checked ~ .label .indicator::after {
-    transform: scale3d(.975, .975, 1) translate3d(0, 10%, 0);
     opacity: 0;
+    transform: scale3d(.975, .975, 1) translate3d(0, 10%, 0);
   }
 
   .state:focus ~ .label .text {
-    transform: translate3d(8px, 0, 0);
     opacity: 1;
+    transform: translate3d(8px, 0, 0);
   }
-
 </style>

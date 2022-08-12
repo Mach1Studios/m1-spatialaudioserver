@@ -1,24 +1,5 @@
 <template>
   <div class="file-uploader">
-    <!-- <div class="row no-wrap">
-      <div class="col">
-        <button class="button small no-margin responsive round grey3">
-          <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standart'">
-          <i class="material-icons-outlined">audiotrack</i>
-          <span class="small-text upper">Select Audio Track</span>
-        </button>
-      </div>
-      <div class="col min">
-        <p class="bold upper white-text center-align">or</p>
-      </div>
-      <div class="col">
-        <button class="button small no-margin responsive round grey3">
-          <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'mach1'">
-          <img class="btn-img" src="../assets/logo-btn.svg">
-          <span class="small-text upper">Select MACH1 Formats audio track</span>
-        </button>
-      </div>
-    </div> -->
     <button class="button small no-margin responsive round grey3 btn-uploader">
       <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standart'">
       <i class="material-icons-outlined">audiotrack</i>
@@ -240,126 +221,137 @@ export default {
 
 <style lang="scss" scoped>
   .settings {
+    color: #e0e0e0;
+
     padding-bottom: 16rem;
     padding-top: 16rem;
+
     h4 {
       font-size: 21rem;
       margin: 0;
     }
-    color: #e0e0e0;
+
     i {
       color: #e0e0e0;
       font-size: 30rem;
     }
+
     span {
       color: #55555c;
       font-weight: bold;
     }
   }
+
   .button {
     margin: 16rem 0 16rem 0;
 
     i {
-      font-size: 16px;
       color: #626161;
+      font-size: 16px;
     }
+
     span {
       color: #252526;
     }
   }
+
   .button button {
     color: #252526;
   }
+
   .table-uploader {
+    height: auto;
+    width: 100%;
+    max-height: 15vh; // note important for playlist scroll
+    max-width: 100%;
+
     margin-top: 16rem;
     overflow: hidden;
 
-    width: 100%;
-    height: auto;
-    max-height: 15vh; // note important for playlist scroll
-    max-width: 100%;
     th:nth-of-type(1) {
       width: 2%;
     }
+
     th {
       padding: 8rem 0 8rem 0;
       width: 10%;
     }
+
     th:nth-of-type(1n+4) {
-      text-align: center;
       padding: 8rem 8rem 8rem 8rem;
+      text-align: center;
+
       width: 40%;
     }
+
     abbr {
       color: #ffffff;
     }
-    tbody{
+
+    tbody {
       width: 100%;
     }
+
     button {
       &:hover {
         i {
-          font-size: 20px;
           color: #252526;
+          font-size: 20px;
         }
       }
     }
+
     button.border::after {
       background-image: none;
     }
 
     td {
-      padding: 0 8rem 0 0;
       border-bottom: 1px #55555c solid;
+      padding: 0 8rem 0 0;
+
       p {
         color: #ffffff;
         text-align: left;
       }
     }
   }
+
   table td {
     width: fit-content;
   }
   details {
     margin: 16rem 0 0 0;
   }
+
   .flex-item {
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3em;
+    &::-webkit-scrollbar-track {
       background-color: #e0e0e0;
+      border-radius: 3em;
     }
 
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
+    &::-webkit-scrollbar-thumb {
       background-color: #858585;
+      border-radius: 3em;
     }
   }
+
   .checkbox {
     span {
       color: #e0e0e0;
       font-weight: bold;
     }
   }
-  .btn-img {
-    margin-right: 4rem;
-  }
-  @media screen and (orientation: portrait) {
-    .btn-group {
-      flex-flow: column;
-    }
 
-    .row.no-wrap.btn-group>.col {
-      width: 100%;
-    }
+  @media screen and (orientation: portrait) {
     .file-uploader {
       overflow-y: scroll;
       padding: 0 8rem 0 8rem;
     }
+
     .checkbox {
       white-space: break-spaces;
     }
+
     .table-uploader {
       width: 250%;
       max-width: 250%;

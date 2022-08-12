@@ -83,24 +83,29 @@ export default {
  .social-icon {
    margin-left: 0;
    width: 20rem;
+ }
 
- }
  .social {
-   width: 20rem;
    margin-left: 21rem;
+   width: 20rem;
  }
+
  h2 {
    font-size: 24rem;
    padding-bottom: 13rem;
  }
+
  p {
    font-size: 19rem;
    text-align: justify;
+
    margin-top: 0;
  }
+
  .paragraph {
    padding-top: 21.5rem;
  }
+
  .large-divider {
     border-bottom: 1rem solid #55555c;
   }

@@ -52,30 +52,36 @@ export default {
 
 <style lang="scss" scoped>
   .popup {
+    background-color: #252526;
+    border-radius: 1em;
+
+    padding: 0.5em;
     position: fixed;
     z-index: 1000;
-    padding: 0.5em;
-    border-radius: 1em;
-    background-color: #252526;
+
     p {
       color: #ffffff;
       text-align: justify;
     }
+
     b {
       color: #72646f;
       font-weight: 600;
     }
   }
+
   i {
     color: #626161;
-    cursor: pointer;
     font-size: 16px;
+
+    cursor: pointer;
   }
+
   button {
     &:hover {
       i {
-        font-size: 20px;
         color: #ffffff;
+        font-size: 20px;
       }
     }
   }

@@ -89,87 +89,98 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3rem;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 5rem;
-      border-radius: 3rem;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
-      background-color: #858585;
-    }
     scrollbar-color: #858585;
-  }
-  i {
-    cursor: pointer;
 
+    &::-webkit-scrollbar-track {
+      background-color: #323237;
+      border-radius: 3rem;
+    }
+
+    &::-webkit-scrollbar {
+      background-color: #323237;
+      border-radius: 3rem;
+
+      width: 5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #858585;
+      border-radius: 3em;
+    }
+  }
+
+  i {
     color: #626161;
     font-size: 16px;
+
+    cursor: pointer;
   }
-  tr {
-    width: inherit;
-  }
+
   .table-list {
     display: block;
     overflow: hidden;
+
     width: 100%;
-    tbody{
-        width: 100%;
-        display: table;
+
+    tbody {
+      display: table;
+      width: 100%;
     }
 
     .audio-name {
       width: 100%;
       word-break: break-all;
     }
+
     p {
       color: #ffffff;
-      // color: #626161;
       text-align: justify;
     }
+
     td {
       border-bottom: 1px #212121 solid;
+
       &:last-child {
         padding-right: 13px;
       }
     }
+
     tr {
       vertical-align: middle;
+      width: inherit;
     }
+
     tr:hover {
       background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
     }
+
     tr.on-play {
       background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+
       p {
         color: #72646f;
         font-weight: bold;
       }
+
       i {
         color: #72646f;
       }
     }
+
     button {
       &:hover {
         i {
-          font-size: 20px;
           color: #ffffff;
+          font-size: 20px;
         }
       }
     }
+
     button.border::after {
       background-image: none;
     }
   }
+
   @media screen and (orientation: portrait) {
     #FileList {
       .table-list {
@@ -177,15 +188,18 @@ export default {
           width: 85%;
           word-break: keep-all;
         }
-        td{
-          display: grid;
+
+        td {
           border: none;
+          display: grid;
         }
-        td:not(:nth-child(3)){
+
+        td:not(:nth-child(3)) {
           display: inline-table;
         }
       }
     }
+
     nav>:not(.dropdown,.badge) {
       padding-right: 8rem;
     }

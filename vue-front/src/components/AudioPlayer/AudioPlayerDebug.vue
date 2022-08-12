@@ -44,37 +44,45 @@ export default {
   .audio-player-debug {
     margin-bottom: 0;
     padding-bottom: 0;
+
     z-index: 101;
   }
+
   details, summary {
     color: #ffffff;
   }
+
   summary {
     list-style: none;
     margin-bottom: 0;
+
     p {
       font-size: var(--default-font-size);
       padding: 4rem 0 0 0;
     }
   }
+
   summary::-webkit-details-marker {
     display: none;
   }
+
   .audio-player-overlay {
     background: #1c1c1cb5;
-    position: fixed;
-    width: 100vw;
     height: 100vh;
+    width: 100vw;
 
-    top: 0;
     left: 0;
+    position: fixed;
+    top: 0;
+
     filter: contrast(5) blur(10px);
   }
   @media screen and (orientation: portrait) {
     .row {
-      max-height: calc(100vh - 2 * var(--height) + 50px + 6em );
       height: auto;
+      max-height: calc(100vh - 2 * var(--height) + 50px + 6em );
     }
+
     .audio-player-debug {
       .row>.col {
         padding: 0;

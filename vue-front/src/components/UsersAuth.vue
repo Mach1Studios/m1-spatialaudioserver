@@ -95,33 +95,40 @@ export default {
     background-color: transparent;
     color: #626161;
 
-    padding: 0 20px;
-    margin: 5px;
-    font-weight: 500;
     font-size: 16px;
+    font-weight: 500;
+
+    margin: 5px;
+    padding: 0 20px;
 
     z-index: 1;
 
     &:focus, &:hover {
-      color: #fefefe;
       background: transparent;
+      color: #fefefe;
+
       &::after {
         background: transparent;
       }
     }
+
     i {
       font-size: 16px;
     }
   }
+
   .profile {
     display: flex;
   }
+
   .logout .button>:not(.dropdown,.badge) {
     margin-left: 0;
   }
+
   .login {
-    border: 1px solid #626161;
     border-radius: 0;
+    border: 1px solid #626161;
+
     &:focus, &:hover {
       border: 1px solid #fefefe;
     }

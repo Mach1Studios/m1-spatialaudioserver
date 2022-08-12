@@ -35,22 +35,22 @@ export default {
 
 <style lang="scss" scoped>
   .notification {
-    z-index: 601;
+    height: auto;
+    width: 80%;
 
-    position: fixed;
-    top: auto;
     bottom: 72rem;
     left: 50%;
+    position: fixed;
     right: auto;
-    width: 80%;
-    height: auto;
+    top: auto;
 
     transform: translate(-50%);
+    z-index: 601;
   }
-  .toast {
-    position: relative;
 
+  .toast {
     bottom: 0;
     margin: 10rem;
+    position: relative;
   }
 </style>

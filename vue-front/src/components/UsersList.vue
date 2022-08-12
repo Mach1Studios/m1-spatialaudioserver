@@ -84,35 +84,42 @@ export default {
     i {
       color: #626161;
     }
+
     button {
      i {
        font-size: 16px;
      }
+
      &:hover {
        i {
-         font-size: 20px;
          color: #ffffff;
+         font-size: 20px;
        }
      }
     }
+
     abbr {
-      width: 100%;
+      color: #ffffff;
 
       font-style: normal;
       font-weight: bold;
-
-      line-height: 1.17;
       letter-spacing: -0.5px;
-      color: #ffffff;
+      line-height: 1.17;
+
+      width: 100%;
     }
+
     p {
       color: #ffffff;
     }
+
     td {
       border-bottom: 1px #212121 solid;
       vertical-align: middle;
+
       cursor: pointer;
     }
+
     th {
       vertical-align: middle;
     }
@@ -126,6 +133,7 @@ export default {
     .user-list {
       overflow-x: scroll;
     }
+
     .table-user-list {
       width: 200vw;
     }

@@ -167,28 +167,34 @@ export default {
 
   .preview {
     .title {
-      font-style: normal;
-      font-size: 18rem;
       color: #ffffff;
-      margin-top: 8rem;
-      margin-bottom: 8rem;
-      padding-bottom: 8rem;
-
-      line-height: 1.17;
+      font-size: 18rem;
+      font-style: normal;
       letter-spacing: -0.5px;
+      line-height: 1.17;
+
+      margin-bottom: 8rem;
+      margin-top: 8rem;
+      padding-bottom: 8rem;
     }
+
     i {
-      cursor: pointer;
       color: #4d4d4d;
+      cursor: pointer;
     }
+
     p {
       color: #4d4d4d;
     }
   }
 
-  .channel-controls  {
-    scrollbar-color: #858585 #323237;
+  .channel-controls {
+    align-content: space-between;
+    display: flex;
+    flex-direction: column;
+
     overflow-x: hidden;
+    scrollbar-color: #858585 #323237;
 
     height: auto;
     max-height: 64vh; // note important for playlist scroll
@@ -196,26 +202,24 @@ export default {
 
     padding-bottom: 16rem;
 
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-
     .row {
       display: flex;
       justify-content: flex-start;
+
       .channel-name {
         order: 1;
       }
+
       .channel-wave {
-        order: 2;
         margin-left: 40rem;
+        order: 2;
       }
       .controls {
-        order: 4;
-        margin-left: 40rem;
-
         display: flex;
         flex-direction: row;
+
+        margin-left: 40rem;
+        order: 4;
 
         .volume-control {
           i {
@@ -232,38 +236,42 @@ export default {
       }
     }
 
-    &::-webkit-scrollbar-track
-    {
+    &::-webkit-scrollbar-track {
       border-radius: 3rem;
       background-color: #323237;
     }
 
-    &::-webkit-scrollbar
-    {
+    &::-webkit-scrollbar {
       width: 5rem;
-      border-radius: 3rem;
+
       background-color: #323237;
+      border-radius: 3rem;
     }
 
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
+    &::-webkit-scrollbar-thumb {
       background-color: #858585;
+      border-radius: 3em;
     }
   }
 
   @mixin track() {
-    width: $track-w; height: $track-h;
-    border-radius: .1875em;
     background-color: #858585;
+    border-radius: .1875em;
+
+    height: $track-h;
+    width: $track-w;
   }
   @mixin thumb() {
-    border: none;
-    width: $thumb-w; height: $thumb-h;
+    height: $thumb-h;
+    width: $thumb-w;
+
     border-radius: .5em;
+    border: none;
+
     box-shadow:
        -.125em 0 .25em #252526,
       inset -1px 0 1px #fff;
+
     background:
       radial-gradient(#{at 100% 50%}, #d0cfcf, #d0cfcf 71%, transparent 71%)
         no-repeat ($thumb-w - 2 * $thumb-r) 50%,
@@ -275,51 +283,62 @@ export default {
     background-size: 1.1 * $thumb-r 100%;
   }
 
-  .channel input[type='range']{
+  .channel input[type='range'] {
     background-color: transparent;
     margin: 0;
+
     &,
     &::-webkit-slider-runnable-track,
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
     }
 
-    width: $input-bw * 20;
     height: $input-h;
+    width: $input-bw * 20;
 
     &::-webkit-slider-runnable-track {
-      position: relative;
       @include track();
+      position: relative;
     }
+
     &::-moz-range-track {
       @include track();
     }
+
     &::-ms-track {
-      border: none;
       @include track();
+      border: none;
       color: transparent;
     }
 
-    &::-ms-fill-lower { display: none; }
+    &::-ms-fill-lower {
+      display: none;
+    }
 
     &::-webkit-slider-thumb {
-      margin-top: ($track-h - $thumb-h) / 2;
       @include thumb();
+      margin-top: ($track-h - $thumb-h) / 2;
     }
+
     &::-moz-range-thumb {
       @include thumb();
     }
+
     &::-ms-thumb {
       @include thumb();
     }
+
     &::-webkit-slider-runnable-track, ::v-deep(#track) {
       &:before, &:after {
         position: relative;
       }
+
       &:before {
-        top: 50%; right: 100%;
+        right: 100%;
+        top: 50%;
         transform: translate(50%, -50%) rotate(90deg) translate(0, 32%);
       }
+
       &:after {
         left: 50%;
         width: 3em;
@@ -328,25 +347,23 @@ export default {
   }
 
   .flex-item {
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3rem;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 5rem;
-      border-radius: 3rem;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
-      background-color: #858585;
-    }
     scrollbar-color: #858585 #323237;
+
+    &::-webkit-scrollbar-track {
+      background-color: #323237;
+      border-radius: 3rem;
+    }
+
+    &::-webkit-scrollbar {
+      background-color: #323237;
+      border-radius: 3rem;
+      width: 5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #858585;
+      border-radius: 3em;
+    }
   }
 
   @media screen and (orientation: portrait) {
@@ -354,13 +371,23 @@ export default {
       .channel-controls {
         max-height: calc(100vh - var(--height) - 50px - 14em);
       }
+
       .channel-controls .row {
-        flex-flow: row wrap;
         flex-direction: row;
+        flex-flow: row wrap;
+
+        .channel-wave {
+          flex-basis: 100%;
+          margin-left: 0;
+        }
 
         .controls {
           flex-basis: 100%;
           margin-left: 0;
+
+          .volume-control i {
+            margin: 0;
+          }
 
           .position-control {
             margin-left: 5rem;
@@ -369,44 +396,8 @@ export default {
              margin: 0;
             }
           }
-          .volume-control i {
-            margin: 0;
-          }
-        }
-        .channel-wave {
-          margin-left: 0;
-          flex-basis: 100%;
         }
       }
     }
   }
-  // @media screen and (orientation: landscape) {
-  //   #Controls {
-  //     .controls {
-  //       max-height: calc((100vh - var(--height) - 50px - 12em) / 1.4);
-  //     }
-  //     .controls .row {
-  //       flex-direction: row;
-  //       flex-flow: row wrap;
-  //       .third {
-  //         .third-2 {
-  //           margin-left: 5rem;
-  //         }
-  //         .third-2 p {
-  //          margin: 0;
-  //         }
-  //         .third-1 i {
-  //           margin: 0;
-  //         }
-  //       }
-  //       .first {
-  //         margin-left: 0;
-  //         flex-basis: 100%;
-  //       }
-  //       .second {
-  //         margin-left: 0;
-  //       }
-  //     }
-  //   }
-  // }
 </style>

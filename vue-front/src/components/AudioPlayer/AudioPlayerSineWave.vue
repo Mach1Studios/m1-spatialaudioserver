@@ -171,13 +171,11 @@ export default {
 <style lang="scss" scoped>
   canvas {
     background: transparent;
-
-    // border: 1px solid white;
   }
 
   canvas .visualizer {
-    max-width: 200px;
     max-height: 100px;
+    max-width: 200px;
     width: 100%;
 
     background: transparent;

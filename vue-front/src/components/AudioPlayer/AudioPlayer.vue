@@ -23,8 +23,8 @@
         <span class="duration">/</span>
         <span class="duration">{{ duration }}</span>
         <i class="material-icons repeat" :class="{ 'on-repeat': isRepeat }" @click="repeat">repeat</i>
-        <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="HLS" data-front="DASH" />
-        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="DASH" data-front="HLS" />
+        <!-- <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="HLS" data-front="DASH" />
+        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="DASH" data-front="HLS" /> -->
       </span>
     </div>
   </div>
@@ -118,158 +118,168 @@ export default {
 <style lang="scss" scoped>
   .player {
     height: 50px;
-    user-select: none;
     width: 100%;
 
+    user-select: none;
+
     .music-box {
-      position: absolute;
       left: 50%;
+      position: absolute;
       top: 5px;
       transform: translateX(-50%);
     }
     .btn-box {
-      position: absolute;
-      top: 20px;
-      width: 100%;
       display: flex;
       justify-content: center;
+      position: absolute;
+      top: 20px;
+
+      width: 100%;
 
       span {
         vertical-align: middle;
       }
+
       i {
-        font-size: 24px;
         color: #72646f;
+        font-size: 24px;
+
         cursor: pointer;
       }
-      i.active {
+
+      i.active, i.on-repeat {
         color: #ffff00;
       }
+
       i.repeat {
         margin-right: 10px;
       }
-      i.on-repeat {
-        color: #ffff00;
-      }
+
       .duration {
-        font-size: 12px;
         color: #72646f;
+        font-size: 12px;
+
         margin-right: 10px;
       }
     }
   }
+
   progress {
-    width: 100%;
     cursor: pointer;
+
+    width: 100%;
 
     &[value] {
       -webkit-appearance: none;
       appearance: none;
+
       background-color: #323237;
       color: #72646f;
-      height: 5px;
+
       cursor: pointer;
+
+      height: 5px;
     }
+
     &[value]::-webkit-progress-bar {
       background-color: #323237;
       color: #72646f;
     }
+
     &::-webkit-progress-value {
       background-color: #72646f;
     }
+
     &[value]::-moz-progress-bar {
       background-color: #72646f;
     }
   }
 
-  .btn-flip {
-    opacity: 1;
-    outline: 0;
-    line-height: 25px;
-    position: relative;
-    text-align: center;
-    letter-spacing: 1rem;
-    display: inline-block;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: var(--default-font-size);
-
-    cursor: pointer;
-    &:after {
-      top: 0;
-      left: 0;
-      opacity: 0;
-      width: 100%;
-      display: block;
-      transition: 0.5s;
-      position: absolute;
-      content: attr(data-back);
-      transform: translateY(50%) rotateX(-90deg);
-      border: 1px solid #ffff00;
-      box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset;
-    }
-
-    &:before {
-      top: 0;
-      left: 0;
-      opacity: 1;
-      display: block;
-      padding: 0 30px;
-      line-height: 25px;
-      transition: 0.5s;
-      position: relative;
-      content: attr(data-front);
-      transform: translateY(0) rotateX(0);
-      border: 1px solid #ffff00;
-      box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset;
-      // border: 1px solid #FCCC0A;
-      // box-shadow: 0 0 5px #FCCC0A, 0 0 5px #FCCC0A inset;
-    }
-    &:hover {
-      &:after {
-        opacity: 1;
-        transform: translateY(0) rotateX(0);
-      }
-
-      &:before {
-        opacity: 0;
-        transform: translateY(-50%) rotateX(-90deg);
-      }
-    }
-  }
-
-  .dark {
-    &:before {
-      background: #1a1a1a;
-      color: #fff7eb;
-      // background: #323237;
-      // color: #adadaf;
-    }
-    &:after {
-      background: #1a1a1a;
-      color: #fff7eb;
-      // background: #323237;
-      // color: #adadaf;
-    }
-  }
-  .light {
-    &:before {
-      background: #f5e6d7;
-      color: #72646f;
-    }
-    &:after {
-      background: #72646f;
-      color: #f5e6d7;
-    }
-  }
   .name {
     color: #adadaf;
     margin-left: 10px;
   }
+
   @media screen and (orientation: portrait) {
     span .name {
       display: none;
     }
   }
+
+  // .btn-flip {
+  //   cursor: pointer;
+  //   display: inline-block;
+  //   font-size: var(--default-font-size);
+  //   font-weight: 600;
+  //   letter-spacing: 1rem;
+  //   line-height: 25px;
+  //   opacity: 1;
+  //   outline: 0;
+  //   position: relative;
+  //   text-align: center;
+  //   text-decoration: none;
+  //   text-transform: uppercase;
+  //
+  //   &:after {
+  //     border: 1px solid #ffff00;
+  //     box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset;
+  //     content: attr(data-back);
+  //     display: block;
+  //     left: 0;
+  //     opacity: 0;
+  //     position: absolute;
+  //     top: 0;
+  //     transform: translateY(50%) rotateX(-90deg);
+  //     transition: 0.5s;
+  //     width: 100%;
+  //   }
+  //
+  //   &:before {
+  //     border: 1px solid #ffff00;
+  //     box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset;
+  //     content: attr(data-front);
+  //     display: block;
+  //     left: 0;
+  //     line-height: 25px;
+  //     opacity: 1;
+  //     padding: 0 30px;
+  //     position: relative;
+  //     top: 0;
+  //     transform: translateY(0) rotateX(0);
+  //     transition: 0.5s;
+  //   }
+  //   &:hover {
+  //     &:after {
+  //       opacity: 1;
+  //       transform: translateY(0) rotateX(0);
+  //     }
+  //
+  //     &:before {
+  //       opacity: 0;
+  //       transform: translateY(-50%) rotateX(-90deg);
+  //     }
+  //   }
+  // }
+  //
+  // .dark {
+  //   &:before {
+  //     background: #1a1a1a;
+  //     color: #fff7eb;
+  //   }
+  //   &:after {
+  //     background: #1a1a1a;
+  //     color: #fff7eb;
+  //   }
+  // }
+  //
+  // .light {
+  //   &:before {
+  //     background: #f5e6d7;
+  //     color: #72646f;
+  //   }
+  //   &:after {
+  //     background: #72646f;
+  //     color: #f5e6d7;
+  //   }
+  // }
 </style>

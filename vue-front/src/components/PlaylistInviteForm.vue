@@ -83,47 +83,52 @@ export default {
   .flex-item {
     overflow-x: hidden;
 
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3em;
+    &::-webkit-scrollbar-track {
       background-color: #ffffff;
+      border-radius: 3em;
     }
 
-    &::-webkit-scrollbar
-    {
+    &::-webkit-scrollbar {
+      background-color: #ffffff;
       width: 7px;
-      background-color: #ffffff;
     }
 
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
+    &::-webkit-scrollbar-thumb {
       background-color: #858585;
+      border-radius: 3em;
     }
   }
+
   .invite {
     p {
       color: #ffffff;
     }
+
     i {
-      font-size: 16px;
       color: #626161;
+      font-size: 16px;
     }
+
     button {
-      width: 100%;
-      padding: 0;
       margin: 16rem 0 16rem 0;
+      padding: 0;
+
+      width: 100%;
+
       &:hover {
         i {
           color: #ffffff;
         }
       }
     }
+
     button:focus::after, button:hover::after {
       background: none;
     }
+
     .table-invite {
       padding-right: 16rem;
+
       td {
         border-bottom: 1px #212121 solid;
       }

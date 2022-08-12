@@ -60,55 +60,63 @@ export default {
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
   .flex-item {
+    height: auto;
+    max-height: 35vh;
+
     margin-top: 0;
     padding-top: 0;
-    max-height: 35vh;
-    height: auto;
 
     scrollbar-color: #858585 #323237;
     scrollbar-width: thin;
 
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3rem;
+    &::-webkit-scrollbar-track {
       background-color: #323237;
+      border-radius: 3rem;
     }
-    &::-webkit-scrollbar
-    {
+
+    &::-webkit-scrollbar {
+      background-color: #323237;
+      border-radius: 3rem;
       width: 5rem;
-      border-radius: 3rem;
-      background-color: #323237;
     }
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
+
+    &::-webkit-scrollbar-thumb {
       background-color: #858585;
+      border-radius: 3em;
     }
   }
+
   .debug {
+    max-height: 40vh;
+
     margin-bottom: 0;
     padding-bottom: 0;
-    max-height: 40vh;
+
     h4 {
-      font-size: 18rem;
       color: #ffffff;
+      font-size: 18rem;
     }
   }
+
   .scroll {
-    overflow-y: scroll;
     overflow-x: hidden;
+    overflow-y: scroll;
   }
+
   p {
     color: white;
   }
+
   button{
     &:after {
       background-image: none;
     }
   }
+
   .debug-header {
     height: 25rem;
     margin: 0 0 8rem 0;
+
     .col {
       height: inherit;
       padding-left: 0;
@@ -122,50 +130,64 @@ export default {
       }
     }
   }
+
   .chip {
     height: 100%;
     min-height: inherit;
   }
+
   .small-chip {
-    margin: 1rem 6rem 6rem 6rem;
-    height: 20rem;
-    box-shadow: var(--shadow-2);
     background: transparent;
+    box-shadow: var(--shadow-2);
+
+    height: 20rem;
+    margin: 1rem 6rem 6rem 6rem;
   }
+
   .timestamp {
     color: #625B71;
     font-weight: bold;
   }
+
   .chip::after{
     background-image: none;
   }
+
   .message {
-    font-family: 'Courier Prime', monospace;
     color: #eaeaea;
-    width: 100%;
+
+    font-family: 'Courier Prime', monospace;
     word-break: break-all;
+
+    width: 100%;
   }
+
   .info-chip {
     color: #ffff00;
   }
+
   .error-chip {
     color: #ff0000;
   }
+
   .nav-btn {
     margin-top: 0;
 
     span {
       color: #fff7eb;
-      vertical-align: top;
       font-size: 14rem;
+      vertical-align: top;
     }
+
     i {
-      vertical-align: baseline;
-      margin-right: 4rem;
       color: #fff7eb;
       font-size: 18rem;
+
+      margin-right: 4rem;
+      vertical-align: baseline;
     }
   }
+
   .log {
     background-color: #19191a;
 
@@ -176,50 +198,62 @@ export default {
       background: transparent;
     }
   }
+
   details {
     .card {
-      margin-left: 0;
-      padding: 0rem;
       border-radius: 6rem;
+
+      margin-left: 0;
       margin-top: 0;
+      padding: 0rem;
     }
   }
+
   .data {
-    font-family: 'Courier Prime', monospace;
     color: #eaeaea;
+    font-family: 'Courier Prime', monospace;
+
     padding: 0 0 8rem 35rem;
   }
+
   details, summary {
     color: #ffffff;
   }
+
   summary {
     list-style: none;
     margin-bottom: 0;
   }
+
   summary::-webkit-details-marker {
     display: none;
   }
+
   @media screen and (orientation: portrait) {
     .nav-btn {
       margin-left: 0;
       margin-right: 0;
       padding-left: 0;
+
       span {
         display: none;
       }
+
       i {
-        vertical-align: baseline;
         color: #fff7eb;
         font-size: 18rem;
+
+        vertical-align: baseline;
       }
     }
+
     .debug-header {
       padding: 10rem 0 10rem 0;
     }
+
     .flex-item {
-      max-height: calc((100vh - 2 * var(--height) + 50px - 12em - 20rem) / 2 );
       height: auto;
+      max-height: calc((100vh - 2 * var(--height) + 50px - 12em - 20rem) / 2 );
     }
   }
-
 </style>
