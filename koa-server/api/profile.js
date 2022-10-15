@@ -13,6 +13,7 @@ export default {
 
     ctx.status = userId ? 200 : 204;
     ctx.body = { user };
+    console.log(ctx.body, userId);
 
     if (userId) {
       const profile = await ctx.redis.hget(`user:${userId}`, 'id');
@@ -21,6 +22,9 @@ export default {
         ctx.session = null;
         ctx.throw(403, 'Session expired');
       }
+    } else {
+      ctx.session = null;
+      ctx.throw(403, 'Session expired');
     }
   },
 };

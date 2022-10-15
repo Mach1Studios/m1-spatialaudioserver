@@ -62,13 +62,15 @@ else
   log "creating static mpeg-dash manifest for the sound file"
   if [[ ! -d "/share/sound/preload/$fileId" && ! -L "/share/sound/preload/$fileId" ]] ; then
       mkdir -p -m 777 /share/sound/preload/$fileId
+      mkdir -p -m 777 /share/sound/hls/$fileId
 
       # Dash part
       ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" \
         -f dash "/share/sound/preload/$fileId/manifest.mpd" &>> "/share/sound/logs/ffmpeg.output"
       # HLS part
-      ffmpeg -y -i $filePath -strict -2 -c:a aac -b:a 2048k -af "channelmap=channel_layout=octagonal" \
-        -f hls -hls_list_size 0 -hls_segment_filename "/share/sound/preload/$fileId/chank-stream0-%05d.ts" "/share/sound/preload/$fileId/manifest.m3u8" &>> "/share/sound/logs/ffmpeg.output"
+      ffmpeg -y -i $filePath -strict -2 -c:a aac -b:a 2048k \
+        -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" \
+        -hls_segment_filename "/share/sound/hls/$fileId/chank-stream0-%05d.ts" "/share/sound/hls/$fileId/manifest.m3u8" &>> "/share/sound/logs/ffmpeg.output"
   fi
 fi
 
@@ -77,3 +79,11 @@ fi
 
 # ffmpeg -y -i /share/sound/ACNSN3D.wav -strict -2 -c:a aac -b:a 2048k -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" -hls_segment_filename "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/chank%02d.ts" "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/manifest.m3u8"
 
+# HLS part
+# ffmpeg -y -i $filePath -strict -2 -c:a aac -b:a 2048k -af "channelmap=channel_layout=octagonal" \
+#   -f hls -hls_list_size 0 -hls_segment_filename "/share/sound/preload/$fileId/chank-stream0-%05d.ts" "/share/sound/preload/$fileId/manifest.m3u8" &>> "/share/sound/logs/ffmpeg.output"
+
+
+
+# ffmpeg -y -i /share/sound/04_DailyLife_M1.wav -strict -2 -c:a aac -ac 2 -b:a 2048k -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" -hls_segment_filename "/share/sound/hls/a05f7c5e-d99c-4ef5-8a85-1b61a7e8459c/chank-stream0-%05d.ts" "/share/sound/hls/a05f7c5e-d99c-4ef5-8a85-1b61a7e8459c/manifest.m3u8"
+  
