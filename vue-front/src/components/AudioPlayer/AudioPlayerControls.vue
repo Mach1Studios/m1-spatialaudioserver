@@ -151,7 +151,8 @@ export default {
 
   $ruler-line-w: .0625em;
   $ruler-line-h: .425em;
-  $ruler-line-off: ($input-bw - $ruler-line-h) / 2;
+  $ruler-line-off: calc(($input-bw - $ruler-line-h) / 2);
+  // $ruler-line-off: ($input-bw - $ruler-line-h) / 2;
   $ruler-line-c: #c5b9b9;
   $ruler-fs: .75;
 
@@ -317,7 +318,8 @@ export default {
 
     &::-webkit-slider-thumb {
       @include thumb();
-      margin-top: ($track-h - $thumb-h) / 2;
+      margin-top: calc(($track-h - $thumb-h) / 2);
+      // margin-top: ($track-h - $thumb-h) / 2;
     }
 
     &::-moz-range-thumb {

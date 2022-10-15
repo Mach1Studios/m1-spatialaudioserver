@@ -21,13 +21,22 @@ const actions = {
     return false;
   },
   async restore({ commit, dispatch, state }) {
-    const profile = await new FetchHelper('profile').get();
+    try {
+      const profile = await new FetchHelper('profile').get();
 
-    if (profile) {
-      commit('setProfile', profile);
-    } else if (state.profile) {
-      dispatch('toast', { event: { message: `${state?.user?.nickname ?? 'Oops'}, your session has expired, please provide your credentials` } }, { root: true });
-      commit('setProfile', { session: false });
+      if (profile) {
+        commit('setProfile', profile);
+      } else if (state.profile) {
+        dispatch('toast', { event: { message: `${state?.user?.nickname ?? 'Oops'}, your session has expired, please provide your credentials` } }, { root: true });
+        commit('setProfile', { session: false });
+      }
+    } catch (e) {
+      if (e.message === 'Session expired') {
+        dispatch('toast', { event: { message: `${state?.user?.nickname ?? 'Oops'}, your session has expired, please provide your credentials` } }, { root: true });
+        commit('setProfile', { session: false });
+        return;
+      }
+      throw e;
     }
   },
   async logout({ commit, dispatch }) {

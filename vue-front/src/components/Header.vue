@@ -65,6 +65,10 @@ export default {
       padding: 0 20px;
     }
 
+    .link {
+      padding: 0 10px;
+    }
+
     button {
       background-color: transparent;
       color: #626161;
