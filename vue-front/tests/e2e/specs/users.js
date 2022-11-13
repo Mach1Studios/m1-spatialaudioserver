@@ -77,7 +77,6 @@ describe('Users', () => {
       response: { status: 'Created', code: 201 },
       body: user,
     });
-
     // cy.request({
     //   url: 'http://localhost:8080/api/users',
     //   method: 'POST',

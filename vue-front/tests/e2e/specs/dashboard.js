@@ -26,6 +26,7 @@ describe('Dashboard', () => {
     cy.get('#Playlists')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#Playlist').should('be.exist');
     cy.get('.playlist-header').first().click();
 
@@ -39,8 +40,10 @@ describe('Dashboard', () => {
     cy.get('.channel-controls').should('be.exist').and('be.visible');
     cy.get('.channel-wave').should('be.exist').and('be.visible');
     cy.get('.controls').should('be.exist').and('be.visible');
+
     cy.get('canvas').should('be.exist').and('be.visible').and('have.class', 'visualizer')
       .and('have.css', 'height', '50px');
+
     cy.get('input[type=range]').first().should('have.value', '0.5')
       .invoke('val', 0.87)
       .get('input[type=range]')
@@ -52,6 +55,7 @@ describe('Dashboard', () => {
       .last()
       .trigger('toogle', { force: true })
       .click({ force: true });
+
     cy.get('table.table-dash').should('be.exist').and('be.visible');
     cy.get('tr').contains('Stream:');
     cy.get('tr').contains('Number of audio channels:');
@@ -60,6 +64,7 @@ describe('Dashboard', () => {
     cy.get('tr').contains('Update Period:');
     cy.get('tr').contains('Suggestion Delay:');
     cy.get('tr').contains('Profiles:');
+
     cy.get('details').should('be.exist').and('be.visible').and('have.class', 'audio-player-debug')
       .children('summary')
       .last()
@@ -85,17 +90,53 @@ describe('Dashboard', () => {
     cy.get('#Playlists')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#Playlist').should('be.exist');
     cy.get('.playlist-header').first().click();
-
     cy.get('button').contains('Add track(s) in playlist').click({ force: true });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/upload',
+      method: 'POST',
+      response: { status: 'Created', code: 201 },
+    });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/tracks',
+      method: 'GET',
+      response: { status: 'OK', code: 200 },
+    });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/playlists/7441472e-4465-4556-8686-24e55a8814f7',
+      method: 'PUT',
+      response: { status: 'No Content', code: 204 },
+    });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/playlists/7441472e-4465-4556-8686-24e55a8814f7',
+      method: 'OPTIONS',
+      response: { status: 'No Content', code: 204 },
+    });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api',
+      method: 'GET',
+      response: { status: '', code: 301 },
+    });
+
     cy.get('.modal')
       .should('be.visible')
       .contains('Add track(s) in playlist');
 
     cy.get('.playlist-select > select > option').find('label')
       .first()
-      .wait(500)
+      .wait(1000)
       .parent()
       .trigger('change', { force: true })
       .click({ force: true });
@@ -121,10 +162,12 @@ describe('Dashboard', () => {
     cy.get('#Playlists')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#Playlist').should('be.exist');
     cy.get('.playlist-header').first().click();
 
     cy.get('button').contains('Add track(s) in playlist').click({ force: true });
+
     cy.get('.modal')
       .should('be.visible')
       .contains('Add track(s) in playlist');
@@ -137,6 +180,13 @@ describe('Dashboard', () => {
       .click({ force: true });
 
     cy.get('button').contains('highlight_off').click({ force: true });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/tracks/97e482c4-cc90-4ce3-b595-fc95a50a0e9c',
+      method: 'DELETE',
+      response: { status: 'No Content', code: 204 },
+    });
   });
 
   it('Add new playlist', () => {
@@ -157,16 +207,28 @@ describe('Dashboard', () => {
     cy.get('#Playlists')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#Playlist').should('be.exist');
 
     cy.get('button').contains('Add new playlist').click({ force: true });
+
     cy.get('.modal')
       .should('be.visible')
       .contains('Add new playlist');
+
     cy.get('input[name=name]').last().focus().type('NEW PLAYLIST');
+
     cy.get('button').find('span').contains('Create new playlist')
       .click({ force: true });
+
     cy.get('button').contains('highlight_off').click({ force: true });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/playlists',
+      method: 'POST',
+      response: { status: 'Created', code: 201 },
+    });
   });
 
   it('Delete playlist', () => {
@@ -187,13 +249,23 @@ describe('Dashboard', () => {
     cy.get('#Playlists')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#Playlist').should('be.exist');
+
     cy.get('.playlist-header')
       .last()
       .find('button')
       .contains('delete')
       .click({ force: true });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/playlists/7441472e-4465-4556-8686-24e55a8814f7',
+      method: 'DELETE',
+      response: { status: 'No Content', code: 204 },
+    });
   });
+
   it('Visibility of playlist', () => {
     cy.login(username, password);
     cy.visit('/dashboard');
@@ -212,13 +284,23 @@ describe('Dashboard', () => {
     cy.get('#Playlists')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#Playlist').should('be.exist');
+
     cy.get('.playlist-header')
       .first()
       .find('button')
       .contains('visibility')
       .click({ force: true });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/playlists/aee601ef-4fd7-440e-954f-9f91509a2151',
+      method: 'PUT',
+      response: { status: 'No Content', code: 204 },
+    });
   });
+
   it('Rename playlist', () => {
     cy.login(username, password);
     cy.visit('/dashboard');
@@ -258,12 +340,21 @@ describe('Dashboard', () => {
         key: 'Enter',
         force: true,
       });
+
     cy.get('button[type=button]')
       .find('span')
       .contains('Save')
       .trigger('click', { force: true })
       .click({ force: true });
+
     cy.get('button').contains('highlight_off').click({ force: true });
+
+    cy.server();
+    cy.route({
+      url: 'http://localhost:8080/api/playlists/f00aefc0-c5a8-4977-aa6a-8c632efff1bf',
+      method: 'PUT',
+      response: { status: 'No Content', code: 204 },
+    });
   });
 
   it('Audio Player', () => {
@@ -284,11 +375,14 @@ describe('Dashboard', () => {
     cy.get('#FileList')
       .should('be.exist')
       .and('have.class', 'page active');
+
     cy.get('#FileList').should('be.exist');
 
     cy.get('table.table-list.flex-item').should('be.exist').first().children('tbody');
+
     cy.get('table.table-list.flex-item > tbody > tr > td.audio-name').first()
       .click({ force: true });
+
     cy.expectPlayingAudio();
   });
   // it('Choose a file', () => {

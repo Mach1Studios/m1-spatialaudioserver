@@ -88,6 +88,13 @@ describe('User Auth', () => {
         .should('be.visible')
         .should('have.class', 'green')
         .and('contain', 'Success! Welcome back, m1');
+
+      cy.server();
+      cy.route({
+        url: 'http://localhost:8080/api/auth',
+        method: 'POST',
+        response: { status: 'Created', code: 201 },
+      });
     });
     it('Log out', () => {
       cy.login(username, password);
@@ -105,6 +112,13 @@ describe('User Auth', () => {
         .should('be.visible')
         .should('have.class', 'green')
         .and('contain', 'Log out success! See you later ;)');
+
+      cy.server();
+      cy.route({
+        url: 'http://localhost:8080/api/auth/logout',
+        method: 'DELETE',
+        response: { status: 'No Content', code: 204 },
+      });
     });
   });
 });
