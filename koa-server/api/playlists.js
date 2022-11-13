@@ -31,9 +31,14 @@ export default {
         username: user.nickname,
       },
       // url: `playlists/${playlist.id}`,
-      tracks: _.map(playlist.tracks, (track) => ({ id: track, name: 'Some Simple name', position: 0, description: 'Some desc', url: `track/${track}` })),
+      tracks: _.map(playlist.tracks, (track) => ({
+        id: track,
+        name: track,
+        position: 0,
+        description: 'Some desc',
+        url: `wav/static/${track}.wav`,
+      })),
     };
-    return;
     // console.log(ctx.body);
   },
   /**
