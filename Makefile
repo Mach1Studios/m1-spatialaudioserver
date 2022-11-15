@@ -57,7 +57,7 @@ run_redis_docker:
 		--name m1-redis \
 		--rm m1-redis
 run_nginx_docker:
-	docker run -it -p 1935:1935 -p 8080:80 $$args \
+	docker run -it -d -p 1935:1935 -p 80:80 \
 		--net m1-network \
 		--ip 172.20.0.4 \
 		--mount type=volume,source=m1-volume,target=/share/sound \
