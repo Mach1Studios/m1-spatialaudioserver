@@ -23,8 +23,9 @@
         <span class="duration">/</span>
         <span class="duration">{{ duration }}</span>
         <i class="material-icons repeat" :class="{ 'on-repeat': isRepeat }" @click="repeat">repeat</i>
-        <!-- <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="HLS" data-front="DASH" />
-        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="DASH" data-front="HLS" /> -->
+        <button class="btn-player small" @click="setAdapter(isActiveAdapter === 'hls' ? 'dash' : 'hls')">
+          <span>{{ isActiveAdapter }}</span>
+        </button>
       </span>
     </div>
   </div>
@@ -32,7 +33,7 @@
 
 <script>
 import { Duration } from 'luxon';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'AudioPlayer',
@@ -56,9 +57,15 @@ export default {
     track: (state) => state.tracks.track,
     type: (state) => state.stream.type,
     isActiveStream: (state) => state.stream.isActiveStream,
+    isActiveAdapter: (state) => state.stream.adapter,
+
     icon() {
       return this.isPlay ? 'pause_arrow' : 'play_arrow';
     },
+    // typeOfStream() {
+    //   return this.isPlay ? 'HLS' : 'DASH';
+    // },
+    // switchAdapter: (state) => state.stream.switchAdapter,
   }),
   watch: {
     isActiveStream(value) {
@@ -72,6 +79,7 @@ export default {
   methods: {
     ...mapActions('audio', ['updateSource']),
     ...mapActions('stream', ['stop']),
+    ...mapMutations('stream', ['setAdapter']),
 
     play() {
       if (!this.isActiveStream) return;
@@ -198,6 +206,45 @@ export default {
   .name {
     color: #adadaf;
     margin-left: 10px;
+  }
+
+  .btn-player {
+    border: 1px solid #ffff00;
+    border-radius: 0;
+    // box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset !important;
+    color: #72646f;
+    background-color: transparent;
+    padding: 0 30px;
+    line-height: 25px;
+    position: relative;
+    top: 0;
+    left: 0;
+    font-size: var(--default-font-size);
+    font-weight: 600;
+    letter-spacing: 2rem;
+    text-transform: uppercase;
+    width: 30rem;
+  }
+
+  .btn-player:hover:before {
+    top: 0%;
+    bottom: auto;
+    height: 100%;
+  }
+  .btn-player:before {
+    display: block;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    height: 0px;
+    width: 100%;
+    z-index: -1;
+    content: '';
+    background: #ffff00;
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+  }
+  button.btn-player::after {
+    background-image: none;
   }
 
   @media screen and (orientation: portrait) {

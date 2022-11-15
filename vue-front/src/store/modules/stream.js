@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import { validate as isUuid } from 'uuid';
 
-import adapter from '../adapters/additional';
+// eslint-disable-next-line
+import defaultAdapter from '../adapters/default';
+import additionalAdapter from '../adapters/additional';
 
 // const settings = {
 //   streaming: {
@@ -22,6 +24,7 @@ const defaultState = () => ({
   processing: false,
   // settings,
   type: null,
+  adapter: 'dash',
 });
 
 const actions = {
@@ -30,7 +33,16 @@ const actions = {
     ctx.commit('setStreamInformation', { url });
     ctx.commit('loader', { description: 'Starting to initialize the audio player' }, { root: true });
 
-    await adapter.load(ctx);
+    switch (ctx.state.adapter) {
+      case 'dash':
+        await defaultAdapter.load(ctx);
+        break;
+      case 'hls':
+        await additionalAdapter.load(ctx);
+        break;
+      default:
+        await defaultAdapter.load(ctx);
+    }
   },
   async stop({ commit, state }) {
     if (state.player && state.player.destroy) state.player.destroy();
@@ -99,12 +111,26 @@ const mutations = {
     store.type = type || null;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
-      store.info.url = adapter.parse(payload.url); // `${process.env.VUE_APP_STREAM_URL}/dash/static/${payload.url}/manifest.mpd`;
+      switch (store.adapter) {
+        case 'dash':
+          store.info.url = defaultAdapter.parse(payload.url);
+          break;
+        case 'hls':
+          store.info.url = additionalAdapter.parse(payload.url);
+          break;
+        default:
+          store.info.url = defaultAdapter.parse(payload.url);
+      }
+      // store.info.url = defaultAdapter.parse(payload.url); // `${process.env.VUE_APP_STREAM_URL}/dash/static/${payload.url}/manifest.mpd`;
       store.processing = true;
     }
   },
   setPlayer(store, player) {
     store.player = player;
+  },
+  setAdapter(store, typeOfAdapter) {
+    const adapters = ['hls', 'dash'];
+    store.adapter = adapters.includes(typeOfAdapter) ? typeOfAdapter : 'dash';
   },
 };
 
