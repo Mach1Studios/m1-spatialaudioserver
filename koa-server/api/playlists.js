@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PlaylistModel } from './models';
+import { PlaylistModel, TrackModel } from './models';
 
 export default {
   /**
@@ -14,32 +14,35 @@ export default {
   async get(ctx) {
     const { id } = ctx.params;
     const { user } = ctx.session;
-    console.log(user);
 
-    const playlists = await new PlaylistModel().getItemsByUserRole(user);
+    const Playlist = new PlaylistModel();
+
+    const playlists = await Playlist.getItemsByUserRole(user);
     const playlist = _.find(playlists, { id });
-    console.log(playlist);
+
+    const tracks = await new TrackModel().getAllItemsFromStore();
 
     ctx.status = 200;
     ctx.body = {
       id: playlist.id,
       name: playlist.name,
       isPublic: true,
-      // tracks: [],
       owner: {
         id: user.id,
         username: user.nickname,
       },
-      // url: `playlists/${playlist.id}`,
-      tracks: _.map(playlist.tracks, (track) => ({
-        id: track,
-        name: track,
-        position: 0,
-        description: 'Some desc',
-        url: `wav/static/${track}.wav`,
-      })),
+      tracks: _.map(playlist.tracks, (track) => {
+        const { name, originalname } = _.find(tracks, { id: track });
+
+        return {
+          id: track,
+          name,
+          position: 0,
+          description: `Original name is ${originalname}`,
+          url: `wav/static/${originalname}`,
+        };
+      }),
     };
-    // console.log(ctx.body);
   },
   /**
    * Creating a new playlist by PlaylistModel and save it to DB
