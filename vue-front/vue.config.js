@@ -1,5 +1,8 @@
 // const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
+// const path = require('path')
+// const anchor = require('markdown-it-anchor')
+
 module.exports = {
   transpileDependencies: ['mach1spatial-decode'],
   // configureWebpack: {
@@ -43,5 +46,27 @@ module.exports = {
         publicPath: 'js',
       })
       .end();
+
+    // config.module
+    //   .rule('markdown')
+    //   .test(/\.md$/)
+    //
+    //   .use('vue-loader')
+    //   .loader('vue-loader')
+    //   .end()
+    //
+    //   .use('vue-md-loader')
+    //   .loader(require.resolve('vue-md-loader'))
+    //   .options({
+    //     // plugins: [
+    //     //   [
+    //     //     anchor,
+    //     //     {
+    //     //       permalink: anchor.permalink.headerLink(),
+    //     //     },
+    //     //   ],
+    //     // ],
+    //   })
+    //   .end();
   },
 };
