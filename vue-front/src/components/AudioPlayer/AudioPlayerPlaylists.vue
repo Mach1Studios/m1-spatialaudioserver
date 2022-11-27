@@ -27,7 +27,7 @@
                         title="Rename playlist"
                         button=" "
                         icon="edit"
-                        position="center"
+                        position="medium"
                         padding="no-padding"
                       >
                         <PlaylistForm

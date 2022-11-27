@@ -1,15 +1,13 @@
 <template>
-  <div class="user-list">
-    <table class="table-user-list large center-align">
-      <thead>
+  <div class="flex-item scroll">
+    <table class="table-user-list large-space center-align">
+      <thead class="front">
         <tr>
           <th><abbr title="#">#</abbr></th>
           <th><abbr title="NICKNAME">NICKNAME</abbr></th>
           <th><abbr title="E-MAIL">E-MAIL</abbr></th>
           <th><abbr title="ROLE">ROLE</abbr></th>
           <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-          <!-- <th><abbr title="EDIT"></abbr></th>
-          <th><abbr title="REMOVE"></abbr></th> -->
         </tr>
       </thead>
       <tbody>
@@ -80,7 +78,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .flex-item {
+    scrollbar-color: #858585;
+
+    &::-webkit-scrollbar-track {
+      background-color: #323237;
+      border-radius: 3rem;
+    }
+
+    &::-webkit-scrollbar {
+      background-color: #323237;
+      border-radius: 3rem;
+
+      width: 5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #858585;
+      border-radius: 3em;
+    }
+  }
+
   .table-user-list {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+
+    tbody {
+      width: 100%;
+    }
+
     i {
       color: #626161;
     }
@@ -130,11 +157,8 @@ export default {
   }
 
   @media screen and (orientation: portrait) {
-    .user-list {
-      overflow-x: scroll;
-    }
-
     .table-user-list {
+      overflow-x: scroll;
       width: 200vw;
     }
   }

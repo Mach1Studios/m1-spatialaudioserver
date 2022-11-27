@@ -4,15 +4,12 @@
       <div class="row">
         <div class="col s12 m6 l4">
           <div id="Playlists-list" class="card transparent playlist">
-            <Modal
-              title="Playlists"
-              icon="play_arrow"
-              position="left medium"
-              button-classes="small responsive upper round grey3"
-              padding="no-margin"
-            >
-              <AudioPlayerPlaylists />
-            </Modal>
+            <FormButton title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
+            <Transition>
+              <div v-show="showPlaylist" class="card round show-playlists">
+                <AudioPlayerPlaylists />
+              </div>
+            </Transition>
           </div>
         </div>
         <div class="col s6" />
@@ -43,7 +40,7 @@ import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
-import Modal from '../components/Base/Modal.vue';
+import FormButton from '../components/Form/Button.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -60,10 +57,10 @@ export default {
     AudioPlayerDebug,
     AudioPlayerPlaylists,
     AudioPlayerTouch,
-    Modal,
+    FormButton,
   },
   data() {
-    return { isMount: false };
+    return { isMount: false, showPlaylist: false };
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
@@ -134,6 +131,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  .v-enter-active,
+  .v-leave-active {
+
+    animation: move 3s ease infinite;
+    }
+
+    @keyframes move {
+      50% {
+         transform: translate(100px, 0px);
+      }
+    }
+
+  .v-enter-from,
+  .v-leave-to {
+    opacity: 0;
+  }
   .container {
     padding-left: 55rem;
     padding-right: 55rem;
@@ -171,6 +184,13 @@ export default {
     .dark-player {
       width: 100%;
     }
+  }
+  .card {
+    background-color: #252526;
+  }
+
+  .show-playlists {
+
   }
 
   @media screen and (orientation: portrait) {
