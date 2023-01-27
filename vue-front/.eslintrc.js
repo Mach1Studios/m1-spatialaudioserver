@@ -14,6 +14,7 @@ module.exports = {
     parser: '@babel/eslint-parser',
     requireConfigFile: false,
   },
+  ignorePatterns: ['**/*.md'],
   rules: {
     'import/no-cycle': 'warn',
     'max-len': ['warn', { code: 200 }],

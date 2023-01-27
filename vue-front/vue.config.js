@@ -46,6 +46,21 @@ module.exports = {
         publicPath: 'js',
       })
       .end();
+
+    // config.module
+    //   .rule('yaml')
+    //   // .type('json')
+    //   .test(/\.yaml$/)
+    //   // .use('json-loader')
+    //   // .loader(require.resolve('json-loader'))
+    //   // .end()
+    //   .use('yaml-loader')
+    //   .loader(require.resolve('yaml-loader'))
+    //   .options({
+    //     // asJSON: true,
+    //   })
+    //   .end();
+
     config.module
       .rule('markdown')
       .test(/\.md$/)

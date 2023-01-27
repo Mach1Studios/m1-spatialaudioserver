@@ -1,27 +1,56 @@
 <template>
-  <main class="max responsive no-scroll">
-    <div class="grid">
-      <div class="col s12">
-        <Markdown />
+  <div id="Documentation">
+    <main class="max responsive">
+      <div class="grid">
+        <div class="col s12">
+          <div id="swagger" class="swagger" />
+          <div class="markdown">
+            <Markdown />
+          </div>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <script>
-
+// eslint-disable-next-line
+import SwaggerUI from 'swagger-ui';
 import Markdown from './markdown.md';
 
 export default {
   components: {
     Markdown,
   },
+  mounted() {
+    /* eslint-disable global-require */
+    const spec = require('../spec.json');
+    console.log(spec);
+    SwaggerUI({
+      spec,
+      dom_id: 'swagger',
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>
+  #Documentation {
+    max-height: 90vh;
+  }
+
+  .markdown {
+    max-height: 90vh;
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+  }
+
   main {
     padding-left: 55rem;
     padding-right: 55rem;
+  }
+
+  main.responsive.max {
+    color: #ffffff;
   }
 
   @media screen and (orientation: portrait) {
