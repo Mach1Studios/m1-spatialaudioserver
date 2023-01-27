@@ -1,7 +1,6 @@
 // const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-// const path = require('path')
-// const anchor = require('markdown-it-anchor')
+const anchor = require('markdown-it-anchor');
 
 module.exports = {
   transpileDependencies: ['mach1spatial-decode'],
@@ -27,6 +26,7 @@ module.exports = {
   //     ),
   //   ],
   // },
+  runtimeCompiler: true,
   chainWebpack: (config) => {
     /**
      * Rewriting default path for .wasm module for the 'mach1spatial-decode'
@@ -46,27 +46,26 @@ module.exports = {
         publicPath: 'js',
       })
       .end();
+    config.module
+      .rule('markdown')
+      .test(/\.md$/)
 
-    // config.module
-    //   .rule('markdown')
-    //   .test(/\.md$/)
-    //
-    //   .use('vue-loader')
-    //   .loader('vue-loader')
-    //   .end()
-    //
-    //   .use('vue-md-loader')
-    //   .loader(require.resolve('vue-md-loader'))
-    //   .options({
-    //     // plugins: [
-    //     //   [
-    //     //     anchor,
-    //     //     {
-    //     //       permalink: anchor.permalink.headerLink(),
-    //     //     },
-    //     //   ],
-    //     // ],
-    //   })
-    //   .end();
+      .use('vue-loader')
+      .loader('vue-loader')
+      .end()
+
+      .use('vue-md-loader')
+      .loader(require.resolve('vue-md-loader'))
+      .options({
+        plugins: [
+          [
+            anchor,
+            {
+              permalink: anchor.permalink.headerLink(),
+            },
+          ],
+        ],
+      })
+      .end();
   },
 };

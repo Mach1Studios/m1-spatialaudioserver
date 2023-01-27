@@ -79,22 +79,22 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    scrollbar-color: #858585;
+    scrollbar-color: var(--primary-color);
 
     &::-webkit-scrollbar-track {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
     }
 
     &::-webkit-scrollbar {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
 
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
+      background-color: var(--primary-color);
       border-radius: 3em;
     }
   }
@@ -109,7 +109,7 @@ export default {
     }
 
     i {
-      color: #626161;
+      color: var(--primary-highlight-color);
     }
 
     button {
@@ -119,14 +119,14 @@ export default {
 
      &:hover {
        i {
-         color: #ffffff;
+         color: var(--secondary-highlight-color);
          font-size: 20px;
        }
      }
     }
 
     abbr {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
 
       font-style: normal;
       font-weight: bold;
@@ -137,11 +137,11 @@ export default {
     }
 
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
     }
 
     td {
-      border-bottom: 1px #212121 solid;
+      border-bottom: 1px var(--additional-dark-color) solid;
       vertical-align: middle;
 
       cursor: pointer;

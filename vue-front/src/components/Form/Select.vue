@@ -71,73 +71,81 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .field {
+    margin-bottom: 0;
+  }
+
   option {
-    color: #252526;
+    color: var(--secondary-dark-color);
+  }
+
+  select {
+    clip-path: none !important;
   }
 
   .field.light.label.border:not(.fill)>label.active {
-    color: #55555c;
+    color: var(--additional-accent-color);
   }
 
   .field.light > select {
-    color: #eaeaea;
+    color: var(--secondary-light-color);
   }
 
   .field.dark > select {
-    color: #eaeaea;
+    color: var(--secondary-light-color);
   }
 
   .field.light {
     select {
-      -webkit-text-fill-color: #252526 !important;
-      border: 1rem #b1b1b1 solid;
+      -webkit-text-fill-color: var(--secondary-dark-color) !important;
+      border: 1rem var(--additional-color) solid;
 
-      color: #eaeaea;
+      color: var(--secondary-light-color);
     }
 
     label {
-      background-color: #e0e0e0;
+      background-color: var(--primary-light-color);
       padding: 0 4rem 0 4rem;
     }
   }
 
   .field.dark {
     i {
-      color: #55555c;
+      color: var(--additional-accent-color);
     }
 
     select {
-      -webkit-text-fill-color: #ffffff !important;
-      border: 1rem #323237 solid;
+      -webkit-text-fill-color: var(--secondary-highlight-color) !important;
+      border: 1rem var(--secondary-color) solid;
 
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
     }
 
     label {
-      background-color: #252526;
+      background-color: var(--secondary-dark-color);
       padding: 0 4rem 0 4rem;
     }
   }
 
   .field.light.label>:focus~label {
-    background-color: #e0e0e0;
-    color: #252526;
+    background-color: var(--primary-light-color);
+    color: var(--secondary-dark-color);
   }
 
   .field.dark.label.border:not(.fill)>label.active {
-    color: #55555c;
+    color: var(--additional-accent-color);
   }
 
   .field.light select:focus {
-    border: 1rem #b1b1b1 solid;
+    border: 1rem var(--additional-color) solid;
   }
 
   .field.dark select:focus {
-    border: 1rem #55555c solid;
+    border: 1rem var(--additional-accent-color) solid;
   }
 
   .field.dark.label>:focus~label {
-    background-color: #252526;
-    color: #55555c;
+    background-color: var(--secondary-dark-color);
+    color: var(--additional-accent-color);
   }
 </style>

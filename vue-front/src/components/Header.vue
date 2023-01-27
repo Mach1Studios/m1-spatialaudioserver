@@ -1,5 +1,5 @@
 <template>
-  <div class="menu top home" role="navigation" aria-label="main navigation">
+  <header class="top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
     <div class="navigation" :class="{ active: isActive }">
       <router-link v-if="isAdmin" class="link" to="/dashboard">
@@ -11,18 +11,21 @@
       <router-link v-if="isAdmin" class="link" to="/users">
         Users
       </router-link>
+      <router-link class="link" to="/documentation">
+        Documentation
+      </router-link>
     </div>
     <div style="flex-grow: 1;" />
     <router-link v-if="isAuthorized" class="profile link" to="/settings">
       {{ user ? user.nickname : 'Profile' }}
     </router-link>
     <UsersAuth />
-    <div class="mobile">
+    <div class="mobile right-align">
       <button @click="menu">
         <i class="material-icons-outlined">{{ isActive ? 'close' : 'menu' }}</i>
       </button>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -49,6 +52,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  header {
+    box-shadow: var(--elevate2);
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    border: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 0;
+  }
+
+  img {
+    max-height: 6vh;
+  }
   .home {
     background-color: #1a1a1a;
 
@@ -61,7 +81,7 @@ export default {
       font-size: 16px;
       font-weight: 500;
 
-      margin: 5px;
+      margin: 10px;
       padding: 0 20px;
     }
 
@@ -71,15 +91,15 @@ export default {
 
     button {
       background-color: transparent;
-      color: #626161;
+      color: var(--primary-highlight-color);
 
       border-radius: 0;
-      border: 1px solid #626161;
+      border: 1px solid var(--primary-highlight-color);
       &:focus, &:hover {
         background: transparent;
-        color: #fefefe;
+        color: var(--additional-highlight-color);
 
-        border: 1px solid #fefefe;
+        border: 1px solid var(--additional-highlight-color);
 
         &::after {
           background: transparent;
@@ -131,7 +151,7 @@ export default {
     }
 
     .navigation {
-      background-color: #1c1c1c;
+      background-color: var(--primary-dark-color);
       height: 100vh;
       width: 100vw;
 
@@ -140,6 +160,13 @@ export default {
       flex-direction: column;
       position: fixed;
       visibility: hidden;
+      padding-top: 10vh;
+      .link {
+        font-size: 16rem;
+        text-transform: uppercase;
+        text-decoration: underline;
+        padding-top: 16rem;
+      }
     }
 
     .navigation.active {

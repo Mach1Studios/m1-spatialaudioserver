@@ -80,13 +80,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
   .dash {
     margin-bottom: 0;
     max-height: 40vh;
     padding-bottom: 0;
 
     h4 {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
       font-size: 18rem;
     }
   }
@@ -101,22 +103,22 @@ export default {
     max-height: 35vh;
 
     &::-webkit-scrollbar-track {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
     }
 
     &::-webkit-scrollbar {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
+      background-color: var(--primary-color);
       border-radius: 3em;
     }
 
-    scrollbar-color: #858585 #323237;
+    scrollbar-color: var(--primary-color) var(--secondary-color);
     scrollbar-width: thin;
   }
 
@@ -124,7 +126,7 @@ export default {
     border-radius: 0.3rem;
 
     td {
-      border-color: #252526;
+      border-color: var(--secondary-dark-color);
       padding-left: 0;
       text-align: left;
       vertical-align: middle;
@@ -132,17 +134,14 @@ export default {
       cursor: pointer;
 
       p {
-        color: #ffffff;
+        color: var(--secondary-highlight-color);
       }
 
       p.info {
-        color: #ffffff;
+        color: var(--secondary-highlight-color);
+        font-family: 'Courier Prime', monospace;
       }
     }
-  }
-
-  .table-dash td p .info {
-    color: #626161;
   }
 
   @media screen and (orientation: portrait) {

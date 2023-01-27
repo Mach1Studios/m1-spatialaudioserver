@@ -36,10 +36,10 @@ export default {
 
   #touchstats {
     height: auto;
-    max-height: calc(100vh - var(--height) - 3em);
+    max-height: calc(100vh - 10vh - var(--height) - 3em);
 
-    left: 50%;
     position: fixed;
+    left: 50%;
     top: 50%;
 
     margin: 0;
@@ -48,15 +48,14 @@ export default {
 
   .background-img img {
     height: auto;
-    max-height: calc(100vh - 2 * var(--height) - 3em);
-
     opacity: 0.6;
+    max-height: calc(100vh - 10vh - 2 * var(--height) - 3em);
   }
 
   .cardBottom {
+    top: 50%;
     left: 50%;
     position: absolute;
-    top: 50%;
 
     height: 22.857em;
     width: 34.286em;
@@ -67,9 +66,9 @@ export default {
     transition: 0.4s;
 
     .card {
+      top: 50%;
       left: 50%;
       position: absolute;
-      top: 50%;
 
       height: 100%;
       width: 100%;
@@ -78,24 +77,24 @@ export default {
       transform-origin: center center;
       transform: translate(-50%, -50%);
 
-      border: 10px solid #000;
+      border: 10px solid var(--additional);
       transition: 0.2s;
     }
 
     .touch {
-      background-color: white;
+      background-color: var(--secondary-highlight-color);
     }
 
     .card .txt {
+      top: 50%;
       left: 50%;
       position: absolute;
-      top: 50%;
 
       padding: 10px;
       transform: translate(-50%, -50%);
 
       border: 3px solid;
-      color: #000;
+      color: var(--additional);
 
       font-size: 40px;
       text-align: center;

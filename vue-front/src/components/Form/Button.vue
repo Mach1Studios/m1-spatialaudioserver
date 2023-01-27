@@ -1,6 +1,6 @@
 <template>
   <button :type="type" class="button small responsive upper round grey3">
-    <i v-if="icon" class="material-icons">{{ icon }}</i>
+    <i v-if="icon" class="material-icons fill">{{ icon }}</i>
     <span class="small-text">{{ title }}</span>
   </button>
 </template>
@@ -27,17 +27,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button {
-  margin: 16rem 0 16rem 0;
-  padding: 0;
+  .button {
+    margin: 16rem 0 16rem 0;
+    padding: 0;
 
-  i {
-    color: #626161;
-    font-size: 16px;
-  }
+    i {
+      color: var(--primary-highlight-color);
+      font-size: 16px;
+    }
 
-  span {
-    color: #1c1c1c;
+    span {
+      color: var(--primary-dark-color);
+    }
   }
-}
+  button::after {
+    background-image: none;
+  }
 </style>

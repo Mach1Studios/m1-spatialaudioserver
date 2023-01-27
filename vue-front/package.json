@@ -10,7 +10,7 @@
     "up_cypress": "cypress install"
   },
   "dependencies": {
-    "beercss": "^2.0.27",
+    "beercss": "^2.3.0",
     "core-js": "^3.26.1",
     "dashjs": "^3.2.2",
     "hex-rgb": "^5.0.0",
@@ -18,9 +18,12 @@
     "lodash": "^4.17.21",
     "luxon": "^2.5.0",
     "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
+    "markdown-it-anchor": "^8.6.6",
     "tus-js-client": "^2.3.2",
     "uuid": "^8.3.2",
     "vue": "^3.2.45",
+    "vue-loader": "^17.0.1",
+    "vue-md-loader": "^2.0.2",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2",
     "vuex-persist": "^3.1.3"

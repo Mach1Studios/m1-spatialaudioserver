@@ -6,22 +6,24 @@
       <span class="small-text upper">Select Audio Track</span>
     </button>
     <details v-if="typeOfFiles === 'standart'">
-      <summary class="card flat transparent no-padding">
-        <div class="row no-wrap middle-align settings">
-          <div class="col min">
-            <i class="material-icons-outlined large">settings_suggest</i>
-          </div>
-          <div class="col">
-            <h4 class="bold">
-              Settings
-            </h4>
-            <div class="small-text">
-              <span>set default input and output formats options</span>
+      <summary>
+        <article class="transparent no-padding">
+          <div class="grid row middle-align settings">
+            <div class="col">
+              <i class="material-icons-outlined large">settings_suggest</i>
+            </div>
+            <div class="col">
+              <h4 class="bold">
+                Settings
+              </h4>
+              <div class="small-text">
+                <span>set default input and output formats options</span>
+              </div>
             </div>
           </div>
-        </div>
+        </article>
       </summary>
-      <div class="card flat transparent no-padding">
+      <article class="flat transparent no-padding">
         <FormSelect
           v-model="inputFormat"
           name="defaultInput"
@@ -40,7 +42,7 @@
           :options="outputFormats"
           @change="changeOutputFormat"
         />
-        <div class="row">
+        <div class="grid">
           <div class="col s12">
             <label class="checkbox">
               <input type="checkbox">
@@ -60,18 +62,36 @@
             </button>
           </div>
         </div>
-      </div>
+      </article>
     </details>
-    <div class="small-padding">
+
+    <div class="field middle-align">
+      <nav class="no-padding">
+        <label class="switch">
+          <input
+            type="checkbox"
+            :checked="forceStandart"
+            @click="forceStandart = !forceStandart"
+          >
+          <span />
+        </label>
+        <div class="checkbox">
+          for MACH1 Formats audio track
+        </div>
+      </nav>
+    </div>
+
+    <!-- <div class="small-padding">
       <label class="switch">
         <input
           type="checkbox"
           :checked="forceStandart"
           @click="forceStandart = !forceStandart"
         >
+        <span />
         <span class="small-text upper white-text">for MACH1 Formats audio track</span>
       </label>
-    </div>
+    </div> -->
     <div>
       <!-- <div v-show="validated"> -->
       <div class="flex-item scroll">
@@ -121,7 +141,6 @@
                   @change="changeOutputFormat"
                 />
               </td>
-
               <td>
                 <nav class="right-align">
                   <button class="button border round transparent-border" @click="remove(item)">
@@ -220,8 +239,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  summary {
+    list-style: none;
+    margin-bottom: 0;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
   .settings {
-    color: #e0e0e0;
+    color: var(--primary-light-color);
 
     padding-bottom: 16rem;
     padding-top: 16rem;
@@ -232,13 +259,12 @@ export default {
     }
 
     i {
-      color: #e0e0e0;
+      color: var(--primary-light-color);
       font-size: 30rem;
     }
 
     span {
-      color: #55555c;
-      font-weight: bold;
+      color: var(--additional-accent-color);
     }
   }
 
@@ -246,17 +272,17 @@ export default {
     margin: 16rem 0 16rem 0;
 
     i {
-      color: #626161;
+      color: var(--primary-highlight-color);
       font-size: 16px;
     }
 
     span {
-      color: #252526;
+      color: var(--secondary-dark-color);
     }
   }
 
   .button button {
-    color: #252526;
+    color: var(--secondary-dark-color);
   }
 
   .table-uploader {
@@ -285,7 +311,7 @@ export default {
     }
 
     abbr {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
     }
 
     tbody {
@@ -295,7 +321,7 @@ export default {
     button {
       &:hover {
         i {
-          color: #252526;
+          color: var(--secondary-dark-color);
           font-size: 20px;
         }
       }
@@ -306,11 +332,11 @@ export default {
     }
 
     td {
-      border-bottom: 1px #55555c solid;
+      border-bottom: 1px var(--additional-accent-color) solid;
       padding: 0 8rem 0 0;
 
       p {
-        color: #ffffff;
+        color: var(--secondary-highlight-color);
         text-align: left;
       }
     }
@@ -325,21 +351,27 @@ export default {
 
   .flex-item {
     &::-webkit-scrollbar-track {
-      background-color: #e0e0e0;
+      background-color: var(--primary-light-color);
       border-radius: 3em;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
+      background-color: var(--primary-color);
       border-radius: 3em;
     }
   }
 
   .checkbox {
-    span {
-      color: #e0e0e0;
-      font-weight: bold;
-    }
+    color: var(--primary-light-color);
+    text-transform: uppercase;
+  }
+
+  .checkbox > span {
+    color: var(--primary-light-color);
+  }
+
+  .switch > input:checked + span::before {
+    background-color: var(--outline);
   }
 
   @media screen and (orientation: portrait) {

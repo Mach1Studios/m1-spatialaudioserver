@@ -82,6 +82,6 @@ export default {
 
 <style lang="scss" scoped>
   h4 {
-    color: #ffffff;
+    color: var(--secondary-highlight-color);
   }
 </style>

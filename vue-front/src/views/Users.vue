@@ -1,9 +1,9 @@
 <template>
   <div class="max-size">
-    <div class="container max no-scroll">
-      <div class="row">
+    <main class="max responsive no-scroll">
+      <div class="grid">
         <div class="col s12 m12 l12">
-          <div id="UsersList" class="card round">
+          <article id="UsersList" class="card round">
             <UsersList />
             <Modal
               button-classes="small responsive round grey3"
@@ -20,10 +20,10 @@
                 :action="create"
               />
             </Modal>
-          </div>
+          </article>
         </div>
       </div>
-    </div>
+    </main>
     <!-- <Readme /> -->
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
     height: 100vh;
   }
 
-  .container {
+  main {
     padding-left: 55rem;
     padding-right: 55rem;
   }
@@ -68,11 +68,11 @@ export default {
   }
 
   .card {
-    background-color: #252526;
+    background-color: var(--secondary-dark-color);
   }
 
   @media screen and (orientation: portrait) {
-    .container {
+    main {
       padding-left: 8rem;
       padding-right: 8rem;
     }

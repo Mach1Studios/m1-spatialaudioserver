@@ -84,28 +84,28 @@ export default {
     overflow-x: hidden;
 
     &::-webkit-scrollbar-track {
-      background-color: #ffffff;
+      background-color: var(--secondary-highlight-color);
       border-radius: 3em;
     }
 
     &::-webkit-scrollbar {
-      background-color: #ffffff;
+      background-color: var(--secondary-highlight-color);
       width: 7px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
+      background-color: var(--primary-color);
       border-radius: 3em;
     }
   }
 
   .invite {
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
     }
 
     i {
-      color: #626161;
+      color: var(--primary-highlight-color);
       font-size: 16px;
     }
 
@@ -117,7 +117,7 @@ export default {
 
       &:hover {
         i {
-          color: #ffffff;
+          color: var(--secondary-highlight-color);
         }
       }
     }
@@ -130,7 +130,7 @@ export default {
       padding-right: 16rem;
 
       td {
-        border-bottom: 1px #212121 solid;
+        border-bottom: 1px var(--additional-dark-color) solid;
       }
     }
   }

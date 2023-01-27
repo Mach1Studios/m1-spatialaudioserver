@@ -39,11 +39,11 @@
       </template>
 
       <template #default="parrent">
-        <div class="row no-wrap logout">
-          <div class="col">
+        <div class="grid logout">
+          <div class="col s6">
             <FormButton title="Yes" @click="ok(parrent.close)" />
           </div>
-          <div class="col">
+          <div class="col s6">
             <FormButton title="No" @click="parrent.close" />
           </div>
         </div>
@@ -93,7 +93,7 @@ export default {
 <style lang="scss" scoped>
   button {
     background-color: transparent;
-    color: #626161;
+    color: var(--primary-highlight-color);
 
     font-size: 16px;
     font-weight: 500;
@@ -105,7 +105,7 @@ export default {
 
     &:focus, &:hover {
       background: transparent;
-      color: #fefefe;
+      color: var(--additional-highlight-color);
 
       &::after {
         background: transparent;
@@ -127,10 +127,10 @@ export default {
 
   .login {
     border-radius: 0;
-    border: 1px solid #626161;
+    border: 1px solid var(--primary-highlight-color);
 
     &:focus, &:hover {
-      border: 1px solid #fefefe;
+      border: 1px solid var(--additional-highlight-color);
     }
   }
 </style>

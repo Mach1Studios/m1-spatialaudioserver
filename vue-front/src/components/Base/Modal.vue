@@ -3,7 +3,7 @@
     <div @click="open">
       <slot name="button">
         <button class="round border transparent-border default-mdl-btn" :class="buttonClasses">
-          <i v-if="icon" class="material-icons">{{ icon }}</i>
+          <i v-if="icon" class="material-icons fill">{{ icon }}</i>
           <span class="small-text">{{ button || title }}</span>
         </button>
       </slot>
@@ -78,25 +78,37 @@ export default {
 
 <style lang="scss" scoped>
   .title {
-    color: #ffffff;
+    color: var(--secondary-highlight-color);
 
-    font-style: normal;
     font-weight: bold;
-    letter-spacing: -0.5px;
     line-height: 1.17;
+    font-style: normal;
+    letter-spacing: -0.5px;
     text-transform: uppercase;
   }
 
   .default-mdl-btn {
-    max-width: fill-available;
+    margin: 0;
 
     i {
-      color: #626161;
+      color: var(--primary-highlight-color);
       font-size: 16px;
     }
 
     span {
-      color: #1c1c1c;
+      color: var(--primary-dark-color);
+      font-size: 14px;
+    }
+  }
+
+  .special-mdl-btn {
+    i {
+      color: var(--secondary-highlight-color);
+      font-size: 16px;
+    }
+
+    span {
+      color: var(--secondary-highlight-color);
       font-size: 14px;
     }
   }
@@ -106,7 +118,7 @@ export default {
     padding-top: 16px;
 
     i {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
       font-size: 20px;
     }
   }
@@ -123,18 +135,14 @@ export default {
       background-color: transparent;
 
       i {
-        color: #ffffff;
+        color: var(--secondary-highlight-color);
         font-size: 20px;
       }
     }
   }
-  .modal.left {
-    margin-top: 6em;
-    max-height: calc(100vh - var(--height) - 50px - 6em);
-  }
 
   .modal {
-    background-color: #252526;
+    background-color: var(--secondary-dark-color);
   }
 
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
@@ -146,10 +154,6 @@ export default {
   }
 
   @media screen and (orientation: portrait) {
-    .modal.left {
-      max-height: calc(100vh - var(--height) - 50px - 6em);
-    }
-
     .modal {
       box-sizing: content-box;
     }

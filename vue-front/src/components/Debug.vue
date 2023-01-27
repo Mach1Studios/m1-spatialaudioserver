@@ -1,10 +1,10 @@
 <template>
   <div class="debug">
-    <div class="row no-wrap debug-header responsive">
+    <div class="grid no-wrap debug-header">
       <div class="col max">
         <h4>PLAYER DEBUG</h4>
       </div>
-      <div class="col min">
+      <div class="col absolute right">
         <nav>
           <button class="transparent nav-btn middle-align">
             <i class="material-icons">file_download</i><span class="right-align bold upper">download</span>
@@ -16,16 +16,22 @@
       </div>
     </div>
     <div class="flex-item scroll">
-      <div v-for="item in items" :key="item" class="responsive">
-        <a :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="chip upper small-chip">{{ item.type }}</a>
-        <a class="chip small-chip timestamp">{{ item.timestamp }}</a>
+      <div v-for="item in items" :key="item">
+        <div class="grid row">
+          <div class="col">
+            <p :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="small-chip">{{ item.type }}</p>
+          </div>
+          <div class="col">
+            <p class="small-chip timestamp">{{ item.timestamp }}</p>
+          </div>
+        </div>
         <div class="log">
-          <details class="card transparent flat" :open="details === item.id" @click.prevent>
+          <details :open="details === item.id" @click.prevent>
             <summary class="none">
-              <div class="row no-wrap middle-align">
+              <div class="grid row no-wrap middle-align">
                 <div class="col max">
                   <a class="chip responsive left-align small-padding">
-                    <i :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="material-icons">arrow_right_alt</i><p class="message">{{ item.message }}</p>
+                    <i :class="[item.type === 'info' ? 'info-chip' : 'error-chip']" class="material-icons small">arrow_right_alt</i><p class="message">{{ item.message }}</p>
                   </a>
                 </div>
                 <div v-if="item.data" class="col min" @click="open(item.id)">
@@ -33,7 +39,7 @@
                 </div>
               </div>
             </summary>
-            <p class="data">{{ item.data }}</p>
+            <p class="data left-align">{{ item.data }}</p>
           </details>
         </div>
       </div>
@@ -59,6 +65,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
   .flex-item {
     height: auto;
     max-height: 35vh;
@@ -66,22 +73,22 @@ export default {
     margin-top: 0;
     padding-top: 0;
 
-    scrollbar-color: #858585 #323237;
+    scrollbar-color: var(--primary-color) var(--secondary-color);
     scrollbar-width: thin;
 
     &::-webkit-scrollbar-track {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
     }
 
     &::-webkit-scrollbar {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
+      background-color: var(--primary-color);
       border-radius: 3em;
     }
   }
@@ -93,7 +100,7 @@ export default {
     padding-bottom: 0;
 
     h4 {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
       font-size: 18rem;
     }
   }
@@ -138,9 +145,10 @@ export default {
 
   .small-chip {
     background: transparent;
-    box-shadow: var(--shadow-2);
+    box-shadow: var(--shadow-3);
 
     height: 20rem;
+    text-transform: uppercase;
     margin: 1rem 6rem 6rem 6rem;
   }
 
@@ -154,7 +162,7 @@ export default {
   }
 
   .message {
-    color: #eaeaea;
+    color: var(--secondary-light-color);
 
     font-family: 'Courier Prime', monospace;
     word-break: break-all;
@@ -163,7 +171,7 @@ export default {
   }
 
   .info-chip {
-    color: #ffff00;
+    color: var(--secondary-accent-color);
   }
 
   .error-chip {
@@ -174,13 +182,13 @@ export default {
     margin-top: 0;
 
     span {
-      color: #fff7eb;
+      color: var(--additional-light-color);
       font-size: 14rem;
       vertical-align: top;
     }
 
     i {
-      color: #fff7eb;
+      color: var(--additional-light-color);
       font-size: 18rem;
 
       margin-right: 4rem;
@@ -199,25 +207,15 @@ export default {
     }
   }
 
-  details {
-    .card {
-      border-radius: 6rem;
-
-      margin-left: 0;
-      margin-top: 0;
-      padding: 0rem;
-    }
-  }
-
   .data {
-    color: #eaeaea;
+    color: var(--secondary-light-color);
     font-family: 'Courier Prime', monospace;
 
     padding: 0 0 8rem 35rem;
   }
 
   details, summary {
-    color: #ffffff;
+    color: var(--secondary-highlight-color);
   }
 
   summary {
@@ -240,7 +238,7 @@ export default {
       }
 
       i {
-        color: #fff7eb;
+        color: var(--additional-light-color);
         font-size: 18rem;
 
         vertical-align: baseline;

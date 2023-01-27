@@ -33,41 +33,40 @@ export default {
 
   .load {
     background: #1c1c1cb5;
+    filter: contrast(5);
 
     height: 100vh;
     width: 100vw;
 
-    display: flex;
-    left: 0;
     position: fixed;
-    top: 0;
-
+    display: flex;
     z-index: 500;
-
-    filter: contrast(5);
+    left: 0;
+    top: 0;
   }
 
   .load-animation {
+    display: flex;
+    position: fixed;
+
     height: 85vh;
     width: 100vw;
 
-    display: flex;
     left: 0;
-    position: fixed;
     top: 0;
   }
 
   .load-title {
-    color: #fff7eb;
+    color: var(--additional-light-color);
 
     font-size: 16rem;
     font-weight: 600;
     line-height: 1.125;
+    text-transform: uppercase;
 
+    top: 55%;
     margin: 0 auto;
     position: absolute;
-    text-transform: uppercase;
-    top: 55%;
 
     width: 100%;
 
@@ -77,13 +76,13 @@ export default {
   .load-description {
     width: 100%;
 
+    top: 58%;
     margin: 0 auto;
     position: absolute;
-    top: 58%;
 
     z-index: 500;
 
-    color: #ffff00;
+    color: var(--secondary-accent-color);
     font-size: 12rem;
     font-weight: 400;
     text-transform: uppercase;
@@ -114,7 +113,7 @@ export default {
     height: 100%;
     width: var(--boxSize);
 
-    background: #fff7eb;
+    background: var(--additional-light-color);
 
     border-radius: none;
     transform: scaleY(.4);
@@ -140,7 +139,7 @@ export default {
     margin: auto;
     width: 165rem;
 
-    border: 8rem solid #fff7eb;
+    border: 8rem solid var(--additional-light-color);
     border-radius: 50%;
     border-right-color: transparent;
     border-bottom-color: transparent;

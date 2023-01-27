@@ -46,43 +46,48 @@ export default {
   }
 
   .text {
-    margin-left: 16px;
     opacity: .6;
+    margin-left: 16px;
     transition: opacity .2s linear, transform .2s ease-out;
   }
 
   .indicator {
+    width: 25px;
+    height: 25px;
+
+    overflow: hidden;
+    position: relative;
+
     border-radius: 50%;
     box-shadow:
       -8px -4px 8px 0px #ffffff,
       8px 4px 12px 0px #d1d9e6;
-    height: 25px;
-    overflow: hidden;
-    position: relative;
-    width: 25px;
   }
 
   .indicator::before,
   .indicator::after {
-    border-radius: 50%;
-    content: '';
-    height: 80%;
-    left: 10%;
-    position: absolute;
     top: 10%;
+    left: 10%;
+
     width: 80%;
+    height: 80%;
+
+    content: '';
+
+    border-radius: 50%;
+    position: absolute;
   }
 
   .indicator::before {
     box-shadow:
       -4px -2px 4px 0px #d1d9e6,
-      4px 2px 8px 0px #fff;
+      4px 2px 8px 0px #ffffff;
   }
 
   .indicator::after {
-    background-color: antiquewhite;
+    background-color: #faebd7;
     box-shadow:
-      -4px -2px 4px 0px #fff,
+      -4px -2px 4px 0px #ffffff,
       4px 2px 8px 0px #d1d9e6;
     transform: scale3d(1, 1, 1);
     transition: opacity .25s ease-in-out, transform .25s ease-in-out;

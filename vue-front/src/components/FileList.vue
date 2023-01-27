@@ -11,7 +11,7 @@
             <p class="medium-text">{{ item.name }}</p>
           </td>
           <td>
-            <nav class="">
+            <nav>
               <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id" />
               <button class="border round transparent-border" @click="reload(item)">
                 <i class="material-icons">cached</i>
@@ -25,7 +25,7 @@
                 title="Rename track"
                 button=" "
                 icon="edit"
-                position="center"
+                position="center medium"
                 padding="no-padding"
               >
                 <PlaylistForm
@@ -89,28 +89,28 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    scrollbar-color: #858585;
+    scrollbar-color: var(--primary-color);
 
     &::-webkit-scrollbar-track {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
     }
 
     &::-webkit-scrollbar {
-      background-color: #323237;
+      background-color: var(--secondary-color);
       border-radius: 3rem;
 
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
+      background-color: var(--primary-color);
       border-radius: 3em;
     }
   }
 
   i {
-    color: #626161;
+    color: var(--primary-highlight-color);
     font-size: 16px;
 
     cursor: pointer;
@@ -133,12 +133,12 @@ export default {
     }
 
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
       text-align: justify;
     }
 
     td {
-      border-bottom: 1px #212121 solid;
+      border-bottom: 1px var(--additional-dark-color) solid;
 
       &:last-child {
         padding-right: 13px;
@@ -158,19 +158,19 @@ export default {
       background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
 
       p {
-        color: #72646f;
+        color: var(--primary-accent-color);
         font-weight: bold;
       }
 
       i {
-        color: #72646f;
+        color: var(--primary-accent-color);
       }
     }
 
     button {
       &:hover {
         i {
-          color: #ffffff;
+          color: var(--secondary-highlight-color);
           font-size: 20px;
         }
       }
