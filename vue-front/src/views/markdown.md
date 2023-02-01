@@ -6,7 +6,7 @@ That is a first draft of m1 api, at this moment we are have a api for control pl
 
 ## Tracks Collection [/tracks]
 
-### List All Track [GET /tracks]
+### List All Tracks [GET /tracks]
 
 This GET methods have public access, but number of tracks depends on the user auth and user role; all other methods able only for admin user role
 
@@ -18,7 +18,7 @@ This GET methods have public access, but number of tracks depends on the user au
             + name (string, required) - track name 
             + originalname (string, required) - track original file name 
             + size (number, required) - file size in bytes
-            + mimetype (string, required) - filre mimetype
+            + mimetype (string, required) - file mimetype
             + prepared (boolean, required) - set in true if track has prepared dash manifest
             + created (string, required) - timestamp with creation date in the ISO format
             + updated (string, required) - timestamp with last update date in the ISO format
