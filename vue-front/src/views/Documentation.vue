@@ -4,9 +4,6 @@
       <div class="grid">
         <div class="col s12">
           <div id="swagger" class="swagger" />
-          <div class="markdown">
-            <Markdown />
-          </div>
         </div>
       </div>
     </main>
@@ -16,11 +13,13 @@
 <script>
 // eslint-disable-next-line
 import SwaggerUI from 'swagger-ui';
-import Markdown from './markdown.md';
+
+import 'swagger-ui/dist/swagger-ui.css';
+// import Markdown from './markdown.md';
 
 export default {
   components: {
-    Markdown,
+    // Markdown,
   },
   mounted() {
     /* eslint-disable global-require */
@@ -28,7 +27,7 @@ export default {
     console.log(spec);
     SwaggerUI({
       spec,
-      dom_id: 'swagger',
+      dom_id: '#swagger',
     });
   },
 };
@@ -38,7 +37,7 @@ export default {
     max-height: 90vh;
   }
 
-  .markdown {
+  .swagger {
     max-height: 90vh;
     overflow-x: hidden;
     overflow-y: scroll !important;
@@ -51,6 +50,10 @@ export default {
 
   main.responsive.max {
     color: #ffffff;
+  }
+
+  svg .svg-assets {
+    display: none;
   }
 
   @media screen and (orientation: portrait) {
