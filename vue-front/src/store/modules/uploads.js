@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { getFileAudioBuffer } from '@soundcut/decode-audio-data-fast';
 
 const defaultState = () => ({
   formats: [
@@ -88,30 +89,44 @@ const actions = {
       commit('setDefaultOutput', output);
     }
   },
+  // eslint-disable-next-line
   validateAudio({ commit, dispatch, state }, track) {
     if (_.has(track, 'numberOfChannels')) return;
     commit('loader', { enable: true, description: 'Checking number of channels' }, { root: true });
 
     const context = new (window.AudioContext || window.webkitAudioContext)();
-    const reader = new FileReader();
+    const test = getFileAudioBuffer(track, context);
+    console.log(test);
 
-    reader.onload = (e) => {
-      const { result } = e.target;
+    // const reader = new FileReader();
 
-      context.decodeAudioData(result, (buffer) => {
-        const source = context.createBufferSource();
-        source.connect(context.destination);
-        source.buffer = buffer;
+    const label = 'parse sound';
+    console.time(label);
 
-        if (_.find(state.files, { name: track.name })) {
-          dispatch('toast', { error: { message: `You have already chosen a track called "${track.name}"` } }, { root: true });
-        } else {
-          commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
-        }
-        commit('loader', { enable: false }, { root: true });
-      });
-    };
-    reader.readAsArrayBuffer(track);
+    // reader.onload = (e) => {
+    //   console.timeLog(label);
+    //   const { result } = e.target;
+    //
+    //   const test = getFileAudioBuffer(result, context);
+    //   console.log(test);
+    //
+    //   context.decodeAudioData(result, (buffer) => {
+    //     console.timeLog(label);
+    //
+    //     const source = context.createBufferSource();
+    //     source.connect(context.destination);
+    //     source.buffer = buffer;
+    //
+    //     if (_.find(state.files, { name: track.name })) {
+    //       dispatch('toast', { error: { message: `You have already chosen a track called "${track.name}"` } }, { root: true });
+    //     } else {
+    //       console.timeEnd(label);
+    //       commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
+    //     }
+    //     commit('loader', { enable: false }, { root: true });
+    //   });
+    // };
+    // reader.readAsArrayBuffer(track);
   },
 };
 

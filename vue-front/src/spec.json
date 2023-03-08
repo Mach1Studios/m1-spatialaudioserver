@@ -5,11 +5,31 @@
     "description": "That is a first draft of M1 api, at this moment we are have a api for control playing sound file [based on dash stream]",
     "version": "1.0.0"
   },
+  "tags": [
+    {
+      "name": "Tracks"
+    },
+    {
+      "name": "Auth",
+      "description": "Users are authenticated using the generated and stored keys in the cookie. For each unique visitor, a separate key is generated (regardless of whether the user was authorized or not), which will be transmitted in the response header during any first request from the user. During authorization, a user session is created that will be identified with this key"
+    },
+    {
+      "name": "Playlists",
+      "description": "The dashboard administrator has the ability to create, update or delete any playlist. At the same time, both authorized and not authorized users have a chance to get a list of playlists with available tracks information (track id)"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Profile",
+      "description": "This resource is used for getting current user information by self and updating available profile information, for example, password"
+    }
+  ],
   "paths": {
     "/tracks": {
       "get": {
         "tags": [
-          "track"
+          "Tracks"
         ],
         "summary": "List all tracks",
         "description": "This GET methods have public access, but number of tracks depends on the user auth and user role; all other methods able only for admin user role",
@@ -21,7 +41,7 @@
                 "type": "object"
               },
               "schema": {
-                "$ref": "#/components/schemas/Track"
+                "$ref": "#/components/schemas/track"
               },
               "example": [
                 {
@@ -65,7 +85,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Track"
+                  "$ref": "#/components/schemas/track"
                 },
                 "example": [
                   {
@@ -103,30 +123,376 @@
             }
           }
         }
+      }
+    },
+    "/tracks/{id}": {
+      "get": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Start a play sound track",
+        "description": "This hook used for start preapre mainifest for track",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/track{id}"
+              },
+              "example": null
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation without content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/track{id}"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Delete track",
+        "description": "Delete track by id",
+        "parameters":  [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "track id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/track{id}"
+              },
+              "example": null
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation without content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/track{id}"
+                },
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dash/static/{id}/manifest.mpd": {
+      "get": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Dash manifest file",
+        "description": "That is the main resource for playing any our sound files, used standart dash stream mainifest file, documentation for [dash.js](https://cdn.dashjs.org/latest/jsdoc/module-MediaPlayer.html)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/track{id}"
+              },
+              "example": {
+                "id": "6d0e43df-d826-48f9-b4ff-1215f9ea2a7e"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "produces": [
+              "application/dash+xml"
+            ],
+            "content": {
+              "application/dash+xml": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Upload a New Track",
+        "description": "Dashboard administrator has ability to upload new track to the backend, can be attached more then one files",
+        "request": "multipart/form-data",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/upload"
+              },
+              "example": [
+                {
+                  "file": "binary"
+                }
+              ]
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/track"
+                },
+                "example": [
+                  {
+                    "id": "82a2ec62-8c56-41e4-a036-cd1d16ee1633",
+                    "name": "test.wav",
+                    "originalname": "test.wav",
+                    "size": 23543824,
+                    "mimetype": "audio/wav",
+                    "prepared": false,
+                    "created": "2021-10-05T19:45:52.758+03:00",
+                    "updated": "2021-10-05T19:45:52.756+03:00"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "request": "application/json",
+        "parameters": [
+          {
+            "name": "login",
+            "description": "user nickname or email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "description": "user password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "attributes": "true",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "object",
+              "schema": {
+                "$ref": "#/components/schemas/auth"
+              },
+              "example": {
+                  "login": "test",
+                  "password": "test"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user-auth"
+                },
+                "example":   {
+                  "user": {
+                    "id": "ca360e68-8b2d-4cbb-b389-cbcc4a0d986a",
+                    "nickname": "m1",
+                    "email": "support@mach1.tech",
+                    "role": "admin",
+                    "lastSeen": "",
+                    "created": "2021-10-05T21:35:55.425+03:00",
+                    "updated": "2021-10-05T21:35:55.425+03:00"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout",
+        "description": "Removing user sessions",
+        "responses": {
+          "204": {
+            "description": "Successful operation without content",
+            "content": {
+              "application/json": {
+                "example": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "/playlists": {
+      "get": {
+        "tags": [
+          "Playlists"
+        ],
+        "summary": "List all playlists",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "schema": {
+                "$ref": "#/components/schemas/playlist"
+              },
+              "example": [
+                {
+                  "id": "c69fd5ec-e6bd-4e48-b2f9-a45d84099d2e",
+                  "name": "The Awesome Playlist",
+                  "tracks": ["d8b68448-d7ae-413a-89bf-308ed9c7ef46"],
+                  "permissions": [],
+                  "visibility": false,
+                  "created": "2021-10-05T21:35:55.425+03:00",
+                  "updated": "2021-10-05T21:35:55.425+03:00"
+                }
+              ]
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/playlist"
+                },
+                "example": [
+                  {
+                    "id": "c69fd5ec-e6bd-4e48-b2f9-a45d84099d2e",
+                    "name": "The Awesome Playlist",
+                    "tracks": ["d8b68448-d7ae-413a-89bf-308ed9c7ef46"],
+                    "permissions": [],
+                    "visibility": false,
+                    "created": "2021-10-05T21:35:55.425+03:00",
+                    "updated": "2021-10-05T21:35:55.425+03:00"
+                  }
+                ]
+              }
+            }
+          }
+        }
       },
       "post": {
         "tags": [
-          "pet"
+          "Playlists"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "Create a New Playlist",
+        "request": "application/json",
         "requestBody": {
-          "description": "Create a new pet in the store",
           "content": {
             "application/json": {
+              "type": "object",
               "schema": {
-                "$ref": "#/components/schemas/Track"
+                "$ref": "#/components/schemas/playlist-name"
+              },
+              "example": {
+                "name": "The Awesome Playlist"
               }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Track"
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/playlist"
+                },
+                "example": {
+                  "id": "c69fd5ec-e6bd-4e48-b2f9-a45d84099d2e",
+                  "name": "The Awesome Playlist",
+                  "tracks": [],
+                  "permissions": [],
+                  "visibility": false,
+                  "created": "2021-10-05T21:35:55.425+03:00",
+                  "updated": "2021-10-05T21:35:55.425+03:00"
+                }
               }
-            },
-            "application/x-www-form-urlencoded": {
+            }
+          }
+        }
+      }
+    },
+    "/playlists/{id}": {
+      "put": {
+        "tags": [
+          "Playlists"
+        ],
+        "summary": "Update playlist",
+        "parameters":  [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "playlist id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "object",
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": "#/components/schemas/playlist{id}"
+              },
+              "example": {
+                "tracks": ["1db814ff-263f-4e92-9865-4701a9efeac1"]
               }
             }
           },
@@ -138,573 +504,95 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": "#/components/schemas/playlist"
+                },
+                "example": {
+                  "id": "c69fd5ec-e6bd-4e48-b2f9-a45d84099d2e",
+                  "name": "The Awesome Playlist",
+                  "tracks": ["1db814ff-263f-4e92-9865-4701a9efeac1"],
+                  "permissions": [],
+                  "visibility": false,
+                  "created": "2021-10-05T21:35:55.425+03:00",
+                  "updated": "2021-10-05T21:35:55.425+03:00"
                 }
               }
             }
-          },
-          "405": {
-            "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/findByStatus": {
-      "get": {
+        }
+      },
+      "delete": {
         "tags": [
-          "pet"
+          "Playlists"
         ],
-        "summary": "Finds Pets by status",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "findPetsByStatus",
-        "parameters": [
+        "summary": "Delete Playlist",
+        "parameters":  [
           {
-            "name": "status",
-            "in": "query",
-            "description": "Status values that need to be considered for filter",
-            "required": false,
-            "explode": true,
+            "name": "id",
+            "in": "path",
+            "description": "playlist id",
+            "required": true,
             "schema": {
-              "type": "string",
-              "default": "available",
-              "enum": [
-                "available",
-                "pending",
-                "sold"
-              ]
+              "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/playlist{id}"
+              },
+              "example": null
+            }
+          },
+          "required": true
+        },
         "responses": {
-          "200": {
-            "description": "successful operation",
+          "204": {
+            "description": "Successful operation without content",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
+                  "$ref": "#/components/schemas/playlist{id}"
+                },
+                "example": null
               }
             }
-          },
-          "400": {
-            "description": "Invalid status value"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/pet/findByTags": {
+    "/users": {
       "get": {
         "tags": [
-          "pet"
+          "Users"
         ],
-        "summary": "Finds Pets by tags",
-        "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        "operationId": "findPetsByTags",
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "description": "Tags to filter by",
-            "required": false,
-            "explode": true,
-            "schema": {
+        "summary": "List all users",
+          "requestBody": {
+          "content": {
+            "application/json": {
               "type": "array",
               "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
+                "type": "object"
               },
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid tag value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/{petId}": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Find pet by ID",
-        "description": "Returns a single pet",
-        "operationId": "getPetById",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet to return",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
+              "schema": {
+                "$ref": "#/components/schemas/users"
               },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
+              "example": [
+                {
+                  "id": "ca360e68-8b2d-4cbb-b389-cbcc4a0d986a",
+                  "nickname": "m1",
+                  "email": "support@mach1.tech",
+                  "role": "admin",
+                  "lastSeen": "",
+                  "created": "2021-10-05T21:35:55.425+03:00",
+                  "updated": "2021-10-05T21:35:55.425+03:00"
                 }
-              }
+              ]
             }
           },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          }
-        },
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Updates a pet in the store with form data",
-        "description": "",
-        "operationId": "updatePetWithForm",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet that needs to be updated",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Name of pet that needs to be updated",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status of pet that needs to be updated",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Deletes a pet",
-        "description": "delete a pet",
-        "operationId": "deletePet",
-        "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "description": "",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "Pet id to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid pet value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/{petId}/uploadImage": {
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "uploads an image",
-        "description": "",
-        "operationId": "uploadFile",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet to update",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "additionalMetadata",
-            "in": "query",
-            "description": "Additional Metadata",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/octet-stream": {
-              "schema": {
-                "type": "string",
-                "format": "binary"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/store/inventory": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Returns pet inventories by status",
-        "description": "Returns a map of status codes to quantities",
-        "operationId": "getInventory",
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
-      }
-    },
-    "/store/order": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Place an order for a pet",
-        "description": "Place a new order in the store",
-        "operationId": "placeOrder",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/store/order/{orderId}": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.",
-        "operationId": "getOrderById",
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "ID of order that needs to be fetched",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Order not found"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Delete purchase order by ID",
-        "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
-        "operationId": "deleteOrder",
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "ID of the order that needs to be deleted",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Order not found"
-          }
-        }
-      }
-    },
-    "/user": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "createUser",
-        "requestBody": {
-          "description": "Created user object",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/createWithList": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Creates list of users with given input array",
-        "description": "Creates list of users with given input array",
-        "operationId": "createUsersWithListInput",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
+          "required": true
         },
         "responses": {
           "200": {
@@ -712,159 +600,100 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
+                  "$ref": "#/components/schemas/users"
+                },
+                "example": [
+                  {
+                    "id": "ca360e68-8b2d-4cbb-b389-cbcc4a0d986a",
+                    "nickname": "m1",
+                    "email": "support@mach1.tech",
+                    "role": "admin",
+                    "lastSeen": "",
+                    "created": "2021-10-05T21:35:55.425+03:00",
+                    "updated": "2021-10-05T21:35:55.425+03:00"
+                  }
+                ]
               }
             }
-          },
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/login": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs user into the system",
-        "description": "",
-        "operationId": "loginUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The user name for login",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "calls per hour allowed by the user",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "description": "date in UTC when token expires",
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
-            },
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/logout": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs out current logged in user session",
-        "description": "",
-        "operationId": "logoutUser",
-        "parameters": [],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/{username}": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Get user by user name",
-        "description": "",
-        "operationId": "getUserByName",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
           }
         }
       },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a New User",
+        "request": "application/json",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "type": "object",
+              "schema": {
+                "$ref": "#/components/schemas/user-new"
+              },
+              "example": {
+                "nickname": "m1",
+                "email": "support@mach1.tech",
+                "role": "admin",
+                "password": "some_new_user_password"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                },
+                "example": {
+                  "id": "ca360e68-8b2d-4cbb-b389-cbcc4a0d986a",
+                  "nickname": "m1",
+                  "email": "support@mach1.tech",
+                  "role": "admin",
+                  "lastSeen": "",
+                  "created": "2021-10-05T21:35:55.425+03:00",
+                  "updated": "2021-10-05T21:35:55.425+03:00"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
       "put": {
         "tags": [
-          "user"
+          "Users"
         ],
         "summary": "Update user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
-        "parameters": [
+        "responses": {
+          "405": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete user",
+        "description": "Delete track by id",
+        "parameters":  [
           {
-            "name": "username",
+            "name": "id",
             "in": "path",
-            "description": "name that need to be deleted",
+            "description": "user id",
             "required": true,
             "schema": {
               "type": "string"
@@ -872,55 +701,77 @@
           }
         ],
         "requestBody": {
-          "description": "Update an existent user in the store",
           "content": {
             "application/json": {
+              "type": "string",
               "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
+                "$ref": "#/components/schemas/user{id}"
+              },
+              "example": null
             }
-          }
+          },
+          "required": true
         },
         "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "deleteUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
+          "204": {
+            "description": "Successful operation without content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user{id}"
+                },
+                "example": null
+              }
             }
           }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": [
+          "Profile"
         ],
+        "description": "Checking and returning current user session: if exist return 200 else empty body and 204; Removing session object if a session was corrupted or expired",
         "responses": {
-          "400": {
-            "description": "Invalid username supplied"
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "example": {
+                  "user": {
+                    "id": "ca360e68-8b2d-4cbb-b389-cbcc4a0d986a",
+                    "nickname": "m1",
+                    "email": "support@mach1.tech",
+                    "role": "admin",
+                    "lastSeen": "",
+                    "created": "2021-10-05T21:35:55.425+03:00",
+                    "updated": "2021-10-05T21:35:55.425+03:00"
+                  }
+                }
+              }
+            },
+            "required": true
           },
-          "404": {
-            "description": "User not found"
+          "204": {
+            "summary": "if the user is not authorized and session is empty",
+            "description": "Successful operation without content"
+          },
+          "403": {
+            "summary": "Response can return 4** error if a session was corrupted or expired with json body and error messages",
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "example": {
+                  "message": "error message"
+                }
+              }
+            }
           }
         }
       }
@@ -928,44 +779,131 @@
   },
   "components": {
     "schemas": {
-      "Track": {
+      "track": {
         "type": "array",
-          "items": {
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "originalname",
+            "size",
+            "mimetype",
+            "prepared",
+            "created",
+            "updated"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "track id"
+            },
+            "name": {
+              "type": "string",
+              "description": "track name"
+            },
+            "originalname": {
+              "type": "string",
+              "description": "track original file name"
+            },
+            "size": {
+              "type": "number",
+              "description": "file size in bytes"
+            },
+            "mimetype": {
+              "type": "string",
+              "description": "file mimetype"
+            },
+            "prepared": {
+              "type": "boolean",
+              "description": "set in true if track has prepared dash manifest"
+            },
+            "created": {
+              "type": "string",
+              "description": "timestamp with creation date in the ISO format"
+            },
+            "updated": {
+              "type": "string",
+              "description": "timestamp with last update date in the ISO format"
+            }
+          }
+        }
+      },
+      "track{id}": {
+        "type": "string",
+        "required": "id",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "track id"
+          }
+        }
+      },
+      "upload": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "auth": {
+        "type": "object",
+        "items": {
+          "type": "string",
+          "required": [
+            "login",
+            "password"
+          ]
+        },
+        "properties": {
+          "login": {
+            "type": "string",
+            "description": "user nickname or email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user password"
+          }
+        }
+      },
+      "user-auth": {
+        "type": "object",
+        "properties": {
+          "user": {
             "type": "object",
             "required": [
               "id",
-              "name",
-              "originalname",
-              "size",
-              "mimetype",
-              "prepared",
+              "nickname",
+              "email",
+              "role",
               "created",
               "updated"
             ],
             "properties": {
               "id": {
                 "type": "string",
-                "description": "track id"
+                "description": "user id"
               },
-              "name": {
+              "nickname": {
                 "type": "string",
-                "description": "track name"
+                "description": "user nickname (can be used as login)"
               },
-              "originalname": {
+              "email": {
                 "type": "string",
-                "description": "track original file name"
+                "description": "user email (can be used as login)"
               },
-              "size": {
-                "type": "number",
-                "description": "file size in bytes"
-              },
-              "mimetype": {
+              "role": {
                 "type": "string",
-                "description": "file mimetype"
+                "description": "one of two type of user roles: 'user' or 'admin'"
               },
-              "prepared": {
-                "type": "boolean",
-                "description": "set in true if track has prepared dash manifest"
+              "lastSeen": {
+                "type": "string",
+                "description": "timestamp with last user auth date in the ISO format (optional and can be empty)"
               },
               "created": {
                 "type": "string",
@@ -979,32 +917,214 @@
           }
         }
       },
-      "requestBodies": {
-      "Pet": {
-        "description": "Pet object that needs to be added to the store",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
-          },
-          "application/xml": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
+      "playlist": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "visibility",
+            "created",
+            "updated"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "playlist id"
+            },
+            "name": {
+              "type": "string",
+              "description": "playlist name"
+            },
+            "tracks": {
+              "type": "array",
+              "description": "array with attached tracks id (available only for admins)"
+            },
+            "permissions": {
+              "type": "array",
+              "description": "array with attached users id (available only for admins)"
+            },
+            "visibility": {
+              "type": "boolean",
+              "description": "value to present has this playlist public visibility or not"
+            },
+            "created": {
+              "type": "string",
+              "description": "timestamp with creation date in the ISO format"
+            },
+            "updated": {
+              "type": "string",
+              "description": "timestamp with last update date in the ISO format"
             }
           }
         }
       },
-      "UserArray": {
-        "description": "List of user object",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/User"
+      "playlist-name": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "playlist name"
+          }
+        }
+      },
+      "playlist{id}": {
+        "type": "object",
+        "required": [
+          "name",
+          "visibility"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "playlist name"
+          },
+          "tracks": {
+            "type": "array",
+            "description": "array with attached tracks id"
+          },
+          "permissions": {
+            "type": "array",
+            "description": "array with attached users id"
+          },
+          "visibility": {
+            "type": "boolean",
+            "description": "value to present has this playlist public visibility or not"
+          }
+        }
+      },
+      "users": {
+        "type": "array",
+        "properties": {
+          "user": {
+            "type": "object",
+            "required": [
+              "id",
+              "nickname",
+              "email",
+              "role",
+              "created",
+              "updated"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "user id"
+              },
+              "nickname": {
+                "type": "string",
+                "description": "user nickname (can be used as login)"
+              },
+              "email": {
+                "type": "string",
+                "description": "user email (can be used as login)"
+              },
+              "role": {
+                "type": "string",
+                "description": "one of two type of user roles: 'user' or 'admin'"
+              },
+              "lastSeen": {
+                "type": "string",
+                "description": "timestamp with last user auth date in the ISO format (optional and can be empty)"
+              },
+              "created": {
+                "type": "string",
+                "description": "timestamp with creation date in the ISO format"
+              },
+              "updated": {
+                "type": "string",
+                "description": "timestamp with last update date in the ISO format"
               }
             }
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "required": [
+              "id",
+              "nickname",
+              "email",
+              "role",
+              "created",
+              "updated"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "user id"
+              },
+              "nickname": {
+                "type": "string",
+                "description": "user nickname (can be used as login)"
+              },
+              "email": {
+                "type": "string",
+                "description": "user email (can be used as login)"
+              },
+              "role": {
+                "type": "string",
+                "description": "one of two type of user roles: 'user' or 'admin'"
+              },
+              "lastSeen": {
+                "type": "string",
+                "description": "timestamp with last user auth date in the ISO format (optional and can be empty)"
+              },
+              "created": {
+                "type": "string",
+                "description": "timestamp with creation date in the ISO format"
+              },
+              "updated": {
+                "type": "string",
+                "description": "timestamp with last update date in the ISO format"
+              }
+            }
+          }
+        }
+      },
+      "user-new": {
+        "type": "object",
+        "required": [
+          "nickname",
+          "email",
+          "role",
+          "password"
+        ],
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "description": "user nickname (can be used as login)"
+          },
+          "email": {
+            "type": "string",
+            "description": "user email (can be used as login)"
+          },
+          "role": {
+            "type": "string",
+            "description": "one of two type of user roles: 'user' or 'admin'"
+          },
+          "password": {
+            "type": "string",
+            "description": "user password, min length = 8"
+          }
+        }
+      },
+      "user{id}": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "id (string, required) - user id"
           }
         }
       }

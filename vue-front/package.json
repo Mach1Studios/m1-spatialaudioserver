@@ -10,6 +10,7 @@
     "up_cypress": "cypress install"
   },
   "dependencies": {
+    "@soundcut/decode-audio-data-fast": "^2.0.1",
     "beercss": "^2.3.0",
     "core-js": "^3.26.1",
     "dashjs": "^3.2.2",
@@ -20,6 +21,7 @@
     "mach1spatial-decode": "git+https://github.com/snyypi/NodeJS-Mach1Decode.git",
     "markdown-it-anchor": "^8.6.6",
     "swagger-ui": "^4.15.5",
+    "swagger-ui-themes": "^3.0.1",
     "tus-js-client": "^2.3.2",
     "uuid": "^8.3.2",
     "vue": "^3.2.45",

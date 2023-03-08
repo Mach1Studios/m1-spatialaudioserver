@@ -10,6 +10,7 @@ const defaultTrackState = {
   prepared: false,
   size: 0,
   mimetype: undefined,
+  format: undefined,
   // NOTE: Additional stored params for playble track
   playing: false,
   dash: {},
@@ -32,7 +33,7 @@ const actions = {
     commit('setTracks', _.map(tracks, ({
       id, name, originalname, prepared, size, mimetype,
     }) => ({
-      id, name, originalname, prepared, size, mimetype, duration: 'repeat',
+      id, name, originalname, prepared, size, mimetype, format: 'M1Spatial (Mach1 Spatial)', duration: 'repeat',
     })));
   },
   async select({ commit, state, dispatch }, id) {

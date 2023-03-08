@@ -5,7 +5,7 @@
       <tbody>
         <tr v-for="(item, index) in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
-            <p class="medium-text">{{ index + 1 }}</p>
+            <p class="audio-number medium-text">{{ index + 1 }}</p>
           </td>
           <td class="audio-name" @click="select(item.id)">
             <p class="medium-text">{{ item.name }}</p>
@@ -127,9 +127,14 @@ export default {
       width: 100%;
     }
 
+    .audio-number {
+      cursor: pointer;
+    }
+
     .audio-name {
       width: 100%;
       word-break: break-all;
+      cursor: pointer;
     }
 
     p {
@@ -141,6 +146,7 @@ export default {
       border-bottom: 1px var(--additional-dark-color) solid;
 
       &:last-child {
+        padding-left: 0;
         padding-right: 13px;
       }
     }
@@ -192,6 +198,10 @@ export default {
         td {
           border: none;
           display: grid;
+
+          &:last-child {
+            padding-left: 8rem;
+          }
         }
 
         td:not(:nth-child(3)) {
