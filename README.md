@@ -5,15 +5,22 @@ Frontend & Backend for serving custom streaming spatial audio players with inclu
 ## Client Endpoint Examples
 These are example codebases that are designed to be playback clients for a server deployed by this repo.
 - [iOS Client App](https://github.com/Mach1Studios/m1-spatialaudio-client-ios)
+- [Web Client Example](https://github.com/Mach1Studios/m1-spatialaudioserver#spatial-player-page)
 
 ## Setup
 
 Use nvm to setup node `14.16.0`:
+- `nvm install 14.16.0`
+- `nvm use 14.16.0`
+Fill in the environment variables needed for the Makefile:
+```
+s3_bucket_name =
+s3_stage_bucket_name =
+```
+Use Makefile commands to setup and build:
+- `make build`
 
--   `nvm install 14.16.0`
--   `nvm use 14.16.0`
-
-
+### Deploy
 
 ### Run locally
 `make local`
