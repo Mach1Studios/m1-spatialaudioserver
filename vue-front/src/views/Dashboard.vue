@@ -1,30 +1,32 @@
 <template>
   <div class="max-size">
-    <div class="container max no-scroll">
-      <div class="row mobile">
+    <main class="max responsive no-scroll">
+      <div class="grid mobile">
         <div class="col s6 m6 l6">
-          <div id="app-body-first" class="card round">
-            <div class="tabs left-align">
-              <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">File List</a>
-              <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">Playlists</a>
-            </div>
-            <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
-              <FileList :admin="true" />
-              <Modal
-                title="CHOOSE A FILE..."
-                icon=" "
-                button-classes="small responsive round bold grey3"
-                padding="uploader"
-                position="center medium"
-              >
-                <div id="FileListUploader">
-                  <FileListUploader />
-                </div>
-              </Modal>
-            </div>
-            <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
-              <AudioPlayerPlaylists :controls="true" />
-            </div>
+          <div id="app-body-first">
+            <article class="round">
+              <div class="tabs left-align">
+                <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">FILE LIST</a>
+                <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">PLAYLISTS</a>
+              </div>
+              <div id="FileList" class="page" :class="{ active: selected === 'filelist'}">
+                <FileList :admin="true" />
+                <Modal
+                  title="CHOOSE A FILE..."
+                  icon=" "
+                  button-classes="small responsive grey3 round bold"
+                  padding="uploader"
+                  position="center medium"
+                >
+                  <div id="FileListUploader">
+                    <FileListUploader />
+                  </div>
+                </Modal>
+              </div>
+              <div id="Playlists" class="page" :class="{ active: selected === 'playlists'}">
+                <AudioPlayerPlaylists :controls="true" />
+              </div>
+            </article>
           </div>
         </div>
         <div class="col s6 m6 l6">
@@ -35,13 +37,17 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row no-space dark absolute bottom">
-      <div class="card flat audioplayer-debug">
-        <AudioPlayerDebug />
+    </main>
+    <div class="grid responsive dark-player-card absolute bottom">
+      <div class="audioplayer-debug s12">
+        <article class="transparent">
+          <AudioPlayerDebug />
+        </article>
       </div>
-      <div class="card flat transparent audioplayer">
-        <AudioPlayer skin="dark" class="dark-player" />
+      <div class="audioplayer s12">
+        <article class="transparent">
+          <AudioPlayer class="dark-player" />
+        </article>
       </div>
     </div>
   </div>
@@ -86,17 +92,17 @@ export default {
 </script>
 <style lang="scss" scoped>
   .max-size {
-    height: 100vh;
+    height: 90vh;
   }
 
   .uploader {
-    background-color: #252526;
+    background-color: var(--secondary-dark-color);
     padding: 8rem 0 8rem 0;
   }
 
   #Playlists {
     height: auto;
-    max-height: 68vh;
+    max-height: 65vh;
     max-width: 100%;
 
     align-content: space-between;
@@ -106,36 +112,35 @@ export default {
 
   #FileList {
     height: auto;
-    max-height: 68vh;
+    max-height: 65vh;
     max-width: 100%;
 
     align-content: space-between;
     display: flex;
     flex-direction: column;
   }
+  //
+  // #FileListUploader {
+  //   height: auto;
+  //   max-width: 100%;
+  //
+  //   align-content: space-between;
+  //   display: flex;
+  //   flex-direction: column;
+  // }
 
-  #FileListUploader {
-    height: auto;
-    max-width: 100%;
-
-    align-content: space-between;
-    display: flex;
-    flex-direction: column;
+  article {
+    background-color: var(--secondary-dark-color);
   }
 
-  .card {
-    background-color: #252526;
-    max-height: 80vh;
-  }
-
-  .dark, .dark .card {
-    background-color: #1c1c1c;
+  .dark-player-card, .dark-player-card .card {
+    background-color: var(--primary-dark-color);
     border-radius: 0;
   }
 
   #AudioPlayerControls {
     height: auto;
-    max-height: 68vh;
+    max-height: 65vh;
     max-width: 100%;
 
     align-content: space-between;
@@ -155,26 +160,34 @@ export default {
     .dark-player {
       width: 100%;
     }
+
+    article {
+      padding-top: 0;
+    }
   }
 
   .tabs {
     border-bottom: 0;
 
     a {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
       font-size: 18rem;
     }
   }
 
   .tabs>a.active {
-    border-bottom: 2rem solid #ffffff;
+    border-bottom: 2rem solid var(--secondary-highlight-color);
   }
 
   .audioplayer-debug {
     padding: 0 55rem 0 55rem;
+    article {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
-  .container {
+  main {
     padding-left: 55rem;
     padding-right: 55rem;
   }
@@ -188,7 +201,7 @@ export default {
       max-height: calc(100vh - var(--height) - 50px - 6em);
 
       * {
-        max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
+        max-height: calc(100vh - var(--height) - 50px - 6em);
       }
     }
 
@@ -196,7 +209,7 @@ export default {
       max-height: calc(100vh - var(--height) - 50px - 6em);
 
       * {
-        max-height: calc(100vh - 2 * var(--height) - 50px - 3em);
+        max-height: calc(100vh - var(--height) - 50px - 6em);
       }
     }
 
@@ -205,10 +218,10 @@ export default {
       padding-right: 8rem;
     }
 
-    .container {
+    main {
       overflow-x: scroll;
 
-      padding-bottom: calc(10vh - 50px - 3em);
+      // padding-bottom: calc(10vh - 50px - 3em);
       padding-left: 8rem;
       padding-right: 8rem;
       padding-top: auto;

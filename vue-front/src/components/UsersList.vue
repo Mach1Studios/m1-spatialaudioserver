@@ -1,15 +1,13 @@
 <template>
-  <div class="user-list">
-    <table class="table-user-list large center-align">
-      <thead>
+  <div class="flex-item scroll">
+    <table class="table-user-list large-space center-align">
+      <thead class="front">
         <tr>
           <th><abbr title="#">#</abbr></th>
           <th><abbr title="NICKNAME">NICKNAME</abbr></th>
           <th><abbr title="E-MAIL">E-MAIL</abbr></th>
           <th><abbr title="ROLE">ROLE</abbr></th>
           <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-          <!-- <th><abbr title="EDIT"></abbr></th>
-          <th><abbr title="REMOVE"></abbr></th> -->
         </tr>
       </thead>
       <tbody>
@@ -80,9 +78,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .flex-item {
+    scrollbar-color: var(--primary-color);
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+    }
+
+    &::-webkit-scrollbar {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+
+      width: 5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 3em;
+    }
+  }
+
   .table-user-list {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+
+    tbody {
+      width: 100%;
+    }
+
     i {
-      color: #626161;
+      color: var(--primary-highlight-color);
     }
 
     button {
@@ -92,14 +119,14 @@ export default {
 
      &:hover {
        i {
-         color: #ffffff;
+         color: var(--secondary-highlight-color);
          font-size: 20px;
        }
      }
     }
 
     abbr {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
 
       font-style: normal;
       font-weight: bold;
@@ -110,11 +137,11 @@ export default {
     }
 
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
     }
 
     td {
-      border-bottom: 1px #212121 solid;
+      border-bottom: 1px var(--additional-dark-color) solid;
       vertical-align: middle;
 
       cursor: pointer;
@@ -130,11 +157,8 @@ export default {
   }
 
   @media screen and (orientation: portrait) {
-    .user-list {
-      overflow-x: scroll;
-    }
-
     .table-user-list {
+      overflow-x: scroll;
       width: 200vw;
     }
   }

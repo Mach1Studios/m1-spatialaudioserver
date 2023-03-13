@@ -107,6 +107,6 @@ export default {
  }
 
  .large-divider {
-    border-bottom: 1rem solid #55555c;
+    border-bottom: 1rem solid var(--additional-accent-color);
   }
 </style>

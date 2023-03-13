@@ -1,33 +1,39 @@
 <template>
   <div class="max-size">
-    <div class="container max">
-      <div class="row">
-        <div class="col s12 m6 l4">
-          <div id="Playlists-list" class="card transparent playlist">
-            <Modal
-              title="Playlists"
-              icon="play_arrow"
-              position="left medium"
-              button-classes="small responsive upper round grey3"
-              padding="no-margin"
-            >
-              <AudioPlayerPlaylists />
-            </Modal>
+    <main class="max responsive no-scroll">
+      <div class="grid">
+        <div class="col s12 m4 l4">
+          <div id="Playlists-list" class="playlist">
+            <article class="transparent playlists-card">
+              <FormButton class="playlist-btn" title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
+              <Transition>
+                <div v-show="showPlaylist">
+                  <article class="front round playlist-card">
+                    <h4 class="title large-text center-align">
+                      PLAYLISTS
+                    </h4>
+                    <AudioPlayerPlaylists />
+                  </article>
+                </div>
+              </Transition>
+            </article>
           </div>
         </div>
-        <div class="col s6" />
-        <div class="col s3" />
+        <div class="col s12">
+          <AudioPlayerTouch />
+        </div>
       </div>
-    </div>
-    <div>
-      <AudioPlayerTouch />
-    </div>
-    <div class="row no-space dark absolute bottom">
-      <div v-if="isAdmin" class="card flat audioplayer-debug">
-        <AudioPlayerDebug />
+    </main>
+    <div class="grid responsive dark-player-card absolute bottom">
+      <div class="audioplayer-debug s12">
+        <article class="transparent">
+          <AudioPlayerDebug />
+        </article>
       </div>
-      <div class="card flat transparent audioplayer">
-        <AudioPlayer skin="dark" class="dark-player" />
+      <div class="audioplayer s12">
+        <article class="transparent">
+          <AudioPlayer class="dark-player" />
+        </article>
       </div>
     </div>
   </div>
@@ -43,7 +49,7 @@ import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
-import Modal from '../components/Base/Modal.vue';
+import FormButton from '../components/Form/Button.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -60,10 +66,10 @@ export default {
     AudioPlayerDebug,
     AudioPlayerPlaylists,
     AudioPlayerTouch,
-    Modal,
+    FormButton,
   },
   data() {
-    return { isMount: false };
+    return { isMount: false, showPlaylist: false };
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
@@ -134,17 +140,20 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .container {
-    padding-left: 55rem;
-    padding-right: 55rem;
-  }
-
-  .audioplayer-debug {
-    padding: 0 55rem 0 55rem;
-  }
-
   .max-size {
-    height: 100vh;
+    height: 90vh;
+  }
+
+  .title {
+    color: var(--secondary-highlight-color);
+    font-size: 18rem;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    line-height: 1.17;
+
+    margin-bottom: 8rem;
+    margin-top: 8rem;
+    padding-bottom: 8rem;
   }
 
   .playlist {
@@ -154,8 +163,8 @@ export default {
     padding-top: 0;
   }
 
-  .dark .card {
-    background-color: #1c1c1c;
+  .dark-player-card {
+    background-color: var(--primary-dark-color);
     border-radius: 0;
   }
 
@@ -171,19 +180,68 @@ export default {
     .dark-player {
       width: 100%;
     }
+
+    article {
+      padding-top: 0;
+    }
+  }
+
+  .playlist-btn {
+    margin-top: 0;
+  }
+
+  .playlists-card {
+    padding-top: 0;
+  }
+
+  .playlist-card {
+    padding-bottom: 56rem;
+  }
+
+  .audioplayer-debug {
+    padding: 0 55rem 0 55rem;
+    article {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .audioplayer {
+    article {
+      padding-bottom: 8rem;
+    }
+  }
+
+  main {
+    padding-left: 55rem;
+    padding-right: 55rem;
+  }
+
+  article {
+    background-color: var(--secondary-dark-color);
   }
 
   @media screen and (orientation: portrait) {
-    .container {
+    main {
       padding-bottom: calc(10vh - 50px - 3em);
       padding-left: 8rem;
       padding-right: 8rem;
       padding-top: auto;
+      z-index: 98;
+    }
+
+    .playlist-card {
+      padding-bottom: 16rem;
     }
 
     .audioplayer {
       padding-left: 8rem;
       padding-right: 8rem;
+    }
+    .audioplayer-debug {
+      padding: 0 8rem 0 8rem;
+
+      z-index: 99;
     }
   }
 </style>

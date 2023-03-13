@@ -10,12 +10,12 @@
         @click.prevent="playbackUpdate"
       />
     </div>
-    <div class="music-box">
+    <div class="player-box">
       <audio ref="player" />
     </div>
     <div class="btn-box">
       <span class="absolute left">
-        <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{ icon }}</i>
+        <i class="material-icons fill play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{ icon }}</i>
         <span class="name">{{ track.name }}</span>
       </span>
       <span class="absolute right">
@@ -125,38 +125,125 @@ export default {
 
 <style lang="scss" scoped>
   .player {
-    height: 50px;
     width: 100%;
+    height: 50px;
 
     user-select: none;
 
-    .music-box {
-      left: 50%;
-      position: absolute;
+    progress {
+      width: 100%;
+
+      cursor: pointer;
+
+      &[value] {
+        height: 5px;
+
+        cursor: pointer;
+
+        appearance: none;
+        -webkit-appearance: none;
+
+        color: var(--primary-accent-color);
+        background-color: var(--secondary-color);
+      }
+
+      &[value]::-webkit-progress-bar {
+        color: var(--primary-accent-color);
+        background-color: var(--secondary-color);
+      }
+
+      &::-webkit-progress-value {
+        background-color: var(--primary-accent-color);
+      }
+
+      &[value]::-moz-progress-bar {
+        background-color: var(--primary-accent-color);
+      }
+    }
+
+    .player-box {
       top: 5px;
+      left: 50%;
+
+      position: absolute;
       transform: translateX(-50%);
     }
+
     .btn-box {
+      top: 20px;
+      width: 100%;
+
       display: flex;
       justify-content: center;
       position: absolute;
-      top: 20px;
 
-      width: 100%;
+      .name {
+        margin-left: 10px;
+        color: var(--additional-light-color);
+      }
+
+      .btn-player {
+        top: 0;
+        left: 0;
+
+        width: 30rem;
+
+        padding: 0 30px;
+        border-radius: 0;
+
+        font-weight: 600;
+        line-height: 25px;
+
+        position: relative;
+
+        letter-spacing: 2rem;
+        text-transform: uppercase;
+
+        background-color: transparent;
+        color: var(--primary-accent-color);
+
+        font-size: var(--default-font-size);
+        border: 1px solid var(--secondary-accent-color);
+      }
+
+      .btn-player:hover:before {
+        top: 0%;
+        bottom: auto;
+        height: 100%;
+      }
+      .btn-player:before {
+        left: 0px;
+        bottom: 0px;
+        height: 0px;
+        width: 100%;
+        z-index: -1;
+
+        content: '';
+
+        display: block;
+        position: absolute;
+
+        background: var(--secondary-accent-color);
+        transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+      }
+      button.btn-player::after {
+        background-image: none;
+      }
 
       span {
         vertical-align: middle;
       }
 
       i {
-        color: #72646f;
         font-size: 24px;
 
         cursor: pointer;
+
+        color: var(--primary-accent-color);
       }
 
       i.active, i.on-repeat {
-        color: #ffff00;
+        color: var(--secondary-accent-color);
       }
 
       i.repeat {
@@ -164,87 +251,11 @@ export default {
       }
 
       .duration {
-        color: #72646f;
         font-size: 12px;
-
         margin-right: 10px;
+        color: var(--primary-accent-color);
       }
     }
-  }
-
-  progress {
-    cursor: pointer;
-
-    width: 100%;
-
-    &[value] {
-      -webkit-appearance: none;
-      appearance: none;
-
-      background-color: #323237;
-      color: #72646f;
-
-      cursor: pointer;
-
-      height: 5px;
-    }
-
-    &[value]::-webkit-progress-bar {
-      background-color: #323237;
-      color: #72646f;
-    }
-
-    &::-webkit-progress-value {
-      background-color: #72646f;
-    }
-
-    &[value]::-moz-progress-bar {
-      background-color: #72646f;
-    }
-  }
-
-  .name {
-    color: #adadaf;
-    margin-left: 10px;
-  }
-
-  .btn-player {
-    border: 1px solid #ffff00;
-    border-radius: 0;
-    // box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset !important;
-    color: #72646f;
-    background-color: transparent;
-    padding: 0 30px;
-    line-height: 25px;
-    position: relative;
-    top: 0;
-    left: 0;
-    font-size: var(--default-font-size);
-    font-weight: 600;
-    letter-spacing: 2rem;
-    text-transform: uppercase;
-    width: 30rem;
-  }
-
-  .btn-player:hover:before {
-    top: 0%;
-    bottom: auto;
-    height: 100%;
-  }
-  .btn-player:before {
-    display: block;
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    height: 0px;
-    width: 100%;
-    z-index: -1;
-    content: '';
-    background: #ffff00;
-    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
-  }
-  button.btn-player::after {
-    background-image: none;
   }
 
   @media screen and (orientation: portrait) {
@@ -252,81 +263,4 @@ export default {
       display: none;
     }
   }
-
-  // .btn-flip {
-  //   cursor: pointer;
-  //   display: inline-block;
-  //   font-size: var(--default-font-size);
-  //   font-weight: 600;
-  //   letter-spacing: 1rem;
-  //   line-height: 25px;
-  //   opacity: 1;
-  //   outline: 0;
-  //   position: relative;
-  //   text-align: center;
-  //   text-decoration: none;
-  //   text-transform: uppercase;
-  //
-  //   &:after {
-  //     border: 1px solid #ffff00;
-  //     box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset;
-  //     content: attr(data-back);
-  //     display: block;
-  //     left: 0;
-  //     opacity: 0;
-  //     position: absolute;
-  //     top: 0;
-  //     transform: translateY(50%) rotateX(-90deg);
-  //     transition: 0.5s;
-  //     width: 100%;
-  //   }
-  //
-  //   &:before {
-  //     border: 1px solid #ffff00;
-  //     box-shadow: 0 0 5px #ffff00, 0 0 5px #ffff00 inset;
-  //     content: attr(data-front);
-  //     display: block;
-  //     left: 0;
-  //     line-height: 25px;
-  //     opacity: 1;
-  //     padding: 0 30px;
-  //     position: relative;
-  //     top: 0;
-  //     transform: translateY(0) rotateX(0);
-  //     transition: 0.5s;
-  //   }
-  //   &:hover {
-  //     &:after {
-  //       opacity: 1;
-  //       transform: translateY(0) rotateX(0);
-  //     }
-  //
-  //     &:before {
-  //       opacity: 0;
-  //       transform: translateY(-50%) rotateX(-90deg);
-  //     }
-  //   }
-  // }
-  //
-  // .dark {
-  //   &:before {
-  //     background: #1a1a1a;
-  //     color: #fff7eb;
-  //   }
-  //   &:after {
-  //     background: #1a1a1a;
-  //     color: #fff7eb;
-  //   }
-  // }
-  //
-  // .light {
-  //   &:before {
-  //     background: #f5e6d7;
-  //     color: #72646f;
-  //   }
-  //   &:after {
-  //     background: #72646f;
-  //     color: #f5e6d7;
-  //   }
-  // }
 </style>

@@ -1,57 +1,59 @@
 <template>
-  <div v-show="isActiveStream === true" id="Controls" class="card round">
-    <div class="preview">
-      <h4 class="title large-text">
-        AUDIO PREVIEW
-      </h4>
-      <div class="channel-controls flex-item scroll">
-        <div v-for="channel in channels" :key="channel" class="row middle-align responsive">
-          <div class="channel-name">
-            <p class="small-text upper white-text" style="white-space:nowrap">Channel {{ channel + 1 }}</p>
-          </div>
-          <div class="channel-wave">
-            <AudioPlayerSineWave :channel="channel" :line-color="lineColors[channel]" />
-          </div>
-          <div class="controls">
-            <div class="volume-control middle-align">
-              <div>
-                <i class="material-icons small" @click="mute(channel)">
-                  {{ channelsMuted[channel] ? 'volume_off' : 'volume_up' }}
-                </i>
-              </div>
-              <div class="channel">
-                <input
-                  v-model="channelsVolume[channel]"
-                  step="0.01"
-                  min="0"
-                  max="1"
-                  type="range"
-                  @change="changeVolume(channel, $event.target.value)"
-                >
-              </div>
+  <div v-show="isActiveStream === true" id="Controls">
+    <article class="round">
+      <div class="preview">
+        <h4 class="title large-text">
+          AUDIO PREVIEW
+        </h4>
+        <div class="channel flex-item scroll">
+          <div v-for="channel in channels" :key="channel" class="grid middle-align">
+            <div class="col s1 channel-number">
+              <p class="small-text upper white-text" style="white-space:nowrap">Channel {{ channel + 1 }}</p>
             </div>
-            <div class="position-control middle-align">
-              <div>
-                <p>L</p>
+            <div class="col s4 channel-wave">
+              <AudioPlayerSineWave :channel="channel" :line-color="lineColors[channel]" />
+            </div>
+            <div class="col s7 channel-controls">
+              <div class="volume-control middle-align">
+                <div>
+                  <i class="material-icons fill small" @click="mute(channel)">
+                    {{ channelsMuted[channel] ? 'volume_off' : 'volume_up' }}
+                  </i>
+                </div>
+                <div class="controller">
+                  <input
+                    v-model="channelsVolume[channel]"
+                    step="0.01"
+                    min="0"
+                    max="1"
+                    type="range"
+                    @change="changeVolume(channel, $event.target.value)"
+                  >
+                </div>
               </div>
-              <div class="channel">
-                <input
-                  step="1"
-                  min="-1"
-                  max="1"
-                  type="range"
-                  value="0"
-                  @change="changePosition(channel, $event.target.value)"
-                >
-              </div>
-              <div>
-                <p>R</p>
+              <div class="position-control middle-align">
+                <div>
+                  <p>L</p>
+                </div>
+                <div class="controller">
+                  <input
+                    step="1"
+                    min="-1"
+                    max="1"
+                    type="range"
+                    value="0"
+                    @change="changePosition(channel, $event.target.value)"
+                  >
+                </div>
+                <div>
+                  <p>R</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </article>
   </div>
 </template>
 
@@ -149,65 +151,90 @@ export default {
   $input-bg-c: #c3b7b7;
   $input-bg-ct: rgba($input-bg-c, 0);
 
-  $ruler-line-w: .0625em;
   $ruler-line-h: .425em;
+  $ruler-line-w: .0625em;
   $ruler-line-off: calc(($input-bw - $ruler-line-h) / 2);
-  // $ruler-line-off: ($input-bw - $ruler-line-h) / 2;
-  $ruler-line-c: #c5b9b9;
+
   $ruler-fs: .75;
+  $ruler-line-c: #c5b9b9;
 
   $track-u: 2em;
   $track-k: 8em;
+  $track-h: .15em;
   $track-xtra: 0.5em;
   $track-w: $track-k + $track-xtra * 3;
-  $track-h: .15em;
 
   $thumb-w: 2em;
   $thumb-h: 1em;
   $thumb-r: .375em;
 
+  .flex-item {
+    scrollbar-color: var(--primary-color) var(--secondary-color);
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+    }
+
+    &::-webkit-scrollbar {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+      width: 5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 3em;
+    }
+  }
+
   .preview {
     .title {
-      color: #ffffff;
-      font-size: 18rem;
-      font-style: normal;
+      color: var(--secondary-highlight-color);
       letter-spacing: -0.5px;
+      font-style: normal;
       line-height: 1.17;
+      font-size: 18rem;
 
+      padding-bottom: 8rem;
       margin-bottom: 8rem;
       margin-top: 8rem;
-      padding-bottom: 8rem;
     }
 
     i {
-      color: #4d4d4d;
+      color: var(--secondary);
+
       cursor: pointer;
     }
 
     p {
-      color: #4d4d4d;
+      color: var(--secondary);
     }
   }
 
-  .channel-controls {
-    align-content: space-between;
-    display: flex;
-    flex-direction: column;
+  article {
+    background-color: var(--secondary-dark-color);
+  }
 
+  .channel {
+    align-content: space-between;
+    flex-direction: column;
+    display: flex;
+
+    scrollbar-color: var(--primary-color) var(--secondary-color);
     overflow-x: hidden;
-    scrollbar-color: #858585 #323237;
 
     height: auto;
-    max-height: 64vh; // note important for playlist scroll
     max-width: 100%;
+    max-height: 65vh;
 
     padding-bottom: 16rem;
 
-    .row {
+    .grid {
       display: flex;
       justify-content: flex-start;
 
-      .channel-name {
+      .channel-number {
         order: 1;
       }
 
@@ -215,8 +242,9 @@ export default {
         margin-left: 40rem;
         order: 2;
       }
-      .controls {
+      .channel-controls {
         display: flex;
+        grid-gap: inherit;
         flex-direction: row;
 
         margin-left: 40rem;
@@ -239,24 +267,24 @@ export default {
 
     &::-webkit-scrollbar-track {
       border-radius: 3rem;
-      background-color: #323237;
+      background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar {
       width: 5rem;
 
-      background-color: #323237;
       border-radius: 3rem;
+      background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #858585;
       border-radius: 3em;
+      background-color: var(--primary-color);
     }
   }
 
   @mixin track() {
-    background-color: #858585;
+    background-color: var(--primary-color);
     border-radius: .1875em;
 
     height: $track-h;
@@ -270,8 +298,8 @@ export default {
     border: none;
 
     box-shadow:
-       -.125em 0 .25em #252526,
-      inset -1px 0 1px #fff;
+       -.125em 0 .25em var(--secondary-dark-color),
+      inset -1px 0 1px var(--secondary-highlight-color);
 
     background:
       radial-gradient(#{at 100% 50%}, #d0cfcf, #d0cfcf 71%, transparent 71%)
@@ -284,7 +312,7 @@ export default {
     background-size: 1.1 * $thumb-r 100%;
   }
 
-  .channel input[type='range'] {
+  .controller input[type='range'] {
     background-color: transparent;
     margin: 0;
 
@@ -319,7 +347,6 @@ export default {
     &::-webkit-slider-thumb {
       @include thumb();
       margin-top: calc(($track-h - $thumb-h) / 2);
-      // margin-top: ($track-h - $thumb-h) / 2;
     }
 
     &::-moz-range-thumb {
@@ -348,43 +375,21 @@ export default {
     }
   }
 
-  .flex-item {
-    scrollbar-color: #858585 #323237;
-
-    &::-webkit-scrollbar-track {
-      background-color: #323237;
-      border-radius: 3rem;
-    }
-
-    &::-webkit-scrollbar {
-      background-color: #323237;
-      border-radius: 3rem;
-      width: 5rem;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #858585;
-      border-radius: 3em;
-    }
-  }
-
   @media screen and (orientation: portrait) {
     #Controls {
-      .channel-controls {
-        max-height: calc(100vh - var(--height) - 50px - 14em);
+      .channel {
+        max-height: calc(100vh - var(--height) - 50px - 12em);
       }
 
-      .channel-controls .row {
+      .channel .grid {
         flex-direction: row;
         flex-flow: row wrap;
 
         .channel-wave {
-          flex-basis: 100%;
           margin-left: 0;
         }
 
-        .controls {
-          flex-basis: 100%;
+        .channel-controls {
           margin-left: 0;
 
           .volume-control i {
@@ -392,7 +397,7 @@ export default {
           }
 
           .position-control {
-            margin-left: 5rem;
+            margin-left: 0rem;
 
             p {
              margin: 0;

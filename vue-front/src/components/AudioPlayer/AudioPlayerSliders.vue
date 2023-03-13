@@ -37,24 +37,24 @@ export default {
   $input-bg-c: #c3b7b7;
   $input-bg-ct: rgba($input-bg-c, 0);
 
-  $ruler-line-w: .0625em;
-  $ruler-line-h: .425em;
-  $ruler-line-off: ($input-bw - $ruler-line-h)/2;
-  $ruler-line-c: #c5b9b9;
   $ruler-fs: .75;
+  $ruler-line-h: .425em;
+  $ruler-line-w: .0625em;
+  $ruler-line-c: #c5b9b9;
+  $ruler-line-off: ($input-bw - $ruler-line-h)/2;
 
-  $track-u: 2em;
   $track-k: 6;
+  $track-u: 2em;
+  $track-h: .25em;
   $track-xtra: 1em;
   $track-w: $track-k*$track-u + $track-xtra;
-  $track-h: .25em;
 
   $thumb-w: 2em;
   $thumb-h: 1em;
   $thumb-r: .375em;
 
   @mixin track() {
-    background-color: yellow;
+    background-color: #ffff00;
     border-radius: .1875em;
 
     height: $track-h;
@@ -76,7 +76,7 @@ export default {
     border-radius: .5em;
     box-shadow:
        -.125em 0 .25em #928886,
-      inset -1px 0 1px #fff;
+      inset -1px 0 1px #ffffff;
 
     width: $thumb-w;
     height: $thumb-h;

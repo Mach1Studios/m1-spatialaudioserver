@@ -1,19 +1,19 @@
 <template>
-  <div class="container max no-scroll">
-    <div class="row">
+  <main class="max responsive no-scroll">
+    <div class="grid">
       <div class="col s12 m6 l6">
         <h4 class="title upper white-text">
           Profile Settings
         </h4>
-        <div class="card round">
+        <article class="round">
           <UserProfile />
-        </div>
+        </article>
       </div>
       <div class="col s12 m6 l6">
         <Info />
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -29,17 +29,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .card {
-    background-color: #252526;
+  article {
+    background-color: var(--secondary-dark-color);
   }
 
-  .container {
+  main {
     padding-left: 55rem;
     padding-right: 55rem;
   }
 
   @media screen and (orientation: portrait) {
-    .container {
+    main {
       padding-left: 8rem;
       padding-right: 8rem;
     }

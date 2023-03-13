@@ -38,10 +38,10 @@ export default {
     height: auto;
     width: 80%;
 
-    bottom: 72rem;
-    left: 50%;
     position: fixed;
+    bottom: 72rem;
     right: auto;
+    left: 50%;
     top: auto;
 
     transform: translate(-50%);

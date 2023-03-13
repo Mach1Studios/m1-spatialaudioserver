@@ -1,7 +1,7 @@
 <template>
   <button class="border round transparent-border" @click="open">
-    <i class="material-icons-outlined">info</i>
-    <div class="popup card" :style="position">
+    <i class="material-icons">info</i>
+    <div class="popup" :style="position">
       <p v-for="(value, key) in items" :key="value" class="info small-margin">
         <b class="upper">{{ key }}:</b> {{ value }}
       </p>
@@ -51,27 +51,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
   .popup {
-    background-color: #252526;
+    background-color: var(--secondary-dark-color);
     border-radius: 1em;
 
-    padding: 0.5em;
     position: fixed;
+    padding: 0.5em;
     z-index: 1000;
 
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
+      font-family: 'Courier Prime', monospace;
       text-align: justify;
     }
 
     b {
-      color: #72646f;
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      color: var(--primary-highlight-color);
       font-weight: 600;
     }
   }
 
   i {
-    color: #626161;
+    color: var(--primary-highlight-color);
     font-size: 16px;
 
     cursor: pointer;
@@ -80,13 +84,13 @@ export default {
   button {
     &:hover {
       i {
-        color: #ffffff;
+        color: var(--secondary-highlight-color);
         font-size: 20px;
       }
     }
   }
 
   .info {
-    border-bottom: 1px #626161 dotted;
+    border-bottom: 1px var(--primary-highlight-color) dotted;
   }
 </style>

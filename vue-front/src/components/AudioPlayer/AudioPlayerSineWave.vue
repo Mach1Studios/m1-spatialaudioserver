@@ -174,9 +174,10 @@ export default {
   }
 
   canvas .visualizer {
-    max-height: 100px;
-    max-width: 200px;
     width: 100%;
+
+    max-width: 200px;
+    max-height: 100px;
 
     background: transparent;
   }
