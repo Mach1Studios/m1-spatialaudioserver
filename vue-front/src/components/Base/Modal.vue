@@ -143,6 +143,7 @@ export default {
 
   .modal {
     background-color: var(--secondary-dark-color);
+    max-height: 74vh;
   }
 
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {

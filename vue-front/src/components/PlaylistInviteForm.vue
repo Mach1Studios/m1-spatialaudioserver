@@ -82,6 +82,7 @@ export default {
 <style lang="scss" scoped>
   .flex-item {
     overflow-x: hidden;
+    overflow-y: scroll;
 
     &::-webkit-scrollbar-track {
       background-color: var(--secondary-highlight-color);
@@ -90,7 +91,7 @@ export default {
 
     &::-webkit-scrollbar {
       background-color: var(--secondary-highlight-color);
-      width: 7px;
+      // width: 7px;
     }
 
     &::-webkit-scrollbar-thumb {
@@ -127,7 +128,7 @@ export default {
     }
 
     .table-invite {
-      padding-right: 16rem;
+      // margin-right: 16rem;
 
       td {
         border-bottom: 1px var(--additional-dark-color) solid;

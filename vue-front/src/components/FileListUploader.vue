@@ -248,7 +248,7 @@ export default {
     display: none;
   }
   .settings {
-    color: var(--primary-light-color);
+    color: var(--additional-light-color);
 
     padding-bottom: 16rem;
     padding-top: 16rem;
