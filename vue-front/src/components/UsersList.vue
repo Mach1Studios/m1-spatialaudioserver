@@ -1,15 +1,13 @@
 <template>
-  <div class="user-list">
-    <table class="table-user-list large center-align">
-      <thead>
+  <div class="flex-item scroll">
+    <table class="table-user-list large-space center-align">
+      <thead class="front">
         <tr>
           <th><abbr title="#">#</abbr></th>
           <th><abbr title="NICKNAME">NICKNAME</abbr></th>
           <th><abbr title="E-MAIL">E-MAIL</abbr></th>
           <th><abbr title="ROLE">ROLE</abbr></th>
           <th><abbr title="LAST SEEN">LAST SEEN</abbr></th>
-          <!-- <th><abbr title="EDIT"></abbr></th>
-          <th><abbr title="REMOVE"></abbr></th> -->
         </tr>
       </thead>
       <tbody>
@@ -18,16 +16,16 @@
             <p class="medium-text">{{ index + 1 }}</p>
           </td>
           <td>
-            <p class="medium-text">{{item.nickname}}</p>
+            <p class="medium-text">{{ item.nickname }}</p>
           </td>
           <td>
-            <p class="medium-text mobile">{{item.email}}</p>
+            <p class="medium-text mobile">{{ item.email }}</p>
           </td>
           <td>
-            <p class="medium-text">{{item.role}}</p>
+            <p class="medium-text">{{ item.role }}</p>
           </td>
           <td>
-            <p class="medium-text">{{item.lastSeen}}</p>
+            <p class="medium-text">{{ item.lastSeen }}</p>
           </td>
           <td>
             <Modal
@@ -36,8 +34,8 @@
               icon="edit"
               position="center"
               padding="no-padding"
-              buttonClasses="small responsive"
-              titleClasses="large-width"
+              button-classes="small responsive edit-btn"
+              title-classes="large-width"
             >
               <UsersAddForm
                 icon="save"
@@ -66,11 +64,11 @@ import UsersAddForm from './UsersAddForm.vue';
 
 export default {
   name: 'UsersList',
-  props: { admin: Boolean },
   components: {
     Modal,
     UsersAddForm,
   },
+  props: { admin: Boolean },
   computed: mapState({ users: (state) => state.users.items }),
   methods: { ...mapActions('users', ['update', 'remove']) },
   created() {
@@ -80,55 +78,87 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .flex-item {
+    scrollbar-color: var(--primary-color);
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+    }
+
+    &::-webkit-scrollbar {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+
+      width: 5rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 3em;
+    }
+  }
+
   .table-user-list {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+
+    tbody {
+      width: 100%;
+    }
+
+    i {
+      color: var(--primary-highlight-color);
+    }
+
     button {
      i {
        font-size: 16px;
      }
+
      &:hover {
        i {
+         color: var(--secondary-highlight-color);
          font-size: 20px;
-         color: #ffffff;
        }
      }
     }
+
     abbr {
-      color: #ffffff;
-    }
-    p {
-      color: #ffffff;
-    }
-    i {
-      color: #4d4d4d;
-    }
-    abbr {
-      width: 100%;
+      color: var(--secondary-highlight-color);
 
       font-style: normal;
       font-weight: bold;
-
-      line-height: 1.17;
       letter-spacing: -0.5px;
+      line-height: 1.17;
+
+      width: 100%;
     }
+
+    p {
+      color: var(--secondary-highlight-color);
+    }
+
     td {
-      border-bottom: 1px #212121 solid;
+      border-bottom: 1px var(--additional-dark-color) solid;
       vertical-align: middle;
+
       cursor: pointer;
     }
+
     th {
       vertical-align: middle;
     }
   }
 
-  .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+  button:focus::after, button:hover::after {
     background: none;
   }
 
   @media screen and (orientation: portrait) {
-    .user-list {
+    .table-user-list {
       overflow-x: scroll;
-    }
-    .user-list-table {
       width: 200vw;
     }
   }

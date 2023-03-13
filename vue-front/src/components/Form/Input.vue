@@ -5,14 +5,14 @@
       :type="type"
       :value="modelValue"
 
-      @blur="select"
-      @focus="select"
-      @input="$emit('update:modelValue', $event.target.value)"
-
       :autocomplete="autocomplete"
       :required="required"
+      @blur="select"
+
+      @focus="select"
+      @input="$emit('update:modelValue', $event.target.value)"
     >
-    <label v-show="placeholder" :class="{ active: focused }">{{placeholder}}</label>
+    <label v-show="placeholder" :class="{ active: focused }">{{ placeholder }}</label>
   </div>
 </template>
 
@@ -68,24 +68,35 @@ export default {
 <style lang="scss" scoped>
   .field {
     input {
-      // clip-path: polygon(0% 0%, 12rem 0%, 12rem 8rem, 80rem 8rem, 80rem 0%, 100% 0%, 100% 100%, 0% 100%);
-      border: 1rem #323237 solid;
-      color: #ffffff;
-      -webkit-text-fill-color: #ffffff !important;
+      -webkit-text-fill-color: var(--secondary-highlight-color) !important;
+      border: 1rem var(--secondary-color) solid;
+
+      color: var(--secondary-highlight-color);
+
+      &:-webkit-autofill {
+        transition: background-color 5000s ease-in-out 0s;
+      }
+
       &:focus {
-        border: 1rem #55555c solid;
+        border: 1rem var(--additional-accent-color) solid;
       }
     }
+
     label {
-      background-color: #252526;
+      background-color: var(--secondary-dark-color);
       padding: 0 4rem 0 4rem;
     }
   }
+
   .field.label>:focus~label {
-    color: #55555c;
-    background-color: #252526;
+    background-color: var(--secondary-dark-color);
+    color: var(--additional-accent-color);
   }
-  input:-webkit-autofill,
+
+  .field label {
+    color: var(--additional-accent-color);
+  }
+
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {

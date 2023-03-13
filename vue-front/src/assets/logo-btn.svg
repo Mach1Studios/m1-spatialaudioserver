@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="89.412003"
+   height="89.412003"
+   viewBox="0 0 89.412001 89.411999"
+   version="1.1"
+   id="svg34"
+   sodipodi:docname="logo-btn.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview36"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="4.9266579"
+     inkscape:cx="119.04622"
+     inkscape:cy="41.610358"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g18" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">
+            .a {
+                fill: #FAFAFAFA;
+            }
+        </style>
+  </defs>
+  <g
+     transform="translate(-255.199,-886.151)"
+     id="g32">
+    <g
+       transform="translate(255.199,886.151)"
+       id="g18"
+       style="fill:#333333">
+      <path
+         class="a"
+         d="m 575.64,365.961 a 38.745,38.745 0 1 1 -27.4,11.348 38.492,38.492 0 0 1 27.4,-11.348 m 0,-5.961 A 44.706,44.706 0 1 0 620.346,404.706 44.706,44.706 0 0 0 575.64,360 Z"
+         transform="translate(-530.934,-360)"
+         id="path6"
+         style="fill:#626161;fill-opacity:1" />
+      <g
+         transform="translate(17.882,29.763)"
+         id="g16"
+         style="fill:#333333">
+        <rect
+           class="a"
+           width="29.804001"
+           height="5.961"
+           transform="rotate(-90,14.902,14.902)"
+           id="rect8"
+           style="fill:#333333"
+           x="0"
+           y="0" />
+        <rect
+           class="a"
+           width="29.804001"
+           height="5.961"
+           transform="rotate(-90,20.863,8.941)"
+           id="rect10"
+           style="fill:#333333"
+           x="0"
+           y="0" />
+        <rect
+           class="a"
+           width="29.804001"
+           height="5.961"
+           transform="rotate(-90,26.8235,2.9805)"
+           id="rect12"
+           style="fill:#333333"
+           x="0"
+           y="0" />
+        <rect
+           class="a"
+           width="29.804001"
+           height="5.961"
+           transform="rotate(-90,38.745,-8.941)"
+           id="rect14"
+           style="fill:#333333"
+           x="0"
+           y="0" />
+      </g>
+      <path
+         style="fill:#626161;fill-opacity:1;stroke-width:0.202977"
+         d="M 17.963496,44.655018 V 29.837671 h 2.841683 2.841683 v 14.817347 14.817347 h -2.841683 -2.841683 z"
+         id="path1444" />
+      <path
+         style="fill:#626161;fill-opacity:1;stroke-width:0.202977"
+         d="M 29.93916,44.655018 V 29.837671 h 2.841683 2.841683 V 44.655018 59.472365 H 32.780843 29.93916 Z"
+         id="path1483" />
+      <path
+         style="fill:#626161;fill-opacity:1;stroke-width:0.202977"
+         d="M 41.914824,44.655018 V 29.837671 h 2.841683 2.841683 v 14.817347 14.817347 h -2.841683 -2.841683 z"
+         id="path1522" />
+      <path
+         style="fill:#626161;fill-opacity:1;stroke-width:0.202977"
+         d="M 65.663175,44.655018 V 29.837671 h 2.841683 2.841683 v 14.817347 14.817347 h -2.841683 -2.841683 z"
+         id="path1561" />
+    </g>
+    <g
+       transform="translate(360.953,915.955)"
+       id="g30" />
+  </g>
+</svg>

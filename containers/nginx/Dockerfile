@@ -190,7 +190,7 @@ FROM node:14.16 as vue-build
 WORKDIR /tmp/build
 
 COPY ./vue-front/package*.json ./
-RUN npm install
+RUN npm ci --no-optional
 
 COPY ./vue-front .
 RUN npm run build
@@ -239,6 +239,7 @@ COPY ./containers/nginx/uploader.lua /etc/nginx/uploader.lua
 COPY ./containers/nginx/nginx.conf /etc/nginx/nginx.conf.template
 COPY ./containers/nginx/switcher.sh /etc/nginx/switcher.sh
 COPY ./containers/nginx/m1-transcode /etc/nginx/m1-transcode
+COPY ./containers/nginx/mime.types /etc/nginx/mime.types
 
 # RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 

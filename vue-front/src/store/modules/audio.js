@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const defaultState = () => ({
   channels: 0,
-  context: new (window.AudioContext || window.webkitAudioContext)(),
+  AudioContext: null,
   gainNodes: [],
   gainNodesAnalyser: [],
   source: null,
@@ -11,9 +11,10 @@ const defaultState = () => ({
 
 const actions = {
   createGainNodes({ commit, state, getters }, volume = 0) {
-    commit('setAudioContext');
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    commit('setAudioContext', context);
 
-    const { channels, context, source } = state;
+    const { channels, source } = state;
     const splitter = context.createChannelSplitter(channels);
     const merger = context.createChannelMerger(channels * 2);
 
@@ -46,6 +47,9 @@ const actions = {
 
     _.each(getters.listOfChannels, processing);
     merger.connect(context.destination);
+
+    commit('loader', { enable: false }, { root: true });
+    state.view.play();
   },
   updateSource({ commit }, source) {
     commit('setSource', source);
@@ -73,8 +77,13 @@ const getters = {
 };
 
 const mutations = {
-  setAudioContext(state) {
+  setAudioContext(state, AudioContext) {
     state.gainNodes = [];
+    state.AudioContext = AudioContext;
+
+    if (state.view && _.isNull(state.source)) {
+      state.source = AudioContext.createMediaElementSource(state.view);
+    }
   },
   setGain(state, gain) {
     if (gain) {
@@ -82,7 +91,7 @@ const mutations = {
     }
   },
   setGainVolume(state, { channel, volume }) {
-    state.gainNodes[channel].gain.setTargetAtTime(volume * 1, state.context.currentTime, 0.05);
+    state.gainNodes[channel].gain.setTargetAtTime(volume * 1, state.AudioContext.currentTime, 0.05);
   },
   setGainAnalyser(state, analyser) {
     if (analyser) {
@@ -96,7 +105,6 @@ const mutations = {
   },
   setSource(state, source) {
     state.view = source;
-    state.source = state.context ? state.context.createMediaElementSource(source) : null;
   },
 };
 

@@ -1,41 +1,61 @@
 import _ from 'lodash';
-import { createStore } from 'vuex';
+import { v4 as uuid } from 'uuid';
 
+import { createStore } from 'vuex';
+import VuexPersistence from 'vuex-persist';
+
+// import dash from './modules/dash';
 import audio from './modules/audio';
 import auth from './modules/auth';
-import dash from './modules/dash';
-import formats from './modules/formats';
+// import hls from './modules/hls';
 import logs from './modules/logs';
 import playlists from './modules/playlists';
+import stream from './modules/stream';
 import tracks from './modules/tracks';
+import uploads from './modules/uploads';
 import users from './modules/users';
 
 const delay = (sec) => new Promise((resolve) => setTimeout(resolve, sec * 1000));
 
+// eslint-disable-next-line
+const persistSettings = new VuexPersistence({
+  key: 'm1::store::settings',
+  storage: window.localStorage,
+  modules: ['auth', 'uploads'],
+});
+
+// const persistLogs = new VuexPersistence({
+//   key: 'm1::store::logs',
+//   storage: window.localStorage,
+//   modules: ['logs'],
+// });
+
 const Store = createStore({
   strict: process.env.NODE_ENV !== 'production',
+
+  plugins: [persistSettings.plugin],
 
   state: {
     modalVisibility: null,
     loader: {
       isLoading: false, title: 'Processing', description: 'Audiofile is loading',
     },
-    notification: {
-      isError: false, isSuccess: false, message: '',
-    },
+    notifications: [],
   },
+
   actions: {
     async toast({ commit, state }, payload) {
       if (state.loader.isLoading) {
-        await delay(1.5);
         commit('loader', { enable: false });
         await delay(0.5);
       }
-      commit('setToast', payload);
-      await delay(5);
-      commit('setToast');
+      const id = uuid();
+      commit('setToast', { id, ...payload });
+      await delay(payload.delay ?? 5);
+      commit('unsetToast', id);
     },
   },
+
   mutations: {
     loader(state, payload) {
       const { description, enable, title } = payload;
@@ -50,9 +70,8 @@ const Store = createStore({
       }
     },
     setToast(state, payload = {}) {
-      const { error, event } = payload;
-      state.notification = { isError: false, isSuccess: false, message: '' };
-
+      const { id, error, event } = payload;
+      const notification = { id, icon: 'done', message: 'Complete!' };
       if (error) {
         let message = error.message ?? 'Something went wrong';
         if (_.isObject(error.errors)) {
@@ -66,24 +85,29 @@ const Store = createStore({
             });
           }
         }
-        state.notification = { ...state.notification, isError: true, message };
+        state.notifications.push({ ...notification, icon: 'error', message });
       }
       if (event) {
-        state.notification = { ...state.notification, isSuccess: true, message: event.message ?? 'Complete!' };
+        state.notifications.push({ ...notification, ...event });
       }
+      if (state.notifications.length > 3) state.notifications.shift();
     },
     setModalVisibility(state, title = null) {
       state.modalVisibility = title;
+    },
+    unsetToast(state, id) {
+      _.remove(state.notifications, { id });
     },
   },
   modules: {
     audio,
     auth,
-    dash,
-    formats,
+    // hls,
     logs,
     playlists,
+    stream,
     tracks,
+    uploads,
     users,
   },
 });

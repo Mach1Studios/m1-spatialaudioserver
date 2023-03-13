@@ -5,14 +5,14 @@
       <tbody>
         <tr v-for="(item, index) in items" :key="item" :class="{ 'on-play': track.id === item.id }" @click="play">
           <td>
-            <p class="medium-text">{{ index + 1 }}</p>
+            <p class="audio-number medium-text">{{ index + 1 }}</p>
           </td>
-          <td @click="select(item.id)" class="audio-name">
-            <p class="medium-text">{{item.name}}</p>
+          <td class="audio-name" @click="select(item.id)">
+            <p class="medium-text">{{ item.name }}</p>
           </td>
           <td>
-            <nav class="right-align">
-              <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id"/>
+            <nav>
+              <Popup :active="active === item.id" :items="item" @mouseleave.stop="active = null" @click.stop="active = item.id" />
               <button class="border round transparent-border" @click="reload(item)">
                 <i class="material-icons">cached</i>
               </button>
@@ -21,12 +21,12 @@
                 <!-- <i class="material-icons">keyboard_return</i> -->
               </button>
               <Modal
+                v-if="admin"
                 title="Rename track"
                 button=" "
                 icon="edit"
-                position="center"
+                position="center medium"
                 padding="no-padding"
-                v-if="admin"
               >
                 <PlaylistForm
                   :id="item.id"
@@ -63,13 +63,13 @@ export default {
     PlaylistForm,
     Popup,
   },
-  data() {
-    return { active: '' };
-  },
   props: {
     admin: Boolean,
     user: Boolean,
     playlist: Object,
+  },
+  data() {
+    return { active: '' };
   },
   computed: {
     ...mapState({
@@ -89,90 +89,99 @@ export default {
 
 <style lang="scss" scoped>
   .flex-item {
-    &::-webkit-scrollbar-track
-    {
+    scrollbar-color: var(--primary-color);
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--secondary-color);
       border-radius: 3rem;
-      background-color: #323237;
     }
 
-    &::-webkit-scrollbar
-    {
+    &::-webkit-scrollbar {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+
       width: 5rem;
-      border-radius: 3rem;
-      background-color: #323237;
     }
 
-    &::-webkit-scrollbar-thumb
-    {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
       border-radius: 3em;
-      background-color: #858585;
     }
-    scrollbar-color: #858585 #323237;
   }
-  i {
-    cursor: pointer;
 
-    color: #4d4d4d;
+  i {
+    color: var(--primary-highlight-color);
     font-size: 16px;
+
+    cursor: pointer;
   }
-  .disabled {
-    i {
-      cursor: default;
-    }
-  }
-  tr {
-    width: inherit;
-  }
-  tr.on-play {
-    background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
-    p {
-      color: #72646f;
-      font-weight: bold;
-    }
-    i {
-      color: #72646f;
-    }
-  }
+
   .table-list {
     display: block;
     overflow: hidden;
+
     width: 100%;
-    tbody{
-        width: 100%;
-        display: table;
+
+    tbody {
+      display: table;
+      width: 100%;
+    }
+
+    .audio-number {
+      cursor: pointer;
     }
 
     .audio-name {
       width: 100%;
       word-break: break-all;
+      cursor: pointer;
     }
+
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
       text-align: justify;
     }
+
     td {
-      border-bottom: 1px #212121 solid;
-      .disabled ~ i, p {
-        cursor: pointer;
-      }
+      border-bottom: 1px var(--additional-dark-color) solid;
+
       &:last-child {
+        padding-left: 0;
         padding-right: 13px;
       }
     }
+
     tr {
       vertical-align: middle;
+      width: inherit;
     }
+
     tr:hover {
-      background:linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
     }
+
+    tr.on-play {
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+
+      p {
+        color: var(--primary-accent-color);
+        font-weight: bold;
+      }
+
+      i {
+        color: var(--primary-accent-color);
+      }
+    }
+
     button {
       &:hover {
         i {
+          color: var(--secondary-highlight-color);
           font-size: 20px;
-          color: #ffffff;
         }
       }
     }
+
     button.border::after {
       background-image: none;
     }
@@ -180,21 +189,29 @@ export default {
 
   @media screen and (orientation: portrait) {
     #FileList {
-      table.border td {
-        border: none;
-      }
       .table-list {
         .audio-name {
           width: 85%;
           word-break: keep-all;
         }
-        td:not(:nth-child(3)){
+
+        td {
+          border: none;
+          display: grid;
+
+          &:last-child {
+            padding-left: 8rem;
+          }
+        }
+
+        td:not(:nth-child(3)) {
           display: inline-table;
         }
-        td{
-          display: grid;
-        }
       }
+    }
+
+    nav>:not(.dropdown,.badge) {
+      padding-right: 8rem;
     }
   }
 </style>

@@ -26,6 +26,7 @@ export default {
     ctx.status = 201;
     ctx.body = {
       user: ctx.session.user,
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3NTkwNjQ2ODN9.Q_SaMOmv0hufgKI9DBdYMBKnszyB7lHKMxs8egmfdSg',
     };
   },
   /**

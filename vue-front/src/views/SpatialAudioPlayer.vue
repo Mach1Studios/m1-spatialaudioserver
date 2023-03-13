@@ -1,33 +1,39 @@
 <template>
   <div class="max-size">
-    <div class="container max">
-      <div class="row">
-        <div class="col s12 m6 l4">
-          <div class="card transparent playlist">
-            <Modal
-              title="Playlists"
-              icon="play_arrow"
-              position="left"
-              buttonClasses="small responsive upper round grey3"
-              padding="no-margin"
-            >
-              <AudioPlayerPlaylists class="modal-playlist" :admin="true"/>
-            </Modal>
+    <main class="max responsive no-scroll">
+      <div class="grid">
+        <div class="col s12 m4 l4">
+          <div id="Playlists-list" class="playlist">
+            <article class="transparent playlists-card">
+              <FormButton class="playlist-btn" title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
+              <Transition>
+                <div v-show="showPlaylist">
+                  <article class="front round playlist-card">
+                    <h4 class="title large-text center-align">
+                      PLAYLISTS
+                    </h4>
+                    <AudioPlayerPlaylists />
+                  </article>
+                </div>
+              </Transition>
+            </article>
           </div>
         </div>
-        <div class="col s6"></div>
-        <div class="col s3"></div>
+        <div class="col s12">
+          <AudioPlayerTouch />
+        </div>
       </div>
-    </div>
-    <div>
-      <AudioPlayerTouch/>
-    </div>
-    <div class="row no-space dark absolute bottom">
-      <div class="card flat audioplayer-debug" v-if="isAdmin">
-        <AudioPlayerDebug/>
+    </main>
+    <div class="grid responsive dark-player-card absolute bottom">
+      <div class="audioplayer-debug s12">
+        <article class="transparent">
+          <AudioPlayerDebug />
+        </article>
       </div>
-      <div class="card flat transparent audioplayer">
-        <AudioPlayer skin="dark" class="dark-player"/>
+      <div class="audioplayer s12">
+        <article class="transparent">
+          <AudioPlayer class="dark-player" />
+        </article>
       </div>
     </div>
   </div>
@@ -43,7 +49,7 @@ import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerPlaylists from '../components/AudioPlayer/AudioPlayerPlaylists.vue';
 import AudioPlayerTouch from '../components/AudioPlayer/AudioPlayerTouch.vue';
-import Modal from '../components/Base/Modal.vue';
+import FormButton from '../components/Form/Button.vue';
 
 const wait = (sec) => new Promise((resolve) => {
   setTimeout(resolve, sec * 1000);
@@ -60,38 +66,24 @@ export default {
     AudioPlayerDebug,
     AudioPlayerPlaylists,
     AudioPlayerTouch,
-    Modal,
+    FormButton,
   },
   data() {
-    return { isMount: false };
+    return { isMount: false, showPlaylist: false };
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
-    ...mapState('dash', ['player', 'isActiveStream']),
+    ...mapState('stream', ['player', 'isActiveStream']),
     ...mapState('auth', ['profile']),
 
     isAdmin() {
       return _.get(this, 'profile.user.role') === 'admin';
     },
   },
-  mounted() {
-    window.addEventListener('mousemove', mousemoveListener, false);
-    this.decoder = new Mach1DecoderProxy(null, { debug: false });
-    this.isMount = true;
-
-    this.loop();
-    this.init();
-  },
-  beforeUnmount() {
-    window.removeEventListener('mousemove', mousemoveListener, false);
-
-    this.isMount = false;
-    this.decoder = null;
-  },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
-    ...mapActions('logs', { log: 'createMessage' }),
+    // ...mapActions('logs', { log: 'createMessage' }),
     changeVolume(channel, volume) {
       this.updateVolume({ channel, volume });
     },
@@ -112,10 +104,10 @@ export default {
       document.getElementById('touchstats:card').style.transform = transform;
 
       const decoded = this.decoder.decode({ yaw, pitch, roll });
-      this.log({
-        message: `Mach1DecoderProxy decoded values: ${decoded}`,
-        data: { decoded, pitch, roll, yaw },
-      });
+      // this.log({
+      //   message: `Mach1DecoderProxy decoded values: ${decoded}`,
+      //   data: { decoded, pitch, roll, yaw },
+      // });
 
       if (decoded && decoded.length > 0) {
         for (let i = 0; i < decoded.length; i += 1) {
@@ -131,44 +123,125 @@ export default {
       return this.init();
     },
   },
+  mounted() {
+    window.addEventListener('mousemove', mousemoveListener, false);
+    this.decoder = new Mach1DecoderProxy(null, { debug: false });
+    this.isMount = true;
+
+    this.loop();
+    this.init();
+  },
+  beforeUnmount() {
+    window.removeEventListener('mousemove', mousemoveListener, false);
+
+    this.isMount = false;
+    this.decoder = null;
+  },
 };
 </script>
 <style lang="scss" scoped>
-  .audioplayer-debug {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
   .max-size {
-    height: 100vh;
+    height: 90vh;
   }
+
+  .title {
+    color: var(--secondary-highlight-color);
+    font-size: 18rem;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    line-height: 1.17;
+
+    margin-bottom: 8rem;
+    margin-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
   .playlist {
     box-shadow: none;
+
+    padding-left: 0;
     padding-top: 0;
   }
-  .modal-playlist {
-    margin: 32rem 0 0 0;
-  }
-  .dark .card {
-    background-color: #1c1c1c;
+
+  .dark-player-card {
+    background-color: var(--primary-dark-color);
     border-radius: 0;
   }
+
   .audioplayer {
+    box-shadow: none;
+
+    padding-left: 55rem;
+    padding-right: 55rem;
+    padding-top: 0;
+
     z-index: 600;
+
     .dark-player {
       width: 100%;
     }
-    box-shadow: none;
+
+    article {
+      padding-top: 0;
+    }
+  }
+
+  .playlist-btn {
+    margin-top: 0;
+  }
+
+  .playlists-card {
     padding-top: 0;
   }
+
+  .playlist-card {
+    padding-bottom: 56rem;
+  }
+
+  .audioplayer-debug {
+    padding: 0 55rem 0 55rem;
+    article {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .audioplayer {
+    article {
+      padding-bottom: 8rem;
+    }
+  }
+
+  main {
+    padding-left: 55rem;
+    padding-right: 55rem;
+  }
+
+  article {
+    background-color: var(--secondary-dark-color);
+  }
+
   @media screen and (orientation: portrait) {
-    .container {
-      padding-top: auto;
+    main {
+      padding-bottom: calc(10vh - 50px - 3em);
       padding-left: 8rem;
       padding-right: 8rem;
-      padding-bottom: calc(10vh - 50px - 3em);
+      padding-top: auto;
+      z-index: 98;
     }
-    .modal-playlist {
-      padding: 8rem 0 0 0;
+
+    .playlist-card {
+      padding-bottom: 16rem;
+    }
+
+    .audioplayer {
+      padding-left: 8rem;
+      padding-right: 8rem;
+    }
+    .audioplayer-debug {
+      padding: 0 8rem 0 8rem;
+
+      z-index: 99;
     }
   }
 </style>

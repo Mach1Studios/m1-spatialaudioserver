@@ -15,7 +15,6 @@ export default {
   async get(ctx) {
     const { id } = ctx.params;
     const { user } = ctx.session;
-
     const { part } = ctx.request.query;
     const item = await ctx.redis.hgetall(`track:${id}`);
     if (_.isEmpty(item)) ctx.throw(404);

@@ -1,5 +1,12 @@
 <template>
-  <FormSelect name="" placeholder="" :options="unbindedItems" @change="addItem"/>
+  <FormSelect
+    name=""
+    placeholder=""
+    class="playlist-select"
+    select-skin="dark"
+    :options="unbindedItems"
+    @change="addItem"
+  />
   <div class="invite flex-item scroll">
     <table class="table-invite flex-item">
       <tbody>
@@ -8,11 +15,11 @@
             <p class="medium-text">{{ index + 1 }}</p>
           </td>
           <td class="small-width">
-            <p class="medium-text">{{item.name}}</p>
+            <p class="medium-text">{{ item.name }}</p>
           </td>
           <td>
             <nav class="right-align">
-              <button class="border transparent-border"  @click="del(item.id)">
+              <button class="border transparent-border" @click="del(item.id)">
                 <i class="material-icons">delete</i>
               </button>
             </nav>
@@ -41,6 +48,9 @@ export default {
       type: Array,
     },
   },
+  data() {
+    return {};
+  },
   computed: {
     bindedItems() {
       return _
@@ -57,9 +67,6 @@ export default {
         .value();
     },
   },
-  data() {
-    return {};
-  },
   methods: {
     ...mapActions('playlists', ['addItemToPlaylist', 'removeItemFromPlaylist']),
     del(itemId) {
@@ -75,71 +82,56 @@ export default {
 <style lang="scss" scoped>
   .flex-item {
     overflow-x: hidden;
+    overflow-y: scroll;
 
-    &::-webkit-scrollbar-track
-    {
+    &::-webkit-scrollbar-track {
+      background-color: var(--secondary-highlight-color);
       border-radius: 3em;
-      background-color: #ffffff;
     }
 
-    &::-webkit-scrollbar
-    {
-      width: 7px;
-      background-color: #ffffff;
+    &::-webkit-scrollbar {
+      background-color: var(--secondary-highlight-color);
+      // width: 7px;
     }
 
-    &::-webkit-scrollbar-thumb
-    {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
       border-radius: 3em;
-      background-color: #858585;
     }
   }
-  .invite {
-    .title {
-      font-style: normal;
-      font-weight: bold;
 
-      line-height: 1.17;
-      letter-spacing: -0.5px;
-      text-transform: uppercase;
-    }
+  .invite {
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
     }
-    input {
-      &:focus {
-        border-color: #1c1c1c;
-      }
-    }
-    select{
-      &:focus {
-        border-bottom: 2rem solid #1c1c1c;
-      }
-    }
-    span {
-      color: #1c1c1c;
-    }
+
     i {
+      color: var(--primary-highlight-color);
       font-size: 16px;
-      color: #4d4d4d;
     }
+
     button {
-      width: 100%;
-      padding: 0;
       margin: 16rem 0 16rem 0;
+      padding: 0;
+
+      width: 100%;
+
       &:hover {
         i {
-          color: #ffffff;
+          color: var(--secondary-highlight-color);
         }
       }
     }
-    .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {
+
+    button:focus::after, button:hover::after {
       background: none;
     }
+
     .table-invite {
-      padding-right: 16rem;
+      // margin-right: 16rem;
+
       td {
-        border-bottom: 1px #212121 solid;
+        border-bottom: 1px var(--additional-dark-color) solid;
       }
     }
   }

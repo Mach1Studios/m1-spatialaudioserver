@@ -1,22 +1,31 @@
 <template>
-  <div class="menu top home" role="navigation" aria-label="main navigation">
+  <header class="top home" role="navigation" aria-label="main navigation">
     <img class="logo" src="../assets/logo-bg.svg">
     <div class="navigation" :class="{ active: isActive }">
-      <router-link v-if="isAdmin" class="link" to="/dashboard">Dashboard</router-link>
-      <router-link class="link" to="/">Spatial Audio Player</router-link>
-      <router-link v-if="isAdmin" class="link" to="/users">Users</router-link>
+      <router-link v-if="isAdmin" class="link" to="/dashboard">
+        Dashboard
+      </router-link>
+      <router-link class="link" to="/">
+        Spatial Audio Player
+      </router-link>
+      <router-link v-if="isAdmin" class="link" to="/users">
+        Users
+      </router-link>
     </div>
-    <div style="flex-grow: 1;"></div>
+    <div style="flex-grow: 1;" />
     <router-link v-if="isAuthorized" class="profile link" to="/settings">
-      {{user ? user.nickname : 'Profile'}}
+      {{ user ? user.nickname : 'Profile' }}
     </router-link>
-    <UsersAuth/>
-    <div class="mobile">
+    <router-link class="link" to="/documentation">
+      API Docs
+    </router-link>
+    <UsersAuth />
+    <div class="mobile right-align">
       <button @click="menu">
-        <i class="material-icons-outlined">{{ isActive ? 'close' : 'menu'}}</i>
+        <i class="material-icons-outlined">{{ isActive ? 'close' : 'menu' }}</i>
       </button>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -43,109 +52,123 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  header {
+    box-shadow: var(--elevate2);
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    border: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 0;
+  }
+
+  img {
+    max-height: 6vh;
+  }
   .home {
     background-color: #1a1a1a;
+
     justify-content: space-around;
     padding: 0 30px;
+
     z-index: 98;
 
-    a, button, img {
-      padding: 0 20px;
-      margin: 5px;
-      font-weight: 500;
+    button, img {
       font-size: 16px;
-    }
-    a {
-      color: #626161;
       font-weight: 500;
-      width: fit-content;
-      &:focus, &:focus-within, &:hover, &.router-link-active {
-        color: #fefefe;
-      }
 
-      &.profile {
-        margin: auto;
-        padding: 0;
-        font-size: var(--default-font-size);
-      }
+      margin: 10px;
+      padding: 0 20px;
     }
+
+    .link {
+      padding: 0 10px;
+    }
+
     button {
       background-color: transparent;
+      color: var(--primary-highlight-color);
+
       border-radius: 0;
-      border: 1px solid #626161;
-      color: #626161;
-      &:focus, &:hover, &.router-link-active {
-        color: #fefefe;
+      border: 1px solid var(--primary-highlight-color);
+      &:focus, &:hover {
         background: transparent;
-        border: 1px solid #fefefe;
+        color: var(--additional-highlight-color);
+
+        border: 1px solid var(--additional-highlight-color);
+
         &::after {
           background: transparent;
         }
       }
     }
+
+    .mobile button {
+      border: none;
+
+      &:focus, &:hover {
+        border: none;
+      }
+    }
   }
+
   .logo {
     height: 70%;
   }
+
   .navigation {
     z-index: 98;
   }
+
   .mobile {
     background-color: #1a1a1a;
+
     justify-content: space-around;
-    padding: 0;
     margin: 0;
-    z-index: 98;
+    padding: 0;
     right: 0;
-    button {
-      border: none;
-      &:focus, &:hover, &.router-link-active {
-        color: #fefefe;
-        border: none;
-        background: transparent;
-        &::after {
-          background: transparent;
-        }
-      }
-    }
+
+    z-index: 98;
   }
+
   @media screen and (orientation: portrait) {
     .home {
-      z-index: 700;
       padding: 0 8rem;
+
+      z-index: 700;
+
       button, img {
         padding: 0;
       }
     }
+
     .logo {
       z-index: 800;
     }
+
     .navigation {
-      visibility: hidden;
-
-      display: flex;
-      flex-direction: column;
-
-      position: fixed;
-      bottom: 0;
+      background-color: var(--primary-dark-color);
       height: 100vh;
       width: 100vw;
 
-      background-color: #1c1c1c;
-
-      a {
-        width: auto;
-        max-width: 100%;
-        justify-content: flex-end;
-
-        font-size: 2em;
-        text-align: left;
-        padding: 0 10rem 0 10rem;
-      }
-      a:first-child {
-        margin-top: 10vh;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      visibility: hidden;
+      padding-top: 10vh;
+      .link {
+        font-size: 16rem;
+        text-transform: uppercase;
+        text-decoration: underline;
+        padding-top: 16rem;
       }
     }
+
     .navigation.active {
       visibility: visible;
     }

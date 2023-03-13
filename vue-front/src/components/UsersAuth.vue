@@ -1,46 +1,50 @@
 <template>
-  <Modal v-if="!user" title="Sign In" titleClasses="large-width add-user">
+  <Modal v-if="!user" title="Sign In" title-classes="large-width add-user">
     <template #button>
-      <button class="login">Sign in</button>
+      <button class="login">
+        Sign in
+      </button>
     </template>
 
     <template #default="parrent">
       <form @submit.prevent="handler(parrent.close)">
         <FormInput
+          v-model="credentials.login"
+
           autocomplete="username"
           name="login"
           placeholder="Login"
           type="text"
-
-          v-model="credentials.login"
           required
         />
         <FormInput
+          v-model="credentials.password"
+
           autocomplete="current-password"
           name="password"
           placeholder="Password"
           type="password"
-
-          v-model="credentials.password"
           required
         />
-        <FormButton title="Enter" icon="login" type="submit" @click="handler(parrent.close)"/>
+        <FormButton title="Enter" icon="login" type="submit" />
       </form>
     </template>
   </Modal>
   <div v-else class="profile">
-    <Modal title="Are you sure?" titleClasses="large-width add-user">
+    <Modal title="Are you sure?" title-classes="large-width add-user">
       <template #button>
-        <button class="transparent-border"><i class="material-icons">logout</i></button>
+        <button class="transparent-border">
+          <i class="material-icons">logout</i>
+        </button>
       </template>
 
       <template #default="parrent">
-        <div class="row no-wrap logout">
-          <div class="col">
-            <FormButton title="Yes" @click="ok(parrent.close)"/>
+        <div class="grid logout">
+          <div class="col s6">
+            <FormButton title="Yes" @click="ok(parrent.close)" />
           </div>
-          <div class="col">
-            <FormButton title="No" @click="parrent.close"/>
+          <div class="col s6">
+            <FormButton title="No" @click="parrent.close" />
           </div>
         </div>
       </template>
@@ -89,43 +93,44 @@ export default {
 <style lang="scss" scoped>
   button {
     background-color: transparent;
-    color: #626161;
+    color: var(--primary-highlight-color);
 
-    padding: 0 20px;
-    margin: 5px;
-    font-weight: 500;
     font-size: 16px;
+    font-weight: 500;
+
+    margin: 5px;
+    padding: 0 20px;
 
     z-index: 1;
 
     &:focus, &:hover {
-      color: #fefefe;
       background: transparent;
+      color: var(--additional-highlight-color);
+
       &::after {
         background: transparent;
       }
     }
+
     i {
       font-size: 16px;
     }
   }
+
   .profile {
     display: flex;
-
-    p {
-      z-index: 1;
-      color: white;
-      margin: auto;
-    }
   }
+
   .logout .button>:not(.dropdown,.badge) {
     margin-left: 0;
   }
+
   .login {
-    border: 1px solid #626161;
     border-radius: 0;
+    border: 1px solid var(--primary-highlight-color);
+
     &:focus, &:hover {
-      border: 1px solid #fefefe;
+      border: 1px solid var(--additional-highlight-color);
     }
   }
 </style>

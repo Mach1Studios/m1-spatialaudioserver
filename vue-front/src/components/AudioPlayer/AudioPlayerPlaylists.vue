@@ -1,43 +1,37 @@
 <template>
-  <div id="Playlist">
-    <div v-if="controls" class="playlist-mdl-btn">
-      <Modal
-        title="Add new playlist"
-        icon="add"
-        position="center"
-        buttonClasses="small responsive upper round grey3"
-        padding="medium-margin"
-      >
-        <PlaylistForm
-          title="Create new playlist"
-          icon="add"
-          :action="create"
-        />
-      </Modal>
-    </div>
-    <div class="playlists-items flex-item scroll">
+  <div id="Playlist" class="flex-item scroll">
+    <div class="playlists-items">
       <div v-for="item in playlists" :key="item">
         <transition name="fade">
-          <div class="playlist">
-            <div class="playlist-header">
-              <div class="row">
-                <div class="col">
-                  <img src="../../assets/playlist.svg" class="circle large">
+          <div class="playlist flex-item">
+            <article class="playlist-header no-round">
+              <div class="grid middle-align">
+                <div class="col s12 m2 l2" @click="show = (show === item.id) ? show = false : show = item.id">
+                  <div class="grid">
+                    <div class="col s2">
+                      <img src="../../assets/playlist3.svg" class="playlist-img">
+                    </div>
+                    <div class="col s10">
+                      <h6 class="bold no-margin white-text top-align">
+                        {{ item.name }}
+                      </h6>
+                      <div>
+                        <p class="no-margin small-text left-align">Last upload: music.wav</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col s7 m5 l6" @click="show = (show === item.id) ? show = false : show = item.id">
-                  <h6 class="bold no-margin white-text">{{item.name}}</h6>
-                  <p>Last upload: music.wav</p>
-                </div>
-                <div class="col">
-                  <nav v-if="controls" class="right-align">
+
+                <div v-if="controls" class="col s12 m10 l10 absolute right">
+                  <nav class="no-space">
                     <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
-                      <i class="material-icons">{{item.visibility ? 'visibility' : 'visibility_off'}}</i>
+                      <i class="material-icons">{{ item.visibility ? 'visibility' : 'visibility_off' }}</i>
                     </button>
                     <Modal
                       title="Rename playlist"
                       button=" "
                       icon="edit"
-                      position="center"
+                      position="medium"
                       padding="no-padding"
                     >
                       <PlaylistForm
@@ -51,11 +45,11 @@
                     <Modal
                       title="Invite user(s) in playlist"
                       icon="share"
-                      position="center"
+                      position="medium"
                       padding="no-padding"
                       button=" "
                     >
-                      <PlaylistInviteForm path="permissions" :playlist="item" :items="users"/>
+                      <PlaylistInviteForm path="permissions" :playlist="item" :items="users" />
                     </Modal>
                     <button class="border round transparent-border" @click="remove(item)">
                       <i class="material-icons">delete</i>
@@ -63,26 +57,47 @@
                   </nav>
                 </div>
               </div>
-            </div>
-            <div v-show="show === item.id" class="playlist-list">
-              <Modal
-                title="Add track(s) in playlist"
-                icon="add"
-                buttonClasses="small responsive round upper grey3 small-margin"
-                position="center"
-                v-if="controls"
-                :key="item.id"
-              >
-              <div id="Add-tracks">
-                <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks"/>
+            </article>
+            <article v-show="show === item.id" class="playlist-list no-padding no-round">
+              <div class="grid">
+                <div class="col s12">
+                  <Modal
+                    v-if="controls"
+                    :key="item.id"
+                    title="Add track(s) in playlist"
+                    icon="add"
+                    button-classes="small responsive upper transparent special-mdl-btn small-margin"
+                    position="center medium"
+                  >
+                    <div id="Add-tracks">
+                      <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks" />
+                    </div>
+                  </Modal>
+                </div>
+                <div class="col s12 no-padding no-margin">
+                  <FileList :user="true" :playlist="item" class="no-scroll playlist-filelist" />
+                </div>
               </div>
-              </Modal>
-              <FileList :user="true" :playlist="item" class="no-scroll small-padding"/>
-            </div>
+            </article>
           </div>
         </transition>
       </div>
     </div>
+  </div>
+  <div v-if="controls" class="playlist-add-btn">
+    <Modal
+      title="Add new playlist"
+      icon="add"
+      position="center medium"
+      button-classes="small responsive upper round grey3"
+      padding="newplaylist"
+    >
+      <PlaylistForm
+        title="Create new playlist"
+        icon="add"
+        :action="create"
+      />
+    </Modal>
   </div>
 </template>
 
@@ -95,8 +110,8 @@ import PlaylistForm from '../PlaylistForm.vue';
 import PlaylistInviteForm from '../PlaylistInviteForm.vue';
 
 export default {
-  name: 'AudioPlayerPlaylists',
   el: '#Playlist',
+  name: 'AudioPlayerPlaylists',
   components: {
     FileList,
     Modal,
@@ -122,122 +137,138 @@ export default {
     this.$store.dispatch('playlists/getAll');
     this.$store.dispatch('tracks/getAll');
   },
+  updated() {
+    this.$store.dispatch('playlists/update');
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+  #Playlist {
+    max-height: calc(90vh - var(--height) - 50px - 12em);
+  }
+
   .flex-item {
-    &::-webkit-scrollbar-track
-    {
+    // scrollbar-color: var(--primary-color);
+
+    &::-webkit-scrollbar-track {
       border-radius: 3rem;
-      background-color: #323237;
+      background-color: var(--secondary-color);
     }
 
-    &::-webkit-scrollbar
-    {
+    &::-webkit-scrollbar {
       width: 5rem;
       border-radius: 3rem;
-      background-color: #323237;
+      background-color: var(--secondary-color);
     }
 
-    &::-webkit-scrollbar-thumb
-    {
+    &::-webkit-scrollbar-thumb {
       border-radius: 3em;
-      background-color: #858585;
-    }
-    scrollbar-color: #858585 #323237;
-    scrollbar-width: auto;
-  }
-  .playlist {
-    // padding: 0 8rem 8rem 8rem;
-    margin: 0 8rem 8rem 8rem;
-
-    .playlist-header {
-      padding: 16rem 0 0 16rem;
-      background-color: #323237;
-      margin-bottom: 0;
-    }
-    i {
-      font-size: 16rem;
-      color: #4d4d4d;
-    }
-    p {
-      font-size: 14rem;
-      color: #72646f;
-
-      &:first-of-type {
-        margin-top: 1rem;
-      }
-    }
-    button.border::after {
-      background-image: none;
-    }
-    button:hover {
-      i {
-        font-size: 20rem;
-        color: #ffffff;
-      }
+      background-color: var(--primary-color);
     }
   }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-  }
-
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
-
-  .playlist-mdl-btn {
-    padding-bottom: 16rem;
-  }
-
-  .playlist-list {
-    margin-top: 0;
-    background-color: #232323;
-  }
   .playlists-items {
-    overflow-x: hidden;
+    width: 100%;
     height: auto;
-    // max-height: 57vh; // note important for playlist scroll
-    max-height: calc(100vh - 2 * var(--height) - 50px - 6em);
-    max-width: 100%;
 
     display: flex;
     flex-direction: column;
     align-content: space-between;
   }
 
+  .playlist {
+    overflow: hidden;
+    margin: 0 0 8rem 0;
+
+    border-bottom: 1rem solid var(--additional-dark-color);
+    box-shadow: 0 5px 5px -5px var(--additional-dark-color);
+
+    .playlist-header {
+      margin-bottom: 0;
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
+
+      cursor: pointer;
+
+      .playlist-img {
+        height: 50rem;
+      }
+    }
+
+    i {
+      font-size: 16rem;
+      color: var(--primary-highlight-color);
+    }
+
+    p {
+      color: var(--primary-accent-color);
+
+      &:first-of-type {
+        margin-top: 1rem;
+      }
+    }
+
+    button.border::after {
+      background-image: none;
+    }
+
+    button:hover {
+      i {
+        font-size: 20rem;
+        color: var(--secondary-highlight-color);
+      }
+    }
+  }
+
+  .playlist-list {
+    right: 0;
+    margin-top: 0;
+    padding-top: 0;
+
+    border-radius: 3rem;
+    border-top-left-radius: none;
+    border-top-right-radius: none;
+
+    background: var(--secondary-dark-color);
+
+    .playlist-filelist {
+      padding: 0 0 0 8rem;
+    }
+  }
+
+  .playlist-add-btn {
+    height: auto;
+    padding: 8rem 0 8rem 0;
+
+    background-color: var(--secondary-dark-color);
+  }
+
   @media screen and (orientation: portrait) {
     #Playlist {
-      .playlists-items {
-        max-height: calc(100vh - 2 * var(--height) - 50px - 8em);
-
-      }
-      // max-height: calc(100vh - var(--height) - 50px - 6em - 10vh);
+      max-height: calc(90vh - var(--height) - 50px - 10em + 6rem);
     }
+
+    .absolute {
+      position: relative;
+    }
+
+    nav {
+      margin-right: 0;
+      margin-left: 35rem;
+    }
+
     .playlist-header {
-      col {
-        display: inline-grid;
-      }
+      padding-left: 8rem;
+
       h6 {
         width: 100%;
-        word-break: break-all;
+        word-break: keep-all;
       }
+
       p {
         width: 100%;
         word-break: keep-all;
       }
     }
   }
-  // @media screen and (orientation: landscape) {
-  //   #Playlist {
-  //     .playlists-items {
-  //       max-height: calc((100vh - 2 * var(--height) - 50px - 10em - 10vh) / 1.4);
-  //     }
-  //     .playlist-mdl-btn {
-  //       padding: 0 0 0 8rem;
-  //     }
-  //   }
-  // }
 </style>

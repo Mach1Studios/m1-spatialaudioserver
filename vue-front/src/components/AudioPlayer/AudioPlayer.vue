@@ -1,23 +1,31 @@
 <template>
   <div class="player">
     <div class="top-align">
-      <progress name="progress" class="top" min="0" max="100" :value="playback" @click.prevent="playbackUpdate"></progress>
+      <progress
+        name="progress"
+        class="top"
+        min="0"
+        max="100"
+        :value="playback"
+        @click.prevent="playbackUpdate"
+      />
     </div>
-    <div class="music-box">
-      <audio ref="player"></audio>
+    <div class="player-box">
+      <audio ref="player" />
     </div>
     <div class="btn-box">
       <span class="absolute left">
-        <i class="material-icons play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{icon}}</i>
-        <span class="name">{{track.name}}</span>
+        <i class="material-icons fill play" :class="{ active: icon === 'pause_arrow' }" @click="play">{{ icon }}</i>
+        <span class="name">{{ track.name }}</span>
       </span>
       <span class="absolute right">
-        <span class="duration">{{currentTime}}</span>
+        <span class="duration">{{ currentTime }}</span>
         <span class="duration">/</span>
-        <span class="duration">{{duration}}</span>
+        <span class="duration">{{ duration }}</span>
         <i class="material-icons repeat" :class="{ 'on-repeat': isRepeat }" @click="repeat">repeat</i>
-        <span v-show="type !== 'static'" class="btn-flip" :class="skin" data-back="Local" data-front="Live"></span>
-        <span v-show="type === 'static'" class="btn-flip" :class="skin" data-back="Live" data-front="Local"></span>
+        <button class="btn-player small" @click="setAdapter(isActiveAdapter === 'hls' ? 'dash' : 'hls')">
+          <span>{{ isActiveAdapter }}</span>
+        </button>
       </span>
     </div>
   </div>
@@ -25,7 +33,7 @@
 
 <script>
 import { Duration } from 'luxon';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'AudioPlayer',
@@ -45,6 +53,20 @@ export default {
       playback: 0,
     };
   },
+  computed: mapState({
+    track: (state) => state.tracks.track,
+    type: (state) => state.stream.type,
+    isActiveStream: (state) => state.stream.isActiveStream,
+    isActiveAdapter: (state) => state.stream.adapter,
+
+    icon() {
+      return this.isPlay ? 'pause_arrow' : 'play_arrow';
+    },
+    // typeOfStream() {
+    //   return this.isPlay ? 'HLS' : 'DASH';
+    // },
+    // switchAdapter: (state) => state.stream.switchAdapter,
+  }),
   watch: {
     isActiveStream(value) {
       this.isPlay = value;
@@ -54,17 +76,10 @@ export default {
       }
     },
   },
-  computed: mapState({
-    track: (state) => state.tracks.track,
-    type: (state) => state.dash.type,
-    isActiveStream: (state) => state.dash.isActiveStream,
-    icon() {
-      return this.isPlay ? 'pause_arrow' : 'play_arrow';
-    },
-  }),
   methods: {
     ...mapActions('audio', ['updateSource']),
-    ...mapActions('dash', ['stop']),
+    ...mapActions('stream', ['stop']),
+    ...mapMutations('stream', ['setAdapter']),
 
     play() {
       if (!this.isActiveStream) return;
@@ -110,145 +125,141 @@ export default {
 
 <style lang="scss" scoped>
   .player {
-    height: 50px;
-    user-select: none;
     width: 100%;
+    height: 50px;
 
-    .music-box {
-      position: absolute;
-      left: 50%;
+    user-select: none;
+
+    progress {
+      width: 100%;
+
+      cursor: pointer;
+
+      &[value] {
+        height: 5px;
+
+        cursor: pointer;
+
+        appearance: none;
+        -webkit-appearance: none;
+
+        border: none;
+
+        color: var(--primary-accent-color);
+        background-color: var(--secondary-color);
+      }
+
+      &[value]::-webkit-progress-bar {
+        color: var(--primary-accent-color);
+        background-color: var(--secondary-color);
+      }
+
+      &::-webkit-progress-value {
+        background-color: var(--primary-accent-color);
+      }
+
+      &[value]::-moz-progress-bar {
+        background-color: var(--primary-accent-color);
+      }
+    }
+
+    .player-box {
       top: 5px;
+      left: 50%;
+
+      position: absolute;
       transform: translateX(-50%);
     }
+
     .btn-box {
-      position: absolute;
       top: 20px;
       width: 100%;
+
       display: flex;
       justify-content: center;
+      position: absolute;
+
+      .name {
+        margin-left: 10px;
+        color: var(--additional-light-color);
+      }
+
+      .btn-player {
+        top: 0;
+        left: 0;
+
+        width: 30rem;
+
+        padding: 0 30px;
+        border-radius: 0;
+
+        font-weight: 600;
+        line-height: 25px;
+
+        position: relative;
+
+        letter-spacing: 2rem;
+        text-transform: uppercase;
+
+        background-color: transparent;
+        color: var(--primary-accent-color);
+
+        font-size: var(--default-font-size);
+        border: 1px solid var(--secondary-accent-color);
+      }
+
+      .btn-player:hover:before {
+        top: 0%;
+        bottom: auto;
+        height: 100%;
+      }
+      .btn-player:before {
+        left: 0px;
+        bottom: 0px;
+        height: 0px;
+        width: 100%;
+        z-index: -1;
+
+        content: '';
+
+        display: block;
+        position: absolute;
+
+        background: var(--secondary-accent-color);
+        transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+      }
+      button.btn-player::after {
+        background-image: none;
+      }
+
+      span {
+        vertical-align: middle;
+      }
+
       i {
         font-size: 24px;
-        color: #72646f;
+
         cursor: pointer;
+
+        color: var(--primary-accent-color);
       }
-      i.active {
-        color: #D36646;
+
+      i.active, i.on-repeat {
+        color: var(--secondary-accent-color);
       }
+
       i.repeat {
         margin-right: 10px;
       }
-      i.on-repeat {
-        color: #D36646;
-      }
+
       .duration {
         font-size: 12px;
-        color: #72646f;
         margin-right: 10px;
+        color: var(--primary-accent-color);
       }
     }
   }
-  progress {
-    width: 100%;
-    cursor: pointer;
 
-    &[value] {
-      -webkit-appearance: none;
-      appearance: none;
-      background-color: #323237;
-      color: #72646f;
-      height: 5px;
-      cursor: pointer;
-    }
-    &[value]::-webkit-progress-bar {
-      background-color: #323237;
-      color: #72646f;
-    }
-    &::-webkit-progress-value {
-      background-color: #72646f;
-    }
-    &[value]::-moz-progress-bar {
-      background-color: #72646f;
-    }
-  }
-
-  .btn-flip {
-    opacity: 1;
-    outline: 0;
-    line-height: 25px;
-    position: relative;
-    text-align: center;
-    letter-spacing: 1px;
-    display: inline-block;
-    text-decoration: none;
-    font-family: 'Open Sans';
-    text-transform: uppercase;
-
-    cursor: pointer;
-
-    &:hover {
-      &:after {
-        opacity: 1;
-        transform: translateY(0) rotateX(0);
-      }
-
-      &:before {
-        opacity: 0;
-        transform: translateY(-50%) rotateX(-90deg);
-      }
-    }
-
-    &:after {
-      top: 0;
-      left: 0;
-      opacity: 0;
-      width: 100%;
-      display: block;
-      transition: 0.5s;
-      position: absolute;
-      content: attr(data-back);
-      transform: translateY(50%) rotateX(-90deg);
-    }
-
-    &:before {
-      top: 0;
-      left: 0;
-      opacity: 1;
-      display: block;
-      padding: 0 30px;
-      line-height: 25px;
-      transition: 0.5s;
-      position: relative;
-      content: attr(data-front);
-      transform: translateY(0) rotateX(0);
-      border: 1px solid #D36646;
-      box-shadow: 0 0 5px #D36646, 0 0 5px #D36646 inset;
-    }
-  }
-
-  .dark {
-    &:before {
-      background: #323237;
-      color: #adadaf;
-    }
-    &:after {
-      background: #adadaf;
-      color: #323237;
-    }
-  }
-  .light {
-    &:before {
-      background: #f5e6d7;
-      color: #72646f;
-    }
-    &:after {
-      background: #72646f;
-      color: #f5e6d7;
-    }
-  }
-  .name {
-    color: #adadaf;
-    margin-left: 10px;
-  }
   @media screen and (orientation: portrait) {
     span .name {
       display: none;

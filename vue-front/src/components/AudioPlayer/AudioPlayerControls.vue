@@ -1,41 +1,59 @@
 <template>
-  <div class="card round" v-show="isActiveStream === true" id="Controls">
-    <div class="preview">
-      <h4 class="title large-text">AUDIO PREVIEW</h4>
-      <div class="channel-controls flex-item scroll">
-        <div class="row middle-align responsive" v-for="channel in channels" :key="channel">
-          <div class="channel-name">
-            <p class="small-text upper white-text" style="white-space:nowrap">Channel {{channel + 1}}</p>
-          </div>
-          <div class="channel-wave">
-            <AudioPlayerSineWave :channel="channel" :lineColor="lineColors[channel]"/>
-          </div>
-          <div class="controls">
-            <div class="volume-control middle-align">
-              <div>
-                <i class="material-icons small" @click="mute(channel)">
-                  {{channelsMuted[channel] ? 'volume_off' : 'volume_up'}}
-                </i>
-              </div>
-              <div class="channel">
-                <input step="0.01" min="0" max="1" type="range" v-model="channelsVolume[channel]" @change="changeVolume(channel, $event.target.value)">
-              </div>
+  <div v-show="isActiveStream === true" id="Controls">
+    <article class="round">
+      <div class="preview">
+        <h4 class="title large-text">
+          AUDIO PREVIEW
+        </h4>
+        <div class="channel flex-item scroll">
+          <div v-for="channel in channels" :key="channel" class="grid middle-align">
+            <div class="col s1 channel-number">
+              <p class="small-text upper white-text" style="white-space:nowrap">Channel {{ channel + 1 }}</p>
             </div>
-            <div class="position-control middle-align">
-              <div>
-                <p>L</p>
+            <div class="col s4 channel-wave">
+              <AudioPlayerSineWave :channel="channel" :line-color="lineColors[channel]" />
+            </div>
+            <div class="col s7 channel-controls">
+              <div class="volume-control middle-align">
+                <div>
+                  <i class="material-icons fill small" @click="mute(channel)">
+                    {{ channelsMuted[channel] ? 'volume_off' : 'volume_up' }}
+                  </i>
+                </div>
+                <div class="controller">
+                  <input
+                    v-model="channelsVolume[channel]"
+                    step="0.01"
+                    min="0"
+                    max="1"
+                    type="range"
+                    @change="changeVolume(channel, $event.target.value)"
+                  >
+                </div>
               </div>
-              <div class="channel">
-                <input step="1" min="-1" max="1" type="range" value="0" @change="changePosition(channel, $event.target.value)">
-              </div>
-              <div>
-                <p>R</p>
+              <div class="position-control middle-align">
+                <div>
+                  <p>L</p>
+                </div>
+                <div class="controller">
+                  <input
+                    step="1"
+                    min="-1"
+                    max="1"
+                    type="range"
+                    value="0"
+                    @change="changePosition(channel, $event.target.value)"
+                  >
+                </div>
+                <div>
+                  <p>R</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </article>
   </div>
 </template>
 
@@ -76,7 +94,7 @@ export default {
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
-    ...mapState('dash', ['player', 'isActiveStream']),
+    ...mapState('stream', ['player', 'isActiveStream']),
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
@@ -110,13 +128,14 @@ export default {
       this.changeVolume(channel, this.channelsMuted[channel] ? this.defaultVolume : 0);
     },
     async init() {
+      // console.log(this.isActiveStream, this.isActiveChannels);
       if (this.isActiveStream && this.isActiveChannels) {
         _.each(this.channels, (channel, index) => {
           this.channelsVolume[index] = this.defaultVolume;
         });
         return this.createGainNodes(this.defaultVolume);
       }
-      await wait(2);
+      await wait(0.5);
       return this.init();
     },
   },
@@ -132,73 +151,104 @@ export default {
   $input-bg-c: #c3b7b7;
   $input-bg-ct: rgba($input-bg-c, 0);
 
-  $ruler-line-w: .0625em;
   $ruler-line-h: .425em;
-  $ruler-line-off: ($input-bw - $ruler-line-h)/2;
-  $ruler-line-c: #c5b9b9;
+  $ruler-line-w: .0625em;
+  $ruler-line-off: calc(($input-bw - $ruler-line-h) / 2);
+
   $ruler-fs: .75;
+  $ruler-line-c: #c5b9b9;
 
   $track-u: 2em;
   $track-k: 8em;
-  $track-xtra: 0.5em;
-  $track-w: $track-k + $track-xtra*3;
   $track-h: .15em;
+  $track-xtra: 0.5em;
+  $track-w: $track-k + $track-xtra * 3;
 
   $thumb-w: 2em;
   $thumb-h: 1em;
   $thumb-r: .375em;
 
-  .preview {
-    .title {
-      font-style: normal;
-      font-size: 18rem;
-      color: #ffffff;
-      margin-top: 8rem;
-      margin-bottom: 8rem;
-      padding-bottom: 8rem;
+  .flex-item {
+    scrollbar-color: var(--primary-color) var(--secondary-color);
 
-      line-height: 1.17;
-      letter-spacing: -0.5px;
+    &::-webkit-scrollbar-track {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
     }
-    i {
-      cursor: pointer;
-      color: #4d4d4d;
+
+    &::-webkit-scrollbar {
+      background-color: var(--secondary-color);
+      border-radius: 3rem;
+      width: 5rem;
     }
-    p {
-      color: #4d4d4d;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 3em;
     }
   }
 
-  .channel-controls  {
-    scrollbar-color: #858585 #323237;
+  .preview {
+    .title {
+      color: var(--secondary-highlight-color);
+      letter-spacing: -0.5px;
+      font-style: normal;
+      line-height: 1.17;
+      font-size: 18rem;
+
+      padding-bottom: 8rem;
+      margin-bottom: 8rem;
+      margin-top: 8rem;
+    }
+
+    i {
+      color: var(--secondary);
+
+      cursor: pointer;
+    }
+
+    p {
+      color: var(--secondary);
+    }
+  }
+
+  article {
+    background-color: var(--secondary-dark-color);
+  }
+
+  .channel {
+    align-content: space-between;
+    flex-direction: column;
+    display: flex;
+
+    scrollbar-color: var(--primary-color) var(--secondary-color);
     overflow-x: hidden;
 
     height: auto;
-    max-height: 64vh; // note important for playlist scroll
     max-width: 100%;
+    max-height: 65vh;
 
     padding-bottom: 16rem;
 
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-
-    .row {
+    .grid {
       display: flex;
       justify-content: flex-start;
-      .channel-name {
+
+      .channel-number {
         order: 1;
       }
-      .channel-wave {
-        order: 2;
-        margin-left: 40rem;
-      }
-      .controls {
-        order: 4;
-        margin-left: 40rem;
 
+      .channel-wave {
+        margin-left: 40rem;
+        order: 2;
+      }
+      .channel-controls {
         display: flex;
+        grid-gap: inherit;
         flex-direction: row;
+
+        margin-left: 40rem;
+        order: 4;
 
         .volume-control {
           i {
@@ -215,94 +265,109 @@ export default {
       }
     }
 
-    &::-webkit-scrollbar-track
-    {
+    &::-webkit-scrollbar-track {
       border-radius: 3rem;
-      background-color: #323237;
+      background-color: var(--secondary-color);
     }
 
-    &::-webkit-scrollbar
-    {
+    &::-webkit-scrollbar {
       width: 5rem;
+
       border-radius: 3rem;
-      background-color: #323237;
+      background-color: var(--secondary-color);
     }
 
-    &::-webkit-scrollbar-thumb
-    {
+    &::-webkit-scrollbar-thumb {
       border-radius: 3em;
-      background-color: #858585;
+      background-color: var(--primary-color);
     }
   }
 
   @mixin track() {
-    width: $track-w; height: $track-h;
+    background-color: var(--primary-color);
     border-radius: .1875em;
-    background-color: #858585;
+
+    height: $track-h;
+    width: $track-w;
   }
   @mixin thumb() {
-    border: none;
-    width: $thumb-w; height: $thumb-h;
+    height: $thumb-h;
+    width: $thumb-w;
+
     border-radius: .5em;
+    border: none;
+
     box-shadow:
-       -.125em 0 .25em #252526,
-      inset -1px 0 1px #fff;
+       -.125em 0 .25em var(--secondary-dark-color),
+      inset -1px 0 1px var(--secondary-highlight-color);
+
     background:
       radial-gradient(#{at 100% 50%}, #d0cfcf, #d0cfcf 71%, transparent 71%)
-        no-repeat ($thumb-w - 2*$thumb-r) 50%,
+        no-repeat ($thumb-w - 2 * $thumb-r) 50%,
       linear-gradient(90deg, #d0cfcf, #d0d0d0) no-repeat 100% 50%,
       radial-gradient(#{at 0 50%}, #d0cfcf, #c3c3c3 71%, transparent 71%)
         no-repeat $thumb-r 50%,
       linear-gradient(90deg, #e2e2e2, #d0cfcf) no-repeat 0 50%,
       linear-gradient(#d2d2d2, #f9f9f9, #d0cfcf, #d2d2d2);
-    background-size: 1.1*$thumb-r 100%;
+    background-size: 1.1 * $thumb-r 100%;
   }
 
-  .channel input[type='range']{
+  .controller input[type='range'] {
     background-color: transparent;
     margin: 0;
+
     &,
     &::-webkit-slider-runnable-track,
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
     }
 
-    width: $input-bw*20;
     height: $input-h;
+    width: $input-bw * 20;
 
     &::-webkit-slider-runnable-track {
-      position: relative;
       @include track();
+      position: relative;
     }
+
     &::-moz-range-track {
       @include track();
     }
+
     &::-ms-track {
-      border: none;
       @include track();
+      border: none;
       color: transparent;
     }
 
-    &::-ms-fill-lower { display: none; }
+    &::-ms-fill-lower {
+      display: none;
+    }
 
     &::-webkit-slider-thumb {
-      margin-top: ($track-h - $thumb-h)/2;
       @include thumb();
+      margin-top: calc(($track-h - $thumb-h) / 2);
     }
+
     &::-moz-range-thumb {
       @include thumb();
     }
+
     &::-ms-thumb {
       @include thumb();
     }
-    &::-webkit-slider-runnable-track, /deep/ #track {
+
+    &::-webkit-slider-runnable-track, ::v-deep(#track) {
       &:before, &:after {
         position: relative;
       }
+
       &:before {
-        top: 50%; right: 100%;
+        right: 100%;
+        top: 50%;
         transform: translate(50%, -50%) rotate(90deg) translate(0, 32%);
       }
+
       &:after {
         left: 50%;
         width: 3em;
@@ -310,86 +375,36 @@ export default {
     }
   }
 
-  .flex-item {
-    &::-webkit-scrollbar-track
-    {
-      border-radius: 3rem;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar
-    {
-      width: 5rem;
-      border-radius: 3rem;
-      background-color: #323237;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
-      border-radius: 3em;
-      background-color: #858585;
-    }
-    scrollbar-color: #858585 #323237;
-  }
-
   @media screen and (orientation: portrait) {
     #Controls {
-      .channel-controls {
+      .channel {
         max-height: calc(100vh - var(--height) - 50px - 12em);
       }
-      .channel-controls .row {
+
+      .channel .grid {
         flex-direction: row;
         flex-flow: row wrap;
 
-        .controls {
-          flex-basis: 100%;
+        .channel-wave {
+          margin-left: 0;
+        }
+
+        .channel-controls {
           margin-left: 0;
 
+          .volume-control i {
+            margin: 0;
+          }
+
           .position-control {
-            margin-left: 5rem;
+            margin-left: 0rem;
 
             p {
              margin: 0;
             }
           }
-          .volume-control i {
-            margin: 0;
-          }
-        }
-        .channel-wave {
-          margin-left: 0;
-          flex-basis: 100%;
         }
       }
     }
   }
-  // @media screen and (orientation: landscape) {
-  //   #Controls {
-  //     .controls {
-  //       max-height: calc((100vh - var(--height) - 50px - 12em) / 1.4);
-  //     }
-  //     .controls .row {
-  //       flex-direction: row;
-  //       flex-flow: row wrap;
-  //       .third {
-  //         .third-2 {
-  //           margin-left: 5rem;
-  //         }
-  //         .third-2 p {
-  //          margin: 0;
-  //         }
-  //         .third-1 i {
-  //           margin: 0;
-  //         }
-  //       }
-  //       .first {
-  //         margin-left: 0;
-  //         flex-basis: 100%;
-  //       }
-  //       .second {
-  //         margin-left: 0;
-  //       }
-  //     }
-  //   }
-  // }
 </style>

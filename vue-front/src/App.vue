@@ -1,15 +1,15 @@
 <template>
-  <Header id="app-header"/>
+  <Header id="app-header" />
   <router-view id="app-router" v-slot="{ Component, route }">
     <transition :name="route.meta.transition || 'slide-left'">
-      <component :is="Component"/>
+      <component :is="Component" />
     </transition>
   </router-view>
-  <Notifications/>
+  <Notifications />
   <Preloader
     :title="loader.title"
     :description="loader.description"
-    :isLoading="loader.isLoading"
+    :is-loading="loader.isLoading"
   />
 </template>
 
@@ -28,26 +28,24 @@ export default {
 
 <style lang="scss">
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+
+    background-color: var(--primary-dark-color);
+
+    font-family: Avenir, Helvetica, Arial, sans-serif;
     text-align: center;
-    // color: #2c3e50;
 
-    // max-height: 100vh;
     min-height: 100vh;
-    background-color: #1c1c1c;
-
     position: static;
+
   }
 
   #app-header {
     max-height: 10vh;
   }
-  //
+
   #app-router {
-    // max-height: 90vh;
-    // position: static;
     overflow: hidden;
   }
 
@@ -58,40 +56,54 @@ export default {
   :root {
     --default-font-size: 14px;
     --height: 10vh;
+
+    --primary-dark-color: #1c1c1c;
+    --secondary-dark-color: #252526;
+    --additional-dark-color: #212121;
+
+    --primary: #e0e0e0;
+    --secondary: #4d4d4d;
+    --additional: #000000;
+
+    --primary-accent-color: #72646f;
+    --secondary-accent-color: #ffff00;
+    --additional-accent-color: #55555c;
+
+    --primary-highlight-color: #626161;
+    --secondary-highlight-color: #ffffff;
+    --additional-highlight-color: #fefefe;
+
+    --primary-light-color: #e0e0e0;
+    --secondary-light-color: #eaeaea;
+    --additional-light-color: #faebd7;
+
+    --primary-color: #858585;
+    --secondary-color: #323237;
+    --additional-color: #b1b1b1;
   }
 
   * {
     font-size: var(--default-font-size);
-    width: auto;
+
     height: auto;
-    // position: static;
-    // max-height: inherit;
+    width: auto;
+    border-radius: 0;
   }
-  html, body {
-    // position: static;
-    // height: 100vh;
-    // max-height: 100vh;
-  }
+
   body {
-    // max-height: 100vh;
-    // position: static;
-    // display: grid;
     overflow: hidden;
   }
+
   .slide-left-enter-active {
     transition: all 0.3s ease-out;
   }
 
-  .slide-left-leave-active {
-    // transition: all 0.3s ease;
-    // transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-
   .slide-left-enter-from,
   .slide-left-leave-to {
-    transform: translateX(100px);
     opacity: 0;
+    transform: translateX(100px);
   }
+
   @media screen and (orientation: portrait) {
     body {
       overflow-y: scroll;

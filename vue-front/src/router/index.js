@@ -34,6 +34,12 @@ const routes = [
     component: () => import('../views/ProfileSettings.vue'),
     meta: { transition: 'slide-left' },
   },
+  {
+    path: '/documentation',
+    name: 'Documentation',
+    component: () => import('../views/Documentation.vue'),
+    meta: { transition: 'slide-left' },
+  },
 ];
 
 const router = createRouter({

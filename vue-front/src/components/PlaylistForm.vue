@@ -1,8 +1,8 @@
 <template>
-  <div class="playlist-form large-width">
-    <FormInput name="name" placeholder="Name" type="text" v-model="item.name" @keyup.enter="click"/>
+  <div class="playlist-form">
+    <FormInput v-model="item.name" name="name" placeholder="Name" type="text" @keyup.enter="click" />
     <div>
-      <FormButton :icon="icon" :title="title" @click="click"/>
+      <FormButton :icon="icon" :title="title" @click="click" />
     </div>
   </div>
 </template>
@@ -13,6 +13,10 @@ import FormInput from './Form/Input.vue';
 
 export default {
   name: 'PlaylistForm',
+  components: {
+    FormButton,
+    FormInput,
+  },
   props: {
     id: String,
     name: String,
@@ -20,10 +24,6 @@ export default {
     icon: String,
 
     action: Function,
-  },
-  components: {
-    FormButton,
-    FormInput,
   },
   data() {
     return {
@@ -56,42 +56,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-  .playlist-form {
-    .title {
-      font-style: normal;
-      font-weight: bold;
-
-      line-height: 1.17;
-      letter-spacing: -0.5px;
-      text-transform: uppercase;
-    }
-    i {
-      font-size: 16px;
-      color: #4d4d4d;
-    }
-    input {
-      &:focus {
-        border-color: #1c1c1c;
-      }
-    }
-    select{
-      &:focus {
-        border-bottom: 2rem solid #1c1c1c;
-      }
-    }
-    span {
-      color: #1c1c1c;
-    }
-    i {
-      font-size: 16px;
-      color: #4d4d4d;
-    }
-    button {
-      width: 100%;
-      padding: 0;
-      margin: 16rem 0 16rem 0;
-    }
-  }
-</style>

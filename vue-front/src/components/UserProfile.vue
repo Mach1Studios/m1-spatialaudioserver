@@ -1,10 +1,14 @@
 <template>
   <div>
     <form class="user-profile">
-      <h4 class="title large-text upper">User name</h4>
-      <FormInput name="nickname" placeholder="Nickname" type="text" v-model="user.nickname"/>
-      <FormButton title="change username" icon="check" @click="click"/>
-      <h4 class="title large-text upper">Change password</h4>
+      <h4 class="title large-text upper">
+        User name
+      </h4>
+      <FormInput v-model="user.nickname" name="nickname" placeholder="Nickname" type="text" />
+      <FormButton title="change username" icon="check" @click="click" />
+      <h4 class="title large-text upper">
+        Change password
+      </h4>
       <FormInput
         v-if="!user.id"
         v-model="user.password"
@@ -32,7 +36,7 @@
         placeholder="Repeat new password"
         type="password"
       />
-      <FormButton title="change password" icon="check" @click="click"/>
+      <FormButton title="change password" icon="check" @click="click" />
     </form>
   </div>
 </template>
@@ -78,6 +82,6 @@ export default {
 
 <style lang="scss" scoped>
   h4 {
-    color: #ffffff;
+    color: var(--secondary-highlight-color);
   }
 </style>

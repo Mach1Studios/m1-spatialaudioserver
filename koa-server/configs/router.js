@@ -24,6 +24,8 @@ router
 router
   .get('/playlists', playlists.list)
   .post('/playlists', auth.validate, playlists.create)
+  .get('/playlists/getByType', playlists.getByType)
+  .get('/playlists/:id', auth.validate, playlists.get)
   .put('/playlists/:id', auth.validate, playlists.update)
   .del('/playlists/:id', auth.validate, playlists.remove);
 

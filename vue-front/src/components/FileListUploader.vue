@@ -1,123 +1,145 @@
 <template>
   <div class="file-uploader">
-    <div class="card round flat grey4">
-      <button class="button small no-margin responsive round grey3">
-          <input type="file" name="resume" @change="changeFile" multiple>
-          <i class="material-icons-outlined">audiotrack</i>
-          <span class="small-text upper">Select Audio Track</span>
-      </button>
-      <div v-show="validated">
-        <details>
-          <summary class="card flat transparent">
-            <div class="row no-wrap middle-align">
-              <div class="col min">
-                <i class="material-icons-outlined">settings_suggest</i>
-              </div>
-              <div class="col">
-                <div>Settings</div>
-                <div class="small-text">set default input and output formats options</div>
+    <button class="button small no-margin responsive round grey3 btn-uploader">
+      <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standart'">
+      <i class="material-icons-outlined">audiotrack</i>
+      <span class="small-text upper">Select Audio Track</span>
+    </button>
+    <details v-if="typeOfFiles === 'standart'">
+      <summary>
+        <article class="transparent no-padding">
+          <div class="grid row middle-align settings">
+            <div class="col">
+              <i class="material-icons-outlined large">settings_suggest</i>
+            </div>
+            <div class="col">
+              <h4 class="bold">
+                Settings
+              </h4>
+              <div class="small-text">
+                <span>set default input and output formats options</span>
               </div>
             </div>
-          </summary>
-          <div class="card flat transparent">
-            <FormSelect name="" placeholder="SELECT INPUT FORMAT" style="color: #1c1c1c;" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-            <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-            <button class="button small responsive round grey3" @change="switchdefaultInputEnable, switchdefaultOutputEnable">
+          </div>
+        </article>
+      </summary>
+      <article class="flat transparent no-padding">
+        <FormSelect
+          v-model="inputFormat"
+          name="defaultInput"
+          placeholder="SELECT INPUT FORMAT"
+
+          select-skin="dark"
+          :options="inputFormats"
+          @change="changeInputFormat"
+        />
+        <FormSelect
+          v-model="outputFormat"
+          name="defaultOutput"
+          placeholder="SELECT OUTPUT FORMAT"
+
+          select-skin="dark"
+          :options="outputFormats"
+          @change="changeOutputFormat"
+        />
+        <div class="grid">
+          <div class="col s12">
+            <label class="checkbox">
+              <input type="checkbox">
+              <span class="upper">Apply automatically to selected tracks</span>
+            </label>
+          </div>
+          <div class="col s6">
+            <button class="button small responsive round grey3" @click="updateDefaultFormats({ input: inputFormat, output: outputFormat })">
               <i class="material-icons-outlined">save</i>
-              <span class="small-text upper">save</span>
+              <span class="small-text upper">save as default</span>
             </button>
           </div>
-        </details>
-        <div class="flex-item scroll">
-          <table class="table-uploader flex-item space">
-            <thead>
-              <th>#</th>
-              <th>NAME</th>
-              <th>INPUT</th>
-              <th>OUTPUT</th>
-              <th></th>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in files" :key="item">
-                <td>
-                  <p class="medium-text">{{ index + 1 }}</p>
-                </td>
-                <td class="audioname">
-                  <p class="medium-text">{{item.name}}</p>
-                </td>
-                <td>
-                  <FormSelect name="" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-                  <!-- <p class="medium-text">{{inputFormat}}</p> -->
-                </td>
-                <td>
-                  <FormSelect name="" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-                  <!-- <p class="medium-text">{{outputFormat}}</p> -->
-                </td>
-                <td>
-                  <nav class="right-align">
-                    <button class="button border round transparent-border" @click="remove(item)">
-                      <i class="material-icons">delete</i>
-                    </button>
-                  </nav>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-        <!-- <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultInputEnable">
-          <span>set this option as default</span>
-        </label>
-        <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultOutputEnable">
-          <span>set this option as default</span>
-        </label> -->
-      </div>
-  </div>
-  <button class="button small responsive round grey3" @click="upload">
-      <i class="material-icons-outlined">file_upload</i>
-      <span class="small-text">UPLOAD</span>
-  </button>
-</div>
-</template>
+          <div class="col s6">
+            <button class="button small responsive round grey3" @click="applyDefaultFormatsForTracks({ inputFormat, outputFormat })">
+              <i class="material-icons-outlined">double_arrow</i>
+              <span class="small-text upper">apply to selected tracks</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </details>
 
-<!-- <template>
-  <div>
-    <div class="card round flat grey-light-5">
-      <button class="button small no-margin responsive round grey-light-3">
-          <input type="file" name="resume" @change="changeFile" multiple>
-          <i class="material-icons-outlined">audiotrack</i>
-          <span class="small-text">Select Audio Track</span>
-      </button>
-      <div v-show="validated">
-        <FormSelect name="" placeholder="SELECT INPUT FORMAT" :options="inputFormats" :defaultValue="defaultInput" @change="changeInputFormat"/>
+    <div class="field middle-align">
+      <nav class="no-padding">
         <label class="switch">
-          <input type="checkbox" @change="switchdefaultInputEnable">
-          <span>set this option as default</span>
+          <input
+            type="checkbox"
+            :checked="forceStandart"
+            @click="forceStandart = !forceStandart"
+          >
+          <span />
         </label>
-        <FormSelect name="" placeholder="SELECT OUTPUT FORMAT" :options="outputFormats" :defaultValue="defaultOutput" @change="changeOutputFormat"/>
-        <label class="switch">
-          <input type="checkbox" @change="switchdefaultOutputEnable">
-          <span>set this option as default</span>
-        </label>
-      </div>
+        <div class="checkbox">
+          for MACH1 Formats audio track
+        </div>
+      </nav>
+    </div>
+
+    <!-- <div class="small-padding">
+      <label class="switch">
+        <input
+          type="checkbox"
+          :checked="forceStandart"
+          @click="forceStandart = !forceStandart"
+        >
+        <span />
+        <span class="small-text upper white-text">for MACH1 Formats audio track</span>
+      </label>
+    </div> -->
+    <div>
+      <!-- <div v-show="validated"> -->
       <div class="flex-item scroll">
-        <table class="table-uploader border flex-item">
+        <table class="table-uploader flex-item">
+          <thead>
+            <th><abbr title="#">#</abbr></th>
+            <th><abbr title="NAME">NAME</abbr></th>
+            <th><abbr title="CHANNELS">CHANNELS</abbr></th>
+            <th v-if="typeOfFiles === 'standart' && !forceStandart">
+              <abbr title="INPUT">INPUT</abbr>
+            </th>
+            <th v-if="typeOfFiles === 'standart' && !forceStandart">
+              <abbr title="OUTPUT">OUTPUT</abbr>
+            </th>
+            <th />
+          </thead>
           <tbody>
             <tr v-for="(item, index) in files" :key="item">
               <td>
                 <p class="medium-text">{{ index + 1 }}</p>
               </td>
               <td class="audioname">
-                <p class="medium-text">{{item.name}}</p>
+                <p class="medium-text">{{ item.name }}</p>
               </td>
               <td>
-                <p class="medium-text">{{inputFormat}}</p>
+                <p class="medium-text">{{ item.numberOfChannels }}</p>
               </td>
               <td>
-                <p class="medium-text">{{outputFormat}}</p>
+                <FormSelect
+                  v-if="typeOfFiles === 'standart' && !forceStandart"
+                  v-model="item.inputFormat"
+
+                  name="inputFormat"
+                  :options="filteredInputFormats(item.numberOfChannels)"
+                  select-skin="dark"
+                  @change="changeInputFormat"
+                />
+              </td>
+              <td>
+                <FormSelect
+                  v-if="typeOfFiles === 'standart' && !forceStandart"
+                  v-model="item.outputFormat"
+
+                  name="outputFormat"
+                  :options="outputFormats"
+                  select-skin="dark"
+                  @change="changeOutputFormat"
+                />
               </td>
               <td>
                 <nav class="right-align">
@@ -129,14 +151,15 @@
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
-  </div>
-  <button class="button small responsive round grey-light-3" @click="upload">
+    <!-- </div> -->
+    <button class="button small responsive round grey3" @click="upload">
       <i class="material-icons-outlined">file_upload</i>
       <span class="small-text">UPLOAD</span>
-  </button>
-</div>
-</template> -->
+    </button>
+  </div>
+</template>
 
 <script>
 import {
@@ -154,65 +177,36 @@ export default {
       inputFormat: null,
       outputFormat: null,
 
-      defaultInputEnable: false,
-      defaultOutputEnable: false,
-
-      files: [],
+      typeOfFiles: 'standart',
+      forceStandart: false,
     };
   },
   computed: {
     ...mapState({
-      defaultInput: (state) => state.formats.defaultInput,
-      defaultOutput: (state) => state.formats.defaultOutput,
+      defaultInput: (state) => state.uploads.defaultInput,
+      defaultOutput: (state) => state.uploads.defaultOutput,
+      defaultApply: (state) => state.uploads.defaultApply,
+      files: (state) => state.uploads.files,
       // validated: (state) => state.formats.item.validated,
     }),
-    ...mapGetters('formats', ['inputFormats', 'outputFormats', 'validated']),
+    ...mapGetters('uploads', ['inputFormats', 'outputFormats']),
   },
   methods: {
     ...mapActions('tracks', { request: 'upload' }),
+    ...mapActions('uploads', ['applyDefaultFormatsForTracks', 'updateDefaultFormats', 'validateAudio']),
     ...mapActions(['toast']),
-    ...mapActions('formats', ['updateDefaultFormats', 'validateAudio']),
     ...mapMutations(['loader']),
+    ...mapMutations('uploads', { remove: 'removeFile' }),
     changeInputFormat(event) {
       this.inputFormat = event.target.value;
-
-      if (this.defaultInputEnable) {
-        this.updateDefaultFormats({ input: this.inputFormat });
-      }
     },
     changeOutputFormat(event) {
       this.outputFormat = event.target.value;
-
-      if (this.defaultOutputEnable) {
-        this.updateDefaultFormats({ output: this.outputFormat });
-      }
-    },
-    switchdefaultInputEnable() {
-      this.defaultInputEnable = !this.defaultInputEnable;
-
-      this.updateDefaultFormats({
-        input: this.defaultInputEnable
-          ? _.get(this, 'inputFormat', null)
-          : null,
-      });
-    },
-    switchdefaultOutputEnable() {
-      this.defaultOutputEnable = !this.defaultOutputEnable;
-
-      this.updateDefaultFormats({
-        output: this.defaultOutputEnable
-          ? _.get(this, 'outputFormat', null)
-          : null,
-      });
-    },
-    remove(item) {
-      this.files = _.filter(this.files, (file) => file.name !== item.name);
     },
     async changeFile(event) {
       const { files } = event.target;
-      this.files = _.union(this.files, files);
 
-      _.each(this.files, (file) => {
+      _.each(_.union(this.files, files), (file) => {
         this.validateAudio(file);
       });
     },
@@ -233,180 +227,166 @@ export default {
       }
       this.loader({ enable: false });
     },
+    filteredInputFormats(numberOfChannels) {
+      return _.filter(this.inputFormats, (format) => format.numberOfChannels === numberOfChannels);
+    },
+  },
+  mounted() {
+    this.inputFormat = this.defaultInput;
+    this.outputFormat = this.defaultOutput;
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .table-uploader {
-    margin-top: 16rem;
-    overflow-y: scroll;
-    height: auto;
-    max-height: 15vh; // note important for playlist scroll
-    max-width: 100%;
+  summary {
+    list-style: none;
+    margin-bottom: 0;
+  }
 
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-    display: block;
-    overflow-x: hidden;
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .settings {
+    color: var(--additional-light-color);
 
-    .audio-name {
-      width: 30%;
-      word-break: break-all;
-    }
-    button {
-      &:hover {
-        i {
-          font-size: 20px;
-          color: #1c1c1c;
-        }
-      }
-    }
-    button.border::after {
-      background-image: none;
-    }
-    td {
-      padding: 0 8rem 0 0;
-      border-bottom: 1px #212121 solid;
-      &:nth-child(3){
-        width: 50%;
-      }
-      &:nth-child(4) {
-        width: 50%;
+    padding-bottom: 16rem;
+    padding-top: 16rem;
 
-      }
-      p {
-        color: #1c1c1c;
-        text-align: justify;
-      }
+    h4 {
+      font-size: 21rem;
+      margin: 0;
+    }
+
+    i {
+      color: var(--primary-light-color);
+      font-size: 30rem;
+    }
+
+    span {
+      color: var(--additional-accent-color);
     }
   }
+
   .button {
     margin: 16rem 0 16rem 0;
 
     i {
+      color: var(--primary-highlight-color);
       font-size: 16px;
-      color: #4d4d4d;
     }
+
     span {
-      color: #1c1c1c;
+      color: var(--secondary-dark-color);
     }
+  }
+
+  .button button {
+    color: var(--secondary-dark-color);
+  }
+
+  .table-uploader {
+    height: auto;
+    width: 100%;
+    max-height: 15vh; // note important for playlist scroll
+    max-width: 100%;
+
+    margin-top: 16rem;
+    overflow: hidden;
+
+    th:nth-of-type(1) {
+      width: 2%;
+    }
+
+    th {
+      padding: 8rem 0 8rem 0;
+      width: 10%;
+    }
+
+    th:nth-of-type(1n+4) {
+      padding: 8rem 8rem 8rem 8rem;
+      text-align: center;
+
+      width: 40%;
+    }
+
+    abbr {
+      color: var(--secondary-highlight-color);
+    }
+
+    tbody {
+      width: 100%;
+    }
+
+    button {
+      &:hover {
+        i {
+          color: var(--secondary-dark-color);
+          font-size: 20px;
+        }
+      }
+    }
+
+    button.border::after {
+      background-image: none;
+    }
+
+    td {
+      border-bottom: 1px var(--additional-accent-color) solid;
+      padding: 0 8rem 0 0;
+
+      p {
+        color: var(--secondary-highlight-color);
+        text-align: left;
+      }
+    }
+  }
+
+  table td {
+    width: fit-content;
   }
   details {
-    margin: 16rem 0 16rem 0;
+    margin: 16rem 0 0 0;
   }
-  .field>select {
-    background-color: #1c1c1c;
-  }
-  .button button {
-    color: #1c1c1c;
-  }
-  label {
-    font-size: 12rem;
-    color: #5e5e5e;
-  }
+
   .flex-item {
-    &::-webkit-scrollbar-track
-    {
+    &::-webkit-scrollbar-track {
+      background-color: var(--primary-light-color);
       border-radius: 3em;
-      background-color: #e0e0e0;
     }
 
-    &::-webkit-scrollbar
-    {
-      width: 7px;
-      background-color: #fafafa;
-    }
-
-    &::-webkit-scrollbar-thumb
-    {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
       border-radius: 3em;
-      background-color: #858585;
     }
   }
 
-  // @keyframes quiet {
-  //   25%{
-  //     transform: scaleY(.6);
-  //   }
-  //   50%{
-  //     transform: scaleY(.4);
-  //   }
-  //   75%{
-  //     transform: scaleY(.8);
-  //   }
-  // }
-  //
-  // @keyframes normal {
-  //   25%{
-  //     transform: scaleY(1);
-  //   }
-  //   50%{
-  //     transform: scaleY(.4);
-  //   }
-  //   75%{
-  //     transform: scaleY(.6);
-  //   }
-  // }
-  //
-  // @keyframes loud {
-  //   25%{
-  //     transform: scaleY(1);
-  //   }
-  //   50%{
-  //     transform: scaleY(.4);
-  //   }
-  //   75%{
-  //     transform: scaleY(1.2);
-  //   }
-  // }
-  //
-  // .waveContainer {
-  //   display: flex;
-  //   width: calc((var(--boxSize) + var(--gutter)) * 5);
-  //   height: 35px;
-  //
-  //   justify-content: space-between;
-  //   --boxSize: 2px;
-  //   --gutter: 2px;
-  // }
-  //
-  // .wave {
-  //   height: 100%;
-  //   width: var(--boxSize);
-  //
-  //   transform: scaleY(.4);
-  //
-  //   background: #1c1c1c;
-  //   border-radius: 8px;
-  // }
-  //
-  // button:hover .wave {
-  //   transform: scaleY(.4);
-  //   animation-duration: 1.2s;
-  //   animation-timing-function: ease-in-out;
-  //   animation-iteration-count: infinite;
-  // }
-  //
-  // .wave1 {
-  //   animation-name: quiet;
-  // }
-  //
-  // .wave2 {
-  //   animation-name: normal;
-  // }
-  //
-  // .wave3 {
-  //   animation-name: quiet;
-  // }
-  //
-  // .wave4 {
-  //   animation-name: loud;
-  //   background: transparent;
-  // }
-  //
-  // .wave5 {
-  //   animation-name: quiet;
-  // }
+  .checkbox {
+    color: var(--primary-light-color);
+    text-transform: uppercase;
+  }
+
+  .checkbox > span {
+    color: var(--primary-light-color);
+  }
+
+  .switch > input:checked + span::before {
+    background-color: var(--outline);
+  }
+
+  @media screen and (orientation: portrait) {
+    .file-uploader {
+      overflow-y: scroll;
+      padding: 0 8rem 0 8rem;
+    }
+
+    .checkbox {
+      white-space: break-spaces;
+    }
+
+    .table-uploader {
+      width: 250%;
+      max-width: 250%;
+    }
+  }
 </style>

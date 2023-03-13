@@ -1,9 +1,9 @@
 <template>
   <button class="border round transparent-border" @click="open">
-    <i class="material-icons-outlined">info</i>
-    <div class="popup card" :style="position">
+    <i class="material-icons">info</i>
+    <div class="popup" :style="position">
       <p v-for="(value, key) in items" :key="value" class="info small-margin">
-        <b class="upper">{{key}}:</b> {{value}}
+        <b class="upper">{{ key }}:</b> {{ value }}
       </p>
     </div>
   </button>
@@ -51,38 +51,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
   .popup {
-    position: fixed;
-    z-index: 1000;
-    padding: 0.5em;
+    background-color: var(--secondary-dark-color);
     border-radius: 1em;
-    background-color: #252526;
+
+    position: fixed;
+    padding: 0.5em;
+    z-index: 1000;
+
     p {
-      color: #ffffff;
+      color: var(--secondary-highlight-color);
+      font-family: 'Courier Prime', monospace;
+      text-align: justify;
     }
+
     b {
-      color: #72646f;
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      color: var(--primary-highlight-color);
       font-weight: 600;
     }
   }
+
   i {
-    color: #4d4d4d;
-    cursor: pointer;
+    color: var(--primary-highlight-color);
     font-size: 16px;
+
+    cursor: pointer;
   }
+
   button {
     &:hover {
       i {
+        color: var(--secondary-highlight-color);
         font-size: 20px;
-        color: #ffffff;
       }
     }
   }
 
   .info {
-    border-bottom: 1px #4d4d4d dotted;
-  }
-  p {
-    text-align: justify;
+    border-bottom: 1px var(--primary-highlight-color) dotted;
   }
 </style>

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PlaylistModel } from './models';
+import { PlaylistModel, TrackModel } from './models';
 
 export default {
   /**
@@ -10,6 +10,39 @@ export default {
     const { user } = ctx.session;
 
     ctx.body = await new PlaylistModel().getItemsByUserRole(user);
+  },
+  async get(ctx) {
+    const { id } = ctx.params;
+    const { user } = ctx.session;
+
+    const Playlist = new PlaylistModel();
+
+    const playlists = await Playlist.getItemsByUserRole(user);
+    const playlist = _.find(playlists, { id });
+
+    const tracks = await new TrackModel().getAllItemsFromStore();
+
+    ctx.status = 200;
+    ctx.body = {
+      id: playlist.id,
+      name: playlist.name,
+      isPublic: true,
+      owner: {
+        id: user.id,
+        username: user.nickname,
+      },
+      tracks: _.map(playlist.tracks, (track) => {
+        const { name, originalname } = _.find(tracks, { id: track });
+
+        return {
+          id: track,
+          name,
+          position: 0,
+          description: `Original name is ${originalname}`,
+          url: `wav/static/${originalname}`,
+        };
+      }),
+    };
   },
   /**
    * Creating a new playlist by PlaylistModel and save it to DB
@@ -71,5 +104,33 @@ export default {
     ]);
 
     ctx.status = 204;
+  },
+  async getByType(ctx) {
+    const { user } = ctx.session;
+
+    const playlists = await new PlaylistModel().getItemsByUserRole(user);
+    console.log(playlists);
+
+    const body = _.reduce(playlists, (result, playlist) => {
+      console.log(playlist.visibility);
+      if (playlist.visibility) {
+        result.public.push({
+          id: playlist.id,
+          // title: playlist.name,
+          name: playlist.name,
+          // url: `playlists/${playlist.id}`,
+        });
+      } else {
+        result.private.push({
+          id: playlist.id,
+          // title: playlist.name,
+          name: playlist.name,
+          // url: `playlists/${playlist.id}`,
+        });
+      }
+      return result;
+    }, { public: [], private: [] });
+    ctx.body = [{ section: 'public', items: body.public }, { section: 'private', items: body.private }];
+    // console.log(body);
   },
 };
