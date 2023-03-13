@@ -67,7 +67,7 @@
                     title="Add track(s) in playlist"
                     icon="add"
                     button-classes="small responsive upper transparent special-mdl-btn small-margin"
-                    position="center"
+                    position="center medium"
                   >
                     <div id="Add-tracks">
                       <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks" />

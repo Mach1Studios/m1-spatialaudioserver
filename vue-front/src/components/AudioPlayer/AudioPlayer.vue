@@ -143,6 +143,8 @@ export default {
         appearance: none;
         -webkit-appearance: none;
 
+        border: none;
+
         color: var(--primary-accent-color);
         background-color: var(--secondary-color);
       }

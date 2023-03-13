@@ -75,7 +75,7 @@ export default {
 
     --primary-light-color: #e0e0e0;
     --secondary-light-color: #eaeaea;
-    --additional-light-color: #fff7eb;
+    --additional-light-color: #faebd7;
 
     --primary-color: #858585;
     --secondary-color: #323237;

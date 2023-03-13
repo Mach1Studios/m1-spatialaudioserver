@@ -11,13 +11,13 @@
       <router-link v-if="isAdmin" class="link" to="/users">
         Users
       </router-link>
-      <router-link class="link" to="/documentation">
-        Documentation
-      </router-link>
     </div>
     <div style="flex-grow: 1;" />
     <router-link v-if="isAuthorized" class="profile link" to="/settings">
       {{ user ? user.nickname : 'Profile' }}
+    </router-link>
+    <router-link class="link" to="/documentation">
+      API Docs
     </router-link>
     <UsersAuth />
     <div class="mobile right-align">
