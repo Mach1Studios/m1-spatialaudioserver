@@ -13,15 +13,10 @@ Use nvm to setup node `14.16.0`:
 -   `nvm install 14.16.0`
 -   `nvm use 14.16.0`
 
--   `cd containers/nginx` && `docker build -t m1-transcode .`
--   `cd containers/redis` && `docker build -t m1-redis .`
--   `cd koa-server` && `npm i && npm run local`
--   `cd vue-front` && `npm i && npm run build`
+
 
 ### Run locally
-```sh
-make local
-```
+`make local`
 
 More information and command examples you can check in docker containers [documentation](./containers/README.md)
 
