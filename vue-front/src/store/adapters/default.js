@@ -74,6 +74,6 @@ const load = (ctx) => new Promise((resolve, reject) => {
   });
 });
 
-const parse = (id) => `${process.env.VUE_APP_STREAM_URL}/dash/static/${id}/manifest.mpd`;
+const parse = (id) => `${process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080'}/dash/static/${id}/manifest.mpd`;
 
 export default { load, parse };

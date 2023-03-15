@@ -111,6 +111,7 @@ const mutations = {
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {
+    const stream = process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080';
     const {
       processing, url, type, ...info
     } = payload;
@@ -122,7 +123,7 @@ const mutations = {
     store.type = type || null;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
-      store.info.url = `${process.env.VUE_APP_STREAM_URL}/dash/static/${payload.url}/manifest.mpd`;
+      store.info.url = `${stream}/dash/static/${payload.url}/manifest.mpd`;
       store.processing = true;
     }
   },

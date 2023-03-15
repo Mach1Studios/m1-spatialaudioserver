@@ -50,10 +50,10 @@ export default (options) => {
     if (_.isEmpty(user)) {
       console.info('Creating a new "admin" user...');
       const model = new UserModel({
-        nickname: 'm1',
-        email: 'support@mach1.tech',
+        nickname: process.env.ADMIN_NICKNAME ?? 'm1',
+        email: process.env.ADMIN_NICKNAME ?? 'support@mach1.tech',
         role: 'admin',
-        password: 'goodpassbro',
+        password: process.env.ADMIN_NICKNAME ?? 'goodpassbro',
       });
       await client.multi()
         .hset(`user:${model.user.id}`, model.user)

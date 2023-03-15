@@ -73,6 +73,6 @@ const load = (ctx) => new Promise((resolve, reject) => {
   });
 });
 
-const parse = (id) => `${process.env.VUE_APP_STREAM_URL}/hls/static/${id}/master.m3u8`;
+const parse = (id) => `${process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080'}/hls/static/${id}/master.m3u8`;
 
 export default { load, parse };

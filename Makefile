@@ -1,6 +1,3 @@
-s3_bucket_name =
-s3_stage_bucket_name =
-
 # getting OS type
 ifeq ($(OS),Windows_NT)
 	detected_OS := Windows

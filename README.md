@@ -9,21 +9,36 @@ These are example codebases that are designed to be playback clients for a serve
 
 ## Setup
 
-Use nvm to setup node `14.16.0`:
-- `nvm install 14.16.0`
-- `nvm use 14.16.0`
-Fill in the environment variables needed for the Makefile:
-```
-s3_bucket_name =
-s3_stage_bucket_name =
-```
-Use Makefile commands to setup and build:
-- `make build`
+The current stack included 3 docker containers: Nginx server (main transcoder with HLS and DASH support), Redis, and Node.js (API). You can change default environment variables for the dashboard and API, just create `.env` files in `vue-front` and `koa-server` dirs (you can skip this stage):
 
-### Deploy
+Default `.env` file for `vue-front`:
 
-### Run locally
-`make local`
+```
+VUE_APP_API_URL='http://localhost:8080' # the main URL
+VUE_APP_STREAM_URL='http://localhost:8080' # additional transcoder URL, the default URL for streaming (hls, dash and rtmp)
+VUE_APP_API_PATH='/api' # The default url path for API
+```
+
+Default `.env` file for `koa-server`:
+
+```
+ADMIN_NICKNAME='m1'
+ADMIN_PASSWORD='goodpassbro'
+ADMIN_EMAIL='support@mach1.tech'
+```
+
+
+##### Use Makefile commands to setup and build all of them: 
+
+```sh
+make build
+```
+
+##### Run all containers localy:
+
+```sh
+make local
+```
 
 More information and command examples you can check in docker containers [documentation](./containers/README.md)
 

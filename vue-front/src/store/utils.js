@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 export default class FetchHelper {
-  #defaultUrl = new URL(process.env.VUE_APP_API_URL)
+  #defaultUrl = new URL(process.env.VUE_APP_API_URL ?? 'http://localhost:8080')
 
   #defaultPath = process.env.VUE_APP_API_PATH || ''
 
