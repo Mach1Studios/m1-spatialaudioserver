@@ -4,7 +4,7 @@ module.exports = {
     name: 'koa-server',
     script: 'index.js',
     // Fix broken esm support for the node v14
-    node_args: '-r esm',
+    node_args: '--experimental-specifier-resolution=node',
 
     // Advanced
     instances: 1,

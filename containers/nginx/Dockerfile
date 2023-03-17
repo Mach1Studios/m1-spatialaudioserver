@@ -185,7 +185,7 @@ RUN cd /tmp/ffmpeg-${FFMPEG} && \
 ##################
 # Frontend Build #
 ##################
-FROM node:14.16 as vue-build
+FROM node:18.15 as vue-build
 
 WORKDIR /tmp/build
 

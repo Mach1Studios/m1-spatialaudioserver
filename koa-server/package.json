@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint --ext .js --ext .json . test/*",
-    "dev": "pm2-dev index.js --node-args=\"-r esm\"",
-    "local": "pm2-dev ecosystem.config.js",
+    "dev": "pm2-dev index.js --node-args=\"--experimental-specifier-resolution=node\"",
+    "local": "pm2-dev ecosystem.config.cjs",
     "make": "npm i && npm run dev"
   },
   "author": "Mach1 <whatsup@mach1.tech>",

@@ -1,4 +1,4 @@
-FROM node:14.16 as koa-runtime
+FROM node:18.15 as koa-runtime
 
 WORKDIR /usr/src/app
 
@@ -12,4 +12,4 @@ COPY ./koa-server .
 EXPOSE 3000
 VOLUME ["/public"]
 
-CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
+CMD ["pm2-runtime", "ecosystem.config.cjs", "--env", "production"]
