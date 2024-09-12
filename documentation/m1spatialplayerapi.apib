@@ -4,13 +4,13 @@ UPDATED: 2021-11-03
 FORMAT: 1A
 HOST: https://api.acme.com/v1
 
-# M1 Spatial Player API
+# M1 Spatial Audio Server API
 
-That is a first draft of m1 api, at this moment we are have a api for control playing sound file [based on dash stream]
+That is a first draft of m1 server api, at the moment we are have an api to control playing spatial sound files [based on dash streams]
 
 ## Tracks Collection [/tracks]
 
-This GET methods have public access, but number of tracks depends on the user auth and user role; all other methods able only for admin user role
+This GET method has public access, but number of the tracks depend on the user auth and user role; all other methods are only for admin role
 
 ### List All Track [GET]
 
@@ -61,8 +61,8 @@ This GET methods have public access, but number of tracks depends on the user au
                 }
             ]
 
-### Start a play sound track [GET /tracks/{id}]
-This hook used for start preapre mainifest for track
+### Start a track [GET /tracks/{id}]
+This hook is used to prepare a mainifest for a track
 
 + Parameters
     + id (string, required) - track id 
@@ -70,7 +70,7 @@ This hook used for start preapre mainifest for track
 + Response 204
 
 ### Dash manifest file [GET /dash/static/{id}/manifest.mpd]
-That is the main resource for playing any our sound files, used standart dash stream mainifest file, documentation for [dash.js](https://cdn.dashjs.org/latest/jsdoc/module-MediaPlayer.html)
+That is the main resource for playing any spatial sound files, used standard dash stream mainifest file, documentation for [dash.js](https://cdn.dashjs.org/latest/jsdoc/module-MediaPlayer.html)
 
 + Parameters
     + id (string, required) - track id 
@@ -101,7 +101,7 @@ That is the main resource for playing any our sound files, used standart dash st
 
 ### Upload a New Track [POST /upload]
 
-Dashboard administrator has ability to upload new track to the backend, can be attached more then one files
+Dashboard administrator has the ability to upload a new track to the backend which can be attached to more then one file
 
 + Request (multipart/form-data)
 
@@ -409,7 +409,7 @@ This resource is used for getting current user information by self and updating 
 
 ### Get User profile infomration [GET]
 
-Checking and returning current user session: if exist return 200 else empty body and 204; Removing session object if a session was corrupted or expired
+Checking and returning current user session: if exist return 200 else empty body and 204; Removes session object if a session was corrupted or expired
 
 + Response 200 (application/json)
 
@@ -440,7 +440,7 @@ Checking and returning current user session: if exist return 200 else empty body
 
 + Response 204
 
-    if the user is not authorized and session is empty
+    if the user is not authorized and the session is empty
     
     + Body
         
