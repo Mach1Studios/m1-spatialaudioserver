@@ -71,7 +71,7 @@ This hook used for start preapre mainifest for track
 
 ### Dash manifest file [GET /dash/static/{id}/manifest.mpd]
 
-That is the main resource for playing any our sound files, used standart dash stream mainifest file, documentation for [dash.js](https://cdn.dashjs.org/latest/jsdoc/module-MediaPlayer.html)
+That is the main resource for playing any our sound files, used standard dash stream mainifest file, documentation for [dash.js](https://cdn.dashjs.org/latest/jsdoc/module-MediaPlayer.html)
 
 + Parameters
     + id (string, required) - track id 
