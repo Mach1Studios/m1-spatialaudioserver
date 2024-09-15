@@ -24,7 +24,7 @@ Default `.env` file for `koa-server`:
 ```
 ADMIN_NICKNAME='m1'
 ADMIN_PASSWORD='goodpassbro'
-ADMIN_EMAIL='support@mach1.tech'
+ADMIN_EMAIL='whatsup@mach1.tech'
 ```
 
 

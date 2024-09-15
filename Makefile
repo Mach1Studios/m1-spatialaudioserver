@@ -13,6 +13,7 @@ else
 endif
 
 build: stop
+	docker network rm m1-network &> /dev/null
 	docker network create m1-network --subnet=172.20.0.0/16 &> /dev/null
 	docker volume create m1-volume &> /dev/null
 	docker build -f ./containers/koa/Dockerfile -t m1-api .
