@@ -9,11 +9,11 @@ stop:
 ifeq ($(shell docker ps -q --filter name="m1*"),)
 	# No m1 containers found.
 else
+	docker network rm m1-network &> /dev/null
 	docker container stop $(shell docker ps -q --filter name="m1*")
 endif
 
 build: stop
-	docker network rm m1-network &> /dev/null
 	docker network create m1-network --subnet=172.20.0.0/16 &> /dev/null
 	docker volume create m1-volume &> /dev/null
 	docker build -f ./containers/koa/Dockerfile -t m1-api .
