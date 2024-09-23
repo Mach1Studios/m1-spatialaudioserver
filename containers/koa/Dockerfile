@@ -1,4 +1,4 @@
-FROM node:20.17 as koa-runtime
+FROM node:18 as koa-runtime
 
 WORKDIR /usr/src/app
 

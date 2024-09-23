@@ -241,6 +241,9 @@ COPY ./containers/nginx/switcher.sh /etc/nginx/switcher.sh
 COPY ./containers/nginx/m1-transcode /etc/nginx/m1-transcode
 COPY ./containers/nginx/mime.types /etc/nginx/mime.types
 
+# Adding logs path for nginx and ffmpeg
+RUN mkdir /var/log/nginx
+
 # RUN mkdir -p /opt/data && mkdir -p /opt/data/dash && touch /opt/data/dash/play.mpd
 
 EXPOSE 1935
