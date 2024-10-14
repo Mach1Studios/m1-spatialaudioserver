@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { v4 as uuid } from 'uuid';
+import { v5 as uuidv5 } from 'uuid';
 
 import { createStore } from 'vuex';
 import VuexPersistence from 'vuex-persist';
@@ -24,11 +24,33 @@ const persistSettings = new VuexPersistence({
   modules: ['auth', 'uploads'],
 });
 
-// const persistLogs = new VuexPersistence({
-//   key: 'm1::store::logs',
-//   storage: window.localStorage,
-//   modules: ['logs'],
-// });
+const createNotification = (payload = {}) => {
+  const { error, event } = payload;
+  let notification = {
+    icon: 'done', message: 'Complete!', visible: true, count: 1,
+  };
+  if (error) {
+    let message = error.message ?? 'Something went wrong';
+    if (_.isObject(error.errors)) {
+      if (_.values(error.errors).length === 1) {
+        const [value] = _.values(error.errors);
+        message = value.message ?? 'Something went wrong';
+      } else {
+        message = `${message} The list of incorrect fields: \r\n`;
+        _.each(error.errors, (description) => {
+          message = `${message} \r\n ${description.message}`;
+        });
+      }
+    }
+    notification = { ...notification, icon: 'error', message };
+  }
+  if (event) {
+    notification = { ...notification, ...event };
+  }
+
+  notification.id = uuidv5(notification.message, '1b671a64-40d5-491e-99b0-da01ff1f3341');
+  return notification;
+};
 
 const Store = createStore({
   strict: process.env.NODE_ENV !== 'production',
@@ -49,10 +71,11 @@ const Store = createStore({
         commit('loader', { enable: false });
         await delay(0.5);
       }
-      const id = uuid();
-      commit('setToast', { id, ...payload });
+
+      const notification = createNotification(payload);
+      commit('setToast', notification);
       await delay(payload.delay ?? 5);
-      commit('unsetToast', id);
+      commit('unsetToast', notification.id);
     },
   },
 
@@ -69,34 +92,25 @@ const Store = createStore({
         state.loader.title = title;
       }
     },
-    setToast(state, payload = {}) {
-      const { id, error, event } = payload;
-      const notification = { id, icon: 'done', message: 'Complete!' };
-      if (error) {
-        let message = error.message ?? 'Something went wrong';
-        if (_.isObject(error.errors)) {
-          if (_.values(error.errors).length === 1) {
-            const [value] = _.values(error.errors);
-            message = value.message ?? 'Something went wrong';
-          } else {
-            message = `${message} The list of incorrect fields: \r\n`;
-            _.each(error.errors, (description) => {
-              message = `${message} \r\n ${description.message}`;
-            });
-          }
-        }
-        state.notifications.push({ ...notification, icon: 'error', message });
+    setToast(state, notification = {}) {
+      const previousIndex = _.findIndex(state.notifications, { message: notification.message });
+      // console.log('index=', previousIndex, 'element=', state.notifications[previousIndex]);
+
+      if (previousIndex !== -1) {
+        state.notifications[previousIndex].count += 1;
+      } else {
+        state.notifications.push(notification);
       }
-      if (event) {
-        state.notifications.push({ ...notification, ...event });
-      }
+
       if (state.notifications.length > 3) state.notifications.shift();
     },
     setModalVisibility(state, title = null) {
       state.modalVisibility = title;
     },
     unsetToast(state, id) {
-      _.remove(state.notifications, { id });
+      const index = _.findIndex(state.notifications, { id });
+
+      state.notifications[index].visible = false;
     },
   },
   modules: {
