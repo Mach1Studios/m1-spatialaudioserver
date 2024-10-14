@@ -74,8 +74,10 @@ const Store = createStore({
 
       const notification = createNotification(payload);
       commit('setToast', notification);
-      await delay(payload.delay ?? 5);
-      commit('unsetToast', notification.id);
+      if (notification.icon !== 'error') {
+        await delay(payload.delay ?? 5);
+        commit('unsetToast', notification.id);
+      }
     },
   },
 
@@ -98,11 +100,12 @@ const Store = createStore({
 
       if (previousIndex !== -1) {
         state.notifications[previousIndex].count += 1;
+        state.notifications[previousIndex].visible = true;
       } else {
         state.notifications.push(notification);
       }
 
-      if (state.notifications.length > 3) state.notifications.shift();
+      if (state.notifications.length > 10) state.notifications.shift();
     },
     setModalVisibility(state, title = null) {
       state.modalVisibility = title;

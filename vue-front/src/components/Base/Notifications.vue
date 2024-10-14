@@ -2,24 +2,29 @@
   <div class="notification">
     <div
       v-for="(notification, index) in notifications"
-      :key="notification.id"
+      v-show="notification.visible"
 
+      :key="notification.id"
       class="toast white-text notification active"
+
       :class="{
         pink: notification.icon === 'error',
         green: notification.icon === 'done',
         orange: notification.icon === 'info'
       }"
-
       :style="{ opacity: 1 - (multiplier - index) * 0.08 }"
     >
-      <i class="material-icons">{{ notification.icon }}</i>
+      <div class="chip round notification-count blur">
+        <i class="material-icons">{{ notification.icon }}:</i>
+        <span>{{ notifications[index].count }}</span>
+      </div>
       <span style="white-space: pre-line">{{ notification.message }}</span>
+      <i class="material-icons close" @click="unsetToast(notification.id)">close</i>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Notifications',
@@ -29,6 +34,9 @@ export default {
       notifications: (state) => state.notifications,
       multiplier: (state) => Object.keys(state.notifications).length - 1,
     }),
+  },
+  methods: {
+    ...mapMutations(['unsetToast']),
   },
 };
 </script>
@@ -47,10 +55,18 @@ export default {
     transform: translate(-50%);
     z-index: 601;
   }
+  .notification-count {
+    background-color: #d31c5a;
+  }
 
   .toast {
     bottom: 0;
     margin: 10rem;
     position: relative;
+    .close {
+      position: absolute;
+      right: 0;
+      padding-right: 10rem;
+    }
   }
 </style>
