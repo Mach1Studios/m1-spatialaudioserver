@@ -14,7 +14,7 @@
       }"
       :style="{ opacity: 1 - (multiplier - index) * 0.08 }"
     >
-      <div class="chip round notification-count blur">
+      <div class="round notification-count">
         <i class="material-icons">{{ notification.icon }}:</i>
         <span>{{ notifications[index].count }}</span>
       </div>
@@ -57,8 +57,22 @@ export default {
   }
   .notification-count {
     background-color: #d31c5a;
+    box-sizing: content-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40rem;
+    min-width: 40rem;
+    font-size: 14rem;
+    font-weight: 500;
+    color: var(--on-secondary);
+    padding: 0 16rem;
+    // margin: 0 8rem;
+    text-transform: none;
+    border-radius: 8rem;
+    user-select: none;
+    gap: 8rem;
   }
-
   .toast {
     bottom: 0;
     margin: 10rem;

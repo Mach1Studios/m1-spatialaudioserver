@@ -20,6 +20,11 @@
       API Docs
     </router-link>
     <UsersAuth />
+    <div class="icon">
+      <i class="material-symbols-outlined">
+        notifications
+      </i>
+    </div>
     <div class="mobile right-align">
       <button @click="menu">
         <i class="material-icons-outlined">{{ isActive ? 'close' : 'menu' }}</i>
@@ -87,6 +92,10 @@ export default {
 
     .link {
       padding: 0 10px;
+    }
+    .icon {
+      color: var(--primary-highlight-color);
+      padding: 0 0 0 10px;
     }
 
     button {
