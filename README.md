@@ -2,6 +2,10 @@
 
 Frontend & Backend for serving custom streaming spatial audio players
 
+## Client Endpoint Examples
+These are example codebases that are designed to be playback clients for a server deployed by this repo.
+- [iOS Client App](https://github.com/Mach1Studios/m1-spatialaudio-client-ios)
+
 ### Setup
 
 Use nvm to setup node `14.16.0`:
@@ -52,11 +56,7 @@ _This repo is still in development and is deemed experimental and unstable until
 
 #### To Do:
 
--   Mach1Transcode audio transcoding support
--   Playlisting support
--   Https deployment
--   User / Group handling
-
-#### Software Design
-
-![Software Design](.README/Software.png)
+- ~Mach1Transcode audio transcoding support~
+- ~Playlisting support~
+- ~Https deployment~
+- User / Group handling
