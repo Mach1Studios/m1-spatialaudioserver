@@ -27,6 +27,14 @@
                     <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
                       <i class="material-icons">{{ item.visibility ? 'visibility' : 'visibility_off' }}</i>
                     </button>
+                    <button 
+                      v-if="item.visibility" 
+                      class="border round transparent-border" 
+                      @click="copyShareLink(item.id)"
+                      :title="'Copy shareable link'"
+                    >
+                      <i class="material-icons">{{ copiedId === item.id ? 'check' : 'link' }}</i>
+                    </button>
                     <Modal
                       title="Rename playlist"
                       button=" "
@@ -120,7 +128,10 @@ export default {
   },
   props: { controls: Boolean },
   data() {
-    return { show: false };
+    return {
+      show: false,
+      copiedId: null,
+    };
   },
   computed: mapState({
     tracks: (state) => state.tracks.items,
@@ -132,6 +143,39 @@ export default {
       'select', 'remove',
     ]),
     ...mapActions('playlists', ['create', 'update', 'remove']),
+
+    async copyShareLink(playlistId) {
+      const baseUrl = window.location.origin;
+      const shareUrl = `${baseUrl}/playlist/${playlistId}`;
+
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        this.copiedId = playlistId;
+
+        // Reset the checkmark after 2 seconds
+        setTimeout(() => {
+          this.copiedId = null;
+        }, 2000);
+      } catch (err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = shareUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          this.copiedId = playlistId;
+          setTimeout(() => {
+            this.copiedId = null;
+          }, 2000);
+        } catch (error) {
+          console.error('Failed to copy link:', error);
+        }
+        document.body.removeChild(textArea);
+      }
+    },
   },
   created() {
     this.$store.dispatch('playlists/getAll');

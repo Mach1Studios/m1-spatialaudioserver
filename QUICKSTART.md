@@ -50,5 +50,3 @@ No code changes needed - frontend auto-detects domain!
 ## Default Login
 - Email: `whatsup@mach1.tech`
 - Password: `goodpassbro`
-
-See **DEPLOYMENT.md** for detailed instructions.

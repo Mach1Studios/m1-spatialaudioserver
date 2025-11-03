@@ -20,13 +20,15 @@ export default {
     const playlists = await Playlist.getItemsByUserRole(user);
     const playlist = _.find(playlists, { id });
 
+    if (!playlist) ctx.throw(404, 'Playlist not found');
+
     const tracks = await new TrackModel().getAllItemsFromStore();
 
     ctx.status = 200;
     ctx.body = {
       id: playlist.id,
       name: playlist.name,
-      isPublic: true,
+      isPublic: playlist.visibility,
       owner: {
         id: user.id,
         username: user.nickname,
@@ -42,6 +44,43 @@ export default {
           url: `wav/static/${originalname}`,
         };
       }),
+    };
+  },
+  async getPublic(ctx) {
+    const { id } = ctx.params;
+
+    // Get playlist from Redis
+    const playlistData = await ctx.redis.hgetall(`playlist:${id}`);
+    if (_.isEmpty(playlistData)) ctx.throw(404, 'Playlist not found');
+
+    const { playlist } = new PlaylistModel(playlistData);
+
+    // Check if playlist is public
+    if (!playlist.visibility) {
+      ctx.throw(403, 'This playlist is private');
+    }
+
+    // Get all tracks
+    const tracks = await new TrackModel().getAllItemsFromStore();
+
+    ctx.status = 200;
+    ctx.body = {
+      id: playlist.id,
+      name: playlist.name,
+      isPublic: playlist.visibility,
+      tracks: _.map(playlist.tracks, (track) => {
+        const trackData = _.find(tracks, { id: track });
+        if (!trackData) return null;
+
+        const { name, originalname } = trackData;
+        return {
+          id: track,
+          name,
+          position: 0,
+          description: `Original name is ${originalname}`,
+          url: `wav/static/${originalname}`,
+        };
+      }).filter(Boolean),
     };
   },
   /**

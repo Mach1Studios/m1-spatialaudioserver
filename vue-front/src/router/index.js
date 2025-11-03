@@ -11,6 +11,12 @@ const routes = [
     meta: { transition: 'slide-left' },
   },
   {
+    path: '/playlist/:id',
+    name: 'PublicPlaylist',
+    component: () => import('../views/PublicPlaylist.vue'),
+    meta: { transition: 'slide-left' },
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/Dashboard.vue'),
