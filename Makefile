@@ -49,7 +49,24 @@ stage: build
 
 .SILENT: local
 local:
-	make -s build args="-q"
+	@echo "➜ Building Docker images (this may take 20-30 minutes on first run)..."
+	make build args="-q"
+	make -s network
+	@echo "➜ Creating log directory..."
+	mkdir -p ${PWD}/logs/$(LOG_PREFIX)
+	@echo "✓ Created. Logs path: ./logs/$(LOG_PREFIX)"
+	@echo "➜ Running docker containers..."
+	make -s run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis" > /dev/null
+	make -s run_node_docker args="-d --mount type=bind,source=${PWD}/logs/$(LOG_PREFIX),target=/root/.pm2/logs" > /dev/null
+	make -s run_nginx_docker args="-d --mount type=bind,source=${PWD}/logs/$(LOG_PREFIX),target=/var/log/nginx" > /dev/null
+	@echo "✓ All docker containers have been launched"
+	@echo "➜ The dashboard is available at this link: http://localhost:80"
+	@echo "➜ Note: To stop containers, run: 'make stop'"
+
+.SILENT: local-verbose
+local-verbose:
+	@echo "➜ Building Docker images with full output (this may take 20-30 minutes)..."
+	make build
 	make -s network
 	@echo "➜ Creating log directory..."
 	mkdir -p ${PWD}/logs/$(LOG_PREFIX)
@@ -79,9 +96,27 @@ local-skip-build:
 
 production: build
 	make network
-	make run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis"
-	make run_node_docker args="-d"
-	make run_nginx_docker args="-d"
+	@echo "➜ Running docker containers in production mode..."
+	make run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis" > /dev/null
+	make run_node_docker args="-d" > /dev/null
+	make run_nginx_docker args="-d" > /dev/null
+	@echo "✓ All docker containers have been launched"
+	@echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP'):80"
+	@echo "➜ Note: Make sure port 80 is open in your EC2 security group"
+	@echo "➜ To stop containers, run: 'make stop'"
+
+.SILENT: production-skip-build
+production-skip-build:
+	make -s stop
+	make network
+	@echo "➜ Running docker containers in production mode (skipping build)..."
+	make run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis" > /dev/null
+	make run_node_docker args="-d" > /dev/null
+	make run_nginx_docker args="-d" > /dev/null
+	@echo "✓ All docker containers have been launched"
+	@echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP'):80"
+	@echo "➜ Note: Make sure port 80 is open in your EC2 security group"
+	@echo "➜ To stop containers, run: 'make stop'"
 
 .SILENT: run_node_docker
 run_node_docker:
