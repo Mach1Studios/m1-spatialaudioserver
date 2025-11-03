@@ -18,22 +18,32 @@
 
           <article class="round" v-else-if="playlist">
             <div class="playlist-header">
-              <h3 class="playlist-title">{{ playlist.name }}</h3>
-              <p class="playlist-info">{{ playlist.tracks.length }} track{{ playlist.tracks.length !== 1 ? 's' : '' }}</p>
+              <h3 class="playlist-title">
+                {{ playlist.name }}
+              </h3>
+              <p class="playlist-info">
+                {{ playlist.tracks.length }} track{{ playlist.tracks.length !== 1 ? 's' : '' }}
+              </p>
             </div>
 
             <div class="track-list">
-              <div 
-                v-for="(track, index) in playlist.tracks" 
+              <div
+                v-for="(track, index) in playlist.tracks"
                 :key="track.id"
                 class="track-item"
                 :class="{ 'active': currentTrackIndex === index }"
                 @click="selectTrack(index)"
               >
-                <div class="track-number">{{ index + 1 }}</div>
+                <div class="track-number">
+                  {{ index + 1 }}
+                </div>
                 <div class="track-info">
-                  <div class="track-name">{{ track.name }}</div>
-                  <div class="track-description">{{ track.description }}</div>
+                  <div class="track-name">
+                    {{ track.name }}
+                  </div>
+                  <div class="track-description">
+                    {{ track.description }}
+                  </div>
                 </div>
                 <button class="circle transparent" @click.stop="playTrack(index)">
                   <i v-if="currentTrackIndex === index && isPlaying">pause</i>
@@ -64,7 +74,6 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import { mapGetters, mapState, mapActions } from 'vuex';
 import { Mach1DecoderProxy } from 'mach1spatial-decode';
 
@@ -317,7 +326,7 @@ export default {
 
 .audioplayer-debug {
   padding: 0 55rem 0 55rem;
-  
+
   article {
     padding-top: 0;
     padding-bottom: 0;
@@ -346,4 +355,3 @@ main {
   }
 }
 </style>
-

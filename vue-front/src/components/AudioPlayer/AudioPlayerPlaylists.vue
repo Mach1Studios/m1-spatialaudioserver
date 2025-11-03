@@ -27,9 +27,9 @@
                     <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
                       <i class="material-icons">{{ item.visibility ? 'visibility' : 'visibility_off' }}</i>
                     </button>
-                    <button 
-                      v-if="item.visibility" 
-                      class="border round transparent-border" 
+                    <button
+                      v-if="item.visibility"
+                      class="border round transparent-border"
                       @click="copyShareLink(item.id)"
                       :title="'Copy shareable link'"
                     >
