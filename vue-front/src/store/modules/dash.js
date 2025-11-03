@@ -149,7 +149,7 @@ const mutations = {
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {
-    const stream = process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080';
+    const stream = process.env.VUE_APP_STREAM_URL || window.location.origin;
     const {
       processing, url, type, ...info
     } = payload;
