@@ -13,10 +13,13 @@ endif
 
 .SILENT: network
 network:
-ifeq ($(docker network ls -q --filter name="m1-network"),)
-	@echo "➜ Network m1-network already exist, skipping..."
-else
+ifeq ($(shell docker network ls -q --filter name="m1-network"),)
+	@echo "➜ Creating network m1-network..."
+	docker network create --subnet=172.20.0.0/16 m1-network &> /dev/null
 	docker volume create m1-volume &> /dev/null
+	@echo "✓ Network and volume created"
+else
+	@echo "➜ Network m1-network already exists, skipping..."
 endif
 
 .SILENT: stop
@@ -56,12 +59,27 @@ local:
 	make -s run_node_docker args="-d --mount type=bind,source=${PWD}/logs/$(LOG_PREFIX),target=/root/.pm2/logs" > /dev/null
 	make -s run_nginx_docker args="-d --mount type=bind,source=${PWD}/logs/$(LOG_PREFIX),target=/var/log/nginx" > /dev/null
 	@echo "✓ All docker containers have been launched"
-	@echo "➜ The dashboard is available at this link: http://localhost:8080"
+	@echo "➜ The dashboard is available at this link: http://localhost:80"
+	@echo "➜ Note: To stop containers, run: 'make stop'"
+
+.SILENT: local-skip-build
+local-skip-build:
+	make -s stop
+	make -s network
+	@echo "➜ Creating log directory..."
+	mkdir -p ${PWD}/logs/$(LOG_PREFIX)
+	@echo "✓ Created. Logs path: ./logs/$(LOG_PREFIX)"
+	@echo "➜ Running docker containers (skipping build)..."
+	make -s run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis" > /dev/null
+	make -s run_node_docker args="-d --mount type=bind,source=${PWD}/logs/$(LOG_PREFIX),target=/root/.pm2/logs" > /dev/null
+	make -s run_nginx_docker args="-d --mount type=bind,source=${PWD}/logs/$(LOG_PREFIX),target=/var/log/nginx" > /dev/null
+	@echo "✓ All docker containers have been launched"
+	@echo "➜ The dashboard is available at this link: http://localhost:80"
 	@echo "➜ Note: To stop containers, run: 'make stop'"
 
 production: build
 	make network
-	make run_redis_docker args="-d"
+	make run_redis_docker args="-d --mount type=bind,source=${PWD}/containers/redis,target=/redis"
 	make run_node_docker args="-d"
 	make run_nginx_docker args="-d"
 
@@ -84,7 +102,7 @@ run_redis_docker:
 
 .SILENT: run_nginx_docker	
 run_nginx_docker:
-	docker run -it -p 1935:1935 -p 8080:80 $$args \
+	docker run -it -p 1935:1935 -p 80:80 $$args \
 		--net m1-network \
 		--ip 172.20.0.4 \
 		--mount type=volume,source=m1-volume,target=/share/sound \

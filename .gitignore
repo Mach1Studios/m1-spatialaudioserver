@@ -7,3 +7,4 @@ logs
 backup
 test
 token
+vue-front/.env
