@@ -1,9 +1,5 @@
 LOG_PREFIX := "default"
 
-# Load configuration from config.env if it exists
--include config.env
-export
-
 ## getting OS type
 ifeq ($(OS),Windows_NT)
 	UNAME := Windows
@@ -105,12 +101,15 @@ production: build
 	make run_node_docker args="-d" > /dev/null
 	make run_nginx_docker args="-d" > /dev/null
 	@echo "✓ All docker containers have been launched"
-	@if [ -n "$(DOMAIN_NAME)" ]; then \
-		echo "➜ The dashboard should be available at: https://$(DOMAIN_NAME)"; \
+	@set -a; \
+	[ -f config.env ] && . ./config.env; \
+	set +a; \
+	if [ -n "$$DOMAIN_NAME" ]; then \
+		echo "➜ The dashboard should be available at: https://$$DOMAIN_NAME"; \
 	else \
 		echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP')"; \
-	fi
-	@if [ "$(ENABLE_SSL)" = "true" ]; then \
+	fi; \
+	if [ "$$ENABLE_SSL" = "true" ]; then \
 		echo "➜ Note: Make sure ports 80 and 443 are open in your EC2 security group"; \
 	else \
 		echo "➜ Note: Make sure port 80 is open in your EC2 security group"; \
@@ -126,12 +125,15 @@ production-skip-build:
 	make run_node_docker args="-d" > /dev/null
 	make run_nginx_docker args="-d" > /dev/null
 	@echo "✓ All docker containers have been launched"
-	@if [ -n "$(DOMAIN_NAME)" ]; then \
-		echo "➜ The dashboard should be available at: https://$(DOMAIN_NAME)"; \
+	@set -a; \
+	[ -f config.env ] && . ./config.env; \
+	set +a; \
+	if [ -n "$$DOMAIN_NAME" ]; then \
+		echo "➜ The dashboard should be available at: https://$$DOMAIN_NAME"; \
 	else \
 		echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP')"; \
-	fi
-	@if [ "$(ENABLE_SSL)" = "true" ]; then \
+	fi; \
+	if [ "$$ENABLE_SSL" = "true" ]; then \
 		echo "➜ Note: Make sure ports 80 and 443 are open in your EC2 security group"; \
 	else \
 		echo "➜ Note: Make sure port 80 is open in your EC2 security group"; \
@@ -157,14 +159,17 @@ run_redis_docker:
 
 .SILENT: run_nginx_docker	
 run_nginx_docker:
-	@if [ -n "$(DOMAIN_NAME)" ] && [ "$(ENABLE_SSL)" = "true" ]; then \
-		echo "Starting nginx with SSL for domain: $(DOMAIN_NAME)"; \
+	@set -a; \
+	[ -f config.env ] && . ./config.env; \
+	set +a; \
+	if [ -n "$$DOMAIN_NAME" ] && [ "$$ENABLE_SSL" = "true" ]; then \
+		echo "Starting nginx with SSL for domain: $$DOMAIN_NAME"; \
 		docker run -it -p 1935:1935 -p 80:80 -p 443:443 $$args \
 			--net m1-network \
 			--ip 172.20.0.4 \
 			--mount type=volume,source=m1-volume,target=/share/sound \
 			--mount type=bind,source=/etc/letsencrypt,target=/etc/letsencrypt,readonly \
-			-e DOMAIN_NAME=$(DOMAIN_NAME) \
+			-e DOMAIN_NAME=$$DOMAIN_NAME \
 			-e ENABLE_SSL=true \
 			--name m1-transcode \
 			--rm m1-transcode; \
