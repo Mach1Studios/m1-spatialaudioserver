@@ -35,8 +35,9 @@ clean:
 	rm -rf ${PWD}/logs
 
 build: stop
-	docker build $$args -f ./containers/koa/Dockerfile -t m1-api .
-	docker build $$args -f  ./containers/nginx/Dockerfile -t m1-transcode .
+	$(eval COMMIT_HASH=$(shell git rev-parse --short HEAD 2>/dev/null || echo "dev"))
+	docker build $$args --build-arg COMMIT_HASH=$(COMMIT_HASH) -f ./containers/koa/Dockerfile -t m1-api .
+	docker build $$args --build-arg COMMIT_HASH=$(COMMIT_HASH) -f  ./containers/nginx/Dockerfile -t m1-transcode .
 	docker build $$args -f ./containers/redis/Dockerfile -t m1-redis .
 
 deploy: build

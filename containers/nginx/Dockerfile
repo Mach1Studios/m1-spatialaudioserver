@@ -193,6 +193,13 @@ COPY ./vue-front/package*.json ./
 RUN npm ci --no-optional
 
 COPY ./vue-front .
+
+# Inject build version and commit hash
+ARG BUILD_VERSION=0.2.0
+ARG COMMIT_HASH=unknown
+ENV VUE_APP_VERSION=${BUILD_VERSION}
+ENV VUE_APP_COMMIT_HASH=${COMMIT_HASH}
+
 RUN npm run build
 
 #################################################

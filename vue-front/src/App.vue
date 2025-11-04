@@ -11,6 +11,9 @@
     :description="loader.description"
     :is-loading="loader.isLoading"
   />
+  <div class="version-info">
+    v{{ version }} ({{ commitHash }})
+  </div>
 </template>
 
 <script>
@@ -22,7 +25,16 @@ import Preloader from './components/Base/Preloader.vue';
 
 export default {
   components: { Header, Preloader, Notifications },
+  data() {
+    return {
+      version: process.env.VUE_APP_VERSION || '0.1.0',
+      commitHash: process.env.VUE_APP_COMMIT_HASH || 'dev',
+    };
+  },
   computed: mapState({ loader: (state) => state.loader }),
+  mounted() {
+    console.log(`Spatial Audio Server v${this.version} (${this.commitHash})`);
+  },
 };
 </script>
 
@@ -108,5 +120,16 @@ export default {
     body {
       overflow-y: scroll;
     }
+  }
+
+  .version-info {
+    position: fixed;
+    bottom: 5px;
+    right: 10px;
+    font-size: 10px;
+    color: var(--secondary);
+    opacity: 0.5;
+    z-index: 1000;
+    pointer-events: none;
   }
 </style>
