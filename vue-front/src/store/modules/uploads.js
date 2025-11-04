@@ -198,16 +198,16 @@ const actions = {
 
         const existingFile = _.find(state.files, { name: track.name });
         if (existingFile) {
-          dispatch('toast', { 
-            event: { 
-              message: `Replacing existing track "${track.name}" in upload queue`, 
-              icon: 'info' 
-            } 
+          dispatch('toast', {
+            event: {
+              message: `Replacing existing track "${track.name}" in upload queue`,
+              icon: 'info',
+            },
           }, { root: true });
           // Remove the old file from the queue
           commit('removeFile', existingFile);
         }
-        
+
         console.timeEnd(label);
         commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
         commit('loader', { enable: false }, { root: true });
