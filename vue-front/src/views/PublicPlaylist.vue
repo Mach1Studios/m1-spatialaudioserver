@@ -121,10 +121,7 @@ export default {
         this.error = null;
 
         const playlistId = this.$route.params.id;
-        const apiUrl = process.env.VUE_APP_API_URL || window.location.origin;
-        const apiPath = process.env.VUE_APP_API_PATH || '/api';
-
-        const response = await fetch(`${apiUrl}${apiPath}/v1/playlists/public/${playlistId}`, {
+        const response = await fetch(`/api/playlists/public/${playlistId}`, {
           method: 'GET',
           mode: 'cors',
           credentials: 'include',

@@ -3,7 +3,7 @@ import _ from 'lodash';
 export default class FetchHelper {
   #defaultUrl = new URL(process.env.VUE_APP_API_URL || window.location.origin)
 
-  #defaultPath = process.env.VUE_APP_API_PATH || ''
+  #defaultPath = process.env.VUE_APP_API_PATH || '/api'
 
   #path = ''
 
