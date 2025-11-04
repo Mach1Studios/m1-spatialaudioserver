@@ -76,7 +76,7 @@
           <span />
         </label>
         <div class="checkbox">
-          for MACH1 Formats audio track
+          File is in Mach1Spatial format
         </div>
       </nav>
     </div>

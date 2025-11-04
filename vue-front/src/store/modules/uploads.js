@@ -196,12 +196,20 @@ const actions = {
         source.connect(context.destination);
         source.buffer = buffer;
 
-        if (_.find(state.files, { name: track.name })) {
-          dispatch('toast', { error: { message: `You have already chosen a track called "${track.name}"` } }, { root: true });
-        } else {
-          console.timeEnd(label);
-          commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
+        const existingFile = _.find(state.files, { name: track.name });
+        if (existingFile) {
+          dispatch('toast', { 
+            event: { 
+              message: `Replacing existing track "${track.name}" in upload queue`, 
+              icon: 'info' 
+            } 
+          }, { root: true });
+          // Remove the old file from the queue
+          commit('removeFile', existingFile);
         }
+        
+        console.timeEnd(label);
+        commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
         commit('loader', { enable: false }, { root: true });
       });
     };
