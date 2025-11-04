@@ -236,7 +236,8 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 
 # Adding NGINX configs
 COPY ./containers/nginx/uploader.lua /etc/nginx/uploader.lua
-COPY ./containers/nginx/nginx.conf /etc/nginx/nginx.conf.template
+COPY ./containers/nginx/nginx-http.conf /etc/nginx/nginx-http.conf.template
+COPY ./containers/nginx/nginx-https.conf /etc/nginx/nginx-https.conf.template
 COPY ./containers/nginx/switcher.sh /etc/nginx/switcher.sh
 COPY ./containers/nginx/m1-transcode /etc/nginx/m1-transcode
 COPY ./containers/nginx/mime.types /etc/nginx/mime.types
@@ -248,8 +249,15 @@ RUN mkdir /var/log/nginx
 
 EXPOSE 1935
 EXPOSE 80
+EXPOSE 443
 
-CMD chmod -R 777 /share/sound && envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < \
- /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && \
- export LD_LIBRARY_PATH=/usr/local/luajit/lib:$LD_LIBRARY_PATH && \
- nginx
+CMD chmod -R 777 /share/sound && \
+  if [ "$ENABLE_SSL" = "true" ] && [ -n "$DOMAIN_NAME" ]; then \
+    echo "Starting nginx with HTTPS configuration for domain: $DOMAIN_NAME"; \
+    envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < /etc/nginx/nginx-https.conf.template > /etc/nginx/nginx.conf; \
+  else \
+    echo "Starting nginx with HTTP-only configuration"; \
+    envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" < /etc/nginx/nginx-http.conf.template > /etc/nginx/nginx.conf; \
+  fi && \
+  export LD_LIBRARY_PATH=/usr/local/luajit/lib:$LD_LIBRARY_PATH && \
+  nginx

@@ -1,5 +1,9 @@
 LOG_PREFIX := "default"
 
+# Load configuration from config.env if it exists
+-include config.env
+export
+
 ## getting OS type
 ifeq ($(OS),Windows_NT)
 	UNAME := Windows
@@ -101,8 +105,16 @@ production: build
 	make run_node_docker args="-d" > /dev/null
 	make run_nginx_docker args="-d" > /dev/null
 	@echo "✓ All docker containers have been launched"
-	@echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP'):80"
-	@echo "➜ Note: Make sure port 80 is open in your EC2 security group"
+	@if [ -n "$(DOMAIN_NAME)" ]; then \
+		echo "➜ The dashboard should be available at: https://$(DOMAIN_NAME)"; \
+	else \
+		echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP')"; \
+	fi
+	@if [ "$(ENABLE_SSL)" = "true" ]; then \
+		echo "➜ Note: Make sure ports 80 and 443 are open in your EC2 security group"; \
+	else \
+		echo "➜ Note: Make sure port 80 is open in your EC2 security group"; \
+	fi
 	@echo "➜ To stop containers, run: 'make stop'"
 
 .SILENT: production-skip-build
@@ -114,8 +126,16 @@ production-skip-build:
 	make run_node_docker args="-d" > /dev/null
 	make run_nginx_docker args="-d" > /dev/null
 	@echo "✓ All docker containers have been launched"
-	@echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP'):80"
-	@echo "➜ Note: Make sure port 80 is open in your EC2 security group"
+	@if [ -n "$(DOMAIN_NAME)" ]; then \
+		echo "➜ The dashboard should be available at: https://$(DOMAIN_NAME)"; \
+	else \
+		echo "➜ The dashboard should be available at: http://$(shell curl -s http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null || echo 'YOUR_EC2_IP')"; \
+	fi
+	@if [ "$(ENABLE_SSL)" = "true" ]; then \
+		echo "➜ Note: Make sure ports 80 and 443 are open in your EC2 security group"; \
+	else \
+		echo "➜ Note: Make sure port 80 is open in your EC2 security group"; \
+	fi
 	@echo "➜ To stop containers, run: 'make stop'"
 
 .SILENT: run_node_docker
@@ -137,12 +157,27 @@ run_redis_docker:
 
 .SILENT: run_nginx_docker	
 run_nginx_docker:
-	docker run -it -p 1935:1935 -p 80:80 $$args \
-		--net m1-network \
-		--ip 172.20.0.4 \
-		--mount type=volume,source=m1-volume,target=/share/sound \
-		--name m1-transcode \
-		--rm m1-transcode
+	@if [ -n "$(DOMAIN_NAME)" ] && [ "$(ENABLE_SSL)" = "true" ]; then \
+		echo "Starting nginx with SSL for domain: $(DOMAIN_NAME)"; \
+		docker run -it -p 1935:1935 -p 80:80 -p 443:443 $$args \
+			--net m1-network \
+			--ip 172.20.0.4 \
+			--mount type=volume,source=m1-volume,target=/share/sound \
+			--mount type=bind,source=/etc/letsencrypt,target=/etc/letsencrypt,readonly \
+			-e DOMAIN_NAME=$(DOMAIN_NAME) \
+			-e ENABLE_SSL=true \
+			--name m1-transcode \
+			--rm m1-transcode; \
+	else \
+		echo "Starting nginx in HTTP-only mode"; \
+		docker run -it -p 1935:1935 -p 80:80 $$args \
+			--net m1-network \
+			--ip 172.20.0.4 \
+			--mount type=volume,source=m1-volume,target=/share/sound \
+			-e ENABLE_SSL=false \
+			--name m1-transcode \
+			--rm m1-transcode; \
+	fi
 
 rebuild_nginx_docker:
 ifeq ($(shell docker ps -q --filter name="m1-transcode"),)
