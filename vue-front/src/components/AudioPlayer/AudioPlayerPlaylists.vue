@@ -180,6 +180,7 @@ export default {
   created() {
     this.$store.dispatch('playlists/getAll');
     this.$store.dispatch('tracks/getAll');
+    this.$store.dispatch('users/getAll');
   },
   updated() {
     this.$store.dispatch('playlists/update');
