@@ -4,21 +4,17 @@
       About
     </h4>
     <p class="white-text">
-      Mach1 preserves traditional audio engineering best practices enabling the artist to be in full creative control.
-      We are not just looking to the masters of the past,
-      but connecting and expanding on their core values and motivations, making sure that we bring ourselves, as craftsmen, into emerging and new mediums.
+      <strong>M1 Spatial Audio Server</strong> is a frontend and backend solution for serving custom streaming spatial audio players with included web playback capabilities.
+      Built around <a href="https://www.mach1.tech/spatial" target="_blank" class="link">Mach1 Spatial</a>, this server leverages the Mach1Decode API and Mach1Transcode API to unify playback of all multichannel and spatial audio formats.
     </p>
     <p class="white-text paragraph">
-      Defending craft matters. Without it, our work and innovations are just research and development for the existing repressive system.
+      Quickly build and deploy hosted spatial audio experiences and streams designed around Mach1 Spatial technology.
+      The platform includes an admin dashboard for managing spatial mixes, allowing easy upload and playlist management, plus a spatial player for immersive audio playback.
     </p>
     <p class="white-text paragraph">
-      A Renaissance of sound is happening as sound quality is critical for maintaining immersion and our openness
-      to this fundamental change should not create footholds that undermine the craft in service of the technical.
-    </p>
-    <p class="white-text paragraph">
-      Unlike other spatial formats, with Mach1 Spatial all surround and spatial rendered sound field formats are ingestible without alteration to the sound field.
-      Mach1 Spatial achieves a perfect 1:1 with what the audio producer or engineer created. Mach1 Spatial is transparent there is no processing or filtering effects
-      to simulate directionality at the expense of quality. With Mach1 your creative mix is the technical mix. We want to help build the world that values, artists, sound and craftsmanship.
+      Learn more about the project: 
+      <a href="https://github.com/mach1studios/m1-spatialaudioserver" target="_blank" class="link">GitHub Repository</a> | 
+      <a href="https://github.com/Mach1Studios/m1-spatialaudio-client-ios" target="_blank" class="link">iOS Client</a>
     </p>
     <div class="large-divider" />
     <div class="row">
@@ -26,17 +22,20 @@
         <h2 class="title upper white-text">
           Follow us:
         </h2>
-        <a href="https://www.instagram.com/poweredbymach1/">
-          <img class="social-icon top" src="../assets/icons8-instagram.svg">
+        <a href="https://www.instagram.com/poweredbymach1/" target="_blank" title="Instagram">
+          <img class="social-icon top" src="../assets/icons8-instagram.svg" alt="Instagram">
         </a>
-        <a href="https://www.twitter.com/poweredbymach1">
-          <img class="social top" src="../assets/icons8-twitter.svg">
+        <a href="https://www.twitter.com/poweredbymach1" target="_blank" title="Twitter">
+          <img class="social top" src="../assets/icons8-twitter.svg" alt="Twitter">
         </a>
-        <a href="https://join.slack.com/t/spatialaudio/shared_invite/enQtNjk0ODE4NjQ4NjExLWQ5YWUyNWQ4NWEwMDEwZmJiNmI5MzBhYjM3OTE3NTYxYzdjZDE2YTlhZDI4OGY0ZjdkNmM1NzgxNjI5OGU4ZWE">
-          <img class="social top" src="../assets/icons8-slack-new.svg">
+        <a href="https://discord.gg/qfZcZWanAY" target="_blank" title="Discord">
+          <img class="social top" src="../assets/icons8-discord.svg" alt="Discord">
         </a>
-        <a href="https://www.youtube.com/channel/UCqoFv8OnTYjkwjHeo6JDUFg">
-          <img class="social top" src="../assets/icons8-youtube.svg">
+        <a href="https://www.youtube.com/channel/UCqoFv8OnTYjkwjHeo6JDUFg" target="_blank" title="YouTube">
+          <img class="social top" src="../assets/icons8-youtube.svg" alt="YouTube">
+        </a>
+        <a href="https://github.com/Mach1Studios/" target="_blank" title="GitHub">
+          <img class="social top" src="../assets/icons8-github.svg" alt="GitHub">
         </a>
       </div>
     </div>
@@ -109,4 +108,13 @@ export default {
  .large-divider {
     border-bottom: 1rem solid var(--additional-accent-color);
   }
+
+ .link {
+   color: var(--secondary-accent-color);
+   text-decoration: underline;
+   
+   &:hover {
+     color: var(--secondary-highlight-color);
+   }
+ }
 </style>
