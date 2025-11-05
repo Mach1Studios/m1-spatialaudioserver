@@ -12,8 +12,8 @@
       The platform includes an admin dashboard for managing spatial mixes, allowing easy upload and playlist management, plus a spatial player for immersive audio playback.
     </p>
     <p class="white-text paragraph">
-      Learn more about the project: 
-      <a href="https://github.com/mach1studios/m1-spatialaudioserver" target="_blank" class="link">GitHub Repository</a> | 
+      Learn more about the project:
+      <a href="https://github.com/mach1studios/m1-spatialaudioserver" target="_blank" class="link">GitHub Repository</a> |
       <a href="https://github.com/Mach1Studios/m1-spatialaudio-client-ios" target="_blank" class="link">iOS Client</a>
     </p>
     <div class="large-divider" />
@@ -112,7 +112,7 @@ export default {
  .link {
    color: var(--secondary-accent-color);
    text-decoration: underline;
-   
+
    &:hover {
      color: var(--secondary-highlight-color);
    }

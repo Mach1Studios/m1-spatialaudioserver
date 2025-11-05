@@ -14,9 +14,9 @@ const routes = [
     path: '/playlist/:id',
     name: 'PublicPlaylist',
     component: () => import('../views/PublicPlaylist.vue'),
-    meta: { 
+    meta: {
       transition: 'slide-left',
-      public: true,  // Mark as public route - no auth required
+      public: true, // Mark as public route - no auth required
     },
   },
   {
@@ -56,11 +56,10 @@ const router = createRouter({
   routes,
 });
 
-// eslint-disable-next-line consistent-return
 router.beforeEach(async (to) => {
   // Skip auth check for public routes
   if (to.meta.public) {
-    return;
+    return undefined;
   }
 
   try {
@@ -73,6 +72,8 @@ router.beforeEach(async (to) => {
         };
       }
     }
+
+    return undefined;
   } catch (e) {
     return {
       path: '/',
