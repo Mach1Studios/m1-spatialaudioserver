@@ -4,6 +4,9 @@ const anchor = require('markdown-it-anchor');
 
 module.exports = {
   transpileDependencies: ['mach1spatial-decode'],
+  // Disable linting during production build to avoid build failures in Docker
+  // Set ENABLE_LINT=true if you want to enable linting during production builds
+  lintOnSave: process.env.NODE_ENV === 'production' ? (process.env.ENABLE_LINT === 'true') : true,
   // configureWebpack: {
   //   plugins: [
   //     new BrowserSyncPlugin(
