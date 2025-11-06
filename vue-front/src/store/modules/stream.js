@@ -44,12 +44,15 @@ const actions = {
         await defaultAdapter.load(ctx);
     }
   },
-  async stop({ commit, state }) {
+  async stop({ commit, state, dispatch }) {
     if (state.player && state.player.destroy) state.player.destroy();
 
     commit('setActiveStream', false);
     commit('setPlayer', null);
     commit('tracks/setPlayingTrack', null, { root: true });
+
+    // Reset audio state to clean up AudioContext
+    await dispatch('audio/reset', null, { root: true });
   },
   updateInfo(ctx, info) {
     ctx.commit('setStreamInformation', info);

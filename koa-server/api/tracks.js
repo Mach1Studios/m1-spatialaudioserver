@@ -13,30 +13,44 @@ export default {
    *                          node's request and response objects into a single object
    */
   async get(ctx) {
-    const { id } = ctx.params;
-    const { user } = ctx.session;
-    const { part } = ctx.request.query;
-    const item = await ctx.redis.hgetall(`track:${id}`);
-    if (_.isEmpty(item)) ctx.throw(404);
+    try {
+      const { id } = ctx.params;
+      const { user } = ctx.session || {};
+      const { part } = ctx.request.query;
+      const item = await ctx.redis.hgetall(`track:${id}`);
+      if (_.isEmpty(item)) {
+        ctx.throw(404, 'Track not found');
+        return;
+      }
 
-    const Playlist = new PlaylistModel();
+      const Playlist = new PlaylistModel();
 
-    await Playlist.getItemsByUserRole(user);
-    if (!(user && user.role === 'admin') && !Playlist.isTrackIncludes(id)) {
-      ctx.throw(401, 'Permission deny');
+      await Playlist.getItemsByUserRole(user);
+      if (!(user && user.role === 'admin') && !Playlist.isTrackIncludes(id)) {
+        ctx.throw(401, 'Permission deny');
+        return;
+      }
+
+      // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
+      // and should be added the status of live broadcast
+
+      if (part === 'manifest.mpd') {
+        const { track } = new TrackModel(item);
+        await ctx.redis.hset(`track:${id}`, {
+          listened: track.listened + 1,
+          prepared: true,
+        });
+      }
+      ctx.status = 204;
+    } catch (error) {
+      // Re-throw Koa errors (which have status codes)
+      if (error.status) {
+        throw error;
+      }
+      // Log unexpected errors and return 500
+      console.error('Error in tracks.get:', error);
+      ctx.throw(500, 'Internal server error');
     }
-
-    // TODO: need to start to store information about prepared cache for file [mpeg-dash manifest];
-    // and should be added the status of live broadcast
-
-    if (part === 'manifest.mpd') {
-      const { track } = new TrackModel(item);
-      await ctx.redis.hset(`track:${id}`, {
-        listened: track.listened + 1,
-        prepared: true,
-      });
-    }
-    ctx.status = 204;
   },
   /**
    * Scaning and returns a list of available sound files (by match .wav extention)
