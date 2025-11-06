@@ -11,10 +11,20 @@ const defaultState = () => ({
 
 const actions = {
   createGainNodes({ commit, state, getters }, volume = 0) {
+    // Close old AudioContext if it exists
+    if (state.AudioContext) {
+      state.AudioContext.close();
+    }
+
     const context = new (window.AudioContext || window.webkitAudioContext)();
     commit('setAudioContext', context);
 
-    const { channels, source } = state;
+    const { channels, view } = state;
+
+    // Create a new source from the current view/audio element with the new context
+    const source = context.createMediaElementSource(view);
+    commit('setMediaSource', source);
+
     const splitter = context.createChannelSplitter(channels);
     const merger = context.createChannelMerger(channels * 2);
 
@@ -62,6 +72,9 @@ const actions = {
   updateNumberOfChannels({ commit }, count) {
     commit('setNumberOfChannels', count);
   },
+  reset({ commit }) {
+    commit('resetAudioState');
+  },
 };
 
 const getters = {
@@ -79,11 +92,11 @@ const getters = {
 const mutations = {
   setAudioContext(state, AudioContext) {
     state.gainNodes = [];
+    state.gainNodesAnalyser = [];
     state.AudioContext = AudioContext;
-
-    if (state.view && _.isNull(state.source)) {
-      state.source = AudioContext.createMediaElementSource(state.view);
-    }
+  },
+  setMediaSource(state, source) {
+    state.source = source;
   },
   setGain(state, gain) {
     if (gain) {
@@ -105,6 +118,15 @@ const mutations = {
   },
   setSource(state, source) {
     state.view = source;
+  },
+  resetAudioState(state) {
+    if (state.AudioContext) {
+      state.AudioContext.close();
+    }
+    state.AudioContext = null;
+    state.source = null;
+    state.gainNodes = [];
+    state.gainNodesAnalyser = [];
   },
 };
 
