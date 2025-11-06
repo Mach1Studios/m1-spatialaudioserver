@@ -74,6 +74,12 @@ const load = (ctx) => new Promise((resolve, reject) => {
   });
 });
 
-const parse = (id) => `${process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080'}/dash/static/${id}/manifest.mpd`;
+const parse = (id) => {
+  // In production, use window.location.origin to avoid hardcoded port issues
+  const streamUrl = process.env.NODE_ENV === 'development' 
+    ? (process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080')
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
+  return `${streamUrl}/dash/static/${id}/manifest.mpd`;
+};
 
 export default { load, parse };

@@ -73,6 +73,12 @@ const load = (ctx) => new Promise((resolve, reject) => {
   });
 });
 
-const parse = (id) => `${process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080'}/hls/static/${id}/master.m3u8`;
+const parse = (id) => {
+  // In production, use window.location.origin to avoid hardcoded port issues
+  const streamUrl = process.env.NODE_ENV === 'development' 
+    ? (process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080')
+    : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
+  return `${streamUrl}/hls/static/${id}/master.m3u8`;
+};
 
 export default { load, parse };
