@@ -48,7 +48,7 @@ const actions = {
 
 const getters = {
   userId(state) {
-    return state.profile.user.id;
+    return state.profile?.user?.id;
   },
 };
 

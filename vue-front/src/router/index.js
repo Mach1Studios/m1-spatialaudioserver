@@ -8,7 +8,10 @@ const routes = [
     path: '/',
     name: 'SpatialAudioPlayer',
     component: SpatialAudioPlayer,
-    meta: { transition: 'slide-left' },
+    meta: {
+      transition: 'slide-left',
+      public: true, // Mark as public route - no auth required
+    },
   },
   {
     path: '/playlist/:id',
@@ -47,7 +50,10 @@ const routes = [
     path: '/documentation',
     name: 'Documentation',
     component: () => import('../views/Documentation.vue'),
-    meta: { transition: 'slide-left' },
+    meta: {
+      transition: 'slide-left',
+      public: true, // Documentation should be publicly accessible
+    },
   },
 ];
 
