@@ -149,7 +149,15 @@ const mutations = {
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {
-    const stream = process.env.VUE_APP_STREAM_URL || window.location.origin;
+    // Use relative URL in development if VUE_APP_STREAM_URL is not set (allows dev server proxy to work)
+    // In production, always use window.location.origin to avoid hardcoded port issues
+    let stream;
+    if (process.env.NODE_ENV === 'development') {
+      stream = process.env.VUE_APP_STREAM_URL || '';
+    } else {
+      // In production, use current origin (window.location.origin) to avoid port mismatches
+      stream = window.location.origin;
+    }
     const {
       processing, url, type, ...info
     } = payload;
@@ -161,7 +169,7 @@ const mutations = {
     store.type = type || null;
     // NOTE: replace parameters after main storage update if need it
     if (_.isString(url) && isUuid(url)) {
-      store.info.url = `${stream}/dash/static/${payload.url}/manifest.mpd`;
+      store.info.url = stream ? `${stream}/dash/static/${payload.url}/manifest.mpd` : `/dash/static/${payload.url}/manifest.mpd`;
       store.processing = true;
     }
   },

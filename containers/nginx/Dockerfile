@@ -200,6 +200,10 @@ ARG COMMIT_HASH=unknown
 ENV VUE_APP_VERSION=${BUILD_VERSION}
 ENV VUE_APP_COMMIT_HASH=${COMMIT_HASH}
 
+# Set NODE_ENV for production build
+ENV NODE_ENV=production
+
+# Disable linting during build (lintOnSave is set to false in vue.config.js for production)
 RUN npm run build
 
 #################################################
