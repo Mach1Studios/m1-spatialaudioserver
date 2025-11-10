@@ -81,6 +81,24 @@ export default {
       return _.get(this, 'profile.user.role') === 'admin';
     },
   },
+  watch: {
+    '$store.getters["audio/isActiveChannels"]'(newVal, oldVal) {
+      console.log('[SPATIAL] isActiveChannels changed', { from: oldVal, to: newVal, isActiveStream: this.isActiveStream });
+      // When channels become active and stream is already active, initialize immediately
+      if (newVal && this.isActiveStream) {
+        console.log('[SPATIAL] Both stream and channels active, initializing gain nodes immediately');
+        this.initializeAudio();
+      }
+    },
+    '$store.state.stream.isActiveStream'(newVal, oldVal) {
+      console.log('[SPATIAL] isActiveStream changed', { from: oldVal, to: newVal, isActiveChannels: this.isActiveChannels });
+      // When stream becomes active and channels are already active, initialize immediately
+      if (newVal && this.isActiveChannels) {
+        console.log('[SPATIAL] Both stream and channels active, initializing gain nodes immediately');
+        this.initializeAudio();
+      }
+    },
+  },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
     // ...mapActions('logs', { log: 'createMessage' }),
@@ -115,15 +133,41 @@ export default {
         }
       }
     },
-    async init() {
+    async initializeAudio() {
+      console.log('[SPATIAL] initializeAudio called', {
+        isActiveStream: this.isActiveStream,
+        isActiveChannels: this.isActiveChannels,
+        channels: this.channels,
+      });
+      
       if (this.isActiveStream && this.isActiveChannels) {
-        return this.createGainNodes();
+        console.log('[SPATIAL] Creating gain nodes for audio processing');
+        const result = await this.createGainNodes();
+        console.log('[SPATIAL] createGainNodes returned:', result);
+        return result;
+      } else {
+        console.log('[SPATIAL] Cannot initialize - stream or channels not ready');
       }
+    },
+    async init() {
+      console.log('[SPATIAL] init (polling) called', {
+        isActiveStream: this.isActiveStream,
+        isActiveChannels: this.isActiveChannels,
+        channels: this.channels,
+      });
+      
+      if (this.isActiveStream && this.isActiveChannels) {
+        console.log('[SPATIAL] Conditions met, initializing audio');
+        return this.initializeAudio();
+      }
+      
+      console.log('[SPATIAL] Waiting for stream/channels to be active, retrying in 2s');
       await wait(2);
       return this.init();
     },
   },
   mounted() {
+    console.log('[SPATIAL] Component mounted');
     window.addEventListener('mousemove', mousemoveListener, false);
     this.decoder = new Mach1DecoderProxy(null, { debug: false });
     this.isMount = true;
