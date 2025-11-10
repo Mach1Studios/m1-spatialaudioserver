@@ -89,12 +89,24 @@ export default {
       defaultVolume: 0.5,
       channelsVolume: {},
       channelsMuted: {},
+      isInitializing: false,
     };
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
     ...mapState('audio', { audio: 'context', source: 'source' }),
     ...mapState('stream', ['player', 'isActiveStream']),
+  },
+  watch: {
+    isActiveChannels(newVal, oldVal) {
+      console.log('[CONTROLS] isActiveChannels changed', { from: oldVal, to: newVal, isInitializing: this.isInitializing });
+      // When channels go from active to inactive (stream stopped) and back to active (new stream)
+      // restart the initialization
+      if (newVal && !this.isInitializing) {
+        console.log('[CONTROLS] Restarting init due to channel change');
+        this.init();
+      }
+    },
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
@@ -128,18 +140,40 @@ export default {
       this.changeVolume(channel, this.channelsMuted[channel] ? this.defaultVolume : 0);
     },
     async init() {
-      // console.log(this.isActiveStream, this.isActiveChannels);
+      console.log('[CONTROLS] init called', {
+        isActiveStream: this.isActiveStream,
+        isActiveChannels: this.isActiveChannels,
+        channels: this.channels,
+        isInitializing: this.isInitializing,
+      });
+      
+      if (this.isInitializing) {
+        console.log('[CONTROLS] Already initializing, skipping');
+        return;
+      }
+      
+      this.isInitializing = true;
+      
       if (this.isActiveStream && this.isActiveChannels) {
+        console.log('[CONTROLS] Both stream and channels are active, creating gain nodes');
         _.each(this.channels, (channel, index) => {
           this.channelsVolume[index] = this.defaultVolume;
         });
-        return this.createGainNodes(this.defaultVolume);
+        console.log('[CONTROLS] About to call createGainNodes with volume:', this.defaultVolume);
+        const result = await this.createGainNodes(this.defaultVolume);
+        console.log('[CONTROLS] createGainNodes returned:', result);
+        this.isInitializing = false;
+        return result;
       }
+      
+      console.log('[CONTROLS] Waiting for stream/channels to be active, retrying in 0.5s');
       await wait(0.5);
+      this.isInitializing = false;
       return this.init();
     },
   },
   mounted() {
+    console.log('[CONTROLS] Component mounted');
     this.init();
   },
 };

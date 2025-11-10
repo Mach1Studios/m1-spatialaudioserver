@@ -37,12 +37,25 @@ const actions = {
     })));
   },
   async select({ commit, state, dispatch }, id) {
+    console.log('[TRACKS] select called', { id });
+    
+    // Stop any existing stream first to clean up audio context
+    try {
+      console.log('[TRACKS] Stopping any existing stream');
+      await dispatch('stream/stop', null, { root: true });
+    } catch (error) {
+      console.warn('[TRACKS] Error stopping stream (may be expected):', error);
+    }
+    
     commit('loader', { enable: true, description: 'The live stream is starting...' }, { root: true });
     // await api.get(id);
     await dispatch('getAll');
     const track = _.find(state.items, { id });
 
+    console.log('[TRACKS] Found track, setting as playing', { track });
     commit('setPlayingTrack', { ...track, prepared: true, playing: true });
+    
+    console.log('[TRACKS] Starting stream');
     dispatch('stream/start', id, { root: true });
   },
   /**

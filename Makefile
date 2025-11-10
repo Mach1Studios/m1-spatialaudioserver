@@ -43,6 +43,7 @@ endif
 
 .SILENT: stop
 stop:
+	@echo "➜ Stopping m1-spatialaudioserver containers..."
 ifeq ($(shell docker ps -q --filter name="m1*"),)
 	@echo "➜ No m1 containers found for stop, skipping..."
 else

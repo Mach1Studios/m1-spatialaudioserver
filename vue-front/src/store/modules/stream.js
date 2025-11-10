@@ -29,23 +29,35 @@ const defaultState = () => ({
 
 const actions = {
   async start(ctx, url) {
+    console.log('[STREAM] start called', { url, adapter: ctx.state.adapter });
     ctx.commit('setActiveStream', false);
     ctx.commit('setStreamInformation', { url });
     ctx.commit('loader', { description: 'Starting to initialize the audio player' }, { root: true });
 
     switch (ctx.state.adapter) {
       case 'dash':
+        console.log('[STREAM] Using DASH adapter');
         await defaultAdapter.load(ctx);
         break;
       case 'hls':
+        console.log('[STREAM] Using HLS adapter');
         await additionalAdapter.load(ctx);
         break;
       default:
+        console.log('[STREAM] Using default DASH adapter');
         await defaultAdapter.load(ctx);
     }
   },
   async stop({ commit, state, dispatch }) {
-    if (state.player && state.player.destroy) state.player.destroy();
+    console.log('[STREAM] stop called', { hasPlayer: !!state.player });
+    
+    if (state.player && state.player.destroy) {
+      try {
+        state.player.destroy();
+      } catch (error) {
+        console.warn('[STREAM] Error destroying player (may be expected):', error);
+      }
+    }
 
     commit('setActiveStream', false);
     commit('setPlayer', null);
@@ -100,6 +112,7 @@ const actions = {
 
 const mutations = {
   setActiveStream(store, status) {
+    console.log('[STREAM MUTATION] setActiveStream', { from: store.isActiveStream, to: status });
     store.isActiveStream = status;
   },
   setStreamInformation(store, payload) {

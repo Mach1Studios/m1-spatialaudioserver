@@ -11,19 +11,45 @@ const defaultState = () => ({
 
 const actions = {
   createGainNodes({ commit, state, getters }, volume = 0) {
+    console.log('[AUDIO] createGainNodes called', {
+      channels: state.channels,
+      hasExistingContext: !!state.AudioContext,
+      hasExistingSource: !!state.source,
+      hasView: !!state.view,
+    });
+
     // Close old AudioContext if it exists
     if (state.AudioContext) {
+      console.log('[AUDIO] Closing old AudioContext');
       state.AudioContext.close();
     }
 
+    console.log('[AUDIO] Creating new AudioContext');
     const context = new (window.AudioContext || window.webkitAudioContext)();
     commit('setAudioContext', context);
 
     const { channels, view } = state;
 
     // Create a new source from the current view/audio element with the new context
-    const source = context.createMediaElementSource(view);
-    commit('setMediaSource', source);
+    let source;
+    try {
+      console.log('[AUDIO] Creating MediaElementSource', {
+        viewExists: !!view,
+        viewSrc: view?.src,
+        contextState: context.state,
+      });
+      source = context.createMediaElementSource(view);
+      commit('setMediaSource', source);
+      console.log('[AUDIO] MediaElementSource created successfully');
+    } catch (error) {
+      console.error('[AUDIO] Failed to create MediaElementSource:', error);
+      throw error;
+    }
+
+    console.log('[AUDIO] Creating audio processing chain', {
+      channels,
+      volume,
+    });
 
     const splitter = context.createChannelSplitter(channels);
     const merger = context.createChannelMerger(channels * 2);
@@ -58,10 +84,26 @@ const actions = {
     _.each(getters.listOfChannels, processing);
     merger.connect(context.destination);
 
+    console.log('[AUDIO] Audio processing chain created, hiding loader and starting playback');
     commit('loader', { enable: false }, { root: true });
-    state.view.play();
+    
+    console.log('[AUDIO] Attempting to play audio', {
+      viewReadyState: view.readyState,
+      viewPaused: view.paused,
+      viewSrc: view.src,
+    });
+    
+    state.view.play().then(() => {
+      console.log('[AUDIO] Playback started successfully');
+    }).catch((error) => {
+      console.error('[AUDIO] Failed to start playback:', error);
+    });
   },
   updateSource({ commit }, source) {
+    console.log('[AUDIO] updateSource called', {
+      hasSource: !!source,
+      tagName: source?.tagName,
+    });
     commit('setSource', source);
   },
   updateVolume({ commit, state }, { channel, volume }) {
@@ -70,9 +112,11 @@ const actions = {
     }
   },
   updateNumberOfChannels({ commit }, count) {
+    console.log('[AUDIO] updateNumberOfChannels called', { count });
     commit('setNumberOfChannels', count);
   },
   reset({ commit }) {
+    console.log('[AUDIO] reset called');
     commit('resetAudioState');
   },
 };
@@ -91,11 +135,17 @@ const getters = {
 
 const mutations = {
   setAudioContext(state, AudioContext) {
+    console.log('[AUDIO MUTATION] setAudioContext', {
+      newContextState: AudioContext?.state,
+    });
     state.gainNodes = [];
     state.gainNodesAnalyser = [];
     state.AudioContext = AudioContext;
   },
   setMediaSource(state, source) {
+    console.log('[AUDIO MUTATION] setMediaSource', {
+      hasSource: !!source,
+    });
     state.source = source;
   },
   setGain(state, gain) {
@@ -114,19 +164,28 @@ const mutations = {
     }
   },
   setNumberOfChannels(state, count = 0) {
+    console.log('[AUDIO MUTATION] setNumberOfChannels', { from: state.channels, to: count });
     state.channels = count;
   },
   setSource(state, source) {
+    console.log('[AUDIO MUTATION] setSource', {
+      hasSource: !!source,
+      tagName: source?.tagName,
+    });
     state.view = source;
   },
   resetAudioState(state) {
+    console.log('[AUDIO MUTATION] resetAudioState called', { currentChannels: state.channels });
     if (state.AudioContext) {
+      console.log('[AUDIO MUTATION] Closing AudioContext');
       state.AudioContext.close();
     }
     state.AudioContext = null;
     state.source = null;
     state.gainNodes = [];
     state.gainNodesAnalyser = [];
+    state.channels = 0; // Reset channels so watcher fires on next track
+    console.log('[AUDIO MUTATION] resetAudioState complete', { channelsNowSetTo: state.channels });
   },
 };
 
