@@ -396,7 +396,7 @@ export default {
 
   .file-explorer-children {
     background-color: rgba(0, 0, 0, 0.2);
-    padding-left: 24px;
+    padding-left: 56px; // Aligns with start of playlist name (caret 20px + gap 8px + icon 20px + gap 8px)
     border-top: 1px solid var(--additional-dark-color);
   }
 
