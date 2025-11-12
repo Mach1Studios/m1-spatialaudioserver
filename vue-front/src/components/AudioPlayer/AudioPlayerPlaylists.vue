@@ -68,7 +68,10 @@
             </article>
             <article v-show="show === item.id" class="playlist-list no-padding no-round">
               <div class="grid">
-                <div class="col s12">
+                <div class="col s12 no-padding no-margin">
+                  <FileList :user="true" :playlist="item" class="no-scroll playlist-filelist" />
+                </div>
+                <div class="col s12 add-tracks-container">
                   <Modal
                     v-if="controls"
                     :key="item.id"
@@ -81,9 +84,6 @@
                       <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks" />
                     </div>
                   </Modal>
-                </div>
-                <div class="col s12 no-padding no-margin">
-                  <FileList :user="true" :playlist="item" class="no-scroll playlist-filelist" />
                 </div>
               </div>
             </article>
@@ -294,6 +294,11 @@ export default {
 
     .playlist-filelist {
       padding: 0 0 0 8rem;
+    }
+
+    .add-tracks-container {
+      padding: 0 0 8rem 0;
+      margin-top: -4rem;
     }
   }
 
