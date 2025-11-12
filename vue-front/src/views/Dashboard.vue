@@ -2,7 +2,7 @@
   <div class="max-size">
     <main class="max responsive no-scroll">
       <div class="grid mobile">
-        <div class="col s6 m6 l6">
+        <div :class="firstColumnClass">
           <div id="app-body-first">
             <article>
               <div class="tabs left-align">
@@ -29,7 +29,7 @@
             </article>
           </div>
         </div>
-        <div class="col s6 m6 l6">
+        <div v-show="isActiveStream" :class="secondColumnClass">
           <div id="app-body-second">
             <div id="AudioPlayerControls">
               <AudioPlayerControls />
@@ -55,6 +55,7 @@
 
 <script>
 /* eslint-disable */
+import { mapState } from 'vuex';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerControls from '../components/AudioPlayer/AudioPlayerControls.vue';
@@ -79,6 +80,15 @@ export default {
     return {
       selected: 'filelist',
     };
+  },
+  computed: {
+    ...mapState('stream', ['isActiveStream']),
+    firstColumnClass() {
+      return this.isActiveStream ? 'col s6 m6 l6' : 'col s12 m12 l12';
+    },
+    secondColumnClass() {
+      return 'col s6 m6 l6';
+    },
   },
   methods: {
     select(value) {
@@ -149,6 +159,14 @@ export default {
     flex-direction: column;
   }
 
+  #app-body-first {
+    transition: width 0.3s ease;
+  }
+
+  #app-body-second {
+    transition: width 0.3s ease;
+  }
+
   .audioplayer {
     box-shadow: none;
 
@@ -191,6 +209,14 @@ export default {
   main {
     padding-left: 55rem;
     padding-right: 55rem;
+  }
+
+  .grid.mobile {
+    transition: width 0.3s ease;
+  }
+
+  .grid.mobile > .col {
+    transition: width 0.3s ease, opacity 0.3s ease;
   }
 
   @media screen and (orientation: portrait) {
