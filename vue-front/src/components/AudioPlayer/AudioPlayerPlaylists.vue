@@ -26,9 +26,6 @@
                   <i class="material-icons">folder</i>
                 </span>
                 <span class="file-name">{{ item.name }}</span>
-                <span v-if="item.tracks && item.tracks.length > 0" class="file-count">
-                  ({{ item.tracks.length }})
-                </span>
                 <div v-if="controls" class="file-actions" @click.stop>
                   <button
                     class="file-action-btn"
@@ -362,26 +359,14 @@ export default {
     text-align: left;
   }
 
-  .file-count {
-    color: var(--primary-accent-color);
-    font-size: 12px;
-    margin-left: 4px;
-    flex-shrink: 0;
-  }
-
 
   .file-actions {
     display: flex;
     align-items: center;
     gap: 4px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    opacity: 1;
     margin-left: auto;
     flex-shrink: 0;
-  }
-
-  .file-explorer-item:hover .file-actions {
-    opacity: 1;
   }
 
   .file-action-btn {
