@@ -5,7 +5,7 @@
         <div class="col s12 m12 l12">
           <div id="Playlists-list" class="playlist">
             <article class="transparent playlists-card">
-              <FormButton class="playlist-btn" title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
+              <FormButton class="playlist-btn" title="Playlists" :icon="showPlaylist ? 'keyboard_arrow_down' : 'keyboard_arrow_right'" @click="showPlaylist = !showPlaylist" />
               <Transition>
                 <div v-show="showPlaylist">
                   <article class="front playlist-card">
