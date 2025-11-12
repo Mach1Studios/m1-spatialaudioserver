@@ -1,28 +1,25 @@
 <template>
-  <FormSelect
-    name=""
-    placeholder=""
-    class="playlist-select"
-    select-skin="dark"
-    :options="unbindedItems"
-    @change="addItem"
-  />
-  <div class="invite flex-item scroll">
-    <table class="table-invite flex-item">
+  <div class="flex-item scroll">
+    <table class="table-list flex-item">
       <tbody>
-        <tr v-for="(item, index) in bindedItems" :key="item">
+        <tr v-for="(item, index) in unbindedItems" :key="item.id">
           <td>
-            <p class="medium-text">{{ index + 1 }}</p>
+            <p class="audio-number medium-text">{{ index + 1 }}</p>
           </td>
-          <td class="small-width">
+          <td class="audio-name">
             <p class="medium-text">{{ item.name }}</p>
           </td>
           <td>
-            <nav class="right-align">
-              <button class="border transparent-border" @click="del(item.id)">
-                <i class="material-icons">delete</i>
+            <nav>
+              <button class="border round transparent-border" @click="addItem(item.id)">
+                <i class="material-icons">add</i>
               </button>
             </nav>
+          </td>
+        </tr>
+        <tr v-if="unbindedItems.length === 0">
+          <td colspan="3" class="no-tracks">
+            <p class="medium-text">All available tracks have been added to this playlist.</p>
           </td>
         </tr>
       </tbody>
@@ -34,13 +31,8 @@
 import { mapActions } from 'vuex';
 import _ from 'lodash';
 
-import FormSelect from './Form/Select.vue';
-
 export default {
   name: 'PlaylistInviteForm',
-  components: {
-    FormSelect,
-  },
   props: {
     playlist: Object,
     path: String,
@@ -52,13 +44,6 @@ export default {
     return {};
   },
   computed: {
-    bindedItems() {
-      return _
-        .chain(this.items)
-        .filter(({ id }) => this.playlist[this.path].indexOf(id) !== -1)
-        .map(({ id, name, email }) => ({ id, name: name || email }))
-        .value();
-    },
     unbindedItems() {
       return _
         .chain(this.items)
@@ -68,71 +53,131 @@ export default {
     },
   },
   methods: {
-    ...mapActions('playlists', ['addItemToPlaylist', 'removeItemFromPlaylist']),
-    del(itemId) {
-      this.removeItemFromPlaylist({ id: this.playlist.id, [this.path]: _.xor(this.playlist[this.path], [itemId]) });
-    },
-    addItem(event) {
-      this.addItemToPlaylist({ id: this.playlist.id, [this.path]: _.union(this.playlist[this.path], [event.target.value]) });
+    ...mapActions('playlists', ['addItemToPlaylist']),
+    addItem(itemId) {
+      this.addItemToPlaylist({ id: this.playlist.id, [this.path]: _.union(this.playlist[this.path], [itemId]) });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .flex-item {
+  .flex-item.scroll {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scrollbar-color: var(--primary-color);
 
     &::-webkit-scrollbar-track {
-      background-color: var(--secondary-highlight-color);
-      border-radius: 3em;
+      background-color: var(--secondary-color);
+      border-radius: 0;
     }
 
     &::-webkit-scrollbar {
-      background-color: var(--secondary-highlight-color);
-      // width: 7px;
+      background-color: var(--secondary-color);
+      border-radius: 0;
+
+      width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background-color: var(--primary-color);
-      border-radius: 3em;
+      border-radius: 0;
     }
   }
 
-  .invite {
-    p {
-      color: var(--secondary-highlight-color);
+  i {
+    color: var(--primary-highlight-color);
+    font-size: 16px;
+
+    cursor: pointer;
+  }
+
+  .table-list {
+    display: block;
+    overflow: hidden;
+
+    width: 100%;
+
+    tbody {
+      display: table;
+      width: 100%;
     }
 
-    i {
-      color: var(--primary-highlight-color);
-      font-size: 16px;
+    .audio-number {
+      cursor: pointer;
+    }
+
+    .audio-name {
+      width: 100%;
+      word-break: break-all;
+      cursor: pointer;
+    }
+
+    p {
+      color: var(--secondary-highlight-color);
+      text-align: justify;
+    }
+
+    td {
+      border-bottom: 1px var(--additional-dark-color) solid;
+
+      &:last-child {
+        padding-left: 0;
+        padding-right: 13px;
+      }
+
+      &.no-tracks {
+        text-align: center;
+        padding: 20px;
+      }
+    }
+
+    tr {
+      vertical-align: middle;
+      width: inherit;
+    }
+
+    tr:hover {
+      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
     }
 
     button {
-      margin: 16rem 0 16rem 0;
-      padding: 0;
-
-      width: 100%;
-
       &:hover {
         i {
           color: var(--secondary-highlight-color);
+          font-size: 20px;
         }
       }
     }
 
-    button:focus::after, button:hover::after {
-      background: none;
+    button.border::after {
+      background-image: none;
     }
+  }
 
-    .table-invite {
-      // margin-right: 16rem;
+  @media screen and (orientation: portrait) {
+    .table-list {
+      .audio-name {
+        width: 85%;
+        word-break: keep-all;
+      }
 
       td {
-        border-bottom: 1px var(--additional-dark-color) solid;
+        border: none;
+        display: grid;
+
+        &:last-child {
+          padding-left: 8rem;
+        }
       }
+
+      td:not(:nth-child(3)) {
+        display: inline-table;
+      }
+    }
+
+    nav>:not(.dropdown,.badge) {
+      padding-right: 8rem;
     }
   }
 </style>
