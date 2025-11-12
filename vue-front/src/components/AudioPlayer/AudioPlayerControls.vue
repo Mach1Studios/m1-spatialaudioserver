@@ -11,14 +11,14 @@
           </button>
         </div>
         <div class="channel flex-item scroll">
-          <div v-for="channel in channels" :key="channel" class="grid middle-align">
-            <div class="col s1 channel-number">
+          <div v-for="channel in channels" :key="channel" class="channel-row">
+            <div class="channel-number">
               <p class="small-text upper white-text" style="white-space:nowrap">Channel {{ channel + 1 }}</p>
             </div>
-            <div class="col s4 channel-wave">
+            <div class="channel-wave">
               <AudioPlayerSineWave :channel="channel" :line-color="lineColors[channel]" />
             </div>
-            <div class="col s7 channel-controls">
+            <div class="channel-controls">
               <div class="volume-control middle-align">
                 <div>
                   <i class="material-icons fill small" @click="mute(channel)">
@@ -321,36 +321,51 @@ export default {
 
     padding-bottom: 16rem;
 
-    .grid {
+    .channel-row {
       display: flex;
-      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      gap: 16rem;
+      margin-bottom: 8rem;
 
       .channel-number {
-        order: 1;
+        flex: 0 0 auto;
+        white-space: nowrap;
       }
 
       .channel-wave {
-        margin-left: 40rem;
-        order: 2;
-      }
-      .channel-controls {
+        flex: 1 1 auto;
+        min-width: 0;
         display: flex;
-        grid-gap: inherit;
-        flex-direction: row;
+        align-items: center;
+      }
 
-        margin-left: 40rem;
-        order: 4;
+      .channel-controls {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16rem;
 
         .volume-control {
+          display: flex;
+          align-items: center;
+          gap: 8rem;
+
           i {
-            margin: 0 4rem 0 0;
+            margin: 0;
+            flex: 0 0 auto;
           }
         }
+
         .position-control {
-          margin-left: 30rem;
+          display: flex;
+          align-items: center;
+          gap: 8rem;
 
           p {
-            margin: 0 4rem 0 4rem;
+            margin: 0;
+            flex: 0 0 auto;
           }
         }
       }
@@ -472,26 +487,37 @@ export default {
         max-height: calc(100vh - var(--height) - 50px - 12em);
       }
 
-      .channel .grid {
-        flex-direction: row;
-        flex-flow: row wrap;
+      .channel-row {
+        flex-wrap: wrap;
+        gap: 8rem;
+
+        .channel-number {
+          flex: 0 0 100%;
+        }
 
         .channel-wave {
-          margin-left: 0;
+          flex: 1 1 auto;
+          min-width: 200px;
         }
 
         .channel-controls {
-          margin-left: 0;
+          flex: 1 1 100%;
+          justify-content: flex-start;
+          gap: 8rem;
 
-          .volume-control i {
-            margin: 0;
+          .volume-control {
+            gap: 4rem;
+
+            i {
+              margin: 0;
+            }
           }
 
           .position-control {
-            margin-left: 0rem;
+            gap: 4rem;
 
             p {
-             margin: 0;
+              margin: 0;
             }
           }
         }

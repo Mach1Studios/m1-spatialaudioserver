@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="waveform-container">
     <canvas :ref="refLink" class="visualizer" height="50" />
-    <!-- <canvas :ref="refLink" class="visualizer" width="400" height="50"></canvas> -->
   </div>
 </template>
 <script>
@@ -23,6 +22,7 @@ export default {
   data() {
     return {
       animationFrame: null,
+      resizeObserver: null,
       bufferSize: 64,
       frame: {
         sliceWidth: 2,
@@ -147,38 +147,58 @@ export default {
 
   mounted() {
     const id = this.refLink;
+    const canvas = this.$refs[id];
+    const container = canvas.parentElement;
 
-    this.provider.ctx = this.$refs[id].getContext('2d');
+    this.provider.ctx = canvas.getContext('2d');
 
-    // this.$refs[id].width = this.container.width;
-    // this.$refs[id].height = this.container.height;
-    //
-    this.container.height = this.$refs[id].height;
-    this.container.width = this.$refs[id].width;
+    // Set canvas dimensions based on container
+    const updateCanvasSize = () => {
+      const rect = container.getBoundingClientRect();
+      if (rect.width > 0) {
+        canvas.width = rect.width;
+        canvas.height = 50;
+        this.container.width = rect.width;
+        this.container.height = 50;
 
-    this.frame.sliceHeight = this.container.height / 256;
-    this.frame.sliceWidth = (this.container.width * 9) / (this.bufferSize * 10);
+        this.frame.sliceHeight = this.container.height / 256;
+        this.frame.sliceWidth = (this.container.width * 9) / (this.bufferSize * 10);
+      }
+    };
 
-    // console.log('slice=', this.frame.sliceHeight);
+    // Watch for container resize
+    this.resizeObserver = new ResizeObserver(() => {
+      updateCanvasSize();
+    });
+    this.resizeObserver.observe(container);
 
-    this.startWaveAnimation();
+    // Initial size - use nextTick to ensure layout is complete
+    this.$nextTick(() => {
+      updateCanvasSize();
+      this.startWaveAnimation();
+    });
   },
   unmounted() {
     cancelAnimationFrame(this.animationFrame);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
-  canvas {
-    background: transparent;
+  .waveform-container {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
   }
 
-  canvas .visualizer {
+  canvas.visualizer {
     width: 100%;
-
-    max-width: 200px;
+    height: 50px;
     max-height: 100px;
-
     background: transparent;
+    display: block;
   }
 </style>
