@@ -195,9 +195,9 @@ export default {
     letter-spacing: 0.5px;
     line-height: 1.17;
 
-    margin-bottom: 8rem;
-    margin-top: 8rem;
-    padding-bottom: 8rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: none;
   }
 
   .playlist {
@@ -238,11 +238,11 @@ export default {
   }
 
   .playlists-card {
-    padding-top: 0;
+    padding: 0 !important;
   }
 
   .playlist-card {
-    padding-bottom: 56rem;
+    padding: 0 !important;
   }
 
   .audioplayer-debug {
@@ -294,7 +294,7 @@ export default {
     }
 
     .playlist-card {
-      padding-bottom: 16rem;
+      padding-bottom: 0;
     }
 
     .audioplayer {
