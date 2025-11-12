@@ -11,8 +11,8 @@
                     <div class="col s2">
                       <img src="../../assets/playlist3.svg" class="playlist-img">
                     </div>
-                    <div class="col s10">
-                      <h6 class="bold no-margin white-text top-align">
+                    <div class="col s10 playlist-name-container">
+                      <h6 class="bold no-margin white-text top-align playlist-name">
                         {{ item.name }}
                       </h6>
                       <div>
@@ -254,6 +254,14 @@ export default {
       .playlist-img {
         height: 50rem;
       }
+
+      .playlist-name-container {
+        text-align: left;
+      }
+
+      .playlist-name {
+        text-align: left !important;
+      }
     }
 
     i {
@@ -329,6 +337,15 @@ export default {
       h6 {
         width: 100%;
         word-break: keep-all;
+        text-align: left !important;
+      }
+
+      .playlist-name-container {
+        text-align: left;
+      }
+
+      .playlist-name {
+        text-align: left !important;
       }
 
       p {
