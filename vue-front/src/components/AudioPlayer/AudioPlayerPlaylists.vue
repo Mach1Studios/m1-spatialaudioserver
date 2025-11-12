@@ -103,14 +103,14 @@
       <PlaylistForm
         title="Create new playlist"
         icon="add"
-        :action="create"
+        :action="createPlaylist"
       />
     </Modal>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 import FileList from '../FileList.vue';
 import Modal from '../Base/Modal.vue';
@@ -143,6 +143,18 @@ export default {
       'select', 'remove',
     ]),
     ...mapActions('playlists', ['create', 'update', 'remove']),
+    ...mapMutations(['setModalVisibility']),
+
+    async createPlaylist(item) {
+      try {
+        await this.create(item);
+        // Close the modal after successful creation
+        this.setModalVisibility();
+      } catch (error) {
+        // Error handling is done by the store's error handler
+        throw error;
+      }
+    },
 
     async copyShareLink(playlistId) {
       const baseUrl = window.location.origin;
