@@ -69,7 +69,7 @@ export default {
     padding: 0 16rem;
     // margin: 0 8rem;
     text-transform: none;
-    border-radius: 8rem;
+    border-radius: 0;
     user-select: none;
     gap: 8rem;
   }

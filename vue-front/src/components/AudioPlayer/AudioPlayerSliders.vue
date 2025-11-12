@@ -55,7 +55,7 @@ export default {
 
   @mixin track() {
     background-color: #ffff00;
-    border-radius: .1875em;
+    border-radius: 0;
 
     height: $track-h;
     width: $track-w;
@@ -73,7 +73,7 @@ export default {
     background-size: 1.1*$thumb-r 100%;
 
     border: none;
-    border-radius: .5em;
+    border-radius: 0;
     box-shadow:
        -.125em 0 .25em #928886,
       inset -1px 0 1px #ffffff;

@@ -1,6 +1,6 @@
 <template>
   <div v-show="isActiveStream === true" id="Controls">
-    <article class="round">
+    <article>
       <div class="preview">
         <h4 class="title large-text">
           AUDIO PREVIEW
@@ -222,18 +222,18 @@ export default {
 
     &::-webkit-scrollbar-track {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
     }
 
     &::-webkit-scrollbar {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background-color: var(--primary-color);
-      border-radius: 3em;
+      border-radius: 0;
     }
   }
 
@@ -263,6 +263,7 @@ export default {
 
   article {
     background-color: var(--secondary-dark-color);
+    border-radius: 0 !important;
   }
 
   .channel {
@@ -315,26 +316,26 @@ export default {
     }
 
     &::-webkit-scrollbar-track {
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar {
       width: 5rem;
 
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 3em;
+      border-radius: 0;
       background-color: var(--primary-color);
     }
   }
 
   @mixin track() {
     background-color: var(--primary-color);
-    border-radius: .1875em;
+    border-radius: 0;
 
     height: $track-h;
     width: $track-w;
@@ -343,7 +344,7 @@ export default {
     height: $thumb-h;
     width: $thumb-w;
 
-    border-radius: .5em;
+    border-radius: 0;
     border: none;
 
     box-shadow:

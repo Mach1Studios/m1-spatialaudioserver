@@ -93,19 +93,19 @@ export default {
 
     &::-webkit-scrollbar-track {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
     }
 
     &::-webkit-scrollbar {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
 
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background-color: var(--primary-color);
-      border-radius: 3em;
+      border-radius: 0;
     }
   }
 

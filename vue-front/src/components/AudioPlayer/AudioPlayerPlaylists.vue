@@ -201,18 +201,18 @@ export default {
     // scrollbar-color: var(--primary-color);
 
     &::-webkit-scrollbar-track {
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar {
       width: 5rem;
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 3em;
+      border-radius: 0;
       background-color: var(--primary-color);
     }
   }
@@ -274,7 +274,7 @@ export default {
     margin-top: 0;
     padding-top: 0;
 
-    border-radius: 3rem;
+    border-radius: 0;
     border-top-left-radius: none;
     border-top-right-radius: none;
 

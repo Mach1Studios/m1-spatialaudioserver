@@ -8,7 +8,7 @@
               <FormButton class="playlist-btn" title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
               <Transition>
                 <div v-show="showPlaylist">
-                  <article class="front round playlist-card">
+                  <article class="front playlist-card">
                     <h4 class="title large-text center-align">
                       PLAYLISTS
                     </h4>
@@ -263,6 +263,15 @@ export default {
 
   article {
     background-color: var(--secondary-dark-color);
+    border-radius: 0 !important;
+  }
+
+  .front {
+    border-radius: 0 !important;
+  }
+
+  .playlist-card {
+    border-radius: 0 !important;
   }
 
   @media screen and (orientation: portrait) {

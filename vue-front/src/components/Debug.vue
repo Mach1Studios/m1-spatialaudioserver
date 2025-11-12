@@ -78,18 +78,18 @@ export default {
 
     &::-webkit-scrollbar-track {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
     }
 
     &::-webkit-scrollbar {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background-color: var(--primary-color);
-      border-radius: 3em;
+      border-radius: 0;
     }
   }
 
@@ -199,7 +199,7 @@ export default {
   .log {
     background-color: #19191a;
 
-    border-radius: 6rem;
+    border-radius: 0;
     margin: 0 8rem 6rem 0;
 
     .chip {

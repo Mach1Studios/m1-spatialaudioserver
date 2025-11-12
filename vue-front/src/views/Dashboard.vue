@@ -4,7 +4,7 @@
       <div class="grid mobile">
         <div class="col s6 m6 l6">
           <div id="app-body-first">
-            <article class="round">
+            <article>
               <div class="tabs left-align">
                 <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">FILE LIST</a>
                 <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">PLAYLISTS</a>
@@ -131,6 +131,7 @@ export default {
 
   article {
     background-color: var(--secondary-dark-color);
+    border-radius: 0 !important;
   }
 
   .dark-player-card, .dark-player-card .card {
