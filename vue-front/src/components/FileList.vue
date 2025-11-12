@@ -39,6 +39,9 @@
               <button v-if="admin" class="border round transparent-border" @click="remove(item.id)">
                 <i class="material-icons">delete</i>
               </button>
+              <button v-if="isPlaylist" class="border round transparent-border" @click.stop="removeFromPlaylist(item.id)">
+                <i class="material-icons">delete</i>
+              </button>
             </nav>
           </td>
         </tr>
@@ -83,7 +86,16 @@ export default {
       return this.isPlaylist ? _.filter(this.tracks, (track) => this.playlist.tracks.indexOf(track.id) !== -1) : this.tracks;
     },
   },
-  methods: { ...mapActions('tracks', ['reload', 'remove', 'select', 'update']) },
+  methods: {
+    ...mapActions('tracks', ['reload', 'remove', 'select', 'update']),
+    ...mapActions('playlists', ['removeItemFromPlaylist']),
+    removeFromPlaylist(trackId) {
+      this.removeItemFromPlaylist({
+        id: this.playlist.id,
+        tracks: _.xor(this.playlist.tracks, [trackId]),
+      });
+    },
+  },
 };
 </script>
 
