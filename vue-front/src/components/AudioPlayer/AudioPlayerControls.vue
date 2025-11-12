@@ -2,9 +2,14 @@
   <div v-show="isActiveStream === true" id="Controls">
     <article>
       <div class="preview">
-        <h4 class="title large-text">
-          AUDIO PREVIEW
-        </h4>
+        <div class="preview-header">
+          <h4 class="title large-text">
+            AUDIO PREVIEW
+          </h4>
+          <button class="close-button" @click="closePreview" title="Close preview">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
         <div class="channel flex-item scroll">
           <div v-for="channel in channels" :key="channel" class="grid middle-align">
             <div class="col s1 channel-number">
@@ -116,6 +121,9 @@ export default {
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
+    closePreview() {
+      this.$emit('close-preview');
+    },
     changeVolume(channel, volume) {
       this.channelsVolume[channel] = volume;
 
@@ -238,16 +246,49 @@ export default {
   }
 
   .preview {
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8rem;
+      margin-top: 8rem;
+      padding-bottom: 8rem;
+    }
+
     .title {
       color: var(--secondary-highlight-color);
       letter-spacing: -0.5px;
       font-style: normal;
       line-height: 1.17;
       font-size: 18rem;
+      margin: 0;
+      flex: 1;
+    }
 
-      padding-bottom: 8rem;
-      margin-bottom: 8rem;
-      margin-top: 8rem;
+    .close-button {
+      background: none;
+      border: none;
+      padding: 4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary);
+      transition: color 0.2s ease;
+      margin-left: 16rem;
+
+      &:hover {
+        color: var(--secondary-highlight-color);
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      i {
+        font-size: 24rem;
+        color: inherit;
+      }
     }
 
     i {

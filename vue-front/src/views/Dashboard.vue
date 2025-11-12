@@ -29,10 +29,10 @@
             </article>
           </div>
         </div>
-        <div v-show="isActiveStream" :class="secondColumnClass">
+        <div v-show="showPreview && isActiveStream" :class="secondColumnClass">
           <div id="app-body-second">
             <div id="AudioPlayerControls">
-              <AudioPlayerControls />
+              <AudioPlayerControls @close-preview="hidePreview" />
             </div>
           </div>
         </div>
@@ -79,20 +79,32 @@ export default {
   data() {
     return {
       selected: 'filelist',
+      showPreview: false,
     };
   },
   computed: {
     ...mapState('stream', ['isActiveStream']),
     firstColumnClass() {
-      return this.isActiveStream ? 'col s6 m6 l6' : 'col s12 m12 l12';
+      return (this.showPreview && this.isActiveStream) ? 'col s6 m6 l6' : 'col s12 m12 l12';
     },
     secondColumnClass() {
       return 'col s6 m6 l6';
     },
   },
+  watch: {
+    isActiveStream(newVal) {
+      // Automatically show preview when stream becomes active
+      if (newVal) {
+        this.showPreview = true;
+      }
+    },
+  },
   methods: {
     select(value) {
       this.selected = value;
+    },
+    hidePreview() {
+      this.showPreview = false;
     },
   },
   created() {
