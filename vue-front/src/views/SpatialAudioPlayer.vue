@@ -2,7 +2,7 @@
   <div class="max-size">
     <main class="max responsive no-scroll">
       <div class="grid">
-        <div class="col s12 m4 l4">
+        <div class="col s12 m12 l12">
           <div id="Playlists-list" class="playlist">
             <article class="transparent playlists-card">
               <FormButton class="playlist-btn" title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
@@ -203,8 +203,11 @@ export default {
   .playlist {
     box-shadow: none;
 
-    padding-left: 0;
+    padding-left: 55rem;
     padding-top: 0;
+    margin-left: -55rem;
+    margin-right: -55rem;
+    padding-right: 55rem;
   }
 
   .dark-player-card {
@@ -281,6 +284,13 @@ export default {
       padding-right: 8rem;
       padding-top: auto;
       z-index: 98;
+    }
+
+    .playlist {
+      margin-left: -8rem;
+      margin-right: -8rem;
+      padding-left: 8rem;
+      padding-right: 8rem;
     }
 
     .playlist-card {
