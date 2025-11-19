@@ -20,7 +20,20 @@ RUN apt-get update && apt-get install -y \
   build-essential \
   cmake \
   git \
-  libboost-all-dev \
+  autoconf \
+  autogen \
+  automake \
+  libasound2-dev \
+  libflac-dev \
+  libogg-dev \
+  libtool \
+  libvorbis-dev \
+  libopus-dev \
+  libmp3lame-dev \
+  libmpg123-dev \ 
+  pkg-config \
+  python \
+  libsndfile1-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # Copy m1-transcode source
@@ -30,8 +43,7 @@ COPY ./modules/m1-transcode /tmp/m1-transcode
 WORKDIR /tmp/m1-transcode
 RUN rm -rf build && \
     cmake . -Bbuild \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DENABLE_EXTERNAL_LIBS=OFF && \
+      -DCMAKE_BUILD_TYPE=Release && \
     VERBOSE=1 cmake --build build --config Release 2>&1 | tee /tmp/build.log; \
     # Check if build succeeded
     if [ -f build/m1-transcode ]; then \
