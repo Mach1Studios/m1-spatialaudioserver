@@ -1,3 +1,53 @@
+# Nginx Container with m1-transcode
+
+This container includes:
+- **Nginx** with RTMP module and VOD module for DASH/HLS streaming
+- **m1-transcode** built from source for native platform performance
+
+## m1-transcode Build Process
+
+The `m1-transcode` binary is automatically compiled during Docker build from source code in `modules/m1-transcode/`.
+
+### Build Stages
+
+1. **m1-transcode-build**: Compiles the m1-transcode binary for the target architecture
+2. **nginx-build**: Compiles Nginx with required modules
+3. **vue-build**: Builds the frontend application
+4. **Final stage**: Combines all built artifacts into the runtime container
+
+### Architecture Support
+
+The build process automatically creates the correct binary for:
+- **ARM64** (Apple Silicon M1/M2/M3)
+- **AMD64** (Intel/AMD x86_64)
+
+No manual binary management needed - Docker handles platform detection automatically.
+
+### Dependencies
+
+Build dependencies are handled within the Docker build:
+- build-essential (gcc, g++, make)
+- cmake
+- git
+- libsndfile1-dev
+
+### Manual Build (for development)
+
+If you need to build m1-transcode manually outside Docker, see `modules/m1-transcode/README.md`:
+
+```bash
+cd modules/m1-transcode
+cmake . -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+
+---
+
+## Legacy Manual Installation Notes
+
+<details>
+<summary>Old manual libsndfile installation (no longer needed for Docker builds)</summary>
+
 ### Install Dependencies:
 
  - Install libsndfile and dependencies via this tutorial: [Link](http://www.linuxfromscratch.org/blfs/view/svn/multimedia/libsndfile.html)
@@ -18,3 +68,5 @@
 	 - `cd libsndfile-1.0.28 && ./configure --prefix=/usr --docdir=/usr/share/doc/libsndfile-1.0.28 && make`
 	 - `make install`
 	 - `cd ../` 
+
+</details>

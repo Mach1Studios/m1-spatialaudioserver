@@ -33,6 +33,8 @@ router
 // Tracks route
 router
   .get('/tracks', tracks.list)
+  .get('/tracks/check-manifests', auth.validate, tracks.checkManifests)
+  .post('/tracks/:id/regenerate-manifest', auth.validate, tracks.regenerateManifest)
   .get('/tracks/:id', tracks.get)
   .put('/tracks/:id', auth.validate, tracks.update)
   .del('/tracks/:id', auth.validate, tracks.remove);

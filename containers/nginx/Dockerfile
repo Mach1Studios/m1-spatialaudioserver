@@ -8,6 +8,42 @@
 # ARG VOD_MODULE=1.28
 
 #################################################
+# Build m1-transcode from source
+#################################################
+FROM ubuntu:focal as m1-transcode-build
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York
+
+# Install build dependencies for m1-transcode
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  cmake \
+  git \
+  libboost-all-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy m1-transcode source
+COPY ./modules/m1-transcode /tmp/m1-transcode
+
+# Build m1-transcode
+WORKDIR /tmp/m1-transcode
+RUN rm -rf build && \
+    cmake . -Bbuild \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DENABLE_EXTERNAL_LIBS=OFF && \
+    VERBOSE=1 cmake --build build --config Release 2>&1 | tee /tmp/build.log; \
+    # Check if build succeeded
+    if [ -f build/m1-transcode ]; then \
+        cp build/m1-transcode /usr/local/bin/m1-transcode && \
+        chmod +x /usr/local/bin/m1-transcode; \
+    else \
+        echo "Build failed, checking link command..." && \
+        tail -100 /tmp/build.log && \
+        exit 1; \
+    fi
+
+#################################################
 # NGINX build with RTMP module from source code #
 #################################################
 FROM ubuntu:focal as nginx-build
@@ -250,7 +286,10 @@ COPY ./containers/nginx/uploader.lua /etc/nginx/uploader.lua
 COPY ./containers/nginx/nginx-http.conf /etc/nginx/nginx-http.conf.template
 COPY ./containers/nginx/nginx-https.conf /etc/nginx/nginx-https.conf.template
 COPY ./containers/nginx/switcher.sh /etc/nginx/switcher.sh
-COPY ./containers/nginx/m1-transcode /etc/nginx/m1-transcode
+
+# Copy the built m1-transcode binary from the build stage
+COPY --from=m1-transcode-build /usr/local/bin/m1-transcode /etc/nginx/m1-transcode
+
 COPY ./containers/nginx/mime.types /etc/nginx/mime.types
 
 # Adding logs path for nginx and ffmpeg

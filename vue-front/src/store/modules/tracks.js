@@ -120,6 +120,9 @@ const actions = {
         },
         onSuccess() {
           dispatch('toast', { event: { message: 'File upload successfully!' } }, { root: true });
+          // Remove the uploaded file from the uploads queue
+          commit('uploads/removeFile', { name: data.file.name }, { root: true });
+          console.log(`[UPLOAD] Removed ${data.file.name} from upload queue`);
           resolve();
         },
       });

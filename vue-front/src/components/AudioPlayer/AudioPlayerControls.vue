@@ -89,6 +89,7 @@ export default {
       defaultVolume: 0.5,
       channelsVolume: {},
       channelsMuted: {},
+      isInitialized: false,
     };
   },
   computed: {
@@ -99,16 +100,26 @@ export default {
   watch: {
     '$store.getters["audio/isActiveChannels"]'(newVal, oldVal) {
       console.log('[CONTROLS] isActiveChannels changed', { from: oldVal, to: newVal, isActiveStream: this.isActiveStream });
+      // Reset initialized flag when channels reset (track change)
+      if (!newVal) {
+        this.isInitialized = false;
+        console.log('[CONTROLS] Reset isInitialized flag');
+      }
       // When channels become active and stream is already active, initialize immediately
-      if (newVal && this.isActiveStream) {
+      if (newVal && this.isActiveStream && !this.isInitialized) {
         console.log('[CONTROLS] Both stream and channels active, initializing gain nodes immediately');
         this.initializeAudio();
       }
     },
     '$store.state.stream.isActiveStream'(newVal, oldVal) {
       console.log('[CONTROLS] isActiveStream changed', { from: oldVal, to: newVal, isActiveChannels: this.isActiveChannels });
+      // Reset initialized flag when stream stops
+      if (!newVal) {
+        this.isInitialized = false;
+        console.log('[CONTROLS] Reset isInitialized flag');
+      }
       // When stream becomes active and channels are already active, initialize immediately
-      if (newVal && this.isActiveChannels) {
+      if (newVal && this.isActiveChannels && !this.isInitialized) {
         console.log('[CONTROLS] Both stream and channels active, initializing gain nodes immediately');
         this.initializeAudio();
       }
@@ -150,10 +161,18 @@ export default {
         isActiveStream: this.isActiveStream,
         isActiveChannels: this.isActiveChannels,
         channels: this.channels,
+        isInitialized: this.isInitialized,
       });
+      
+      // Prevent duplicate initialization
+      if (this.isInitialized) {
+        console.log('[CONTROLS] Already initialized, skipping');
+        return;
+      }
       
       if (this.isActiveStream && this.isActiveChannels) {
         console.log('[CONTROLS] Creating gain nodes for audio processing');
+        this.isInitialized = true;
         _.each(this.channels, (channel, index) => {
           this.channelsVolume[index] = this.defaultVolume;
         });
@@ -165,22 +184,6 @@ export default {
         console.log('[CONTROLS] Cannot initialize - stream or channels not ready');
       }
     },
-    async init() {
-      console.log('[CONTROLS] init (polling) called', {
-        isActiveStream: this.isActiveStream,
-        isActiveChannels: this.isActiveChannels,
-        channels: this.channels,
-      });
-      
-      if (this.isActiveStream && this.isActiveChannels) {
-        console.log('[CONTROLS] Conditions met, initializing audio');
-        return this.initializeAudio();
-      }
-      
-      console.log('[CONTROLS] Waiting for stream/channels to be active, retrying in 0.5s');
-      await wait(0.5);
-      return this.init();
-    },
   },
   mounted() {
     console.log('[CONTROLS] Component mounted', {
@@ -188,8 +191,12 @@ export default {
       isActiveChannels: this.isActiveChannels,
       channels: this.channels,
     });
-    console.log('[CONTROLS] Watchers registered:', Object.keys(this.$options.watch || {}));
-    this.init();
+    
+    // Check if we need to initialize immediately (stream/channels already active on mount)
+    if (this.isActiveStream && this.isActiveChannels) {
+      console.log('[CONTROLS] Stream and channels already active on mount, initializing');
+      this.initializeAudio();
+    }
   },
 };
 </script>

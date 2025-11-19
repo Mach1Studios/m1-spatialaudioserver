@@ -19,13 +19,10 @@ tus:process_request()
 local formats = {
   ['1.0'] = "1.0",
   ['M1Spatial-4'] = "M1Spatial-4",
-  ['M1Horizon-4_2'] = "M1Horizon-4_2",
   ['M1HorizonPairs'] = "M1HorizonPairs",
   ['M1Spatial-8'] = "M1Spatial-8",
   ['M1Spatial-8_2'] = "M1Spatial-8_2",
   ['M1Spatial-14'] = "M1Spatial-14",
-  ['M1Spatial-26'] = "M1Spatial-26",
-  ['M1Spatial-38'] = "M1Spatial-38",
   ['2.0_M'] = "2.0_M",
   ['2.0_C'] = "2.0_C",
   ['3.0_LCR'] = "3.0_LCR",
@@ -146,14 +143,11 @@ local formats = {
 }
 
 local m1_formats = {
-  M1Spatial_4 = "M1Spatial-4",
-  M1Horizon_4_2 = "M1Horizon-4_2",
-  M1HorizonPairs = "M1HorizonPairs",
-  M1Spatial_8 = "M1Spatial-8",
-  M1Spatial_8_2 = "M1Spatial-8_2",
-  M1Spatial_14 = "M1Spatial-14",
-  M1Spatial_26 = "M1Spatial-26",
-  M1Spatial_38 = "M1Spatial-38",
+  ['M1Spatial-4'] = "M1Spatial-4",
+  ['M1HorizonPairs'] = "M1HorizonPairs",
+  ['M1Spatial-8'] = "M1Spatial-8",
+  ['M1Spatial-8_2'] = "M1Spatial-8_2",
+  ['M1Spatial-14'] = "M1Spatial-14",
 }
 
 ------

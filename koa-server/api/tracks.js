@@ -1,4 +1,5 @@
 import { rm } from 'fs/promises';
+import { existsSync } from 'fs';
 
 import _ from 'lodash';
 import { DateTime } from 'luxon';
@@ -76,6 +77,94 @@ export default {
 
       const items = _.filter(tracks, ({ id }) => Playlist.isTrackIncludes(id));
       ctx.body = _.map(items, (item) => new TrackModel(item).track);
+    }
+  },
+  /**
+   * Check all tracks for missing DASH manifests and return list
+   * @param  {Object}  ctx  the default koa context
+   */
+  async checkManifests(ctx) {
+    const { user } = ctx.session;
+    
+    if (!user || user.role !== 'admin') {
+      ctx.throw(403, 'Admin access required');
+      return;
+    }
+
+    const items = await new TrackModel().getAllItemsFromStore();
+    const results = [];
+
+    for (const item of items) {
+      const track = new TrackModel(item).track;
+      const dashPath = `/public/preload/${track.id}/manifest.mpd`;
+      const hlsPath = `/public/hls/${track.id}/manifest.m3u8`;
+      
+      const hasDash = existsSync(dashPath);
+      const hasHls = existsSync(hlsPath);
+      
+      results.push({
+        id: track.id,
+        name: track.name,
+        hasDash,
+        hasHls,
+        needsRegeneration: !hasDash || !hasHls,
+      });
+      
+      if (!hasDash || !hasHls) {
+        console.log(`[MANIFEST CHECK] Track ${track.name} (${track.id}) missing manifests - DASH: ${hasDash}, HLS: ${hasHls}`);
+      }
+    }
+
+    const missing = results.filter(r => r.needsRegeneration);
+    console.log(`[MANIFEST CHECK] Total tracks: ${results.length}, Missing manifests: ${missing.length}`);
+    
+    ctx.body = {
+      total: results.length,
+      missing: missing.length,
+      tracks: results,
+    };
+  },
+  /**
+   * Regenerate DASH/HLS manifests for a specific track
+   * @param  {Object}  ctx  the default koa context
+   */
+  async regenerateManifest(ctx) {
+    const { user } = ctx.session;
+    const { id } = ctx.params;
+    
+    if (!user || user.role !== 'admin') {
+      ctx.throw(403, 'Admin access required');
+      return;
+    }
+
+    const item = await ctx.redis.hgetall(`track:${id}`);
+    if (_.isEmpty(item)) {
+      ctx.throw(404, 'Track not found');
+      return;
+    }
+
+    const track = new TrackModel(item).track;
+    console.log(`[MANIFEST REGEN] Starting regeneration for ${track.name} (${id})`);
+
+    try {
+      // Call the nginx reload endpoint internally
+      const response = await fetch(`http://172.20.0.4/api/reload?id=${id}&name=${encodeURIComponent(track.originalname)}`);
+      
+      if (!response.ok) {
+        console.error(`[MANIFEST REGEN] Failed for ${track.name}: ${response.status}`);
+        ctx.throw(500, 'Failed to regenerate manifest');
+        return;
+      }
+
+      console.log(`[MANIFEST REGEN] Successfully regenerated for ${track.name}`);
+      ctx.body = { 
+        success: true, 
+        message: `Manifest regenerated for ${track.name}`,
+        id,
+      };
+    } catch (error) {
+      console.error(`[MANIFEST REGEN] Error for ${track.name}:`, error);
+      ctx.throw(500, `Failed to regenerate manifest: ${error.message}`);
     }
   },
   async update(ctx) {

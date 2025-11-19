@@ -56,11 +56,69 @@ endif
 
 .SILENT: clean
 clean:
+	@echo "➜ Stopping all m1 containers..."
+ifeq ($(shell docker ps -q --filter name="m1*"),)
+	@echo "  No running containers found"
+else
+ifeq ($(OS),Windows_NT)
+	-@docker container stop $(shell docker ps -q --filter name="m1*") >nul 2>&1
+else
+	-@docker container stop $(shell docker ps -q --filter name="m1*") > /dev/null 2>&1
+endif
+	@echo "  ✓ Containers stopped"
+endif
+	@echo "➜ Removing all m1 containers (including stopped)..."
+ifeq ($(shell docker ps -aq --filter name="m1*"),)
+	@echo "  No containers to remove"
+else
+ifeq ($(OS),Windows_NT)
+	-@docker container rm -f $(shell docker ps -aq --filter name="m1*") >nul 2>&1
+else
+	-@docker container rm -f $(shell docker ps -aq --filter name="m1*") > /dev/null 2>&1
+endif
+	@echo "  ✓ Containers removed"
+endif
+	@echo "➜ Removing m1 volumes..."
+ifeq ($(shell docker volume ls -q --filter name="m1-volume"),)
+	@echo "  No volumes to remove"
+else
+ifeq ($(OS),Windows_NT)
+	@docker volume rm m1-volume >nul 2>&1 && echo "  ✓ Volumes removed" || echo "  ⚠ Volume removal failed - try: docker volume rm m1-volume"
+else
+	@docker volume rm m1-volume > /dev/null 2>&1 && echo "  ✓ Volumes removed" || echo "  ⚠ Volume removal failed - try: docker volume rm m1-volume"
+endif
+endif
+	@echo "➜ Removing m1 Docker images..."
+ifeq ($(shell docker images -q m1-api m1-transcode m1-redis 2>/dev/null),)
+	@echo "  No images to remove"
+else
+ifeq ($(OS),Windows_NT)
+	-@docker rmi -f m1-api m1-transcode m1-redis >nul 2>&1
+else
+	-@docker rmi -f m1-api m1-transcode m1-redis > /dev/null 2>&1
+endif
+	@echo "  ✓ Images removed"
+endif
+	@echo "➜ Removing m1 network..."
+ifeq ($(shell docker network ls -q --filter name="m1-network"),)
+	@echo "  No network to remove"
+else
+ifeq ($(OS),Windows_NT)
+	-@docker network rm m1-network >nul 2>&1
+else
+	-@docker network rm m1-network > /dev/null 2>&1
+endif
+	@echo "  ✓ Network removed"
+endif
+	@echo "➜ Cleaning up log files..."
 ifeq ($(OS),Windows_NT)
 	-@powershell -Command "Remove-Item -Recurse -Force '${PWD}\logs' -ErrorAction SilentlyContinue"
 else
 	-@rm -rf ${PWD}/logs 2>/dev/null
 endif
+	@echo "  ✓ Logs cleaned"
+	@echo "✓ Complete Docker cleanup finished!"
+	@echo "➜ Run 'make local' to rebuild and start"
 
 build: stop
 	$(eval COMMIT_HASH=$(shell git rev-parse --short HEAD 2>/dev/null || echo "dev"))

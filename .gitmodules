@@ -1,0 +1,3 @@
+[submodule "modules/m1-transcode"]
+	path = modules/m1-transcode
+	url = https://github.com/Mach1Studios/m1-transcode.git

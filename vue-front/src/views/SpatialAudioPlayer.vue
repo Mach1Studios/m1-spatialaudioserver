@@ -69,7 +69,7 @@ export default {
     FormButton,
   },
   data() {
-    return { isMount: false, showPlaylist: false };
+    return { isMount: false, showPlaylist: false, isInitialized: false };
   },
   computed: {
     ...mapGetters('audio', { channels: 'listOfChannels', isActiveChannels: 'isActiveChannels' }),
@@ -84,16 +84,26 @@ export default {
   watch: {
     '$store.getters["audio/isActiveChannels"]'(newVal, oldVal) {
       console.log('[SPATIAL] isActiveChannels changed', { from: oldVal, to: newVal, isActiveStream: this.isActiveStream });
+      // Reset initialized flag when channels reset (track change)
+      if (!newVal) {
+        this.isInitialized = false;
+        console.log('[SPATIAL] Reset isInitialized flag');
+      }
       // When channels become active and stream is already active, initialize immediately
-      if (newVal && this.isActiveStream) {
+      if (newVal && this.isActiveStream && !this.isInitialized) {
         console.log('[SPATIAL] Both stream and channels active, initializing gain nodes immediately');
         this.initializeAudio();
       }
     },
     '$store.state.stream.isActiveStream'(newVal, oldVal) {
       console.log('[SPATIAL] isActiveStream changed', { from: oldVal, to: newVal, isActiveChannels: this.isActiveChannels });
+      // Reset initialized flag when stream stops
+      if (!newVal) {
+        this.isInitialized = false;
+        console.log('[SPATIAL] Reset isInitialized flag');
+      }
       // When stream becomes active and channels are already active, initialize immediately
-      if (newVal && this.isActiveChannels) {
+      if (newVal && this.isActiveChannels && !this.isInitialized) {
         console.log('[SPATIAL] Both stream and channels active, initializing gain nodes immediately');
         this.initializeAudio();
       }
@@ -138,10 +148,18 @@ export default {
         isActiveStream: this.isActiveStream,
         isActiveChannels: this.isActiveChannels,
         channels: this.channels,
+        isInitialized: this.isInitialized,
       });
+      
+      // Prevent duplicate initialization
+      if (this.isInitialized) {
+        console.log('[SPATIAL] Already initialized, skipping');
+        return;
+      }
       
       if (this.isActiveStream && this.isActiveChannels) {
         console.log('[SPATIAL] Creating gain nodes for audio processing');
+        this.isInitialized = true;
         const result = await this.createGainNodes();
         console.log('[SPATIAL] createGainNodes returned:', result);
         return result;
@@ -149,31 +167,24 @@ export default {
         console.log('[SPATIAL] Cannot initialize - stream or channels not ready');
       }
     },
-    async init() {
-      console.log('[SPATIAL] init (polling) called', {
-        isActiveStream: this.isActiveStream,
-        isActiveChannels: this.isActiveChannels,
-        channels: this.channels,
-      });
-      
-      if (this.isActiveStream && this.isActiveChannels) {
-        console.log('[SPATIAL] Conditions met, initializing audio');
-        return this.initializeAudio();
-      }
-      
-      console.log('[SPATIAL] Waiting for stream/channels to be active, retrying in 2s');
-      await wait(2);
-      return this.init();
-    },
   },
   mounted() {
-    console.log('[SPATIAL] Component mounted');
+    console.log('[SPATIAL] Component mounted', {
+      isActiveStream: this.isActiveStream,
+      isActiveChannels: this.isActiveChannels,
+      channels: this.channels,
+    });
     window.addEventListener('mousemove', mousemoveListener, false);
     this.decoder = new Mach1DecoderProxy(null, { debug: false });
     this.isMount = true;
 
     this.loop();
-    this.init();
+    
+    // Check if we need to initialize immediately (stream/channels already active on mount)
+    if (this.isActiveStream && this.isActiveChannels) {
+      console.log('[SPATIAL] Stream and channels already active on mount, initializing');
+      this.initializeAudio();
+    }
   },
   beforeUnmount() {
     window.removeEventListener('mousemove', mousemoveListener, false);
