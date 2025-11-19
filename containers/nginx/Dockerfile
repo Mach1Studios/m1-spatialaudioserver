@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y \
   cmake \
   git \
   autoconf \
-  autogen \
   automake \
   libasound2-dev \
   libflac-dev \
@@ -32,7 +31,6 @@ RUN apt-get update && apt-get install -y \
   libmp3lame-dev \
   libmpg123-dev \ 
   pkg-config \
-  python \
   libsndfile1-dev \
   && rm -rf /var/lib/apt/lists/*
 
