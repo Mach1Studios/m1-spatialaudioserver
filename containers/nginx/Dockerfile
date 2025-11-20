@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y \
 
 # Build OGG from source (dependency for Vorbis, Opus, FLAC)
 RUN cd /tmp && \
-  wget https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.gz && \
   tar xzf libogg-1.3.5.tar.gz && \
   cd libogg-1.3.5 && \
   ./configure --prefix=/usr/local --disable-shared && \
@@ -40,7 +40,7 @@ RUN cd /tmp && \
 
 # Build Vorbis from source (without finite-math-only)
 RUN cd /tmp && \
-  wget https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz && \
   tar xzf libvorbis-1.3.7.tar.gz && \
   cd libvorbis-1.3.7 && \
   ./configure --prefix=/usr/local --disable-shared --with-ogg=/usr/local && \
@@ -49,7 +49,7 @@ RUN cd /tmp && \
 
 # Build FLAC from source
 RUN cd /tmp && \
-  wget https://downloads.xiph.org/releases/flac/flac-1.4.2.tar.xz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://downloads.xiph.org/releases/flac/flac-1.4.2.tar.xz && \
   tar xJf flac-1.4.2.tar.xz && \
   cd flac-1.4.2 && \
   ./configure --prefix=/usr/local --disable-shared --with-ogg=/usr/local && \
@@ -58,7 +58,7 @@ RUN cd /tmp && \
 
 # Build Opus from source
 RUN cd /tmp && \
-  wget https://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz && \
   tar xzf opus-1.3.1.tar.gz && \
   cd opus-1.3.1 && \
   ./configure --prefix=/usr/local --disable-shared && \
@@ -116,30 +116,30 @@ RUN apt-get update && apt-get install -y \
 
 # Download and extract NGINX
 RUN cd /tmp && \
-  wget https://nginx.org/download/nginx-${NGINX}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://nginx.org/download/nginx-${NGINX}.tar.gz && \
   tar zxf nginx-${NGINX}.tar.gz && \
   rm nginx-${NGINX}.tar.gz
 
 # Download and extract RTMP module for NGINX
 RUN cd /tmp && \
-  wget https://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE}.tar.gz && \
   tar zxf v${RTMP_MODULE}.tar.gz && rm v${RTMP_MODULE}.tar.gz
 
 RUN cd /tmp && \
-  wget https://github.com/kaltura/nginx-vod-module/archive/${VOD_MODULE}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/kaltura/nginx-vod-module/archive/${VOD_MODULE}.tar.gz && \
   tar zxf ${VOD_MODULE}.tar.gz && rm ${VOD_MODULE}.tar.gz
 
 # Download and extract LuaJIT (all staff for it)
 RUN cd /tmp && \
-  wget https://github.com/openresty/luajit2/archive/refs/tags/v${LUA_JIT}.tar.gz && \
-  wget https://github.com/openresty/lua-cjson/archive/refs/tags/${LUA_CJSON}.tar.gz && \
-  wget https://github.com/openresty/lua-resty-core/archive/refs/tags/v${LUA_RESTY_CORE}.tar.gz && \
-  wget https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_CACHE}.tar.gz && \
-  wget https://github.com/openresty/lua-resty-redis/archive/refs/tags/v${LUA_RESTY_REDIS}.tar.gz && \
-  wget https://github.com/openresty/lua-resty-string/archive/refs/tags/v${LUA_RESTY_STRING}.tar.gz && \
-  wget https://github.com/thibaultcha/lua-resty-jit-uuid/archive/refs/tags/${LUA_RESTY_UUID}.tar.gz && \
-  wget https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGINX_DEV}.tar.gz && \
-  wget https://github.com/openresty/lua-nginx-module/archive/refs/tags/v${LUA_NGINX_MODULE}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/luajit2/archive/refs/tags/v${LUA_JIT}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/lua-cjson/archive/refs/tags/${LUA_CJSON}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/lua-resty-core/archive/refs/tags/v${LUA_RESTY_CORE}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_CACHE}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/lua-resty-redis/archive/refs/tags/v${LUA_RESTY_REDIS}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/lua-resty-string/archive/refs/tags/v${LUA_RESTY_STRING}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/thibaultcha/lua-resty-jit-uuid/archive/refs/tags/${LUA_RESTY_UUID}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGINX_DEV}.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/openresty/lua-nginx-module/archive/refs/tags/v${LUA_NGINX_MODULE}.tar.gz && \
   tar zxf v${LUA_JIT}.tar.gz && rm v${LUA_JIT}.tar.gz && \
   tar zxf ${LUA_CJSON}.tar.gz && rm ${LUA_CJSON}.tar.gz && \
   tar zxf ${LUA_RESTY_UUID}.tar.gz && rm ${LUA_RESTY_UUID}.tar.gz && \
@@ -152,7 +152,7 @@ RUN cd /tmp && \
 
 # Download and extract Lua TUS server
 RUN cd /tmp && \
-  wget https://github.com/mmatuska/lua-tus-server/archive/refs/heads/master.tar.gz && \
+  wget --retry-connrefused --waitretry=5 --tries=5 https://github.com/mmatuska/lua-tus-server/archive/refs/heads/master.tar.gz && \
   tar zxf master.tar.gz && rm master.tar.gz
 
 RUN cd /tmp && ls
