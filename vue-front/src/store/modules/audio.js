@@ -18,38 +18,56 @@ const actions = {
       hasView: !!state.view,
     });
 
-    // Close old AudioContext if it exists
-    if (state.AudioContext) {
-      console.log('[AUDIO] Closing old AudioContext');
-      state.AudioContext.close();
+    // If we already have an AudioContext and MediaElementSource, reuse them
+    let context = state.AudioContext;
+    let source = state.source;
+    
+    if (!context || context.state === 'closed') {
+      console.log('[AUDIO] Creating new AudioContext');
+      context = new (window.AudioContext || window.webkitAudioContext)();
+      commit('setAudioContext', context);
+    } else {
+      console.log('[AUDIO] Reusing existing AudioContext');
     }
-
-    console.log('[AUDIO] Creating new AudioContext');
-    const context = new (window.AudioContext || window.webkitAudioContext)();
-    commit('setAudioContext', context);
 
     const { channels, view } = state;
 
-    // Create a new source from the current view/audio element with the new context
-    let source;
-    try {
-      console.log('[AUDIO] Creating MediaElementSource', {
-        viewExists: !!view,
-        viewSrc: view?.src,
-        contextState: context.state,
-      });
-      source = context.createMediaElementSource(view);
-      commit('setMediaSource', source);
-      console.log('[AUDIO] MediaElementSource created successfully');
-    } catch (error) {
-      console.error('[AUDIO] Failed to create MediaElementSource:', error);
-      throw error;
+    // Only create MediaElementSource if we don't have one yet
+    if (!source) {
+      try {
+        console.log('[AUDIO] Creating MediaElementSource', {
+          viewExists: !!view,
+          viewSrc: view?.src,
+          contextState: context.state,
+        });
+        source = context.createMediaElementSource(view);
+        commit('setMediaSource', source);
+        console.log('[AUDIO] MediaElementSource created successfully');
+      } catch (error) {
+        console.error('[AUDIO] Failed to create MediaElementSource:', error);
+        throw error;
+      }
+    } else {
+      console.log('[AUDIO] Reusing existing MediaElementSource');
     }
 
     console.log('[AUDIO] Creating audio processing chain', {
       channels,
       volume,
     });
+
+    // Disconnect existing nodes to avoid feedback
+    if (state.gainNodes.length > 0) {
+      console.log('[AUDIO] Disconnecting existing gain nodes');
+      state.gainNodes.forEach(node => {
+        try {
+          node.disconnect();
+        } catch (e) {
+          // Ignore errors from already disconnected nodes
+        }
+      });
+      commit('clearGainNodes');
+    }
 
     const splitter = context.createChannelSplitter(channels);
     const merger = context.createChannelMerger(channels * 2);
@@ -153,6 +171,10 @@ const mutations = {
       state.gainNodes.push(gain);
     }
   },
+  clearGainNodes(state) {
+    state.gainNodes = [];
+    state.gainNodesAnalyser = [];
+  },
   setGainVolume(state, { channel, volume }) {
     state.gainNodes[channel].gain.setTargetAtTime(volume * 1, state.AudioContext.currentTime, 0.05);
   },
@@ -176,12 +198,21 @@ const mutations = {
   },
   resetAudioState(state) {
     console.log('[AUDIO MUTATION] resetAudioState called', { currentChannels: state.channels });
-    if (state.AudioContext) {
-      console.log('[AUDIO MUTATION] Closing AudioContext');
-      state.AudioContext.close();
+    
+    // Disconnect and clear gain nodes
+    if (state.gainNodes.length > 0) {
+      console.log('[AUDIO MUTATION] Disconnecting gain nodes');
+      state.gainNodes.forEach(node => {
+        try {
+          node.disconnect();
+        } catch (e) {
+          // Ignore errors from already disconnected nodes
+        }
+      });
     }
-    state.AudioContext = null;
-    state.source = null;
+    
+    // DON'T close AudioContext or clear MediaElementSource - reuse them for next track
+    // Only reset gain nodes and channels
     state.gainNodes = [];
     state.gainNodesAnalyser = [];
     state.channels = 0; // Reset channels so watcher fires on next track

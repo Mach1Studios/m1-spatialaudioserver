@@ -78,6 +78,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
     console.log('[DASH] CAN_PLAY event received');
     ctx.commit('setActiveStream', true);
     ctx.dispatch('logs/createMessage', { message: 'Dash stream cached. Track is playable' }, { root: true });
+    resolve(); // Resolve the promise when stream is ready to play
   });
 
   player.on(dashjs.MediaPlayer.events.ERROR, async (error) => {

@@ -31,6 +31,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
   player.on(Hls.Events.AUDIO_TRACK_LOADED, () => {
     ctx.commit('setActiveStream', true);
     ctx.dispatch('logs/createMessage', { message: 'HLS stream cached. Track is playable' }, { root: true });
+    resolve(); // Resolve the promise when stream is ready to play
   });
 
   // player.once(Hls.Events.FRAG_BUFFERED, (event, data) => {
