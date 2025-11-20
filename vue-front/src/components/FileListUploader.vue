@@ -206,7 +206,8 @@ export default {
     async changeFile(event) {
       const { files } = event.target;
 
-      _.each(_.union(this.files, files), (file) => {
+      // Only validate the newly selected files, not the existing state
+      _.each(files, (file) => {
         this.validateAudio(file);
       });
     },

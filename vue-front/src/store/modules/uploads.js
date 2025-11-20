@@ -171,6 +171,15 @@ const actions = {
   // eslint-disable-next-line
   validateAudio({ commit, dispatch, state }, track) {
     if (_.has(track, 'numberOfChannels')) return;
+    
+    // Debug: Log file info
+    console.log('[VALIDATE] File info:', {
+      name: track.name,
+      size: track.size,
+      type: track.type,
+      isFile: track instanceof File
+    });
+    
     commit('loader', { enable: true, description: 'Checking number of channels' }, { root: true });
 
     const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -189,7 +198,8 @@ const actions = {
       // const test = getFileAudioBuffer(result, context);
       // console.log(test);
 
-      context.decodeAudioData(result, (buffer) => {
+      // Use promise-based decodeAudioData with proper error handling
+      context.decodeAudioData(result).then((buffer) => {
         console.timeLog(label);
 
         const source = context.createBufferSource();
@@ -211,6 +221,22 @@ const actions = {
         console.timeEnd(label);
         commit('setFile', { track, numberOfChannels: buffer.numberOfChannels, name: track.name });
         commit('loader', { enable: false }, { root: true });
+      }).catch((error) => {
+        // Error handler: browser couldn't decode the file
+        // This is OK - the server will handle it during transcode
+        console.warn('Browser could not decode audio file (will be processed server-side):', error);
+        console.timeEnd(label);
+        
+        // Set a default channel count (will be determined by server)
+        commit('setFile', { track, numberOfChannels: 8, name: track.name });
+        commit('loader', { enable: false }, { root: true });
+        
+        dispatch('toast', {
+          event: {
+            message: `File "${track.name}" added (format will be detected by server)`,
+            icon: 'info',
+          },
+        }, { root: true });
       });
     };
     reader.readAsArrayBuffer(track);

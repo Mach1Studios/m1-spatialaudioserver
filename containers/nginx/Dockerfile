@@ -16,23 +16,54 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
 # Install build dependencies for m1-transcode
+# Note: We need to rebuild codec libraries from source to avoid finite-math linking issues
 RUN apt-get update && apt-get install -y \
   build-essential \
   cmake \
   git \
+  libboost-all-dev \
   autoconf \
   automake \
-  libasound2-dev \
-  libflac-dev \
-  libogg-dev \
   libtool \
-  libvorbis-dev \
-  libopus-dev \
-  libmp3lame-dev \
-  libmpg123-dev \ 
   pkg-config \
-  libsndfile1-dev \
+  wget \
   && rm -rf /var/lib/apt/lists/*
+
+# Build OGG from source (dependency for Vorbis, Opus, FLAC)
+RUN cd /tmp && \
+  wget https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.gz && \
+  tar xzf libogg-1.3.5.tar.gz && \
+  cd libogg-1.3.5 && \
+  ./configure --prefix=/usr/local --disable-shared && \
+  make && make install && \
+  cd /tmp && rm -rf libogg-1.3.5*
+
+# Build Vorbis from source (without finite-math-only)
+RUN cd /tmp && \
+  wget https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz && \
+  tar xzf libvorbis-1.3.7.tar.gz && \
+  cd libvorbis-1.3.7 && \
+  ./configure --prefix=/usr/local --disable-shared --with-ogg=/usr/local && \
+  make && make install && \
+  cd /tmp && rm -rf libvorbis-1.3.7*
+
+# Build FLAC from source
+RUN cd /tmp && \
+  wget https://downloads.xiph.org/releases/flac/flac-1.4.2.tar.xz && \
+  tar xJf flac-1.4.2.tar.xz && \
+  cd flac-1.4.2 && \
+  ./configure --prefix=/usr/local --disable-shared --with-ogg=/usr/local && \
+  make && make install && \
+  cd /tmp && rm -rf flac-1.4.2*
+
+# Build Opus from source
+RUN cd /tmp && \
+  wget https://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz && \
+  tar xzf opus-1.3.1.tar.gz && \
+  cd opus-1.3.1 && \
+  ./configure --prefix=/usr/local --disable-shared && \
+  make && make install && \
+  cd /tmp && rm -rf opus-1.3.1*
 
 # Copy m1-transcode source
 COPY ./modules/m1-transcode /tmp/m1-transcode
@@ -41,7 +72,8 @@ COPY ./modules/m1-transcode /tmp/m1-transcode
 WORKDIR /tmp/m1-transcode
 RUN rm -rf build && \
     cmake . -Bbuild \
-      -DCMAKE_BUILD_TYPE=Release && \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DENABLE_EXTERNAL_LIBS=ON && \
     VERBOSE=1 cmake --build build --config Release 2>&1 | tee /tmp/build.log; \
     # Check if build succeeded
     if [ -f build/m1-transcode ]; then \
@@ -269,13 +301,16 @@ RUN apt-get update && apt-get install -y \
   libass9 \
   libfdk-aac1 \
   libmp3lame0 \
-  libopus0 \
   libpcre3 \
   libvpx6 \
   openssl \
   libtheora-bin \
   libx264-155 \
-  zlib1g
+  zlib1g \
+  libogg0 \
+  libvorbis0a \
+  libflac8 \
+  libopus0
 
 RUN adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
 
