@@ -18,8 +18,8 @@ This GET method has public access, but number of the tracks depend on the user a
 
     + Attributes (array[object])
         + id (string, required) - track  id
-        + name (string, required) - track name 
-        + originalname (string, required) - track original file name 
+        + name (string, required) - track name
+        + originalname (string, required) - track original file name
         + size (number, required) - file size in bytes
         + mimetype (string, required) - filre mimetype
         + prepared (boolean, required) - set in true if track has prepared dash manifest
@@ -65,18 +65,18 @@ This GET method has public access, but number of the tracks depend on the user a
 This hook is used to prepare a mainifest for a track
 
 + Parameters
-    + id (string, required) - track id 
-    
+    + id (string, required) - track id
+
 + Response 204
 
 ### Dash manifest file [GET /dash/static/{id}/manifest.mpd]
 That is the main resource for playing any spatial sound files, used standard dash stream mainifest file, documentation for [dash.js](https://cdn.dashjs.org/latest/jsdoc/module-MediaPlayer.html)
 
 + Parameters
-    + id (string, required) - track id 
+    + id (string, required) - track id
 
 + Response 200 (application/dash+xml)
-    
+
     + Body
 
             <?xml version="1.0" encoding="utf-8"?>
@@ -115,8 +115,8 @@ Dashboard administrator has the ability to upload a new track to the backend whi
 
     + Attributes (object)
         + id (string, required) - track  id
-        + name (string, required) - track name 
-        + originalname (string, required) - track original file name 
+        + name (string, required) - track name
+        + originalname (string, required) - track original file name
         + size (number, required) - file size in bytes
         + mimetype (string, required) - filre mimetype
         + prepared (boolean, required) - set in true if track has prepared dash manifest
@@ -142,14 +142,14 @@ Dashboard administrator has the ability to upload a new track to the backend whi
 ### Delete Track [DELETE /tracks/{id}]
 
 + Parameters
-    + id (string, required) - track id 
-    
+    + id (string, required) - track id
+
 + Response 204
 
 ## User authorization and authentication [/auth]
 Users are authenticated using the generated and stored keys in the cookie. For each unique visitor, a separate key is generated (regardless of whether the user was authorized or not), which will be transmitted in the response header during any first request from the user. During authorization, a user session is created that will be identified with this key
 
-### Login [POST] 
+### Login [POST]
 
 + Request (application/json)
 
@@ -163,7 +163,7 @@ Users are authenticated using the generated and stored keys in the cookie. For e
                 "login": "test",
                 "password": "test"
             }
-            
+
 + Response 201 (application/json)
 
     + Attributes (object)
@@ -175,7 +175,7 @@ Users are authenticated using the generated and stored keys in the cookie. For e
             + lastSeen (string) - timestamp with last user auth date in the ISO format (optional and can be empty)
             + created (string, required) - timestamp with creation date in the ISO format
             + updated (string, required) - timestamp with last update date in the ISO format
-            
+
 
     + Body
 
@@ -190,7 +190,7 @@ Users are authenticated using the generated and stored keys in the cookie. For e
                     "updated": "2021-10-05T21:35:55.425+03:00"
                 }
             }
-            
+
 
 ### Logout [DELETE /auth/logout]
 
@@ -218,7 +218,7 @@ The dashboard administrator has the ability to create, update or delete any play
         + created (string, required) - timestamp with creation date in the ISO format
         + updated (string, required) - timestamp with last update date in the ISO format
 
-   
+
     + Body
 
             [
@@ -268,11 +268,11 @@ The dashboard administrator has the ability to create, update or delete any play
                 "created": "2021-10-05T21:35:55.425+03:00",
                 "updated": "2021-10-05T21:35:55.425+03:00"
             }
-            
+
 ### Update Playlist [PUT /playlists/{id}]
 
 + Parameters
-    + id (string, required) - playlist id 
+    + id (string, required) - playlist id
 
 + Request
 
@@ -287,7 +287,7 @@ The dashboard administrator has the ability to create, update or delete any play
             {
                 "tracks": ["1db814ff-263f-4e92-9865-4701a9efeac1"]
             }
-            
+
 + Response 200
 
     + Attributes (object)
@@ -310,12 +310,12 @@ The dashboard administrator has the ability to create, update or delete any play
                 "created": "2021-10-05T21:35:55.425+03:00",
                 "updated": "2021-10-05T21:35:55.425+03:00"
             }
-            
+
 ### Delete Playlist [DELETE /playlists/{id}]
 
 + Parameters
-    + id (string, required) - playlist id 
-    
+    + id (string, required) - playlist id
+
 + Response 204
 
 
@@ -334,7 +334,7 @@ The dashboard administrator has the ability to create, update or delete any play
         + created (string, required) - timestamp with creation date in the ISO format
         + updated (string, required) - timestamp with last update date in the ISO format
 
-   
+
     + Body
 
             [
@@ -390,16 +390,16 @@ The dashboard administrator has the ability to create, update or delete any play
                 "created": "2021-10-05T21:35:55.425+03:00",
                 "updated": "2021-10-05T21:35:55.425+03:00"
             }
-            
+
 ### Update User [PUT /users/{id}]
 
 + Response 405
-            
+
 ### Delete User [DELETE /users/{id}]
 
 + Parameters
-    + id (string, required) - user id 
-    
+    + id (string, required) - user id
+
 + Response 204
 
 
@@ -422,7 +422,7 @@ Checking and returning current user session: if exist return 200 else empty body
             + lastSeen (string) - timestamp with last user auth date in the ISO format (optional and can be empty)
             + created (string, required) - timestamp with creation date in the ISO format
             + updated (string, required) - timestamp with last update date in the ISO format
-            
+
 
     + Body
 
@@ -441,16 +441,15 @@ Checking and returning current user session: if exist return 200 else empty body
 + Response 204
 
     if the user is not authorized and the session is empty
-    
+
     + Body
-        
+
 + Response 403
 
     Response can return 4** error if a session was corrupted or expired with json body and error messages
 
-    + Body 
+    + Body
 
             {
                 "message": "error message"
             }
-

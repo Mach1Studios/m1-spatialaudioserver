@@ -54,7 +54,7 @@ docker build -t m1-redis .
 Running container:
 
 ```sh
-docker run -it \              
+docker run -it \  
   -p 6379:6379 \
   --name m1-redis \
   --rm m1-redis

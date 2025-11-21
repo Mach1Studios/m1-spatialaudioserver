@@ -17,17 +17,17 @@ const requestTypeSettings = [
 ];
 
 const load = (ctx) => new Promise((resolve, reject) => {
-  console.log('[DASH] load called', { 
+  console.log('[DASH] load called', {
     url: ctx.state.info.url,
     hasPlayer: !!ctx.state.player,
   });
-  
+
   if (_.isEmpty(ctx.state.info.url)) {
     console.error('[DASH] Missing stream url');
     reject(new Error('Missing stream url'));
     return;
   }
-  
+
   if (ctx.state.player) {
     console.log('[DASH] Destroying existing player');
     ctx.state.player.destroy();
@@ -99,7 +99,7 @@ const load = (ctx) => new Promise((resolve, reject) => {
 
 const parse = (id) => {
   // In production, use window.location.origin to avoid hardcoded port issues
-  const streamUrl = process.env.NODE_ENV === 'development' 
+  const streamUrl = process.env.NODE_ENV === 'development'
     ? (process.env.VUE_APP_STREAM_URL ?? 'http://localhost:8080')
     : (typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
   return `${streamUrl}/dash/static/${id}/manifest.mpd`;

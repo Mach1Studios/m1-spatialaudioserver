@@ -67,6 +67,6 @@ cmake --build build
 	 - `wget http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz && tar xf libsndfile-1.0.28.tar.gz`
 	 - `cd libsndfile-1.0.28 && ./configure --prefix=/usr --docdir=/usr/share/doc/libsndfile-1.0.28 && make`
 	 - `make install`
-	 - `cd ../` 
+	 - `cd ../`
 
 </details>

@@ -150,13 +150,13 @@ export default {
         channels: this.channels,
         isInitialized: this.isInitialized,
       });
-      
+
       // Prevent duplicate initialization
       if (this.isInitialized) {
         console.log('[SPATIAL] Already initialized, skipping');
         return;
       }
-      
+
       if (this.isActiveStream && this.isActiveChannels) {
         console.log('[SPATIAL] Creating gain nodes for audio processing');
         this.isInitialized = true;
@@ -179,7 +179,7 @@ export default {
     this.isMount = true;
 
     this.loop();
-    
+
     // Check if we need to initialize immediately (stream/channels already active on mount)
     if (this.isActiveStream && this.isActiveChannels) {
       console.log('[SPATIAL] Stream and channels already active on mount, initializing');

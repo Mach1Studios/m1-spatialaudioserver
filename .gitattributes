@@ -1,3 +1,35 @@
+# Audio files (Git LFS)
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.mp3 filter=lfs diff=lfs merge=lfs -text
 *.ogg filter=lfs diff=lfs merge=lfs -text
+
+# Line endings enforcement
+# Ensure all text files have LF endings in the repository
+* text=auto eol=lf
+
+# Shell scripts must always use LF
+*.sh text eol=lf
+Makefile text eol=lf
+
+# Dockerfiles must always use LF
+Dockerfile text eol=lf
+*.dockerfile text eol=lf
+
+# Lua scripts must always use LF
+*.lua text eol=lf
+
+# Config files must always use LF
+*.conf text eol=lf
+*.config text eol=lf
+
+# Windows batch files must use CRLF
+*.bat text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.eps binary

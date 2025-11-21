@@ -21,7 +21,7 @@ const actions = {
     // If we already have an AudioContext and MediaElementSource, reuse them
     let context = state.AudioContext;
     let source = state.source;
-    
+
     if (!context || context.state === 'closed') {
       console.log('[AUDIO] Creating new AudioContext');
       context = new (window.AudioContext || window.webkitAudioContext)();
@@ -104,13 +104,13 @@ const actions = {
 
     console.log('[AUDIO] Audio processing chain created, hiding loader and starting playback');
     commit('loader', { enable: false }, { root: true });
-    
+
     console.log('[AUDIO] Attempting to play audio', {
       viewReadyState: view.readyState,
       viewPaused: view.paused,
       viewSrc: view.src,
     });
-    
+
     state.view.play().then(() => {
       console.log('[AUDIO] Playback started successfully');
     }).catch((error) => {
@@ -198,7 +198,7 @@ const mutations = {
   },
   resetAudioState(state) {
     console.log('[AUDIO MUTATION] resetAudioState called', { currentChannels: state.channels });
-    
+
     // Disconnect and clear gain nodes
     if (state.gainNodes.length > 0) {
       console.log('[AUDIO MUTATION] Disconnecting gain nodes');
@@ -210,7 +210,7 @@ const mutations = {
         }
       });
     }
-    
+
     // DON'T close AudioContext or clear MediaElementSource - reuse them for next track
     // Only reset gain nodes and channels
     state.gainNodes = [];

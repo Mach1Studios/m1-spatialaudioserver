@@ -86,4 +86,3 @@ fi
 
 
 # ffmpeg -y -i /share/sound/04_DailyLife_M1.wav -strict -2 -c:a aac -ac 2 -b:a 2048k -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" -hls_segment_filename "/share/sound/hls/a05f7c5e-d99c-4ef5-8a85-1b61a7e8459c/chank-stream0-%05d.ts" "/share/sound/hls/a05f7c5e-d99c-4ef5-8a85-1b61a7e8459c/manifest.m3u8"
-  

@@ -163,13 +163,13 @@ export default {
         channels: this.channels,
         isInitialized: this.isInitialized,
       });
-      
+
       // Prevent duplicate initialization
       if (this.isInitialized) {
         console.log('[CONTROLS] Already initialized, skipping');
         return;
       }
-      
+
       if (this.isActiveStream && this.isActiveChannels) {
         console.log('[CONTROLS] Creating gain nodes for audio processing');
         this.isInitialized = true;
@@ -191,7 +191,7 @@ export default {
       isActiveChannels: this.isActiveChannels,
       channels: this.channels,
     });
-    
+
     // Check if we need to initialize immediately (stream/channels already active on mount)
     if (this.isActiveStream && this.isActiveChannels) {
       console.log('[CONTROLS] Stream and channels already active on mount, initializing');

@@ -50,7 +50,7 @@ const actions = {
   },
   async stop({ commit, state, dispatch }) {
     console.log('[STREAM] stop called', { hasPlayer: !!state.player });
-    
+
     if (state.player && state.player.destroy) {
       try {
         state.player.destroy();

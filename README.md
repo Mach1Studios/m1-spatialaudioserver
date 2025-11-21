@@ -11,6 +11,21 @@ These are example codebases that are designed to be playback clients for a serve
 
 The current stack included 3 docker containers: Nginx server (main transcoder with HLS and DASH support), Redis, and Node.js (API). You can change default environment variables for the dashboard and API, just create `.env` files in `vue-front` and `koa-server` dirs (you can skip this stage):
 
+### Code Quality
+
+This project uses [pre-commit](https://pre-commit.com/) for automated code quality checks:
+
+```sh
+# One-time setup
+pip install pre-commit
+pre-commit install
+
+# Manual check (optional)
+pre-commit run --all-files
+```
+
+### Environment Configuration
+
 Default `.env` file for `vue-front`:
 
 ```
@@ -28,7 +43,7 @@ ADMIN_EMAIL='whatsup@mach1.tech'
 ```
 
 
-##### Use Makefile commands to setup and build all of them: 
+##### Use Makefile commands to setup and build all of them:
 
 ```sh
 make build

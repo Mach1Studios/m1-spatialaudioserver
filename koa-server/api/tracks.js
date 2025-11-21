@@ -85,7 +85,7 @@ export default {
    */
   async checkManifests(ctx) {
     const { user } = ctx.session;
-    
+
     if (!user || user.role !== 'admin') {
       ctx.throw(403, 'Admin access required');
       return;
@@ -98,10 +98,10 @@ export default {
       const track = new TrackModel(item).track;
       const dashPath = `/public/preload/${track.id}/manifest.mpd`;
       const hlsPath = `/public/hls/${track.id}/manifest.m3u8`;
-      
+
       const hasDash = existsSync(dashPath);
       const hasHls = existsSync(hlsPath);
-      
+
       results.push({
         id: track.id,
         name: track.name,
@@ -109,7 +109,7 @@ export default {
         hasHls,
         needsRegeneration: !hasDash || !hasHls,
       });
-      
+
       if (!hasDash || !hasHls) {
         console.log(`[MANIFEST CHECK] Track ${track.name} (${track.id}) missing manifests - DASH: ${hasDash}, HLS: ${hasHls}`);
       }
@@ -117,7 +117,7 @@ export default {
 
     const missing = results.filter(r => r.needsRegeneration);
     console.log(`[MANIFEST CHECK] Total tracks: ${results.length}, Missing manifests: ${missing.length}`);
-    
+
     ctx.body = {
       total: results.length,
       missing: missing.length,
@@ -131,7 +131,7 @@ export default {
   async regenerateManifest(ctx) {
     const { user } = ctx.session;
     const { id } = ctx.params;
-    
+
     if (!user || user.role !== 'admin') {
       ctx.throw(403, 'Admin access required');
       return;
@@ -149,7 +149,7 @@ export default {
     try {
       // Call the nginx reload endpoint internally
       const response = await fetch(`http://172.20.0.4/api/reload?id=${id}&name=${encodeURIComponent(track.originalname)}`);
-      
+
       if (!response.ok) {
         console.error(`[MANIFEST REGEN] Failed for ${track.name}: ${response.status}`);
         ctx.throw(500, 'Failed to regenerate manifest');
@@ -157,8 +157,8 @@ export default {
       }
 
       console.log(`[MANIFEST REGEN] Successfully regenerated for ${track.name}`);
-      ctx.body = { 
-        success: true, 
+      ctx.body = {
+        success: true,
         message: `Manifest regenerated for ${track.name}`,
         id,
       };

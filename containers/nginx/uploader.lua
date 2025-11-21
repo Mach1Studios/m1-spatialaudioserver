@@ -280,16 +280,16 @@ if tus.resource.name and tus.resource.state == "completed" then
   -- Check if a file with the same name already exists
   local existing_track_id = nil
   local all_tracks = redis:lrange("tracks:all", 0, -1)
-  
+
   for _, track_key in ipairs(all_tracks) do
     local track_data = redis:hgetall(track_key)
     local track_map = {}
-    
+
     -- Convert array to map (Redis returns array of key-value pairs)
     for i = 1, #track_data, 2 do
       track_map[track_data[i]] = track_data[i + 1]
     end
-    
+
     if track_map.originalname == filename then
       existing_track_id = track_map.id
       break
@@ -302,11 +302,11 @@ if tus.resource.name and tus.resource.state == "completed" then
   -- If file exists, clean up old files
   if existing_track_id then
     ngx.log(ngx.INFO, "Replacing existing file: " .. filename .. " (ID: " .. existing_track_id .. ")")
-    
+
     -- Delete old preload/hls directories
     os.execute("rm -rf /share/sound/preload/" .. existing_track_id)
     os.execute("rm -rf /share/sound/hls/" .. existing_track_id)
-    
+
     -- Delete old audio file
     os.execute("rm -f " .. uploaded)
   else
@@ -331,7 +331,7 @@ if tus.resource.name and tus.resource.state == "completed" then
 
   -- Update or create the track record
   local fileKey = "track:" .. id
-  
+
   if existing_track_id then
     -- Update existing track (preserve created timestamp, update other fields)
     local existing_data = redis:hgetall(fileKey)
@@ -339,7 +339,7 @@ if tus.resource.name and tus.resource.state == "completed" then
     for i = 1, #existing_data, 2 do
       existing_map[existing_data[i]] = existing_data[i + 1]
     end
-    
+
     redis:hset(fileKey,
       "name", filename,
       "originalname", filename,
@@ -374,6 +374,6 @@ if tus.resource.name and tus.resource.state == "completed" then
 
   -- delete temprorary files
   tus.sb:delete(tus.resource.name)
-  
+
   redis:close()
 end

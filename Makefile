@@ -283,7 +283,7 @@ run_redis_docker:
 		--name m1-redis \
 		--rm m1-redis || exit 1
 
-.SILENT: run_nginx_docker	
+.SILENT: run_nginx_docker
 run_nginx_docker:
 ifeq ($(OS),Windows_NT)
 	@echo "Starting nginx in HTTP-only mode"
@@ -329,3 +329,29 @@ else
 endif
 	docker build -f ./containers/nginx/Dockerfile -t m1-transcode .
 	@echo "➜ Rebuild complete. Run 'make run_nginx_docker' to start the container."
+
+####################
+# Linting targets  #
+####################
+
+.SILENT: lint-install
+lint-install:
+	@echo "➜ Installing pre-commit..."
+	@command -v pre-commit >/dev/null 2>&1 || pip install pre-commit || pip3 install pre-commit
+	@echo "✓ pre-commit installed!"
+
+.SILENT: lint-setup
+lint-setup: lint-install
+	@echo "➜ Installing pre-commit hooks..."
+	@pre-commit install
+	@echo "✓ Pre-commit hooks installed!"
+
+.SILENT: lint
+lint:
+	@echo "➜ Running all linters on all files..."
+	@pre-commit run --all-files
+
+.SILENT: lint-check
+lint-check:
+	@echo "➜ Checking staged files only..."
+	@pre-commit run
