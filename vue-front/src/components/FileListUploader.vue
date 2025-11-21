@@ -2,7 +2,6 @@
   <div class="file-uploader">
     <button class="button small no-margin responsive round grey3 btn-uploader">
       <input type="file" name="resume" multiple @change="changeFile" @click="typeOfFiles = 'standard'">
-      <i class="material-icons-outlined">audiotrack</i>
       <span class="small-text upper">Select Audio Track</span>
     </button>
     <details v-if="typeOfFiles === 'standard'">
@@ -10,14 +9,13 @@
         <article class="transparent no-padding">
           <div class="grid row middle-align settings">
             <div class="col">
-              <i class="material-icons-outlined large">settings_suggest</i>
             </div>
             <div class="col">
-              <h4 class="bold">
+              <h4 class="bold upper">
                 Settings
               </h4>
-              <div class="small-text">
-                <span>set default input and output formats options</span>
+              <div class="small-text upper">
+                <span>Set input and output formats</span>
               </div>
             </div>
           </div>
@@ -76,7 +74,7 @@
           <span />
         </label>
         <div class="checkbox">
-          File is in Mach1Spatial format
+          <span class="upper">Is already a Mach1Spatial file?</span>
         </div>
       </nav>
     </div>
