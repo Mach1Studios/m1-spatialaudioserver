@@ -1,5 +1,5 @@
 <template>
-  <button :type="type" class="button small responsive upper round grey3">
+  <button :type="type" class="button small responsive upper grey3">
     <i v-if="icon" class="material-icons fill">{{ icon }}</i>
     <span class="small-text">{{ title }}</span>
   </button>

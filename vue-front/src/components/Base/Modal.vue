@@ -2,7 +2,7 @@
   <div class="no-margin" :class="paddingSize">
     <div @click="open">
       <slot name="button">
-        <button class="round border transparent-border default-mdl-btn" :class="buttonClasses">
+        <button class="border transparent-border default-mdl-btn" :class="buttonClasses">
           <i v-if="icon" class="material-icons fill">{{ icon }}</i>
           <span class="small-text">{{ button || title }}</span>
         </button>
@@ -11,9 +11,9 @@
 
     <div v-show="currentPosition.active" class="active dark overlay" @click="close" />
 
-    <div v-show="currentPosition.active" class="modal round no-scroll" :class="currentPosition">
+    <div v-show="currentPosition.active" class="modal no-scroll" :class="currentPosition">
       <nav>
-        <button class="transparent round absolute right close" @click="close">
+        <button class="transparent absolute right close" @click="close">
           <i class="material-icons">highlight_off</i>
         </button>
       </nav>
@@ -144,6 +144,7 @@ export default {
   .modal {
     background-color: var(--secondary-dark-color);
     max-height: 74vh;
+    border-radius: 0 !important;
   }
 
   .button:focus::after, .button:hover::after, button:focus::after, button:hover::after {

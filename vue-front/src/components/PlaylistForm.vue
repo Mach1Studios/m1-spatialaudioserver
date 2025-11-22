@@ -42,9 +42,13 @@ export default {
         this.focused[name] = false;
       }
     },
-    click() {
+    async click() {
       const { item } = this;
-      this.action(item);
+      await this.action(item);
+      // Reset form after successful action (only for new playlists, not updates)
+      if (!this.id) {
+        this.item.name = '';
+      }
     },
   },
   created() {

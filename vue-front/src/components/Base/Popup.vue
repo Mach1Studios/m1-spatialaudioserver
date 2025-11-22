@@ -55,7 +55,7 @@ export default {
 
   .popup {
     background-color: var(--secondary-dark-color);
-    border-radius: 1em;
+    border-radius: 0;
 
     position: fixed;
     padding: 0.5em;

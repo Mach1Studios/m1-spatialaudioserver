@@ -2,9 +2,9 @@
   <div class="max-size">
     <main class="max responsive no-scroll">
       <div class="grid mobile">
-        <div class="col s6 m6 l6">
+        <div :class="firstColumnClass">
           <div id="app-body-first">
-            <article class="round">
+            <article>
               <div class="tabs left-align">
                 <a :class="{ active: selected === 'filelist'}" @click="select('filelist')">FILE LIST</a>
                 <a :class="{ active: selected === 'playlists'}" @click="select('playlists')">PLAYLISTS</a>
@@ -29,10 +29,10 @@
             </article>
           </div>
         </div>
-        <div class="col s6 m6 l6">
+        <div v-show="showPreview && isActiveStream" :class="secondColumnClass">
           <div id="app-body-second">
             <div id="AudioPlayerControls">
-              <AudioPlayerControls />
+              <AudioPlayerControls @close-preview="hidePreview" />
             </div>
           </div>
         </div>
@@ -55,6 +55,7 @@
 
 <script>
 /* eslint-disable */
+import { mapState } from 'vuex';
 import AudioPlayer from '../components/AudioPlayer/AudioPlayer.vue';
 import AudioPlayerDebug from '../components/AudioPlayer/AudioPlayerDebug.vue';
 import AudioPlayerControls from '../components/AudioPlayer/AudioPlayerControls.vue';
@@ -78,11 +79,32 @@ export default {
   data() {
     return {
       selected: 'filelist',
+      showPreview: false,
     };
+  },
+  computed: {
+    ...mapState('stream', ['isActiveStream']),
+    firstColumnClass() {
+      return (this.showPreview && this.isActiveStream) ? 'col s6 m6 l6' : 'col s12 m12 l12';
+    },
+    secondColumnClass() {
+      return 'col s6 m6 l6';
+    },
+  },
+  watch: {
+    isActiveStream(newVal) {
+      // Automatically show preview when stream becomes active
+      if (newVal) {
+        this.showPreview = true;
+      }
+    },
   },
   methods: {
     select(value) {
       this.selected = value;
+    },
+    hidePreview() {
+      this.showPreview = false;
     },
   },
   created() {
@@ -131,6 +153,7 @@ export default {
 
   article {
     background-color: var(--secondary-dark-color);
+    border-radius: 0 !important;
   }
 
   .dark-player-card, .dark-player-card .card {
@@ -146,6 +169,14 @@ export default {
     align-content: space-between;
     display: flex;
     flex-direction: column;
+  }
+
+  #app-body-first {
+    transition: width 0.3s ease;
+  }
+
+  #app-body-second {
+    transition: width 0.3s ease;
   }
 
   .audioplayer {
@@ -190,6 +221,14 @@ export default {
   main {
     padding-left: 55rem;
     padding-right: 55rem;
+  }
+
+  .grid.mobile {
+    transition: width 0.3s ease;
+  }
+
+  .grid.mobile > .col {
+    transition: width 0.3s ease, opacity 0.3s ease;
   }
 
   @media screen and (orientation: portrait) {

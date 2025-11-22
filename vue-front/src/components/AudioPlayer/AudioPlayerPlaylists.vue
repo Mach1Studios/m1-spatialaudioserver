@@ -1,116 +1,135 @@
 <template>
   <div id="Playlist" class="flex-item scroll">
-    <div class="playlists-items">
-      <div v-for="item in playlists" :key="item">
-        <transition name="fade">
-          <div class="playlist flex-item">
-            <article class="playlist-header no-round">
-              <div class="grid middle-align">
-                <div class="col s12 m2 l2" @click="show = (show === item.id) ? show = false : show = item.id">
-                  <div class="grid">
-                    <div class="col s2">
-                      <img src="../../assets/playlist3.svg" class="playlist-img">
-                    </div>
-                    <div class="col s10">
-                      <h6 class="bold no-margin white-text top-align">
-                        {{ item.name }}
-                      </h6>
-                      <div>
-                        <p class="no-margin small-text left-align">Last upload: music.wav</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="controls" class="col s12 m10 l10 absolute right">
-                  <nav class="no-space">
-                    <button class="border round transparent-border" @click="update({ id: item.id, visibility: 'change' })">
-                      <i class="material-icons">{{ item.visibility ? 'visibility' : 'visibility_off' }}</i>
-                    </button>
-                    <button
-                      v-if="item.visibility"
-                      class="border round transparent-border"
-                      @click="copyShareLink(item.id)"
-                      :title="'Copy shareable link'"
-                    >
-                      <i class="material-icons">{{ copiedId === item.id ? 'check' : 'link' }}</i>
-                    </button>
-                    <Modal
-                      title="Rename playlist"
-                      button=" "
-                      icon="edit"
-                      position="medium"
-                      padding="no-padding"
-                    >
-                      <PlaylistForm
-                        :id="item.id"
-                        :name="item.name"
-                        title="Save"
-                        icon="save"
-                        :action="update"
-                      />
-                    </Modal>
-                    <Modal
-                      title="Invite user(s) in playlist"
-                      icon="share"
-                      position="medium"
-                      padding="no-padding"
-                      button=" "
-                    >
-                      <PlaylistInviteForm path="permissions" :playlist="item" :items="users" />
-                    </Modal>
-                    <button class="border round transparent-border" @click="remove(item)">
-                      <i class="material-icons">delete</i>
-                    </button>
-                  </nav>
-                </div>
-              </div>
-            </article>
-            <article v-show="show === item.id" class="playlist-list no-padding no-round">
-              <div class="grid">
-                <div class="col s12">
-                  <Modal
-                    v-if="controls"
-                    :key="item.id"
-                    title="Add track(s) in playlist"
-                    icon="add"
-                    button-classes="small responsive upper transparent special-mdl-btn small-margin"
-                    position="center medium"
+    <div class="file-explorer">
+      <div class="file-explorer-header">
+        <div class="file-explorer-col name-col">Name</div>
+      </div>
+      <div class="file-explorer-body">
+        <div
+          v-for="item in playlists"
+          :key="item.id"
+          class="file-explorer-item"
+          :class="{ 'expanded': expandedItems.includes(item.id), 'hovered': hoveredItem === item.id }"
+        >
+          <div
+            class="file-explorer-row"
+            @click="toggleExpand(item.id)"
+            @mouseenter="hoveredItem = item.id"
+            @mouseleave="hoveredItem = null"
+          >
+            <div class="file-explorer-col name-col">
+              <div class="file-item-content">
+                <span class="file-caret">
+                  <i class="material-icons">{{ expandedItems.includes(item.id) ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</i>
+                </span>
+                <span class="file-icon">
+                  <i class="material-icons">folder</i>
+                </span>
+                <span class="file-name">{{ item.name }}</span>
+                <div v-if="controls" class="file-actions" @click.stop>
+                  <button
+                    class="file-action-btn"
+                    @click="update({ id: item.id, visibility: 'change' })"
+                    :title="item.visibility ? 'Make private' : 'Make public'"
                   >
-                    <div id="Add-tracks">
-                      <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks" />
-                    </div>
+                    <i class="material-icons">{{ item.visibility ? 'visibility' : 'visibility_off' }}</i>
+                  </button>
+                  <button
+                    v-if="item.visibility"
+                    class="file-action-btn"
+                    @click="copyShareLink(item.id)"
+                    :title="'Copy shareable link'"
+                  >
+                    <i class="material-icons">{{ copiedId === item.id ? 'check' : 'link' }}</i>
+                  </button>
+                  <Modal
+                    title="Rename playlist"
+                    button=" "
+                    icon="edit"
+                    position="medium"
+                    padding="no-padding"
+                  >
+                    <template #button>
+                      <button class="file-action-btn" title="Rename playlist">
+                        <i class="material-icons">edit</i>
+                      </button>
+                    </template>
+                    <PlaylistForm
+                      :id="item.id"
+                      :name="item.name"
+                      title="Save"
+                      icon="save"
+                      :action="update"
+                    />
                   </Modal>
-                </div>
-                <div class="col s12 no-padding no-margin">
-                  <FileList :user="true" :playlist="item" class="no-scroll playlist-filelist" />
+                  <Modal
+                    title="Invite user(s) in playlist"
+                    icon="share"
+                    position="medium"
+                    padding="no-padding"
+                    button=" "
+                  >
+                    <template #button>
+                      <button class="file-action-btn" title="Invite users">
+                        <i class="material-icons">share</i>
+                      </button>
+                    </template>
+                    <PlaylistInviteForm path="permissions" :playlist="item" :items="users" />
+                  </Modal>
+                  <button
+                    class="file-action-btn"
+                    @click="remove(item)"
+                    title="Delete playlist"
+                  >
+                    <i class="material-icons">delete</i>
+                  </button>
                 </div>
               </div>
-            </article>
+            </div>
           </div>
-        </transition>
+          <transition name="slide-down">
+            <div v-show="expandedItems.includes(item.id)" class="file-explorer-children">
+              <div class="file-explorer-tracks">
+                <FileList :user="true" :playlist="item" class="no-scroll playlist-filelist" />
+              </div>
+              <div v-if="controls" class="file-explorer-add-tracks">
+                <Modal
+                  :key="item.id"
+                  title="Add track(s) in playlist"
+                  icon="add"
+                  button-classes="small responsive upper transparent special-mdl-btn small-margin"
+                  position="center medium"
+                >
+                  <div id="Add-tracks">
+                    <PlaylistInviteForm path="tracks" :playlist="item" :items="tracks" />
+                  </div>
+                </Modal>
+              </div>
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-if="controls" class="playlist-add-btn">
-    <Modal
-      title="Add new playlist"
-      icon="add"
-      position="center medium"
-      button-classes="small responsive upper round grey3"
-      padding="newplaylist"
-    >
-      <PlaylistForm
-        title="Create new playlist"
+    <div v-if="controls" class="playlist-add-btn">
+      <Modal
+        title="Add new playlist"
         icon="add"
-        :action="create"
-      />
-    </Modal>
+        position="center medium"
+        button-classes="small responsive upper round grey3"
+        padding="newplaylist"
+      >
+        <PlaylistForm
+          title="Create new playlist"
+          icon="add"
+          :action="createPlaylist"
+        />
+      </Modal>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 import FileList from '../FileList.vue';
 import Modal from '../Base/Modal.vue';
@@ -129,7 +148,8 @@ export default {
   props: { controls: Boolean },
   data() {
     return {
-      show: false,
+      expandedItems: [],
+      hoveredItem: null,
       copiedId: null,
     };
   },
@@ -143,6 +163,28 @@ export default {
       'select', 'remove',
     ]),
     ...mapActions('playlists', ['create', 'update', 'remove']),
+    ...mapMutations(['setModalVisibility']),
+
+    async createPlaylist(item) {
+      try {
+        await this.create(item);
+        // Close the modal after successful creation
+        this.setModalVisibility();
+      } catch (error) {
+        // Error handling is done by the store's error handler
+        throw error;
+      }
+    },
+
+    toggleExpand(itemId) {
+      const index = this.expandedItems.indexOf(itemId);
+      if (index > -1) {
+        this.expandedItems.splice(index, 1);
+      } else {
+        this.expandedItems.push(itemId);
+      }
+    },
+
 
     async copyShareLink(playlistId) {
       const baseUrl = window.location.origin;
@@ -198,98 +240,204 @@ export default {
   }
 
   .flex-item {
-    // scrollbar-color: var(--primary-color);
-
     &::-webkit-scrollbar-track {
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar {
       width: 5rem;
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 3em;
+      border-radius: 0;
       background-color: var(--primary-color);
     }
   }
 
-  .playlists-items {
+  .file-explorer {
     width: 100%;
-    height: auto;
+    background-color: var(--secondary-dark-color);
+    border: 1px solid var(--additional-dark-color);
+  }
 
+  .file-explorer-header {
+    display: flex;
+    padding: 12px 16px;
+    background-color: var(--primary-dark-color);
+    border-bottom: 1px solid var(--additional-dark-color);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--secondary-highlight-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .file-explorer-col {
+    display: flex;
+    align-items: center;
+    
+    &.name-col {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  .file-explorer-body {
     display: flex;
     flex-direction: column;
-    align-content: space-between;
   }
 
-  .playlist {
-    overflow: hidden;
-    margin: 0 0 8rem 0;
-
-    border-bottom: 1rem solid var(--additional-dark-color);
-    box-shadow: 0 5px 5px -5px var(--additional-dark-color);
-
-    .playlist-header {
-      margin-bottom: 0;
-      background: linear-gradient(90deg,hsla(0,0%,100%,0%),#0000001f);
-
-      cursor: pointer;
-
-      .playlist-img {
-        height: 50rem;
-      }
+  .file-explorer-item {
+    border-bottom: 1px solid var(--additional-dark-color);
+    
+    &:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.1);
     }
+    
+    &.hovered {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
 
+  .file-explorer-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-height: 40px;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .file-item-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .file-caret {
+    display: flex;
+    align-items: center;
+    width: 20px;
+    flex-shrink: 0;
+    
     i {
-      font-size: 16rem;
+      font-size: 18px;
+      color: var(--secondary-highlight-color);
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .file-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    
+    i {
+      font-size: 20px;
+      color: white;
+    }
+  }
+
+  .file-name {
+    color: var(--secondary-highlight-color);
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+  }
+
+
+  .file-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 1;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .file-action-btn {
+    background: transparent;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    i {
+      font-size: 16px;
       color: var(--primary-highlight-color);
     }
-
-    p {
-      color: var(--primary-accent-color);
-
-      &:first-of-type {
-        margin-top: 1rem;
-      }
-    }
-
-    button.border::after {
-      background-image: none;
-    }
-
-    button:hover {
-      i {
-        font-size: 20rem;
-        color: var(--secondary-highlight-color);
-      }
+    
+    &:hover i {
+      color: var(--secondary-highlight-color);
     }
   }
 
-  .playlist-list {
-    right: 0;
-    margin-top: 0;
-    padding-top: 0;
+  .file-explorer-children {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding-left: 56px; // Aligns with start of playlist name (caret 20px + gap 8px + icon 20px + gap 8px)
+    border-top: 1px solid var(--additional-dark-color);
+  }
 
-    border-radius: 3rem;
-    border-top-left-radius: none;
-    border-top-right-radius: none;
+  .file-explorer-tracks {
+    padding: 8px 0;
+  }
 
-    background: var(--secondary-dark-color);
+  .file-explorer-add-tracks {
+    padding: 8px 0 12px 0;
+  }
 
-    .playlist-filelist {
-      padding: 0 0 0 8rem;
-    }
+  .playlist-filelist {
+    padding: 0;
   }
 
   .playlist-add-btn {
     height: auto;
-    padding: 8rem 0 8rem 0;
-
+    padding: 12px 16px;
     background-color: var(--secondary-dark-color);
+    border-top: 1px solid var(--additional-dark-color);
+  }
+
+  // Transition animations
+  .slide-down-enter-active,
+  .slide-down-leave-active {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .slide-down-enter,
+  .slide-down-leave-to {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .slide-down-enter-to,
+  .slide-down-leave {
+    max-height: 1000px;
+    opacity: 1;
   }
 
   @media screen and (orientation: portrait) {
@@ -297,27 +445,9 @@ export default {
       max-height: calc(90vh - var(--height) - 50px - 10em + 6rem);
     }
 
-    .absolute {
-      position: relative;
-    }
 
-    nav {
-      margin-right: 0;
-      margin-left: 35rem;
-    }
-
-    .playlist-header {
-      padding-left: 8rem;
-
-      h6 {
-        width: 100%;
-        word-break: keep-all;
-      }
-
-      p {
-        width: 100%;
-        word-break: keep-all;
-      }
+    .file-actions {
+      opacity: 1;
     }
   }
 </style>

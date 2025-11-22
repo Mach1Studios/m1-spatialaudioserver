@@ -263,7 +263,7 @@ export default {
   align-items: center;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -332,6 +332,7 @@ export default {
 
 article {
   background-color: var(--secondary-dark-color);
+  border-radius: 0 !important;
 }
 
 main {

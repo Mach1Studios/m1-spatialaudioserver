@@ -102,6 +102,39 @@ export default {
     border-radius: 0;
   }
 
+  .round {
+    border-radius: 0 !important;
+  }
+
+  article,
+  .card,
+  .front,
+  button,
+  .button,
+  .modal,
+  .playlist-card,
+  .playlists-card,
+  [class*="card"],
+  [class*="round"] {
+    border-radius: 0 !important;
+  }
+
+  button.round,
+  .button.round,
+  .round.button,
+  button[class*="round"],
+  .button[class*="round"] {
+    border-radius: 0 !important;
+  }
+
+  /* Override beercss specific styles */
+  article.card,
+  .card.front,
+  article.front,
+  .playlist-card.front {
+    border-radius: 0 !important;
+  }
+
   body {
     overflow: hidden;
   }
