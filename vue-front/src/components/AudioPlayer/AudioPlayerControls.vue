@@ -36,24 +36,6 @@
                   >
                 </div>
               </div>
-              <div class="position-control middle-align">
-                <div>
-                  <p>L</p>
-                </div>
-                <div class="controller">
-                  <input
-                    step="1"
-                    min="-1"
-                    max="1"
-                    type="range"
-                    value="0"
-                    @change="changePosition(channel, $event.target.value)"
-                  >
-                </div>
-                <div>
-                  <p>R</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

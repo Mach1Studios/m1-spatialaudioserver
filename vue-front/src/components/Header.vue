@@ -3,13 +3,13 @@
     <img class="logo" src="../assets/logo-bg.svg">
     <div class="navigation" :class="{ active: isActive }">
       <router-link v-if="isAdmin" class="link" to="/dashboard">
-        Dashboard
+        DASHBOARD
       </router-link>
       <router-link class="link" to="/">
-        Spatial Audio Player
+        SPATIAL AUDIO PLAYER
       </router-link>
       <router-link v-if="isAdmin" class="link" to="/users">
-        Users
+        USERS
       </router-link>
     </div>
     <div style="flex-grow: 1;" />
@@ -17,7 +17,7 @@
       {{ user ? user.nickname : 'Profile' }}
     </router-link>
     <router-link class="link" to="/documentation">
-      API Docs
+      API
     </router-link>
     <UsersAuth />
     <div class="icon">
@@ -88,6 +88,9 @@ export default {
 
       margin: 10px;
       padding: 0 20px;
+
+      filter: invert(1);
+      max-height: 1.5em;
     }
 
     .link {
