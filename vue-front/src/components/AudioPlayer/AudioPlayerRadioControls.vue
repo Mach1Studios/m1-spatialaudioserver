@@ -58,7 +58,7 @@ export default {
     overflow: hidden;
     position: relative;
 
-    border-radius: 50%;
+    border-radius: 0;
     box-shadow:
       -8px -4px 8px 0px #ffffff,
       8px 4px 12px 0px #d1d9e6;
@@ -74,7 +74,7 @@ export default {
 
     content: '';
 
-    border-radius: 50%;
+    border-radius: 0;
     position: absolute;
   }
 

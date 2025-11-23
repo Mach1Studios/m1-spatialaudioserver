@@ -2,13 +2,13 @@
   <div class="max-size">
     <main class="max responsive no-scroll">
       <div class="grid">
-        <div class="col s12 m4 l4">
+        <div class="col s12 m12 l12">
           <div id="Playlists-list" class="playlist">
             <article class="transparent playlists-card">
-              <FormButton class="playlist-btn" title="Playlists" icon="play_arrow" @click="showPlaylist = !showPlaylist" />
+              <FormButton class="playlist-btn" title="Playlists" :icon="showPlaylist ? 'keyboard_arrow_down' : 'keyboard_arrow_right'" @click="showPlaylist = !showPlaylist" />
               <Transition>
                 <div v-show="showPlaylist">
-                  <article class="front round playlist-card">
+                  <article class="front playlist-card">
                     <h4 class="title large-text center-align">
                       PLAYLISTS
                     </h4>
@@ -214,8 +214,11 @@ export default {
   .playlist {
     box-shadow: none;
 
-    padding-left: 0;
+    padding-left: 55rem;
     padding-top: 0;
+    margin-left: -55rem;
+    margin-right: -55rem;
+    padding-right: 55rem;
   }
 
   .dark-player-card {
@@ -274,6 +277,15 @@ export default {
 
   article {
     background-color: var(--secondary-dark-color);
+    border-radius: 0 !important;
+  }
+
+  .front {
+    border-radius: 0 !important;
+  }
+
+  .playlist-card {
+    border-radius: 0 !important;
   }
 
   @media screen and (orientation: portrait) {
@@ -283,6 +295,13 @@ export default {
       padding-right: 8rem;
       padding-top: auto;
       z-index: 98;
+    }
+
+    .playlist {
+      margin-left: -8rem;
+      margin-right: -8rem;
+      padding-left: 8rem;
+      padding-right: 8rem;
     }
 
     .playlist-card {

@@ -1,19 +1,24 @@
 <template>
   <div v-show="isActiveStream === true" id="Controls">
-    <article class="round">
+    <article>
       <div class="preview">
-        <h4 class="title large-text">
-          AUDIO PREVIEW
-        </h4>
+        <div class="preview-header">
+          <h4 class="title large-text">
+            AUDIO PREVIEW
+          </h4>
+          <button class="close-button" @click="closePreview" title="Close preview">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
         <div class="channel flex-item scroll">
-          <div v-for="channel in channels" :key="channel" class="grid middle-align">
-            <div class="col s1 channel-number">
+          <div v-for="channel in channels" :key="channel" class="channel-row">
+            <div class="channel-number">
               <p class="small-text upper white-text" style="white-space:nowrap">Channel {{ channel + 1 }}</p>
             </div>
-            <div class="col s4 channel-wave">
+            <div class="channel-wave">
               <AudioPlayerSineWave :channel="channel" :line-color="lineColors[channel]" />
             </div>
-            <div class="col s7 channel-controls">
+            <div class="channel-controls">
               <div class="volume-control middle-align">
                 <div>
                   <i class="material-icons fill small" @click="mute(channel)">
@@ -127,6 +132,9 @@ export default {
   },
   methods: {
     ...mapActions('audio', ['createGainNodes', 'updateVolume']),
+    closePreview() {
+      this.$emit('close-preview');
+    },
     changeVolume(channel, volume) {
       this.channelsVolume[channel] = volume;
 
@@ -229,32 +237,65 @@ export default {
 
     &::-webkit-scrollbar-track {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
     }
 
     &::-webkit-scrollbar {
       background-color: var(--secondary-color);
-      border-radius: 3rem;
+      border-radius: 0;
       width: 5rem;
     }
 
     &::-webkit-scrollbar-thumb {
       background-color: var(--primary-color);
-      border-radius: 3em;
+      border-radius: 0;
     }
   }
 
   .preview {
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8rem;
+      margin-top: 8rem;
+      padding-bottom: 8rem;
+    }
+
     .title {
       color: var(--secondary-highlight-color);
       letter-spacing: -0.5px;
       font-style: normal;
       line-height: 1.17;
       font-size: 18rem;
+      margin: 0;
+      flex: 1;
+    }
 
-      padding-bottom: 8rem;
-      margin-bottom: 8rem;
-      margin-top: 8rem;
+    .close-button {
+      background: none;
+      border: none;
+      padding: 4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary);
+      transition: color 0.2s ease;
+      margin-left: 16rem;
+
+      &:hover {
+        color: var(--secondary-highlight-color);
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      i {
+        font-size: 24rem;
+        color: inherit;
+      }
     }
 
     i {
@@ -270,6 +311,7 @@ export default {
 
   article {
     background-color: var(--secondary-dark-color);
+    border-radius: 0 !important;
   }
 
   .channel {
@@ -286,62 +328,77 @@ export default {
 
     padding-bottom: 16rem;
 
-    .grid {
+    .channel-row {
       display: flex;
-      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      gap: 16rem;
+      margin-bottom: 8rem;
 
       .channel-number {
-        order: 1;
+        flex: 0 0 auto;
+        white-space: nowrap;
       }
 
       .channel-wave {
-        margin-left: 40rem;
-        order: 2;
-      }
-      .channel-controls {
+        flex: 1 1 auto;
+        min-width: 0;
         display: flex;
-        grid-gap: inherit;
-        flex-direction: row;
+        align-items: center;
+      }
 
-        margin-left: 40rem;
-        order: 4;
+      .channel-controls {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16rem;
 
         .volume-control {
+          display: flex;
+          align-items: center;
+          gap: 8rem;
+
           i {
-            margin: 0 4rem 0 0;
+            margin: 0;
+            flex: 0 0 auto;
           }
         }
+
         .position-control {
-          margin-left: 30rem;
+          display: flex;
+          align-items: center;
+          gap: 8rem;
 
           p {
-            margin: 0 4rem 0 4rem;
+            margin: 0;
+            flex: 0 0 auto;
           }
         }
       }
     }
 
     &::-webkit-scrollbar-track {
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar {
       width: 5rem;
 
-      border-radius: 3rem;
+      border-radius: 0;
       background-color: var(--secondary-color);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 3em;
+      border-radius: 0;
       background-color: var(--primary-color);
     }
   }
 
   @mixin track() {
     background-color: var(--primary-color);
-    border-radius: .1875em;
+    border-radius: 0;
 
     height: $track-h;
     width: $track-w;
@@ -350,7 +407,7 @@ export default {
     height: $thumb-h;
     width: $thumb-w;
 
-    border-radius: .5em;
+    border-radius: 0;
     border: none;
 
     box-shadow:
@@ -437,26 +494,37 @@ export default {
         max-height: calc(100vh - var(--height) - 50px - 12em);
       }
 
-      .channel .grid {
-        flex-direction: row;
-        flex-flow: row wrap;
+      .channel-row {
+        flex-wrap: wrap;
+        gap: 8rem;
+
+        .channel-number {
+          flex: 0 0 100%;
+        }
 
         .channel-wave {
-          margin-left: 0;
+          flex: 1 1 auto;
+          min-width: 200px;
         }
 
         .channel-controls {
-          margin-left: 0;
+          flex: 1 1 100%;
+          justify-content: flex-start;
+          gap: 8rem;
 
-          .volume-control i {
-            margin: 0;
+          .volume-control {
+            gap: 4rem;
+
+            i {
+              margin: 0;
+            }
           }
 
           .position-control {
-            margin-left: 0rem;
+            gap: 4rem;
 
             p {
-             margin: 0;
+              margin: 0;
             }
           }
         }
