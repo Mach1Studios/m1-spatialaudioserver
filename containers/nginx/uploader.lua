@@ -308,7 +308,7 @@ if tus.resource.name and tus.resource.state == "completed" then
     os.execute("rm -rf /share/sound/hls/" .. existing_track_id)
 
     -- Delete old audio file
-    os.execute("rm -f " .. uploaded)
+    os.execute('rm -f "' .. uploaded .. '"')
   else
     -- New file, generate new ID
     ngx.log(ngx.INFO, "Uploading new file: " .. filename)
@@ -316,11 +316,7 @@ if tus.resource.name and tus.resource.state == "completed" then
 
   -- execute transcode binary if the input format is present
   if input_format and input_format ~= "M1Spatial" then
-    local transcode_command = "/etc/nginx/m1-transcode -in-file "
-      .. path .. " -in-fmt "
-      .. input_format .. " -out-file "
-      .. uploaded .." -out-fmt "
-      .. output_format .. " -out-file-chans 0"
+    local transcode_command = string.format('/etc/nginx/m1-transcode -in-file "%s" -in-fmt %s -out-file "%s" -out-fmt %s -out-file-chans 0', path, input_format, uploaded, output_format)
     local transcode = io.popen(transcode_command, "r")
 
     transcode:read('*a')
@@ -366,7 +362,7 @@ if tus.resource.name and tus.resource.state == "completed" then
   end
 
   -- ok now we can try to create manifest for dash
-  local command = "/etc/nginx/switcher.sh " .. filename .. " " .. id
+  local command = string.format('/etc/nginx/switcher.sh "%s" "%s"', filename, id)
   local handle = io.popen(command, "r")
 
   local output = handle:read('*a')

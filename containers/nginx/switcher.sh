@@ -17,15 +17,15 @@ fi
 
 log () {
   local log_prefix="[$(cat /proc/sys/kernel/random/uuid)] INFO:"
-  local log_file="/share/sound/logs/$fileName.log"
+  local log_file="/share/sound/logs/${fileName}.log"
 
-  echo "$log_prefix $1" &>> $log_file
+  echo "$log_prefix $1" &>> "$log_file"
 }
 
 log "transcoder starting at $(date) for file=$fileName; id=$fileId; live=$isLoop"
 
 # trying to find out how many channels are in a selected file
-channels=`ffprobe -i $filePath -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0`
+channels=`ffprobe -i "$filePath" -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0`
 layout='mono' # setting default channel layout
 case $channels in
   2 )
@@ -56,7 +56,7 @@ if [[ "$isLoop" == true ]]; then
   log "starting live stream rtsp"
   rm -rf /opt/data/dash/$fileId.mpd && touch /opt/data/dash/$fileId.mpd
 
-  ffmpeg -y -stream_loop -1 -i $filePath -c:a aac -af "channelmap=channel_layout=$channels" -b:a 2048k \
+  ffmpeg -y -stream_loop -1 -i "$filePath" -c:a aac -af "channelmap=channel_layout=$channels" -b:a 2048k \
     -f flv "rtmp://127.0.0.1:1935/live/$fileId" &>> "/share/sound/logs/ffmpeg.live.output"
 else
   log "creating static mpeg-dash manifest for the sound file"
@@ -65,10 +65,10 @@ else
       mkdir -p -m 777 /share/sound/hls/$fileId
 
       # Dash part
-      ffmpeg -y -i $filePath -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" \
+      ffmpeg -y -i "$filePath" -strict -2 -c:a libopus -mapping_family 255 -b:a 2048k -af "channelmap=channel_layout=octagonal" \
         -f dash "/share/sound/preload/$fileId/manifest.mpd" &>> "/share/sound/logs/ffmpeg.output"
       # HLS part
-      ffmpeg -y -i $filePath -strict -2 -c:a aac -b:a 2048k \
+      ffmpeg -y -i "$filePath" -strict -2 -c:a aac -b:a 2048k \
         -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" \
         -hls_segment_filename "/share/sound/hls/$fileId/chank-stream0-%05d.ts" "/share/sound/hls/$fileId/manifest.m3u8" &>> "/share/sound/logs/ffmpeg.output"
   fi
@@ -80,7 +80,7 @@ fi
 # ffmpeg -y -i /share/sound/ACNSN3D.wav -strict -2 -c:a aac -b:a 2048k -f hls -var_stream_map "a:0,agroup:groupname" -hls_list_size 0 -hls_segment_type "fmp4" -master_pl_name "master.m3u8" -hls_segment_filename "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/chank%02d.ts" "/share/sound/hls/3f33a88c-63da-4871-8436-a14661ff657c/manifest.m3u8"
 
 # HLS part
-# ffmpeg -y -i $filePath -strict -2 -c:a aac -b:a 2048k -af "channelmap=channel_layout=octagonal" \
+# ffmpeg -y -i "$filePath" -strict -2 -c:a aac -b:a 2048k -af "channelmap=channel_layout=octagonal" \
 #   -f hls -hls_list_size 0 -hls_segment_filename "/share/sound/preload/$fileId/chank-stream0-%05d.ts" "/share/sound/preload/$fileId/manifest.m3u8" &>> "/share/sound/logs/ffmpeg.output"
 
 
